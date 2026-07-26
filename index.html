@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="./assets/icons/icon-192.png" />
   <link rel="apple-touch-icon" href="./assets/icons/icon-180.png" />
   <link rel="stylesheet" href="./styles/variables.css?v=16.4.1" />
-  <link rel="stylesheet" href="./styles/app.css?v=19.1.0" />
+  <link rel="stylesheet" href="./styles/app.css?v=20.4.0" />
 </head>
 <body class="v15-starbucks-contrast-experience v16-mobile-launcher-espresso-hub-optimization v16-2-visual-accessibility-refinement">
   <a class="skip-link" href="#main">Saltar al contenido</a>
@@ -146,12 +146,40 @@
       <div id="command-grid" class="command-grid skeleton-grid"></div>
     </section>
 
+    <section id="coffee-master-2026" class="ops-section visual-feature-section" aria-labelledby="coffee-master-title">
+      <div class="visual-feature-copy">
+        <span class="visual-feature-badge">Reconocimiento del portafolio</span>
+        <h3 id="coffee-master-title">Coffee Master 2026</h3>
+        <p>¡Felicidades a nuestros Partners Coffee Master 2026! Reconocemos su pasión por el café, dedicación y compromiso con seguir compartiendo conocimiento en cada tienda del portafolio.</p>
+        <button class="visual-feature-action" type="button" data-image-viewer="./assets/photos/coffemaster26.jpeg" data-image-title="Coffee Master 2026">
+          Ver imagen completa
+        </button>
+      </div>
+      <button class="visual-feature-preview" type="button" data-image-viewer="./assets/photos/coffemaster26.jpeg" data-image-title="Coffee Master 2026" aria-label="Abrir imagen completa de Coffee Master 2026">
+        <img src="./assets/photos/coffemaster26.jpeg" alt="Reconocimiento a los Partners Coffee Master 2026 del portafolio" loading="lazy" />
+      </button>
+    </section>
+
     <section id="informativo" class="ops-section info-section" aria-labelledby="info-title">
       <div class="section-title">
         <div><h3 id="info-title">☕ Informativo</h3><p class="section-subtitle">Datos de consulta rápida para validar sin saturar la operación.</p></div>
         <span id="info-count">0</span>
       </div>
       <div id="info-grid" class="ops-grid info-grid skeleton-grid"></div>
+    </section>
+
+    <section id="resumen-comunicado-semana-actual" class="ops-section visual-feature-section is-weekly-summary" aria-labelledby="weekly-summary-title">
+      <div class="visual-feature-copy">
+        <span class="visual-feature-badge">Actualización semanal</span>
+        <h3 id="weekly-summary-title">Resumen de Comunicado Semana Actual</h3>
+        <p>Consulta los puntos clave y prioridades del comunicado correspondiente a la semana actual.</p>
+        <button class="visual-feature-action" type="button" data-image-viewer="./assets/photos/resumen_comunicado_semana_actual.png" data-image-title="Resumen de Comunicado Semana Actual">
+          Ver imagen completa
+        </button>
+      </div>
+      <button class="visual-feature-preview is-portrait" type="button" data-image-viewer="./assets/photos/resumen_comunicado_semana_actual.png" data-image-title="Resumen de Comunicado Semana Actual" aria-label="Abrir imagen completa del resumen de comunicado de la semana actual">
+        <img src="./assets/photos/resumen_comunicado_semana_actual.png" alt="Resumen visual del comunicado correspondiente a la semana actual" loading="lazy" />
+      </button>
     </section>
 
     <section class="period-toolbar" aria-labelledby="period-title">
@@ -204,7 +232,7 @@
 
   <dialog id="quick-modal" class="quick-modal" aria-label="Detalle">
     <div class="quick-modal-head">
-      <button id="close-quick-modal" class="modal-back" type="button" aria-label="Regresar">← <span>Regresar</span></button>
+      <button id="close-quick-modal" class="modal-back" type="button" aria-label="Cerrar visor">× <span>Cerrar</span></button>
       <strong id="quick-modal-title">Detalle</strong>
     </div>
     <div id="quick-modal-body" class="quick-modal-body"></div>
@@ -220,11 +248,13 @@
   <nav class="bottom-nav sidebar-nav" aria-label="Navegación principal">
     <button class="nav-item is-active" data-view="home" type="button">🏠<span>Inicio</span></button>
     <button class="nav-item" data-view="today" type="button">✅<span>Día</span></button>
+    <button class="nav-item" data-view="coffee" type="button" aria-label="Coffee Master 2026" title="Coffee Master 2026">☕<span>Coffee Master</span></button>
     <button class="nav-item" data-view="duty" type="button">🧭<span>Duty</span></button>
     <button class="nav-item" data-view="all" type="button">🧰<span>Herramientas</span></button>
     <button class="nav-item" data-view="events" type="button">📅<span>Eventos</span></button>
+    <button class="nav-item" data-view="weekly-summary" type="button" aria-label="Resumen de Comunicado Semana Actual" title="Resumen de Comunicado Semana Actual">📣<span>Resumen semanal</span></button>
   </nav>
 
-  <script type="module" src="./modules/app.js?v=18.0.0"></script>
+  <script type="module" src="./modules/app.js?v=20.4.0"></script>
 </body>
 </html>

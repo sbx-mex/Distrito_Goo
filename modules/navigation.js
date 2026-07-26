@@ -37,8 +37,10 @@ export function nav(view, smooth = true){
   $$('.nav-item').forEach(b => b.classList.toggle('is-active', b.dataset.view === view));
   if(view === 'home') window.scrollTo({top:0, behavior: smooth ? 'smooth' : 'auto'});
   if(view === 'today') document.getElementById('dia-a-dia')?.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});
+  if(view === 'coffee') document.getElementById('coffee-master-2026')?.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});
   if(view === 'events') document.getElementById('eventos-cms')?.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});
   if(view === 'duty') document.getElementById('duty-roster')?.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});
+  if(view === 'weekly-summary') document.getElementById('resumen-comunicado-semana-actual')?.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});
   if(view === 'altas') document.getElementById('altas-curso')?.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});
   if(view === 'search') openSpotlight();
   if(view === 'all') revealWorkspace();

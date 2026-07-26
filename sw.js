@@ -1,4 +1,4 @@
-const CACHE_NAME = 'distrito-go-v20.3.1-enlaces-sbx-mx';
+const CACHE_NAME = 'distrito-go-v20.4.0-informativos-semanales';
 const APP_SHELL = [
   './',
   './index.html',
@@ -43,6 +43,10 @@ const APP_SHELL = [
   './assets/photos/10-pasos-turno.png',
   './assets/photos/Rutina_apertura.jpeg',
   './assets/photos/cdd_3Q_2026.png',
+  './assets/photos/coffemaster26.jpeg',
+  './assets/photos/dresscode26.jpeg',
+  './assets/photos/clockin_out.jpg',
+  './assets/photos/resumen_comunicado_semana_actual.png',
   './assets/photos/dress_code.png',
   './assets/photos/concurso_venta_dona_julio.jpeg',
   './assets/photos/cortado_leche.jpeg',
@@ -113,6 +117,11 @@ self.addEventListener('fetch', event => {
 
   if (request.mode === 'navigate') {
     event.respondWith(networkFirst(request, './index.html'));
+    return;
+  }
+
+  if (url.pathname.endsWith('/assets/photos/resumen_comunicado_semana_actual.png')) {
+    event.respondWith(networkFirst(request));
     return;
   }
 

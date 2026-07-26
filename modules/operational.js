@@ -8,6 +8,31 @@ const dayNames = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','S�
 let periodFilter = 'week';
 let actionsBound = false;
 
+const PORTFOLIO_INFORMATIVOS = [
+  {
+    ID: 'PORT-DRESS-CODE-2026',
+    Actividad: 'Alineación Dress Code Portafolio',
+    'Descripción': 'Consulta la alineación vigente de Dress Code para mantener una imagen consistente y profesional en todo el portafolio.',
+    DescripcionBreve: 'Consulta la alineación vigente de Dress Code para mantener una imagen consistente y profesional en todo el portafolio.',
+    Prioridad: 2,
+    Icono: '👔',
+    Visible: true,
+    Recurso: 'assets/photos/dresscode26.jpeg',
+    TipoRecurso: 'imagen'
+  },
+  {
+    ID: 'PORT-CLOCK-IN-OUT-2026',
+    Actividad: 'Partners atentos a esta información de registro',
+    'Descripción': 'Partners, revisemos esta información para asegurar un registro correcto y oportuno de entradas y salidas.',
+    DescripcionBreve: 'Partners, revisemos esta información para asegurar un registro correcto y oportuno de entradas y salidas.',
+    Prioridad: 3,
+    Icono: '⏱️',
+    Visible: true,
+    Recurso: 'assets/photos/clockin_out.jpg',
+    TipoRecurso: 'imagen'
+  }
+];
+
 function setTextIfPresent(id, value){
   const element = document.getElementById(id);
   if(element) element.textContent = value;
@@ -195,7 +220,11 @@ function renderWFM(day, todayActivity){
 }
 
 export function renderInformativo(){
-  const info = (state.operacional.informativo || [])
+  const reservedTitles = new Set(PORTFOLIO_INFORMATIVOS.map(item => item.Actividad));
+  const info = [
+    ...(state.operacional.informativo || []).filter(item => !reservedTitles.has(item.Actividad)),
+    ...PORTFOLIO_INFORMATIVOS
+  ]
     .filter(a => a.Visible !== false)
     .sort((a,b)=>(a.Prioridad||9)-(b.Prioridad||9));
   const count = document.getElementById('info-count');

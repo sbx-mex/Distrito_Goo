@@ -496,6 +496,36 @@ body{background:linear-gradient(180deg,#f7fbf8 0%,#eef7f2 100%);}
   .quick-modal-head .modal-back{min-width:96px;padding:0 12px!important;}
 }
 
+/* === Distrito Go v20.4 · Informativos visuales === */
+body.is-modal-open,body:has(.quick-modal[open]){overflow:hidden;}
+.visual-feature-section{display:grid;grid-template-columns:minmax(0,.78fr) minmax(320px,1.22fr);gap:20px;align-items:center;background:#fff!important;scroll-margin-top:90px;}
+.visual-feature-copy{min-width:0;}
+.visual-feature-badge{display:inline-flex;align-items:center;min-height:32px;padding:6px 11px;border-radius:999px;background:#dff2ea;color:#006241;font-size:.76rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase;}
+.visual-feature-section h3{margin:12px 0 8px;color:#006241;font-size:clamp(1.55rem,3vw,2.35rem);line-height:1.08;letter-spacing:-.035em;}
+.visual-feature-section p{margin:0;color:var(--ink);font-weight:650;line-height:1.5;}
+.visual-feature-action{min-height:44px;margin-top:16px;padding:11px 16px;border:0;border-radius:999px;background:#006241;color:#fff;font:inherit;font-weight:900;cursor:pointer;}
+.visual-feature-preview{width:100%;min-height:220px;padding:10px;border:1px solid rgba(0,98,65,.16);border-radius:22px;background:#f6f8f6;cursor:pointer;overflow:hidden;}
+.visual-feature-preview img{display:block;width:100%;height:auto;max-height:440px;object-fit:contain;object-position:center;border-radius:14px;background:#fff;}
+.visual-feature-preview.is-portrait img{max-height:640px;}
+.info-grid .ops-card{min-height:148px;}
+.info-grid .image-link{min-height:44px;display:inline-flex;align-items:center;justify-content:center;}
+
+@media(min-width:1024px){
+  .bottom-nav.sidebar-nav{max-height:calc(100vh - 24px);overflow-y:auto;scrollbar-width:none;}
+  .bottom-nav.sidebar-nav::-webkit-scrollbar{display:none;}
+}
+@media(max-width:1023px){
+  .v16-mobile-launcher-espresso-hub-optimization .bottom-nav.sidebar-nav{display:flex!important;overflow-x:auto!important;scroll-snap-type:x proximity;justify-content:flex-start!important;scrollbar-width:none;}
+  .v16-mobile-launcher-espresso-hub-optimization .bottom-nav.sidebar-nav::-webkit-scrollbar{display:none;}
+  .v16-mobile-launcher-espresso-hub-optimization .bottom-nav.sidebar-nav .nav-item{flex:0 0 68px!important;min-width:68px!important;min-height:58px!important;scroll-snap-align:center;}
+}
+@media(max-width:760px){
+  .visual-feature-section{grid-template-columns:1fr;gap:14px;}
+  .visual-feature-preview{min-height:0;padding:8px;}
+  .visual-feature-preview img,.visual-feature-preview.is-portrait img{max-height:none;}
+  .visual-feature-action{width:100%;}
+}
+
 
 
 /* === Distrito Go v16.4 · Juntémonos Más === */

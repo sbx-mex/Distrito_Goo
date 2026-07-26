@@ -13,6 +13,7 @@ import { renderOperationalSections } from './operational.js';
 function byId(id){ return document.getElementById(id); }
 function setText(id, value){ const el = byId(id); if(el) el.textContent = value; }
 function setHtml(id, value){ const el = byId(id); if(el) el.innerHTML = value; }
+let lastImageViewerTrigger = null;
 
 async function boot(){
   bindStaticEvents();
@@ -146,6 +147,7 @@ function bindStaticEvents(){
   byId('quick-modal')?.addEventListener('click', event => {
     if(event.target === byId('quick-modal')) closeQuickModal();
   });
+  byId('quick-modal')?.addEventListener('close', resetImageViewer);
   document.addEventListener('click', handleImageViewerClick);
   window.addEventListener('dgx:filtersChanged', () => { renderChips(); renderTools(true); });
 }
@@ -156,9 +158,19 @@ const IMAGE_LINK_PATTERN = /\.(?:avif|bmp|gif|jpe?g|png|svg|webp)(?:[?#].*)?$/i;
 function closeQuickModal(){
   const modal = byId('quick-modal');
   if(!modal) return;
-  modal.close();
+  if(modal.open) modal.close();
+  else resetImageViewer();
+}
+
+function resetImageViewer(){
+  const modal = byId('quick-modal');
+  if(!modal) return;
+  document.body.classList.remove('is-modal-open');
   modal.classList.remove('is-image-viewer');
   setHtml('quick-modal-body', '');
+  const trigger = lastImageViewerTrigger;
+  lastImageViewerTrigger = null;
+  if(trigger?.isConnected) requestAnimationFrame(() => trigger.focus({preventScroll:true}));
 }
 
 function openImageViewer(title, src){
@@ -168,6 +180,7 @@ function openImageViewer(title, src){
   setText('quick-modal-title', title || 'Imagen');
   setHtml('quick-modal-body', `<img class="modal-image image-viewer-media" src="${src}" alt="${title || 'Imagen'}" loading="eager"/>`);
   modal.classList.add('is-image-viewer');
+  document.body.classList.add('is-modal-open');
   modal.showModal();
 }
 
@@ -183,6 +196,7 @@ function handleImageViewerClick(event){
   if(!src) return;
   event.preventDefault();
   event.stopPropagation();
+  lastImageViewerTrigger = trigger;
   const nestedImage = trigger.querySelector('img');
   const title = trigger.dataset.imageTitle || trigger.dataset.title || nestedImage?.alt || trigger.getAttribute('aria-label') || 'Imagen';
   openImageViewer(title, src);

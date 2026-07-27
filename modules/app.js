@@ -167,14 +167,29 @@ function bindStaticEvents(){
   });
   byId('quick-modal')?.addEventListener('close', resetImageViewer);
   document.addEventListener('click', handleImageViewerClick);
+  document.addEventListener('click', handleImageViewerZoom);
+  document.addEventListener('click', handleDutyDialogClick);
   window.addEventListener('dgx:filtersChanged', () => { renderChips(); renderTools(true); });
   window.addEventListener('dgx:open-detail', event => openContentDetail(event.detail?.item, event.detail?.trigger));
   window.addEventListener('dgx:open-destination', event => openContentDestination(event.detail?.item, event.detail?.trigger));
+  window.addEventListener('dgx:open-duty-detail', event => openDutyDetail(event.detail?.day, event.detail?.trigger));
   window.addEventListener('dgx:saved-changed', () => renderTools(false));
 }
 
 
 const IMAGE_LINK_PATTERN = /\.(?:avif|bmp|gif|jpe?g|png|svg|webp)(?:[?#].*)?$/i;
+const DUTY_STATION_SCENES = {
+  food:'<svg viewBox="0 0 320 220" aria-hidden="true"><path d="M58 174h204M80 174V83h160v91M80 115h160M112 83V55h96v28"/><path d="M111 145h43m18 0h37M137 55V37h46v18"/><path class="duty-scene-accent" d="M99 69h20m82 0h20"/></svg>',
+  'show case':'<svg viewBox="0 0 320 220" aria-hidden="true"><path d="M56 177h208M72 177V66h176v111M72 105h176M72 142h176"/><path d="M97 87h36m24 0h67M99 124h48m23 0h54M98 160h77"/><path class="duty-scene-accent" d="M56 66h208"/></svg>',
+  pic:'<svg viewBox="0 0 320 220" aria-hidden="true"><rect x="83" y="43" width="154" height="142" rx="18"/><path d="M118 43v-9h84v27h-84zM116 97l12 12 24-29m-36 73 12 12 24-29m25-39h31m-31 56h31"/><circle class="duty-scene-accent" cx="160" cy="116" r="82"/></svg>',
+  lobby:'<svg viewBox="0 0 320 220" aria-hidden="true"><path d="M48 177h224M75 177v-62h58v62m54 0v-62h58v62M104 115V82h112v33"/><path d="M130 82V54h60v28M104 143h29m54 0h58"/><path class="duty-scene-accent" d="M91 54h138"/></svg>',
+  boh:'<svg viewBox="0 0 320 220" aria-hidden="true"><path d="M55 178h210M72 178V58h176v120M72 101h176M114 58v120m91-120v120"/><path d="M84 79h18m28 0h61m28 0h17M83 133h20m28 0h60m28 0h17"/><path class="duty-scene-accent" d="M58 58h204"/></svg>',
+  espresso:'<svg viewBox="0 0 320 220" aria-hidden="true"><path d="M62 55h196v68H62zM84 123v27m152-27v27M103 88h114M122 150h76v50h-76zM106 200h108"/><path d="M139 150v-21h42v21m-64 18H93v24h24m86-24h24v24h-24"/><path class="duty-scene-accent" d="M150 129c0 12-15 12-15 24m50-24c0 12-15 12-15 24"/></svg>',
+  'café filtrado':'<svg viewBox="0 0 320 220" aria-hidden="true"><path d="M88 96h128v64c0 27-20 42-45 42h-38c-25 0-45-15-45-42zM216 113h20c32 0 32 46 0 46h-20M70 202h174"/><path class="duty-scene-accent" d="M123 79c-15-22 19-24 5-46m48 46c-15-22 19-24 5-46"/></svg>',
+  cbs:'<svg viewBox="0 0 320 220" aria-hidden="true"><path d="M104 49h112l-13 151H117zM115 94h90M121 151h78"/><path d="M137 49V28h46v21M147 121h26"/><path class="duty-scene-accent" d="M95 49h130"/></svg>',
+  'drive thru':'<svg viewBox="0 0 320 220" aria-hidden="true"><path d="M51 164h218M79 164l18-58h116l28 58M112 106l20-36h55l22 36"/><circle cx="111" cy="165" r="22"/><circle cx="221" cy="165" r="22"/><path class="duty-scene-accent" d="M134 70V43h64v27"/></svg>',
+  default:'<svg viewBox="0 0 320 220" aria-hidden="true"><rect x="70" y="35" width="180" height="160" rx="22"/><path d="M70 78h180M105 23v30m110-30v30m-108 73 22 22 50-53"/><path class="duty-scene-accent" d="M197 126h26m-26 29h26"/></svg>'
+};
 
 function closeQuickModal(){
   const modal = byId('quick-modal');
@@ -205,6 +220,9 @@ function openImageViewer(title, src){
   const safeTitle = escapeHeroText(title || 'Imagen');
   const safeSrc = escapeHeroText(src);
   setHtml('quick-modal-body', `<div class="image-viewer-stage">
+    <div class="image-viewer-toolbar" aria-label="Controles de imagen">
+      <button type="button" data-image-zoom aria-pressed="false">Ampliar</button>
+    </div>
     <img class="modal-image image-viewer-media" src="${safeSrc}" alt="${safeTitle}" loading="eager" decoding="async"/>
   </div>`);
   modal.classList.add('is-image-viewer');
@@ -216,6 +234,89 @@ function openImageViewer(title, src){
     modal.dataset.imageOrientation = orientation;
   }, {once:true});
   requestAnimationFrame(() => byId('close-quick-modal')?.focus({preventScroll:true}));
+}
+
+function dutyStationsFor(day){
+  const roster = (state.operacional.dutyRoster || []).find(item => String(item['Día'] || '').toLocaleLowerCase('es-MX') === String(day || '').toLocaleLowerCase('es-MX'));
+  const details = (state.operacional.dutyDetail || [])
+    .filter(item => String(item['Día'] || '').toLocaleLowerCase('es-MX') === String(day || '').toLocaleLowerCase('es-MX'))
+    .sort((a,b) => Number(a.Orden || 0) - Number(b.Orden || 0));
+  const stations = [...new Set([
+    ...String(roster?.Estaciones || '').split(',').map(item => item.trim()).filter(Boolean),
+    ...details.map(item => String(item.Estación || '').trim()).filter(Boolean)
+  ])];
+  return {roster, details, stations};
+}
+
+function dutyStationScene(station){
+  const key = String(station || '').trim().toLocaleLowerCase('es-MX');
+  return DUTY_STATION_SCENES[key] || DUTY_STATION_SCENES.default;
+}
+
+function dutyStationPanelMarkup(day, station, details){
+  const items = details.filter(item => String(item.Estación || '').toLocaleLowerCase('es-MX') === String(station || '').toLocaleLowerCase('es-MX'));
+  const critical = items.filter(item => item['Crítico'] === true || String(item['Crítico']).toLocaleLowerCase('es-MX') === 'true').length;
+  return `<section class="duty-station-panel" data-duty-station-panel aria-live="polite">
+    <div class="duty-station-visual">
+      <span class="duty-station-svg">${dutyStationScene(station)}</span>
+      <span><small>${escapeHeroText(day)}</small><strong>${escapeHeroText(station || 'Estación')}</strong><em>${items.length} punto${items.length === 1 ? '' : 's'} · ${critical} crítico${critical === 1 ? '' : 's'}</em></span>
+    </div>
+    <ol class="duty-station-list">
+      ${items.map(item => {
+        const isCritical = item['Crítico'] === true || String(item['Crítico']).toLocaleLowerCase('es-MX') === 'true';
+        return `<li class="${isCritical ? 'is-critical' : ''}"><span aria-hidden="true">${item.Icono || '•'}</span><span><small>${escapeHeroText(item.Categoría || 'Actividad')}</small><strong>${escapeHeroText(item.Actividad || '')}</strong></span>${isCritical ? '<b>Crítico</b>' : ''}</li>`;
+      }).join('')}
+    </ol>
+  </section>`;
+}
+
+function openDutyDetail(day, trigger){
+  const modal = byId('quick-modal');
+  if(!modal?.showModal) return;
+  const {roster, details, stations} = dutyStationsFor(day);
+  if(!roster || !details.length || !stations.length){
+    toast('No hay actividades Duty disponibles para este día');
+    return;
+  }
+  lastQuickModalTrigger = trigger || null;
+  const critical = details.filter(item => item['Crítico'] === true || String(item['Crítico']).toLocaleLowerCase('es-MX') === 'true').length;
+  const selected = stations[0];
+  setText('quick-modal-title', `Duty del ${String(day).toLocaleLowerCase('es-MX')}`);
+  setHtml('quick-modal-body', `<article class="duty-detail-dialog" data-duty-dialog="${escapeHeroText(day)}">
+    <header class="duty-dialog-summary">
+      <span>Duty del ${escapeHeroText(String(day).toLocaleLowerCase('es-MX'))}</span>
+      <h2>${escapeHeroText(roster.Estaciones || 'Duty Roster')}</h2>
+      <p>${escapeHeroText(roster.Enfoque || '')}</p>
+      <div><b>${details.length} puntos</b><b>${critical} críticos</b><b>${stations.length} estaciones</b></div>
+    </header>
+    <nav class="duty-station-picker" aria-label="Seleccionar estación">
+      ${stations.map((station, index) => `<button type="button" data-duty-station="${escapeHeroText(station)}" aria-pressed="${index === 0}">${escapeHeroText(station)}</button>`).join('')}
+    </nav>
+    ${dutyStationPanelMarkup(day, selected, details)}
+  </article>`);
+  document.body.classList.add('is-modal-open');
+  if(!modal.open) modal.showModal();
+  requestAnimationFrame(() => modal.querySelector('[data-duty-station]')?.focus({preventScroll:true}));
+}
+
+function handleDutyDialogClick(event){
+  const button = event.target.closest('[data-duty-station]');
+  if(!button) return;
+  const dialog = button.closest('[data-duty-dialog]');
+  const day = dialog?.dataset.dutyDialog || '';
+  const {details} = dutyStationsFor(day);
+  dialog?.querySelectorAll('[data-duty-station]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+  const panel = dialog?.querySelector('[data-duty-station-panel]');
+  if(panel) panel.outerHTML = dutyStationPanelMarkup(day, button.dataset.dutyStation || '', details);
+}
+
+function handleImageViewerZoom(event){
+  const button = event.target.closest('[data-image-zoom]');
+  if(!button) return;
+  const stage = button.closest('.image-viewer-stage');
+  const zoomed = stage?.classList.toggle('is-zoomed');
+  button.setAttribute('aria-pressed', String(Boolean(zoomed)));
+  button.textContent = zoomed ? 'Ver completa' : 'Ampliar';
 }
 
 function safeDetailLink(value){

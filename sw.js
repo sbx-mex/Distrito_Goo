@@ -1,4 +1,4 @@
-const CACHE_NAME = 'distrito-go-v33.0.0-navegacion-horizontal';
+const CACHE_NAME = 'distrito-go-v34.0.0-duty-inmersivo';
 const APP_SHELL = [
   './',
   './index.html',

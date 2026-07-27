@@ -510,6 +510,10 @@ function dutyMarkup(day){
     .sort((a,b) => Number(a.Orden || 0) - Number(b.Orden || 0));
   const critical = details.filter(item => item['Crítico'] === true || normalize(item['Crítico']) === 'true');
   const image = duty.ImagenOriginal || duty.ImagenesOriginales?.[0] || duty.ImagenesPath?.[0] || '';
+  const stations = [...new Set([
+    ...String(duty.Estaciones || '').split(',').map(item => item.trim()).filter(Boolean),
+    ...details.map(item => String(item.Estación || '').trim()).filter(Boolean)
+  ])];
   return `<section class="week-duty" aria-labelledby="week-duty-title">
     <div class="week-feature-heading">
       <span class="week-feature-icon" aria-hidden="true">🧭</span>
@@ -519,7 +523,7 @@ function dutyMarkup(day){
     <p>${escapeHtml(compactText(duty.Enfoque || '', 150))}</p>
     <div class="week-duty-meta">
       <span><b>${critical.length}</b> crítico${critical.length === 1 ? '' : 's'}</span>
-      <span><b>${String(duty.Estaciones || '').split(',').filter(Boolean).length}</b> estación${String(duty.Estaciones || '').split(',').filter(Boolean).length === 1 ? '' : 'es'}</span>
+      <span><b>${stations.length}</b> estación${stations.length === 1 ? '' : 'es'}</span>
     </div>
     <div class="week-duty-actions">
       ${image && isImage(image) ? `<button type="button" data-image-viewer="${escapeHtml(image)}" data-image-title="${escapeHtml(`${day} · ${duty.Estaciones || 'Duty Roster'}`)}">Ver guía visual</button>` : ''}
@@ -719,7 +723,7 @@ function bindExperience(){
     const dutyDetail = event.target.closest('[data-week-duty-detail]');
     if(dutyDetail){
       const day = dutyDetail.dataset.weekDutyDetail || selectedWeekDay;
-      window.dispatchEvent(new CustomEvent('dgx:show-duty-day', {detail:{day, trigger:dutyDetail}}));
+      window.dispatchEvent(new CustomEvent('dgx:open-duty-detail', {detail:{day, trigger:dutyDetail}}));
       return;
     }
     const weekDay = event.target.closest('[data-week-day]');

@@ -1,0 +1,116 @@
+{
+  "ok": true,
+  "generatedAt": "2026-07-27T12:25:56.863Z",
+  "summary": {
+    "passed": 21,
+    "failed": 0,
+    "total": 21
+  },
+  "checks": [
+    {
+      "name": "Versión v35",
+      "ok": true,
+      "detail": "35.0.0 / v35.0.0"
+    },
+    {
+      "name": "Caché v35",
+      "ok": true,
+      "detail": "Service Worker actualizado"
+    },
+    {
+      "name": "Recursos versionados",
+      "ok": true,
+      "detail": "CSS y entrada JS"
+    },
+    {
+      "name": "Menú principal conservado",
+      "ok": true,
+      "detail": "Inicio, Explorar y Guardados"
+    },
+    {
+      "name": "Menú redundante retirado",
+      "ok": true,
+      "detail": "sin tarjetas Hoy/Apertura/Personas/Semana"
+    },
+    {
+      "name": "Hoy renombrado a Informativo",
+      "ok": true,
+      "detail": "etiqueta visible"
+    },
+    {
+      "name": "Catálogo integrado",
+      "ok": true,
+      "detail": "contenedor y fuente dinámica"
+    },
+    {
+      "name": "Cinco registros CMS",
+      "ok": true,
+      "detail": "5 de 5"
+    },
+    {
+      "name": "Seis accesos",
+      "ok": true,
+      "detail": "catálogo solicitado"
+    },
+    {
+      "name": "Clave del comunicado preservada",
+      "ok": true,
+      "detail": "ID visual estable"
+    },
+    {
+      "name": "Informativo permanente",
+      "ok": true,
+      "detail": "al final de Inicio"
+    },
+    {
+      "name": "Flechas condicionales",
+      "ok": true,
+      "detail": "solo con varios vigentes"
+    },
+    {
+      "name": "Acciones reales",
+      "ok": true,
+      "detail": "sin botones simulados"
+    },
+    {
+      "name": "Desarrollo Partner accesible",
+      "ok": true,
+      "detail": "SVG descrito"
+    },
+    {
+      "name": "Cursos de Alta disponibles",
+      "ok": true,
+      "detail": "7 registros"
+    },
+    {
+      "name": "TBW disponible",
+      "ok": true,
+      "detail": "14 registros"
+    },
+    {
+      "name": "Destino Partner real",
+      "ok": true,
+      "detail": "rutas internas verificadas"
+    },
+    {
+      "name": "Responsive 320 px",
+      "ok": true,
+      "detail": "catálogo fluido"
+    },
+    {
+      "name": "Sin scroll horizontal del catálogo",
+      "ok": true,
+      "detail": "contenedores restringidos"
+    },
+    {
+      "name": "Áreas táctiles",
+      "ok": true,
+      "detail": "acciones de al menos 44 px"
+    },
+    {
+      "name": "Duty v34 conservado",
+      "ok": true,
+      "detail": "9 puntos"
+    }
+  ]
+}

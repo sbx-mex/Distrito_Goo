@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="./styles/app.css?v=22.0.0" />
   <link rel="stylesheet" href="./styles/experience.css?v=24.0.0" />
   <link rel="stylesheet" href="./styles/clean.css?v=25.0.0" />
-  <link rel="stylesheet" href="./styles/navigation-v26.css?v=34.0.0" />
+  <link rel="stylesheet" href="./styles/navigation-v26.css?v=35.0.0" />
 </head>
 <body class="v15-starbucks-contrast-experience v16-mobile-launcher-espresso-hub-optimization v16-2-visual-accessibility-refinement">
   <a class="skip-link" href="#main">Saltar al contenido</a>
@@ -77,15 +77,27 @@
           </section>
         </div>
 
-        <nav class="story-strip contextual-shortcuts" aria-label="Accesos contextuales de Inicio">
-          <div id="operational-stories" class="story-track" role="list"></div>
-        </nav>
-
-        <section id="explorar" class="contextual-results" aria-labelledby="visual-explore-title" hidden>
-          <div class="visual-section-title">
-            <div><span class="visual-overline">Consulta rápida</span><h3 id="visual-explore-title" tabindex="-1">Hoy</h3></div>
+        <section class="integrated-catalog-section" aria-labelledby="integrated-catalog-title">
+          <div class="integrated-section-heading">
+            <div>
+              <span class="visual-overline">Informativo</span>
+              <h3 id="integrated-catalog-title">Catálogo de consulta</h3>
+              <p>Accesos esenciales organizados desde el CMS para una consulta rápida y clara.</p>
+            </div>
           </div>
-          <div id="explore-grid" class="explore-grid" aria-live="polite"></div>
+          <div id="integrated-catalog-grid" class="integrated-catalog-grid" aria-live="polite"></div>
+        </section>
+
+        <section id="informativo" class="permanent-info-section" aria-labelledby="info-title">
+          <div class="integrated-section-heading is-compact">
+            <div>
+              <span class="visual-overline">Siempre disponible</span>
+              <h3 id="info-title">Informativo</h3>
+              <p>Consulta los contenidos vigentes publicados desde el CMS.</p>
+            </div>
+            <span id="info-count" class="info-count">0</span>
+          </div>
+          <div id="info-grid" class="permanent-info-slot" aria-live="polite"></div>
         </section>
       </section>
 
@@ -232,14 +244,6 @@
       <div id="coffee-master-grid" class="ops-grid skeleton-grid"></div>
     </section>
 
-    <section id="informativo" class="ops-section info-section" aria-labelledby="info-title">
-      <div class="section-title">
-        <div><h3 id="info-title">☕ Informativo</h3><p class="section-subtitle">Datos de consulta rápida para validar sin saturar la operación.</p></div>
-        <span id="info-count">0</span>
-      </div>
-      <div id="info-grid" class="ops-grid info-grid skeleton-grid"></div>
-    </section>
-
     <section id="actualizaciones-semana" class="ops-section weekly-updates-section" aria-labelledby="weekly-summary-title">
       <div class="section-title">
         <div><span class="weekly-badge">Prioridad visible</span><h3 id="weekly-summary-title">📣 Actualizaciones de la semana</h3><p class="section-subtitle">Solo los comunicados vigentes definidos en el CMS.</p></div>
@@ -284,8 +288,8 @@
         <span id="altas-count">0</span>
       </div>
       <div class="people-split">
-        <article class="people-panel"><div class="panel-head"><strong>BT / SS</strong><span id="btss-count">0</span></div><div id="btss-grid" class="people-list"></div></article>
-        <article class="people-panel"><div class="panel-head"><strong>TBW</strong><span id="tbw-count">0</span></div><div id="tbw-grid" class="people-list tbw-list"></div></article>
+        <article id="partner-courses-panel" class="people-panel" tabindex="-1"><div class="panel-head"><strong>Cursos de Alta · BT / SS</strong><span id="btss-count">0</span></div><div id="btss-grid" class="people-list"></div></article>
+        <article id="partner-tbw-panel" class="people-panel" tabindex="-1"><div class="panel-head"><strong>TBW</strong><span id="tbw-count">0</span></div><div id="tbw-grid" class="people-list tbw-list"></div></article>
       </div>
     </section>
 
@@ -329,6 +333,6 @@
     </button>
   </nav>
 
-  <script type="module" src="./modules/app.js?v=34.0.0"></script>
+  <script type="module" src="./modules/app.js?v=35.0.0"></script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 import { state } from './state.js';
 import { $, $$, escapeHtml } from './utils.js';
 import { toast } from './toast.js';
+import { isContentSaved } from './experience.js';
 
 const today = new Date();
 const dayNames = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
@@ -71,6 +72,22 @@ function renderResourceAction(item){
 }
 function opsCard(title, text, icon='✅', extra='', item=null){
   return `<article class="ops-card"><div class="ops-icon">${icon}</div><div class="ops-content"><h4>${escapeHtml(title || 'Actividad')}</h4><p>${escapeHtml(briefText(text))}</p>${extra ? `<div class="inline-actions">${extra}</div>` : ''}</div></article>`;
+}
+function isCurrentlyValid(item){
+  const now = new Date();
+  const start = parseDate(item?.['Vigencia Inicio']);
+  const end = parseDate(item?.['Vigencia Fin']);
+  if(start) start.setHours(0,0,0,0);
+  if(end) end.setHours(23,59,59,999);
+  return (!start || now >= start) && (!end || now <= end);
+}
+function validityLabel(item){
+  const start = parseDate(item?.['Vigencia Inicio']);
+  const end = parseDate(item?.['Vigencia Fin']);
+  if(start && end) return `${start.toLocaleDateString('es-MX',{day:'2-digit',month:'short'})}–${end.toLocaleDateString('es-MX',{day:'2-digit',month:'short'})}`;
+  if(end) return `Hasta ${end.toLocaleDateString('es-MX',{day:'2-digit',month:'short'})}`;
+  if(start) return `Desde ${start.toLocaleDateString('es-MX',{day:'2-digit',month:'short'})}`;
+  return item?.Frecuencia || '';
 }
 function weeklyUpdateCard(item){
   const image = item.TipoRecurso === 'imagen' && item.Recurso
@@ -213,14 +230,46 @@ function renderWFM(day, todayActivity){
 
 export function renderInformativo(){
   const info = (state.operacional.informativo || [])
-    .filter(item => !isWeeklyUpdate(item) && !isCoffeeMaster(item))
     .filter(a => a.Visible !== false)
-    .sort((a,b)=>(a.Prioridad||9)-(b.Prioridad||9));
+    .filter(isCurrentlyValid)
+    .sort((a,b)=>(a.Orden||a.Prioridad||99)-(b.Orden||b.Prioridad||99));
   const count = document.getElementById('info-count');
-  if(count) count.textContent = `${info.length} registro${info.length === 1 ? '' : 's'}`;
+  if(count) count.textContent = `${info.length} vigente${info.length === 1 ? '' : 's'}`;
   const grid = document.getElementById('info-grid');
   if(!grid) return;
-  grid.innerHTML = info.map(a => opsCard(a.Actividad, a.DescripcionBreve || a['Descripción'], a.Icono || 'ℹ️', renderResourceAction(a), a)).join('') || opsCard('Sin informativos activos', 'No hay registros informativos visibles por ahora.', '☕');
+  grid.classList.toggle('is-empty', !info.length);
+  if(!info.length){
+    grid.innerHTML = '';
+    return;
+  }
+  const cards = info.map(item => {
+    const contentId = `info-${item.ID}`;
+    const destination = Boolean(item.Recurso);
+    const saved = isContentSaved(contentId);
+    const label = item.Etiqueta || (Number(item.Prioridad) === 1 ? 'Prioridad' : '');
+    return `<article class="permanent-info-card">
+      <span class="permanent-info-icon" aria-hidden="true">${item.Icono || 'ℹ️'}</span>
+      <div class="permanent-info-copy">
+        <div class="permanent-info-meta">${label ? `<small>${escapeHtml(label)}</small>` : ''}${validityLabel(item) ? `<span>${escapeHtml(validityLabel(item))}</span>` : ''}</div>
+        <strong>${escapeHtml(item.Actividad || 'Informativo')}</strong>
+        <p>${escapeHtml(briefText(item.DescripcionBreve || item['Descripción'] || '', 120))}</p>
+        <div class="permanent-info-actions">
+          ${destination ? `<button type="button" data-open-content="${escapeHtml(contentId)}">Abrir contenido</button>` : ''}
+          <button class="permanent-info-save ${saved ? 'is-saved' : ''}" type="button" data-save-content="${escapeHtml(contentId)}" aria-label="${escapeHtml(saved ? `Quitar ${item.Actividad} de Guardados` : `Guardar ${item.Actividad}`)}" aria-pressed="${saved}"><span aria-hidden="true">${saved ? '♥' : '♡'}</span><span class="save-content-label">${saved ? 'Guardado' : 'Guardar'}</span></button>
+        </div>
+      </div>
+    </article>`;
+  }).join('');
+  grid.innerHTML = `<div class="informative-catalog">
+    ${info.length > 1 ? `<div class="home-catalog-toolbar">
+      <span id="informative-catalog-status" aria-live="polite">1 de ${info.length}</span>
+      <div class="home-catalog-controls" aria-label="Controles de Informativo">
+        <button type="button" data-catalog-scroll="prev" data-catalog-kind="informative" aria-label="Informativo anterior">‹</button>
+        <button type="button" data-catalog-scroll="next" data-catalog-kind="informative" aria-label="Informativo siguiente">›</button>
+      </div>
+    </div>` : ''}
+    <div id="informative-catalog-track" class="home-catalog-track informative-catalog-track" ${info.length > 1 ? 'tabindex="0"' : ''} aria-label="Informativos vigentes">${cards}</div>
+  </div>`;
 }
 export function renderEvents(){
   const all = state.operacional.eventos || [];
@@ -309,6 +358,26 @@ function bindOperationalActions(){
       window.setTimeout(() => target.classList.remove('is-destination-highlight'), 1800);
       toast(`Duty Roster de ${day}`);
     }
+  });
+  window.addEventListener('dgx:open-partner-route', event => {
+    const route = event.detail?.route === 'tbw' ? 'tbw' : 'courses';
+    renderAltas();
+    const section = document.getElementById('altas-curso');
+    const panel = document.getElementById(route === 'tbw' ? 'partner-tbw-panel' : 'partner-courses-panel');
+    if(!section || !panel) return;
+    section.classList.remove('is-destination-highlight');
+    panel.classList.remove('is-route-highlight');
+    requestAnimationFrame(() => {
+      section.classList.add('is-destination-highlight');
+      panel.classList.add('is-route-highlight');
+      section.scrollIntoView({behavior:'smooth', block:'start'});
+      window.setTimeout(() => panel.focus({preventScroll:true}), 380);
+    });
+    window.setTimeout(() => {
+      section.classList.remove('is-destination-highlight');
+      panel.classList.remove('is-route-highlight');
+    }, 2200);
+    toast(route === 'tbw' ? 'Ruta TBW abierta' : 'Cursos de Alta abiertos');
   });
   document.body.addEventListener('click', async e => {
     const celebration = e.target.closest('[data-celebration-id]');

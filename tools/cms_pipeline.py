@@ -11,6 +11,7 @@ import json
 import re
 import unicodedata
 from datetime import date, datetime
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -105,17 +106,24 @@ def validate_workbook(path: Path) -> tuple[dict[str, list[dict[str, Any]]], list
 NETWORK_FIRST_IMAGE = "resumen_comunicado_semana_actual.png"
 
 
+@lru_cache(maxsize=256)
 def asset_version(path: Path) -> str:
     digest = hashlib.sha256(path.read_bytes()).hexdigest()[:12]
     return f"?v={digest}"
+
+
+@lru_cache(maxsize=8)
+def asset_index(root: Path, folder: str) -> dict[str, Path]:
+    """Indexa cada carpeta una sola vez durante la compilación."""
+    base = root / folder
+    return {path.name.casefold(): path for path in base.iterdir() if path.is_file()} if base.is_dir() else {}
 
 
 def image_path(value: Any, root: Path, folder: str = "assets/photos") -> str:
     name = Path(str(value or "").strip()).name
     if not name:
         return ""
-    base = root / folder
-    matches = {p.name.casefold(): p for p in base.glob("*") if p.is_file()}
+    matches = asset_index(root, folder)
     match = matches.get(name.casefold())
     if not match:
         return f"{folder}/{name}"
@@ -134,8 +142,7 @@ def original_image_path(value: Any, root: Path, folder: str = "assets/photos") -
     name = Path(str(value or "").strip().split("?", 1)[0].split("#", 1)[0]).name
     if not name:
         return ""
-    base = root / folder
-    matches = {p.name.casefold(): p for p in base.glob("*") if p.is_file()}
+    matches = asset_index(root, folder)
     match = matches.get(name.casefold())
     if not match:
         return f"{folder}/{name}"
@@ -145,8 +152,7 @@ def thumbnail_image_path(value: Any, root: Path, folder: str = "assets/photos") 
     name = Path(str(value or "").strip().split("?", 1)[0].split("#", 1)[0]).name
     if not name:
         return ""
-    base = root / folder
-    matches = {p.name.casefold(): p for p in base.glob("*") if p.is_file()}
+    matches = asset_index(root, folder)
     source = matches.get(name.casefold())
     if not source:
         return image_path(value, root, folder)

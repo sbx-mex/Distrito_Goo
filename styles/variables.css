@@ -20,24 +20,6 @@
   --tap:48px;
   color-scheme:light;
 }
-[data-theme="dark"]{
-  --sb-green:#00A862;
-  --sb-green-2:#44C08A;
-  --sb-green-3:#71D3A5;
-  --sb-light:#103B2C;
-  --sb-mint:#0B241C;
-  --sb-cream:#121614;
-  --ink:#F4F7F5;
-  --muted:#B4C0BA;
-  --line:#294238;
-  --surface:#16231D;
-  --surface-2:#101A16;
-  --shadow:0 16px 40px rgba(0,0,0,.38);
-  --shadow-soft:0 8px 24px rgba(0,0,0,.28);
-  color-scheme:dark;
-}
-
-
 /* v15 Starbucks accessible palette */
 :root{
   --sb-green:#006241;

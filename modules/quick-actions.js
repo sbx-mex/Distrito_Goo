@@ -2,7 +2,7 @@ import { state } from './state.js';
 import { $, $$, escapeHtml } from './utils.js';
 import { categoryHub, chip } from './components.js';
 import { renderTools } from './cards.js';
-import { openSpotlight } from './search.js';
+import { focusGeneralSearch } from './search.js';
 import { toast } from './toast.js';
 import { goToSection } from './operational.js';
 import { revealWorkspace } from './navigation.js';
@@ -71,7 +71,10 @@ export function renderCategories(){
 }
 
 export function runAction(action){
-  if(action === 'openSearch') openSpotlight();
+  if(action === 'openSearch'){
+    revealWorkspace(false);
+    focusGeneralSearch();
+  }
   if(action === 'showToday') goToSection('dia-a-dia');
   if(action === 'showEvents') goToSection('eventos-cms');
   if(action === 'showAltas') goToSection('altas-curso');

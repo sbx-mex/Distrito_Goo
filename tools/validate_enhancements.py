@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Pruebas reproducibles para la experiencia visual v23 de Distrito Goo."""
+"""Pruebas reproducibles para la versión limpia v24 de Distrito Goo."""
 from __future__ import annotations
 
 import argparse
@@ -42,15 +42,15 @@ def main() -> int:
         "Apartados CMS",
         {
             "Maquila",
-            "Alineación Dress Code Portafolio",
-            "Partners atentos a esta información de registro",
+            "Dress Code Portafolio",
+            "Registro Clock In/Out",
             "Coffee Master 2026",
-            "Resumen de Comunicado Semana Actual",
+            "Resumen Semanal",
         }.issubset(names),
         ", ".join(sorted(names)),
     )
     check("Resumen semanal CMS", any(row.get("Frecuencia") == "Semanal" for row in records), "Frecuencia Semanal presente")
-    visual_headers = {"Etiqueta", "Vigencia Inicio", "Vigencia Fin", "Orden", "Mostrar Inicio", "Mostrar Explorar"}
+    visual_headers = {"Etiqueta", "Vigencia Inicio", "Vigencia Fin", "Orden", "Mostrar Inicio", "Mostrar Explorar", "Acceso Rápido"}
     check("Controles visuales CMS", visual_headers.issubset(set(headers)), ", ".join(sorted(visual_headers)))
     check("Prioridad única CMS", sum(str(row.get("Mostrar Inicio", "")).casefold() in {"sí","si","true","1"} for row in records) == 1, "Un registro visible en Inicio")
 
@@ -67,12 +67,16 @@ def main() -> int:
     check("Carga diferida PDF", "await import('./celebration-pdf.js')" in operational, "PDF se importa al solicitarlo")
     check("Secciones diferidas", "IntersectionObserver" in operational and "data-deferred-section" in html, "Duty y Partner bajo demanda")
     check("Inicio visual", all(token in html for token in ('id="visual-home"', 'id="operational-stories"', 'id="visual-priority-card"', 'id="explore-grid"')), "Historias, prioridad y Explorar presentes")
-    check("Versión paralela", "?vista=clasica" in html and "visual-classic" in experience, "Comparación mediante parámetro controlado")
-    check("Historias reales", all(target in experience for target in ("today","duty","altas","weekly-summary")), "Historias enlazadas con funciones existentes")
+    check("Cinco accesos", all(label in experience for label in ("Hoy","Apertura","Peak","Personas","Semana")), "Accesos visibles y filtrables")
+    check("Accesos con CMS", "matchesAccess" in experience and "Acceso Rápido" in experience, "Clasificación compatible con CMS")
     check("Explorar filtrable", "data-explore-category" in experience and "CATEGORIES" in experience, "Filtros sin recarga")
     check("Guardados locales", "dgx_saved_content" in experience and "localStorage" not in experience, "Persistencia mediante abstracción local existente")
-    check("Buscador integral", "getContentCatalog" in search and "searchTools" in search, "Contenido y herramientas comparten búsqueda")
+    check("Buscador general", "general-search-input" in html and "focusGeneralSearch" in search, "Búsqueda principal conservada")
     check("Detalle interno", "dgx:open-detail" in experience and "openContentDetail" in app, "Visor existente ampliado")
+    check("Portadas estándar", "standardCoverMarkup" in experience and "shouldUseStandardCover" in experience, "Maquila e infografías sin fondo saturado")
+    check("Eventos limpios", all(value in html for value in ('data-event-filter="upcoming"', 'data-event-filter="week"', 'data-event-filter="month"')) and "data-open-event-id" in operational, "Próximos, semana y mes")
+    check("Sin controles superiores", all(value not in html for value in ("open-spotlight","theme-toggle","spotlight-modal","⌘K")), "Spotlight y tema retirados")
+    check("Sin atajos Spotlight", "metaKey" not in search and "ctrlKey" not in search, "Atajos exclusivos retirados")
     check("Pie corporativo", all(text in html for text in ("Diseñado por Enrique César Flores", "#DistritoKike 🚀", "#GreenApronService", "JUNTÉMONOS MÁS")), "Identidad y uso interno presentes una vez")
 
     shell_match = re.search(r"const APP_SHELL = \[(.*?)\];", sw, re.S)
@@ -110,13 +114,12 @@ def main() -> int:
     check("Miniaturas WebP", len(thumbnails) >= 8, f"{len(thumbnails)} miniaturas derivadas")
     check("Picture con respaldo", "<picture>" in experience and "imageOriginal" in experience, "WebP con original preservado")
     check("Carga diferida", 'loading="${eager ? \'eager\' : \'lazy\'}"' in experience and 'decoding="async"' in experience, "Lazy fuera del primer bloque")
-    check("Caché actualizado", "distrito-go-v23.0.0-experiencia-visual" in sw, "Versión v23")
+    check("Caché actualizado", "distrito-go-v24.0.0-version-limpia" in sw and "./styles/clean.css" in shell_refs, "Versión v24")
     check("Caché tolera versiones", "ignoreSearch:true" in sw, "CSS y JS versionados disponibles offline")
 
     cms_workflow = ROOT / ".github" / "workflows" / "actualizar-cms.yml"
-    cleanup_workflow = ROOT / ".github" / "workflows" / "limpieza-auditada.yml"
     check("Workflow CMS", cms_workflow.is_file(), cms_workflow.as_posix())
-    check("Workflow limpieza", cleanup_workflow.is_file(), cleanup_workflow.as_posix())
+    check("Workflow temporal retirado", not (ROOT / ".github" / "workflows" / "limpieza-auditada.yml").exists(), "La limpieza auditada ya terminó")
     check("CMS exacto en workflow", "Distrito_Go_CMS_v2_actualizado.xlsx" in cms_workflow.read_text(encoding="utf-8"), "Nombre raíz validado")
 
     report = {"ok": all(item["ok"] for item in CHECKS), "checks": CHECKS}

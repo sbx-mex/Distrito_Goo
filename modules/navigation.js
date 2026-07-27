@@ -1,7 +1,7 @@
 import { state } from './state.js';
 import { $, $$ } from './utils.js';
 import { renderTools } from './cards.js';
-import { openSpotlight } from './search.js';
+import { focusGeneralSearch } from './search.js';
 import { showVisualView } from './experience.js';
 
 const LAST_VIEW_KEY = 'dgx_last_view';
@@ -20,7 +20,7 @@ export function bindNavigation(){
   if(showAll) showAll.addEventListener('click', () => {
     revealWorkspace(false);
     state.categoria = 'all'; state.query = '';
-    const input = document.getElementById('spotlight-input');
+    const input = document.getElementById('general-search-input');
     if(input) input.value = '';
     window.dispatchEvent(new CustomEvent('dgx:filtersChanged'));
     renderTools(true);
@@ -58,7 +58,10 @@ export function nav(view, smooth = true){
   if(view === 'altas') document.getElementById('altas-curso')?.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});
   if(view === 'celebrations') document.getElementById('aniversarios-cumpleanos')?.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});
   if(view === 'informativo') document.getElementById('informativo')?.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});
-  if(view === 'search') openSpotlight();
+  if(view === 'search'){
+    revealWorkspace(false);
+    focusGeneralSearch();
+  }
   if(view === 'all') revealWorkspace();
   if(!['home','explore','search','saved','today','coffee','events','duty','weekly-summary','altas','celebrations','informativo','all','more'].includes(view)){
     document.getElementById(view)?.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});

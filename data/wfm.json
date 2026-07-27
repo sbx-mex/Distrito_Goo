@@ -1,5 +1,5 @@
 [
   {
-    "Regla WFM": "📅 WFM | Planeación Inteligente\n\nLa programación de horarios se realiza con 15 días de anticipación respecto a la semana de operación.\n\n━━━━━━━━━━━━━━━━━━━━\n\n📆 Hoy\n{DIA_ACTUAL}, {FECHA_ACTUAL}\n\n🎯 Semana en Planeación\nSemana {SEMANA}\n\n📅 {FECHA_INICIO} al {FECHA_FIN}\n\n━━━━━━━━━━━━━━━━━━━━\n\n✅ Actividad de hoy\n\n{ICONO} {ACTIVIDAD}\n\n{DESCRIPCION}\n\n━━━━━━━━━━━━━━━━━━━━\n\n⏭️ Siguiente paso\n\n{ICONO_SIGUIENTE} {ACTIVIDAD_SIGUIENTE}\n\n━━━━━━━━━━━━━━━━━━━━\n\n💡 La información se actualiza automáticamente con base en la fecha actual, mostrando siempre la semana que se encuentra en planeación."
+    "Regla WFM": "📅 WFM | Planeación Inteligente\n\nLa programación de horarios se prepara con 15 días de anticipación.\n\n━━━━━━━━━━━━━━━━━━━━\n\n📆 Hoy\n{DIA_ACTUAL}, {FECHA_ACTUAL}\n\n🎯 Semana en Planeación\nSemana {SEMANA}\n\n📅 {FECHA_INICIO} al {FECHA_FIN}\n\n━━━━━━━━━━━━━━━━━━━━\n\n✅ Actividad de Hoy\n\n{ICONO} {ACTIVIDAD}\n\n{DESCRIPCION}\n\n━━━━━━━━━━━━━━━━━━━━\n\n⏭️ Próxima Actividad\n\n{ICONO_SIGUIENTE} {ACTIVIDAD_SIGUIENTE}\n\n━━━━━━━━━━━━━━━━━━━━\n\n💡 La información se actualiza automáticamente según la fecha actual."
   }
 ]

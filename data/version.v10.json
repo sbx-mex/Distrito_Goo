@@ -1,5 +1,5 @@
 {
-  "version": "23.0.0",
+  "version": "24.0.0",
   "releaseDate": "2026-07-27",
   "changes": [
     "Maquila actualizada con mensaje único y recurso vigente.",
@@ -10,15 +10,16 @@
     "CMS automático con validación, rutas de imagen versionadas y publicación desde GitHub Actions.",
     "Imágenes pesadas con variante WebP y carga inicial reducida.",
     "Navegación agrupada con acceso prioritario a las actualizaciones de la semana.",
-    "Inicio visual con historias operativas, prioridad única y tarjetas fotográficas.",
-    "Explorar, búsqueda integral y Guardados locales sin backend.",
-    "Miniaturas WebP con respaldo al original y detalle en visor interno.",
-    "Vista clásica temporal disponible mediante parámetro de comparación."
+    "Inicio limpio con Hoy, Apertura, Peak, Personas y Semana.",
+    "Portadas estándar para Maquila, comunicados e infografías.",
+    "Eventos con filtros Próximos, Esta semana y Este mes.",
+    "Detalle completo en el visor interno, con originales preservados.",
+    "Spotlight, el atajo ⌘K y el cambio de tema fueron retirados."
   ],
   "notes": "La PWA conserva su arquitectura estática y las funciones existentes. El contenido visual se administra desde el CMS sin editar index.html.",
   "fecha": "2026-07-27",
-  "descripcion": "Inicio visual, historias operativas, Explorar, Guardados y CMS ampliado.",
+  "descripcion": "Lectura operativa limpia, accesos filtrables, portadas estándar y Eventos simplificado.",
   "updatedAt": "2026-07-27",
-  "runtimeFix": "v23.0.0",
+  "runtimeFix": "v24.0.0",
   "name": "Juntémonos Más"
 }

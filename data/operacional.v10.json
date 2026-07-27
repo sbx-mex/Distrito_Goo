@@ -2,8 +2,8 @@
   "eventos": [
     {
       "ID": "EVT-001",
-      "Actividad": "📖 CDD Q3",
-      "Contexto / Recordatorio": "Conversaciones de desempeño Q3",
+      "Actividad": "CDD Q3",
+      "Contexto / Recordatorio": "Realiza las conversaciones de desempeño del Q3.",
       "Fecha Inicio": "2026-07-01",
       "Fecha Fin": "2026-08-02",
       "Región": "Centro Norte",
@@ -18,7 +18,7 @@
     },
     {
       "ID": "EVT-002",
-      "Actividad": "👥 Best Talent - Cascada RD y DM",
+      "Actividad": "Best Talent - Cascada RD y DM",
       "Contexto / Recordatorio": "Sesiones de revisión y proyección de talento.",
       "Fecha Inicio": "2026-07-13",
       "Fecha Fin": "2026-07-31",
@@ -34,216 +34,8 @@
     },
     {
       "ID": "EVT-003",
-      "Actividad": "☀️ Campaña Summer 2026",
-      "Contexto / Recordatorio": "Inicio de campaña Summer; ejecución de bebidas, food, retail y promociones.",
-      "Fecha Inicio": "2026-07-20",
-      "Fecha Fin": "2026-08-30",
-      "Región": "Centro Norte",
-      "Distrito": "Enrique Cesar Flores",
-      "Tienda": "Todas",
-      "Publicar": true,
-      "Imagen": "☀️",
-      "Link": "",
-      "ImagenPath": "",
-      "MiniaturaPath": "",
-      "ImagenOriginal": ""
-    },
-    {
-      "ID": "EVT-004",
-      "Actividad": "🥥 Coconut Ube Platform",
-      "Contexto / Recordatorio": "Lanzamiento de Coconut Ube Latte y Frappuccino.",
-      "Fecha Inicio": "2026-07-20",
-      "Fecha Fin": "2026-08-30",
-      "Región": "Centro Norte",
-      "Distrito": "Enrique Cesar Flores",
-      "Tienda": "Todas",
-      "Publicar": true,
-      "Imagen": "🥥",
-      "Link": "",
-      "ImagenPath": "",
-      "MiniaturaPath": "",
-      "ImagenOriginal": ""
-    },
-    {
-      "ID": "EVT-005",
-      "Actividad": "☕ Aerocano",
-      "Contexto / Recordatorio": "Nueva plataforma de Espresso aireado.",
-      "Fecha Inicio": "2026-07-20",
-      "Fecha Fin": "2026-08-30",
-      "Región": "Centro Norte",
-      "Distrito": "Enrique Cesar Flores",
-      "Tienda": "Todas",
-      "Publicar": true,
-      "Imagen": "☕",
-      "Link": "",
-      "ImagenPath": "",
-      "MiniaturaPath": "",
-      "ImagenOriginal": ""
-    },
-    {
-      "ID": "EVT-006",
-      "Actividad": "💪 Protein Lattes",
-      "Contexto / Recordatorio": "Nueva línea de bebidas con proteína.",
-      "Fecha Inicio": "2026-07-20",
-      "Fecha Fin": "2026-08-30",
-      "Región": "Centro Norte",
-      "Distrito": "Enrique Cesar Flores",
-      "Tienda": "Todas",
-      "Publicar": true,
-      "Imagen": "💪",
-      "Link": "",
-      "ImagenPath": "",
-      "MiniaturaPath": "",
-      "ImagenOriginal": ""
-    },
-    {
-      "ID": "EVT-007",
-      "Actividad": "🥤 Strato Frappuccino",
-      "Contexto / Recordatorio": "Nueva plataforma Frappuccino con Cold Foam.",
-      "Fecha Inicio": "2026-07-20",
-      "Fecha Fin": "2026-08-30",
-      "Región": "Centro Norte",
-      "Distrito": "Enrique Cesar Flores",
-      "Tienda": "Todas",
-      "Publicar": true,
-      "Imagen": "🥤",
-      "Link": "",
-      "ImagenPath": "",
-      "MiniaturaPath": "",
-      "ImagenOriginal": ""
-    },
-    {
-      "ID": "EVT-008",
-      "Actividad": "🥪 Nueva Focaccia",
-      "Contexto / Recordatorio": "Innovación Food. Revisar producción y disponibilidad.",
-      "Fecha Inicio": "2026-07-20",
-      "Fecha Fin": "2026-08-30",
-      "Región": "Centro Norte",
-      "Distrito": "Enrique Cesar Flores",
-      "Tienda": "Todas",
-      "Publicar": true,
-      "Imagen": "🥪",
-      "Link": "",
-      "ImagenPath": "",
-      "MiniaturaPath": "",
-      "ImagenOriginal": ""
-    },
-    {
-      "ID": "EVT-009",
-      "Actividad": "🍩 Dona Ube",
-      "Contexto / Recordatorio": "Nuevo producto de temporada Food.",
-      "Fecha Inicio": "2026-07-20",
-      "Fecha Fin": "2026-08-30",
-      "Región": "Centro Norte",
-      "Distrito": "Enrique Cesar Flores",
-      "Tienda": "Todas",
-      "Publicar": true,
-      "Imagen": "🍩",
-      "Link": "",
-      "ImagenPath": "",
-      "MiniaturaPath": "",
-      "ImagenOriginal": ""
-    },
-    {
-      "ID": "EVT-010",
-      "Actividad": "🦄 Cake Pop Unicorn",
-      "Contexto / Recordatorio": "Nuevo producto de temporada Food.",
-      "Fecha Inicio": "2026-07-20",
-      "Fecha Fin": "2026-08-30",
-      "Región": "Centro Norte",
-      "Distrito": "Enrique Cesar Flores",
-      "Tienda": "Todas",
-      "Publicar": true,
-      "Imagen": "🦄",
-      "Link": "",
-      "ImagenPath": "",
-      "MiniaturaPath": "",
-      "ImagenOriginal": ""
-    },
-    {
-      "ID": "EVT-011",
-      "Actividad": "🍰 Cheesecake Brulée de Limón",
-      "Contexto / Recordatorio": "Nuevo producto de temporada Food.",
-      "Fecha Inicio": "2026-07-20",
-      "Fecha Fin": "2026-08-30",
-      "Región": "Centro Norte",
-      "Distrito": "Enrique Cesar Flores",
-      "Tienda": "Todas",
-      "Publicar": true,
-      "Imagen": "🍰",
-      "Link": "",
-      "ImagenPath": "",
-      "MiniaturaPath": "",
-      "ImagenOriginal": ""
-    },
-    {
-      "ID": "EVT-012",
-      "Actividad": "🥭 Mango Enchilado",
-      "Contexto / Recordatorio": "Innovación Retail Attach para incrementar ticket.",
-      "Fecha Inicio": "2026-07-20",
-      "Fecha Fin": "2026-08-30",
-      "Región": "Centro Norte",
-      "Distrito": "Enrique Cesar Flores",
-      "Tienda": "Todas",
-      "Publicar": true,
-      "Imagen": "🥭",
-      "Link": "",
-      "ImagenPath": "",
-      "MiniaturaPath": "",
-      "ImagenOriginal": ""
-    },
-    {
-      "ID": "EVT-013",
-      "Actividad": "🧀 Snack Box",
-      "Contexto / Recordatorio": "Nueva opción Retail Lobby.",
-      "Fecha Inicio": "2026-07-20",
-      "Fecha Fin": "2026-08-30",
-      "Región": "Centro Norte",
-      "Distrito": "Enrique Cesar Flores",
-      "Tienda": "Todas",
-      "Publicar": true,
-      "Imagen": "🧀",
-      "Link": "",
-      "ImagenPath": "",
-      "MiniaturaPath": "",
-      "ImagenOriginal": ""
-    },
-    {
-      "ID": "EVT-014",
-      "Actividad": "🌍 Kati Kati Blend",
-      "Contexto / Recordatorio": "Café de temporada para Retail y Coffee Experience.",
-      "Fecha Inicio": "2026-07-20",
-      "Fecha Fin": "2026-08-30",
-      "Región": "Centro Norte",
-      "Distrito": "Enrique Cesar Flores",
-      "Tienda": "Todas",
-      "Publicar": true,
-      "Imagen": "🌍",
-      "Link": "",
-      "ImagenPath": "",
-      "MiniaturaPath": "",
-      "ImagenOriginal": ""
-    },
-    {
-      "ID": "EVT-015",
-      "Actividad": "⭐ Starbucks Rewards Summer",
-      "Contexto / Recordatorio": "Promociones diferenciadas por día en Starbucks Rewards.",
-      "Fecha Inicio": "2026-07-20",
-      "Fecha Fin": "2026-08-16",
-      "Región": "Centro Norte",
-      "Distrito": "Enrique Cesar Flores",
-      "Tienda": "Todas",
-      "Publicar": true,
-      "Imagen": "⭐",
-      "Link": "",
-      "ImagenPath": "",
-      "MiniaturaPath": "",
-      "ImagenOriginal": ""
-    },
-    {
-      "ID": "EVT-016",
-      "Actividad": "📚 Mujeres que Inspiran - Club de Lectura",
-      "Contexto / Recordatorio": "Sesión de desarrollo y reflexión.",
+      "Actividad": "Mujeres que Inspiran - Club de Lectura",
+      "Contexto / Recordatorio": "Sesión de lectura, reflexión y desarrollo.",
       "Fecha Inicio": "2026-07-28",
       "Fecha Fin": "2026-07-28",
       "Región": "Centro Norte",
@@ -257,9 +49,9 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-017",
-      "Actividad": "🛡️ AutoICA",
-      "Contexto / Recordatorio": "Ejecutar AutoICA de todas las tiendas. Validar evidencias, corregir hallazgos...",
+      "ID": "EVT-004",
+      "Actividad": "️ AutoICA",
+      "Contexto / Recordatorio": "Ejecuta AutoICA y da seguimiento a hallazgos.",
       "Fecha Inicio": "2026-08-01",
       "Fecha Fin": "2026-08-05",
       "Región": "Centro Norte",
@@ -273,9 +65,9 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-018",
-      "Actividad": "📅 Corte de Nómina",
-      "Contexto / Recordatorio": "Ejecutar y validar incidencias del periodo del 16 al 31 de julio.",
+      "ID": "EVT-005",
+      "Actividad": "Corte de Nómina",
+      "Contexto / Recordatorio": "Valida incidencias del 16 al 31 de julio.",
       "Fecha Inicio": "2026-08-02",
       "Fecha Fin": "2026-08-03",
       "Región": "Centro Norte",
@@ -289,9 +81,9 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-019",
-      "Actividad": "🌟 Best Talent - Cascada DM - SM",
-      "Contexto / Recordatorio": "Inicio de calibraciones y desarrollo DM-SM.",
+      "ID": "EVT-006",
+      "Actividad": "Best Talent - Cascada DM - SM",
+      "Contexto / Recordatorio": "Calibración y desarrollo de talento DM-SM.",
       "Fecha Inicio": "2026-08-03",
       "Fecha Fin": "2026-08-31",
       "Región": "Centro Norte",
@@ -305,9 +97,9 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-020",
-      "Actividad": "⬆️ Upsize sin costo adicional",
-      "Contexto / Recordatorio": "Promoción para impulsar ADTs.",
+      "ID": "EVT-007",
+      "Actividad": "️ Upsize sin costo adicional",
+      "Contexto / Recordatorio": "Impulsa el incremento de ADTs.",
       "Fecha Inicio": "2026-08-03",
       "Fecha Fin": "2026-08-09",
       "Región": "Centro Norte",
@@ -321,9 +113,9 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-021",
-      "Actividad": "🎥 Coffee Webinar",
-      "Contexto / Recordatorio": "Sesión virtual para Coffee Masters.",
+      "ID": "EVT-008",
+      "Actividad": "Coffee Webinar",
+      "Contexto / Recordatorio": "Webinar para Coffee Masters.",
       "Fecha Inicio": "2026-08-13",
       "Fecha Fin": "2026-08-13",
       "Región": "Centro Norte",
@@ -337,9 +129,9 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-022",
-      "Actividad": "📅 Corte de Nómina",
-      "Contexto / Recordatorio": "Ejecutar y validar incidencias del periodo del 1 al 15 de agosto.",
+      "ID": "EVT-009",
+      "Actividad": "Corte de Nómina",
+      "Contexto / Recordatorio": "Valida incidencias del 1 al 15 de agosto.",
       "Fecha Inicio": "2026-08-16",
       "Fecha Fin": "2026-08-17",
       "Región": "Centro Norte",
@@ -353,9 +145,9 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-023",
-      "Actividad": "☕ Seminario de Café",
-      "Contexto / Recordatorio": "Ejecución del Seminario para Coffee Masters.",
+      "ID": "EVT-010",
+      "Actividad": "Seminario de Café",
+      "Contexto / Recordatorio": "Seminario para Coffee Masters.",
       "Fecha Inicio": "2026-08-17",
       "Fecha Fin": "2026-08-23",
       "Región": "Centro Norte",
@@ -369,9 +161,9 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-024",
-      "Actividad": "🚀 Mujeres que Inspiran - Abriendo Camino",
-      "Contexto / Recordatorio": "Sesión de capacitación formal.",
+      "ID": "EVT-011",
+      "Actividad": "Mujeres que Inspiran - Abriendo Camino",
+      "Contexto / Recordatorio": "Sesión de desarrollo y liderazgo.",
       "Fecha Inicio": "2026-08-25",
       "Fecha Fin": "2026-08-25",
       "Región": "Centro Norte",
@@ -385,9 +177,9 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-025",
-      "Actividad": "📅 Corte de Nómina",
-      "Contexto / Recordatorio": "Ejecutar y validar incidencias del periodo del 16 al 31 de agosto.",
+      "ID": "EVT-012",
+      "Actividad": "Corte de Nómina",
+      "Contexto / Recordatorio": "Valida incidencias del 16 al 31 de agosto.",
       "Fecha Inicio": "2026-08-31",
       "Fecha Fin": "2026-09-01",
       "Región": "Centro Norte",
@@ -401,9 +193,9 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-026",
-      "Actividad": "🛡️ AutoICA",
-      "Contexto / Recordatorio": "Ejecutar AutoICA de todas las tiendas. Validar evidencias, corregir hallazgos...",
+      "ID": "EVT-013",
+      "Actividad": "️ AutoICA",
+      "Contexto / Recordatorio": "Ejecuta AutoICA y da seguimiento a hallazgos.",
       "Fecha Inicio": "2026-09-01",
       "Fecha Fin": "2026-09-05",
       "Región": "Centro Norte",
@@ -417,9 +209,9 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-027",
-      "Actividad": "📅 Corte de Nómina",
-      "Contexto / Recordatorio": "Ejecutar y validar incidencias del periodo del 1 al 15 de septiembre.",
+      "ID": "EVT-014",
+      "Actividad": "Corte de Nómina",
+      "Contexto / Recordatorio": "Valida incidencias del 1 al 15 de septiembre.",
       "Fecha Inicio": "2026-09-16",
       "Fecha Fin": "2026-09-17",
       "Región": "Centro Norte",
@@ -433,9 +225,9 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-028",
-      "Actividad": "🎤 Mujeres que Inspiran - Voces que Inspiran",
-      "Contexto / Recordatorio": "Conversaciones con líderes y desarrollo profesional.",
+      "ID": "EVT-015",
+      "Actividad": "Mujeres que Inspiran - Voces que Inspiran",
+      "Contexto / Recordatorio": "Conversaciones con líderes inspiradores.",
       "Fecha Inicio": "2026-09-29",
       "Fecha Fin": "2026-09-29",
       "Región": "Centro Norte",
@@ -449,9 +241,9 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-029",
-      "Actividad": "📅 Corte de Nómina",
-      "Contexto / Recordatorio": "Ejecutar y validar incidencias del periodo del 16 al 30 de septiembre.",
+      "ID": "EVT-016",
+      "Actividad": "Corte de Nómina",
+      "Contexto / Recordatorio": "Valida incidencias del 16 al 30 de septiembre.",
       "Fecha Inicio": "2026-09-30",
       "Fecha Fin": "2026-10-01",
       "Región": "Centro Norte",
@@ -465,9 +257,9 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-030",
-      "Actividad": "💳 Inventario Pin Pad y TPV Q4",
-      "Contexto / Recordatorio": "Realiza en WOE la actualización de Pin Pad y TPVs.",
+      "ID": "EVT-017",
+      "Actividad": "Inventario Pin Pad y TPV Q4",
+      "Contexto / Recordatorio": "Actualiza el inventario de Pin Pad y TPV.",
       "Fecha Inicio": "2026-10-01",
       "Fecha Fin": "2026-10-10",
       "Región": "Centro Norte",
@@ -481,9 +273,9 @@
       "ImagenOriginal": "assets/photos/pinpad-atb-cambios.png?v=6791390d2399"
     },
     {
-      "ID": "EVT-031",
-      "Actividad": "🛡️ AutoICA",
-      "Contexto / Recordatorio": "Ejecutar AutoICA de todas las tiendas. Validar evidencias, corregir hallazgos...",
+      "ID": "EVT-018",
+      "Actividad": "️ AutoICA",
+      "Contexto / Recordatorio": "Ejecuta AutoICA y da seguimiento a hallazgos.",
       "Fecha Inicio": "2026-10-01",
       "Fecha Fin": "2026-10-05",
       "Región": "Centro Norte",
@@ -497,9 +289,9 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-032",
-      "Actividad": "📅 Corte de Nómina",
-      "Contexto / Recordatorio": "Ejecutar y validar incidencias del periodo del 1 al 15 de octubre.",
+      "ID": "EVT-019",
+      "Actividad": "Corte de Nómina",
+      "Contexto / Recordatorio": "Valida incidencias del 1 al 15 de octubre.",
       "Fecha Inicio": "2026-10-15",
       "Fecha Fin": "2026-10-16",
       "Región": "Centro Norte",
@@ -513,8 +305,8 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-033",
-      "Actividad": "📖 Mujeres que Inspiran - Entre Páginas",
+      "ID": "EVT-020",
+      "Actividad": "Mujeres que Inspiran - Entre Páginas",
       "Contexto / Recordatorio": "Club de lectura y aprendizaje compartido.",
       "Fecha Inicio": "2026-10-27",
       "Fecha Fin": "2026-10-27",
@@ -529,9 +321,9 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-034",
-      "Actividad": "🛡️ AutoICA",
-      "Contexto / Recordatorio": "Ejecutar AutoICA de todas las tiendas. Validar evidencias, corregir hallazgos...",
+      "ID": "EVT-021",
+      "Actividad": "️ AutoICA",
+      "Contexto / Recordatorio": "Ejecuta AutoICA y da seguimiento a hallazgos.",
       "Fecha Inicio": "2026-11-01",
       "Fecha Fin": "2026-11-05",
       "Región": "Centro Norte",
@@ -545,9 +337,9 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-035",
-      "Actividad": "📅 Corte de Nómina",
-      "Contexto / Recordatorio": "Ejecutar y validar incidencias del periodo del 16 al 31 de octubre.",
+      "ID": "EVT-022",
+      "Actividad": "Corte de Nómina",
+      "Contexto / Recordatorio": "Valida incidencias del 16 al 31 de octubre.",
       "Fecha Inicio": "2026-11-02",
       "Fecha Fin": "2026-11-03",
       "Región": "Centro Norte",
@@ -561,9 +353,9 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-036",
-      "Actividad": "📅 Corte de Nómina",
-      "Contexto / Recordatorio": "Ejecutar y validar incidencias del periodo del 1 al 15 de noviembre.",
+      "ID": "EVT-023",
+      "Actividad": "Corte de Nómina",
+      "Contexto / Recordatorio": "Valida incidencias del 1 al 15 de noviembre.",
       "Fecha Inicio": "2026-11-16",
       "Fecha Fin": "2026-11-17",
       "Región": "Centro Norte",
@@ -577,9 +369,9 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-037",
-      "Actividad": "📅 Corte de Nómina",
-      "Contexto / Recordatorio": "Ejecutar y validar incidencias del periodo del 16 al 30 de noviembre.",
+      "ID": "EVT-024",
+      "Actividad": "Corte de Nómina",
+      "Contexto / Recordatorio": "Valida incidencias del 16 al 30 de noviembre.",
       "Fecha Inicio": "2026-11-30",
       "Fecha Fin": "2026-12-01",
       "Región": "Centro Norte",
@@ -593,9 +385,9 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-038",
-      "Actividad": "🛡️ AutoICA",
-      "Contexto / Recordatorio": "Ejecutar AutoICA de todas las tiendas. Validar evidencias, corregir hallazgos...",
+      "ID": "EVT-025",
+      "Actividad": "️ AutoICA",
+      "Contexto / Recordatorio": "Ejecuta AutoICA y da seguimiento a hallazgos.",
       "Fecha Inicio": "2026-12-01",
       "Fecha Fin": "2026-12-05",
       "Región": "Centro Norte",
@@ -609,9 +401,9 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-039",
-      "Actividad": "📅 Corte de Nómina",
-      "Contexto / Recordatorio": "Ejecutar y validar incidencias del periodo del 1 al 15 de diciembre.",
+      "ID": "EVT-026",
+      "Actividad": "Corte de Nómina",
+      "Contexto / Recordatorio": "Valida incidencias del 1 al 15 de diciembre.",
       "Fecha Inicio": "2026-12-15",
       "Fecha Fin": "2026-12-16",
       "Región": "Centro Norte",
@@ -628,122 +420,129 @@
   "actividadesDiarias": [
     {
       "ID": 1,
-      "Actividad": "Verificación Espresso y Calidad del Café",
-      "Descripción": "Valida las verificaciones de Espresso y Calidad del Café, registra resultados y comentarios en cada turno.",
+      "Actividad": "Verificación Espresso",
+      "Descripción": "Valida Espresso, Calidad del Café y registra resultados.",
       "Frecuencia": "Diario",
       "Prioridad": 1,
       "Categoría": "Calidad",
       "Icono": "☕",
       "Color": "Marrón",
       "Visible": true,
+      "Acceso Rápido": "Hoy",
       "Recurso": "assets/photos/verificacion-cafe-espresso.webp?v=61e3213ae9ac",
       "MiniaturaRecurso": "assets/photos/verificacion-cafe-espresso.png?v=481f927a9ef9",
       "OriginalRecurso": "assets/photos/verificacion-cafe-espresso.png?v=481f927a9ef9",
       "TipoRecurso": "imagen",
-      "DescripcionBreve": "Valida las verificaciones de Espresso y Calidad del Café, registra resultados y comentarios en cada turno."
+      "DescripcionBreve": "Valida Espresso, Calidad del Café y registra resultados."
     },
     {
       "ID": 2,
       "Actividad": "RSA Checklist",
-      "Descripción": "Completa el RSA Checklist antes de las 10:00 a.m. y comparte evidencia de las correcciones realizadas.",
+      "Descripción": "Completa el RSA Checklist antes de las 10:00 a.m. y comparte evidencias.",
       "Frecuencia": "Diario",
       "Prioridad": 1,
       "Categoría": "Seguridad Alimentaria",
       "Icono": "🛡️",
       "Color": "Rojo",
       "Visible": true,
+      "Acceso Rápido": "Hoy",
       "Recurso": "https://sbx-mx.github.io/checklist-rsa-semaforo/",
       "MiniaturaRecurso": "",
       "OriginalRecurso": "",
       "TipoRecurso": "link",
-      "DescripcionBreve": "Completa el RSA Checklist antes de las 10:00 a.m. y comparte evidencia de las correcciones realizadas."
+      "DescripcionBreve": "Completa el RSA Checklist antes de las 10:00 a.m. y comparte evidencias."
     },
     {
       "ID": 3,
       "Actividad": "Store Walk",
-      "Descripción": "Realiza el recorrido diario de los 4 Estándares, identifica oportunidades y documenta acciones en el Daily Record Book.",
+      "Descripción": "Realiza el recorrido de los 4 Estándares y registra acciones.",
       "Frecuencia": "Diario",
       "Prioridad": 2,
       "Categoría": "Experiencia",
       "Icono": "🚶",
       "Color": "Verde",
       "Visible": true,
+      "Acceso Rápido": "Peak",
       "Recurso": "assets/photos/store-walk.webp?v=3400f53c1019",
       "MiniaturaRecurso": "assets/photos/store-walk.png?v=2a4bd1261db1",
       "OriginalRecurso": "assets/photos/store-walk.png?v=2a4bd1261db1",
       "TipoRecurso": "imagen",
-      "DescripcionBreve": "Realiza el recorrido diario de los 4 Estándares, identifica oportunidades y documenta acciones en el Daily Record Boo…"
+      "DescripcionBreve": "Realiza el recorrido de los 4 Estándares y registra acciones."
     },
     {
       "ID": 4,
       "Actividad": "Protocolo de Apertura",
-      "Descripción": "Antes de las 09:00 a.m. envía al equipo de Excelencia únicamente incidencias o desviaciones detectadas.",
+      "Descripción": "Antes de las 09:00 a.m. reporta únicamente incidencias o desviaciones.",
       "Frecuencia": "Diario",
       "Prioridad": 1,
       "Categoría": "Operación",
       "Icono": "🌅",
       "Color": "Azul",
       "Visible": true,
+      "Acceso Rápido": "Apertura",
       "Recurso": "assets/photos/Rutina_apertura.jpeg?v=510a6564c19a",
       "MiniaturaRecurso": "assets/photos/Rutina_apertura.jpeg?v=510a6564c19a",
       "OriginalRecurso": "assets/photos/Rutina_apertura.jpeg?v=510a6564c19a",
       "TipoRecurso": "imagen",
-      "DescripcionBreve": "Antes de las 09:00 a.m. envía al equipo de Excelencia únicamente incidencias o desviaciones detectadas."
+      "DescripcionBreve": "Antes de las 09:00 a.m. reporta únicamente incidencias o desviaciones."
     },
     {
       "ID": 5,
-      "Actividad": "10 Pasos para un Turno Exitoso",
-      "Descripción": "Revisa y ejecuta los 10 Pasos para un Turno Exitoso antes de iniciar la operación.",
+      "Actividad": "10 pasos para un turno exitoso",
+      "Descripción": "Ejecuta los 10 Pasos durante tu turno",
       "Frecuencia": "Diario",
       "Prioridad": 2,
       "Categoría": "Liderazgo",
       "Icono": "🔟",
       "Color": "Naranja",
       "Visible": true,
+      "Acceso Rápido": "Peak",
       "Recurso": "assets/photos/10-pasos-turno.webp?v=8d2da38bd7f1",
       "MiniaturaRecurso": "assets/photos/10-pasos-turno.png?v=5d69b79bcd4e",
       "OriginalRecurso": "assets/photos/10-pasos-turno.png?v=5d69b79bcd4e",
       "TipoRecurso": "imagen",
-      "DescripcionBreve": "Revisa y ejecuta los 10 Pasos para un Turno Exitoso antes de iniciar la operación."
+      "DescripcionBreve": "Ejecuta los 10 Pasos durante tu turno"
     },
     {
       "ID": 6,
       "Actividad": "Menu Core",
-      "Descripción": "Verifica la disponibilidad de productos, horarios y estatus operativo antes del inicio del turno.",
+      "Descripción": "Verifica disponibilidad, horarios y estatus operativo.",
       "Frecuencia": "Diario",
       "Prioridad": 2,
       "Categoría": "Operación",
       "Icono": "📋",
       "Color": "Morado",
       "Visible": true,
+      "Acceso Rápido": "Apertura",
       "Recurso": "http://consulta.delivery.alsea.net/",
       "MiniaturaRecurso": "",
       "OriginalRecurso": "",
       "TipoRecurso": "link",
-      "DescripcionBreve": "Verifica la disponibilidad de productos, horarios y estatus operativo antes del inicio del turno."
+      "DescripcionBreve": "Verifica disponibilidad, horarios y estatus operativo."
     },
     {
       "ID": 7,
       "Actividad": "Corte de Leche",
-      "Descripción": "Verifica que las estaciones CBS y Espresso cuenten con tijeras asignadas y que el corte de bolsas sea el correcto para evitar contaminación, desperdicio y asegurar la calidad del producto.",
+      "Descripción": "Verifica el corte correcto uso de tijeras",
       "Frecuencia": "Diario",
       "Prioridad": 1,
       "Categoría": "Operación",
       "Icono": "🥛",
       "Color": "Celeste",
       "Visible": true,
+      "Acceso Rápido": "Peak",
       "Recurso": "assets/photos/cortado_leche.webp?v=3101b2235a79",
       "MiniaturaRecurso": "assets/photos/cortado_leche.jpeg?v=96d84fce8098",
       "OriginalRecurso": "assets/photos/cortado_leche.jpeg?v=96d84fce8098",
       "TipoRecurso": "imagen",
-      "DescripcionBreve": "Verifica que las estaciones CBS y Espresso cuenten con tijeras asignadas y que el corte de bolsas sea el correcto par…"
+      "DescripcionBreve": "Verifica el corte correcto uso de tijeras"
     }
   ],
   "actividadesSemanales": [
     {
       "ID": 1,
       "Actividad": "WFM - Pronóstico",
-      "Descripción": "Revisa y ajusta el pronóstico de volumen de la semana que se planificará dentro de 15 días.",
+      "Descripción": "Revisa y ajusta el pronóstico de la semana en planeación.",
       "Día": "Lunes",
       "Hora / Corte": "",
       "Icono": "📈",
@@ -753,7 +552,7 @@
     {
       "ID": 2,
       "Actividad": "Green Apron Review",
-      "Descripción": "Analiza los 4 estándares y registra el resultado.",
+      "Descripción": "Evalúa los 4 estándares y registra el resultado.",
       "Día": "Lunes",
       "Hora / Corte": "Antes de 4:00 pm",
       "Icono": "🚀",
@@ -773,7 +572,7 @@
     {
       "ID": 4,
       "Actividad": "Gastos Concur",
-      "Descripción": "Registra y valida gastos pendientes.",
+      "Descripción": "Registra y valida los gastos pendientes.",
       "Día": "Lunes",
       "Hora / Corte": "",
       "Icono": "💳",
@@ -793,7 +592,7 @@
     {
       "ID": 6,
       "Actividad": "Workvivo",
-      "Descripción": "Realiza la publicación semanal en Workvivo.",
+      "Descripción": "Comparte la publicación semanal.",
       "Día": "Lunes",
       "Hora / Corte": "",
       "Icono": "📱",
@@ -803,7 +602,7 @@
     {
       "ID": 7,
       "Actividad": "Starbucks College",
-      "Descripción": "Valida el avance de cursos en Ubits.",
+      "Descripción": "Revisa el avance de cursos en Ubits.",
       "Día": "Martes",
       "Hora / Corte": "",
       "Icono": "🎓",
@@ -812,8 +611,8 @@
     },
     {
       "ID": 8,
-      "Actividad": "Coffee Tuesday",
-      "Descripción": "Participa con los clientes en degustaciones y genera una experiencia memorable.",
+      "Actividad": "#CoffeeMartes",
+      "Descripción": "Genera una experiencia memorable con degustaciones.",
       "Día": "Martes",
       "Hora / Corte": "",
       "Icono": "☕",
@@ -823,7 +622,7 @@
     {
       "ID": 9,
       "Actividad": "WFM - Carga Inicial",
-      "Descripción": "Realiza la carga inicial de horarios de la semana que se planificará dentro de 15 días.",
+      "Descripción": "Realiza la carga inicial de horarios.",
       "Día": "Martes",
       "Hora / Corte": "",
       "Icono": "📅",
@@ -833,7 +632,7 @@
     {
       "ID": 10,
       "Actividad": "WFM - Disponibilidades",
-      "Descripción": "Actualiza disponibilidades, vacaciones, permisos y restricciones de partners.",
+      "Descripción": "Actualiza disponibilidades, permisos y vacaciones.",
       "Día": "Miércoles",
       "Hora / Corte": "",
       "Icono": "👥",
@@ -843,7 +642,7 @@
     {
       "ID": 11,
       "Actividad": "WFM - Ajustes",
-      "Descripción": "Revisa los horarios generados por Kronos, realiza ajustes operativos y agrega actividades Non-Coverage.",
+      "Descripción": "Ajusta horarios y actividades Non-Coverage.",
       "Día": "Jueves",
       "Hora / Corte": "",
       "Icono": "⚙️",
@@ -853,7 +652,7 @@
     {
       "ID": 12,
       "Actividad": "Comunicado Semanal",
-      "Descripción": "Revisa el comunicado semanal y comparte los puntos relevantes con el equipo.",
+      "Descripción": "Revisa y comparte los puntos clave del comunicado.",
       "Día": "Viernes",
       "Hora / Corte": "",
       "Icono": "📢",
@@ -863,7 +662,7 @@
     {
       "ID": 13,
       "Actividad": "WFM - Revisión DM",
-      "Descripción": "El DM revisa los horarios y comunica observaciones o ajustes requeridos.",
+      "Descripción": "Revisa horarios y comunica observaciones.",
       "Día": "Viernes",
       "Hora / Corte": "",
       "Icono": "✅",
@@ -873,7 +672,7 @@
     {
       "ID": 14,
       "Actividad": "WFM - Publicación",
-      "Descripción": "Realiza las correcciones finales y publica los horarios en Humanet antes del domingo.",
+      "Descripción": "Publica los horarios finales en Humanet.",
       "Día": "Sábado",
       "Hora / Corte": "",
       "Icono": "🚀",
@@ -883,7 +682,7 @@
     {
       "ID": 15,
       "Actividad": "WFM - Validación Final",
-      "Descripción": "Verifica que los horarios publicados sean correctos y listos para iniciar la semana.",
+      "Descripción": "Confirma que los horarios estén listos para operar.",
       "Día": "Domingo",
       "Hora / Corte": "",
       "Icono": "📤",
@@ -899,6 +698,7 @@
       "Imágenes": "lunes_food.png",
       "Color": "Naranja",
       "Enfoque": "Seguridad alimentaria, caducidades, refrigeración y preparación de alimentos.",
+      "Acceso Rápido": "Peak",
       "ImagenesPath": [
         "assets/premium/duty-roster/lunes_food.png?v=c0ece6d8dfa9"
       ],
@@ -919,6 +719,7 @@
       "Imágenes": "martes_pic.png, martes_lobby.png",
       "Color": "Rojo / Verde",
       "Enfoque": "Cumplimiento, seguridad alimentaria, limpieza y experiencia del cliente.",
+      "Acceso Rápido": "Peak",
       "ImagenesPath": [
         "assets/premium/duty-roster/martes_pic.webp?v=e9151bbad743",
         "assets/premium/duty-roster/martes_lobby.png?v=470aef546064"
@@ -942,6 +743,7 @@
       "Imágenes": "miercoles_boh.png",
       "Color": "Azul",
       "Enfoque": "Orden, limpieza profunda y seguridad alimentaria BOH.",
+      "Acceso Rápido": "Peak",
       "ImagenesPath": [
         "assets/premium/duty-roster/miercoles_boh.webp?v=9fe18616b6e9"
       ],
@@ -962,6 +764,7 @@
       "Imágenes": "jueves_espresso.png, jueves_lobby.png",
       "Color": "Café / Verde",
       "Enfoque": "Calidad de bebidas, ejecución de barra y experiencia del cliente.",
+      "Acceso Rápido": "Peak",
       "ImagenesPath": [
         "assets/premium/duty-roster/jueves_espresso.png?v=2f0780756188",
         "assets/premium/duty-roster/jueves_lobby.png?v=46a12a539650"
@@ -985,6 +788,7 @@
       "Imágenes": "viernes_cafe_filtrado.png",
       "Color": "Naranja",
       "Enfoque": "Seguimiento a seguridad alimentaria y condiciones Food.",
+      "Acceso Rápido": "Peak",
       "ImagenesPath": [
         "assets/premium/duty-roster/viernes_cafe_filtrado.png?v=82772032c6fa"
       ],
@@ -1005,6 +809,7 @@
       "Imágenes": "sabado_cbs.png",
       "Color": "Azul",
       "Enfoque": "Equipos críticos, limpieza profunda y preparación operativa.",
+      "Acceso Rápido": "Peak",
       "ImagenesPath": [
         "assets/premium/duty-roster/sabado_cbs.png?v=72dc17ed98c1"
       ],
@@ -1025,6 +830,7 @@
       "Imágenes": "domingo_lobby.png, domingo_drive_thru.png",
       "Color": "Verde",
       "Enfoque": "Experiencia del cliente y apariencia general de la tienda.",
+      "Acceso Rápido": "Peak",
       "ImagenesPath": [
         "assets/premium/duty-roster/domingo_lobby.png?v=1fd8ed0d1a57",
         "assets/premium/duty-roster/domingo_drive_thru.png?v=8aeb63083143"
@@ -2006,7 +1812,7 @@
   },
   "wfm": [
     {
-      "Regla WFM": "📅 WFM | Planeación Inteligente\n\nLa programación de horarios se realiza con 15 días de anticipación respecto a la semana de operación.\n\n━━━━━━━━━━━━━━━━━━━━\n\n📆 Hoy\n{DIA_ACTUAL}, {FECHA_ACTUAL}\n\n🎯 Semana en Planeación\nSemana {SEMANA}\n\n📅 {FECHA_INICIO} al {FECHA_FIN}\n\n━━━━━━━━━━━━━━━━━━━━\n\n✅ Actividad de hoy\n\n{ICONO} {ACTIVIDAD}\n\n{DESCRIPCION}\n\n━━━━━━━━━━━━━━━━━━━━\n\n⏭️ Siguiente paso\n\n{ICONO_SIGUIENTE} {ACTIVIDAD_SIGUIENTE}\n\n━━━━━━━━━━━━━━━━━━━━\n\n💡 La información se actualiza automáticamente con base en la fecha actual, mostrando siempre la semana que se encuentra en planeación."
+      "Regla WFM": "📅 WFM | Planeación Inteligente\n\nLa programación de horarios se prepara con 15 días de anticipación.\n\n━━━━━━━━━━━━━━━━━━━━\n\n📆 Hoy\n{DIA_ACTUAL}, {FECHA_ACTUAL}\n\n🎯 Semana en Planeación\nSemana {SEMANA}\n\n📅 {FECHA_INICIO} al {FECHA_FIN}\n\n━━━━━━━━━━━━━━━━━━━━\n\n✅ Actividad de Hoy\n\n{ICONO} {ACTIVIDAD}\n\n{DESCRIPCION}\n\n━━━━━━━━━━━━━━━━━━━━\n\n⏭️ Próxima Actividad\n\n{ICONO_SIGUIENTE} {ACTIVIDAD_SIGUIENTE}\n\n━━━━━━━━━━━━━━━━━━━━\n\n💡 La información se actualiza automáticamente según la fecha actual."
     }
   ],
   "cmsFuente": "Distrito_Go_CMS_v2_actualizado.xlsx",
@@ -2014,7 +1820,7 @@
     {
       "ID": 1,
       "Actividad": "Maquila",
-      "Descripción": "Valida tus ingresos de maquila con el costo más actual.",
+      "Descripción": "Consulta el costo actualizado de maquila.",
       "Frecuencia": "Diario",
       "Prioridad": 1,
       "Categoría": "Operación",
@@ -2027,41 +1833,43 @@
       "Orden": 2,
       "Mostrar Inicio": false,
       "Mostrar Explorar": true,
+      "Acceso Rápido": "Hoy",
       "Recurso": "assets/photos/maquila_actualizado.webp?v=12d143b2e9cd",
       "MiniaturaRecurso": "assets/photos/maquila_actualizado.png?v=d94b965a0432",
       "OriginalRecurso": "assets/photos/maquila_actualizado.png?v=d94b965a0432",
       "TipoRecurso": "imagen",
-      "DescripcionBreve": "Valida tus ingresos de maquila con el costo más actual."
+      "DescripcionBreve": "Consulta el costo actualizado de maquila."
     },
     {
       "ID": 2,
-      "Actividad": "Alineación Dress Code Portafolio",
-      "Descripción": "Consulta la alineación vigente de Dress Code para mantener una imagen consistente y profesional en todo el portafolio.",
+      "Actividad": "Dress Code Portafolio",
+      "Descripción": "Consulta el Dress Code vigente.",
       "Frecuencia": "Vigente",
       "Prioridad": 2,
-      "Categoría": "Informativo",
+      "Categoría": "Personas",
       "Icono": "👔",
       "Color": "Verde",
       "Visible": true,
-      "Etiqueta": "Vigente",
+      "Etiqueta": "",
       "Vigencia Inicio": "",
       "Vigencia Fin": "",
       "Orden": 4,
       "Mostrar Inicio": false,
       "Mostrar Explorar": true,
+      "Acceso Rápido": "Personas",
       "Recurso": "assets/photos/dresscode26.jpeg?v=23ebe8e0d939",
       "MiniaturaRecurso": "assets/photos/dresscode26.jpeg?v=23ebe8e0d939",
       "OriginalRecurso": "assets/photos/dresscode26.jpeg?v=23ebe8e0d939",
       "TipoRecurso": "imagen",
-      "DescripcionBreve": "Consulta la alineación vigente de Dress Code para mantener una imagen consistente y profesional en todo el portafolio."
+      "DescripcionBreve": "Consulta el Dress Code vigente."
     },
     {
       "ID": 3,
-      "Actividad": "Partners atentos a esta información de registro",
-      "Descripción": "Partners, revisemos esta información para asegurar un registro correcto y oportuno de entradas y salidas.",
+      "Actividad": "Registro Clock In/Out",
+      "Descripción": "Consulta el enfoque vigente de Clock In/Out.",
       "Frecuencia": "Vigente",
       "Prioridad": 3,
-      "Categoría": "Informativo",
+      "Categoría": "Personas",
       "Icono": "⏱️",
       "Color": "Verde",
       "Visible": true,
@@ -2071,19 +1879,20 @@
       "Orden": 5,
       "Mostrar Inicio": false,
       "Mostrar Explorar": true,
+      "Acceso Rápido": "Apertura",
       "Recurso": "assets/photos/clockin_out.jpg?v=ae93c0ed48b2",
       "MiniaturaRecurso": "assets/photos/clockin_out.jpg?v=ae93c0ed48b2",
       "OriginalRecurso": "assets/photos/clockin_out.jpg?v=ae93c0ed48b2",
       "TipoRecurso": "imagen",
-      "DescripcionBreve": "Partners, revisemos esta información para asegurar un registro correcto y oportuno de entradas y salidas."
+      "DescripcionBreve": "Consulta el enfoque vigente de Clock In/Out."
     },
     {
       "ID": 4,
       "Actividad": "Coffee Master 2026",
-      "Descripción": "¡Felicidades a nuestros Partners Coffee Master 2026! Reconocemos su pasión por el café, dedicación y compromiso con seguir compartiendo conocimiento en cada tienda del portafolio.",
+      "Descripción": "Reconoce a nuestros Coffee Master 2026.",
       "Frecuencia": "Anual",
       "Prioridad": 1,
-      "Categoría": "Reconocimiento",
+      "Categoría": "Personas",
       "Icono": "☕",
       "Color": "Verde",
       "Visible": true,
@@ -2093,19 +1902,20 @@
       "Orden": 3,
       "Mostrar Inicio": false,
       "Mostrar Explorar": true,
+      "Acceso Rápido": "Personas",
       "Recurso": "assets/photos/coffemaster26.jpeg?v=04918871ad02",
       "MiniaturaRecurso": "assets/photos/coffemaster26.jpeg?v=04918871ad02",
       "OriginalRecurso": "assets/photos/coffemaster26.jpeg?v=04918871ad02",
       "TipoRecurso": "imagen",
-      "DescripcionBreve": "¡Felicidades a nuestros Partners Coffee Master 2026! Reconocemos su pasión por el café, dedicación y compromiso con s…"
+      "DescripcionBreve": "Reconoce a nuestros Coffee Master 2026."
     },
     {
       "ID": 5,
-      "Actividad": "Resumen de Comunicado Semana Actual",
-      "Descripción": "Consulta los puntos clave y prioridades del comunicado correspondiente a la semana actual.",
+      "Actividad": "Resumen Semanal",
+      "Descripción": "Consulta los puntos clave de esta semana.",
       "Frecuencia": "Semanal",
       "Prioridad": 1,
-      "Categoría": "Actualizaciones de la semana",
+      "Categoría": "Semana",
       "Icono": "📣",
       "Color": "Verde",
       "Visible": true,
@@ -2115,11 +1925,12 @@
       "Orden": 1,
       "Mostrar Inicio": true,
       "Mostrar Explorar": true,
+      "Acceso Rápido": "Semana",
       "Recurso": "assets/photos/resumen_comunicado_semana_actual.png?v=3d4638a892e4",
       "MiniaturaRecurso": "assets/photos/resumen_comunicado_semana_actual.png?v=3d4638a892e4",
       "OriginalRecurso": "assets/photos/resumen_comunicado_semana_actual.png?v=3d4638a892e4",
       "TipoRecurso": "imagen",
-      "DescripcionBreve": "Consulta los puntos clave y prioridades del comunicado correspondiente a la semana actual."
+      "DescripcionBreve": "Consulta los puntos clave de esta semana."
     }
   ],
   "celebraciones": [
@@ -5842,5 +5653,5 @@
       "CECO": "01538862"
     }
   ],
-  "wfmRegla": "📅 WFM | Planeación Inteligente\n\nLa programación de horarios se realiza con 15 días de anticipación respecto a la semana de operación.\n\n━━━━━━━━━━━━━━━━━━━━\n\n📆 Hoy\n{DIA_ACTUAL}, {FECHA_ACTUAL}\n\n🎯 Semana en Planeación\nSemana {SEMANA}\n\n📅 {FECHA_INICIO} al {FECHA_FIN}\n\n━━━━━━━━━━━━━━━━━━━━\n\n✅ Actividad de hoy\n\n{ICONO} {ACTIVIDAD}\n\n{DESCRIPCION}\n\n━━━━━━━━━━━━━━━━━━━━\n\n⏭️ Siguiente paso\n\n{ICONO_SIGUIENTE} {ACTIVIDAD_SIGUIENTE}\n\n━━━━━━━━━━━━━━━━━━━━\n\n💡 La información se actualiza automáticamente con base en la fecha actual, mostrando siempre la semana que se encuentra en planeación."
+  "wfmRegla": "📅 WFM | Planeación Inteligente\n\nLa programación de horarios se prepara con 15 días de anticipación.\n\n━━━━━━━━━━━━━━━━━━━━\n\n📆 Hoy\n{DIA_ACTUAL}, {FECHA_ACTUAL}\n\n🎯 Semana en Planeación\nSemana {SEMANA}\n\n📅 {FECHA_INICIO} al {FECHA_FIN}\n\n━━━━━━━━━━━━━━━━━━━━\n\n✅ Actividad de Hoy\n\n{ICONO} {ACTIVIDAD}\n\n{DESCRIPCION}\n\n━━━━━━━━━━━━━━━━━━━━\n\n⏭️ Próxima Actividad\n\n{ICONO_SIGUIENTE} {ACTIVIDAD_SIGUIENTE}\n\n━━━━━━━━━━━━━━━━━━━━\n\n💡 La información se actualiza automáticamente según la fecha actual."
 }

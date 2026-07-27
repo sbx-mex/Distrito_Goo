@@ -1,4 +1,4 @@
-# Build y despliegue — experiencia visual v23
+# Build y despliegue — versión limpia v24
 
 ```bash
 python -m pip install -r requirements.txt
@@ -18,14 +18,6 @@ Al reemplazar `Distrito_Go_CMS_v2_actualizado.xlsx` en la raíz, `.github/workfl
 
 `resumen_comunicado_semana_actual.png` conserva su nombre, original y estrategia `network-first`; el Inicio utiliza su miniatura WebP y el visor presenta el recurso completo. Las demás imágenes generadas incluyen una versión por contenido en los JSON para evitar caché obsoleta.
 
-La experiencia nueva es la predeterminada. Para comparación temporal:
-
-```text
-?vista=clasica
-```
-
-Para regresar a la versión oficial:
-
-```text
-?vista=nueva
-```
+La versión limpia es la experiencia oficial. El workflow temporal
+`.github/workflows/limpieza-auditada.yml` debe retirarse porque la limpieza
+autorizada ya finalizó; conservar únicamente `actualizar-cms.yml`.

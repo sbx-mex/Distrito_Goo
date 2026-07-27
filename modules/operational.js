@@ -5,6 +5,7 @@ import { toast } from './toast.js';
 const today = new Date();
 const dayNames = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
 let periodFilter = 'week';
+let eventFilter = 'upcoming';
 let actionsBound = false;
 const deferredRendered = new Set();
 
@@ -78,25 +79,18 @@ function weeklyUpdateCard(item){
   return `<article class="weekly-update-card"><div class="weekly-update-copy"><span>Actualización vigente</span><h4>${escapeHtml(item.Actividad)}</h4><p>${escapeHtml(item.DescripcionBreve || item['Descripción'] || '')}</p>${renderResourceAction(item)}</div>${image}</article>`;
 }
 function eventCard(e){
-  const icon = e.Imagen || '📅';
   const title = e.Actividad || 'Evento';
   const dateLine = `${fmtDDMM(e['Fecha Inicio'])}${e['Fecha Fin'] ? ' al ' + fmtDDMM(e['Fecha Fin']) : ''}`;
-  const image = e.ImagenPath ? `<button class="mini-link image-link" type="button" data-image-viewer="${escapeHtml(e.ImagenPath)}" data-image-title="${escapeHtml(title)}">Ver imagen</button>` : '';
-  const link = e.Link ? `<a class="mini-link" href="${escapeHtml(e.Link)}" target="_blank" rel="noopener">Abrir link</a>` : '';
-  return `<article class="ops-card event-card"><div class="ops-icon">${icon}</div><div class="ops-content"><span class="event-date">${escapeHtml(dateLine)}</span><h4>${escapeHtml(title)}</h4><p>${escapeHtml(briefText(e['Contexto / Recordatorio'], 145))}</p><div class="inline-actions">${link}${image}</div></div></article>`;
+  return `<article class="ops-card event-card">
+    <button class="event-card-main" type="button" data-open-event-id="${escapeHtml(e.ID)}" aria-label="Abrir detalle de ${escapeHtml(title)}">
+      <span class="event-card-top"><span class="event-date">${escapeHtml(dateLine)}</span><span class="event-type">Evento</span></span>
+      <h4>${escapeHtml(title)}</h4>
+      <span class="event-open">Ver detalle →</span>
+    </button>
+  </article>`;
 }
 function eventGroups(events){
-  const groups = new Map();
-  for(const event of events){
-    const key = `${event['Fecha Inicio'] || ''}|${event['Fecha Fin'] || event['Fecha Inicio'] || ''}`;
-    if(!groups.has(key)) groups.set(key, []);
-    groups.get(key).push(event);
-  }
-  return [...groups.values()].map(group => {
-    const first = group[0];
-    const dateLine = `${fmtDDMM(first['Fecha Inicio'])}${first['Fecha Fin'] ? ' al ' + fmtDDMM(first['Fecha Fin']) : ''}`;
-    return `<section class="event-date-group"><header><div><span>📅</span><strong>${escapeHtml(dateLine)}</strong></div><small>${group.length} evento${group.length === 1 ? '' : 's'}</small></header><div class="event-group-grid">${group.map(eventCard).join('')}</div></section>`;
-  }).join('');
+  return events.map(eventCard).join('');
 }
 function celebrationEvents(start, end){
   const output = [];
@@ -230,13 +224,24 @@ export function renderInformativo(){
 }
 export function renderEvents(){
   const all = state.operacional.eventos || [];
-  const {start, end} = periodBounds();
+  const now = startOfDay(today);
+  const bounds = eventFilter === 'month'
+    ? periodBounds(today, 'month')
+    : periodBounds(today, 'week');
+  const {start, end} = bounds;
   const filtered = all.filter(e => e.Publicar !== false && inRange(e,start,end))
+    .filter(e => eventFilter !== 'upcoming' || (parseDate(e['Fecha Fin']) || parseDate(e['Fecha Inicio']) || now) >= now)
     .sort((a,b)=>(parseDate(a['Fecha Inicio'])||0)-(parseDate(b['Fecha Inicio'])||0));
-  const label = periodFilter === 'week' ? 'esta semana' : 'este mes';
-  setTextIfPresent('period-label', `${start.toLocaleDateString('es-MX',{day:'2-digit',month:'short'})} al ${end.toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'})}`);
-  setTextIfPresent('events-count', `${filtered.length} ${label}`);
-  setHtmlIfPresent('events-grid', eventGroups(filtered.slice(0,18)) || opsCard('Sin eventos en este periodo', 'No hay eventos publicados para el periodo seleccionado.', '📅'));
+  const upcoming = eventFilter === 'upcoming'
+    ? all.filter(e => e.Publicar !== false && (parseDate(e['Fecha Fin']) || parseDate(e['Fecha Inicio']) || now) >= now)
+        .sort((a,b)=>(parseDate(a['Fecha Inicio'])||0)-(parseDate(b['Fecha Inicio'])||0))
+    : filtered;
+  const visible = upcoming.slice(0,18);
+  const label = eventFilter === 'upcoming' ? 'próximos' : eventFilter === 'week' ? 'esta semana' : 'este mes';
+  setTextIfPresent('events-count', `${upcoming.length} ${label}`);
+  setHtmlIfPresent('events-grid', eventGroups(visible) || opsCard('Sin eventos vigentes', 'No hay eventos publicados para este periodo.', '📅'));
+  const celebrationBounds = periodBounds();
+  setTextIfPresent('period-label', `${celebrationBounds.start.toLocaleDateString('es-MX',{day:'2-digit',month:'short'})} al ${celebrationBounds.end.toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'})}`);
   renderCelebrations();
 }
 export function renderCelebrations(){
@@ -324,6 +329,35 @@ function bindOperationalActions(){
       periodFilter = segment.dataset.periodFilter;
       $$('[data-period-filter]').forEach(b=>b.classList.toggle('is-active', b===segment));
       renderEvents();
+      return;
+    }
+    const eventSegment = e.target.closest('[data-event-filter]');
+    if(eventSegment){
+      eventFilter = eventSegment.dataset.eventFilter || 'upcoming';
+      $$('[data-event-filter]').forEach(button => button.classList.toggle('is-active', button === eventSegment));
+      renderEvents();
+      return;
+    }
+    const eventCardButton = e.target.closest('[data-open-event-id]');
+    if(eventCardButton){
+      const item = (state.operacional.eventos || []).find(entry => String(entry.ID) === eventCardButton.dataset.openEventId);
+      if(!item) return;
+      const dateLine = `${fmtDDMM(item['Fecha Inicio'])}${item['Fecha Fin'] ? ' al ' + fmtDDMM(item['Fecha Fin']) : ''}`;
+      window.dispatchEvent(new CustomEvent('dgx:open-detail', {detail:{
+        trigger:eventCardButton,
+        item:{
+          id:`event-${item.ID}`,
+          title:item.Actividad || 'Evento',
+          description:item['Contexto / Recordatorio'] || '',
+          category:'Eventos',
+          label:'Próximo',
+          dateLabel:dateLine,
+          fullImage:item.ImagenPath || '',
+          imageOriginal:item.ImagenOriginal || item.ImagenPath || '',
+          link:item.Link || '',
+          section:'eventos-cms'
+        }
+      }}));
     }
   });
 }

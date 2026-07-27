@@ -1,4 +1,4 @@
-const CACHE_NAME = 'distrito-go-v23.0.0-experiencia-visual';
+const CACHE_NAME = 'distrito-go-v24.0.0-version-limpia';
 const APP_SHELL = [
   './',
   './index.html',
@@ -7,6 +7,7 @@ const APP_SHELL = [
   './styles/variables.css',
   './styles/app.css',
   './styles/experience.css',
+  './styles/clean.css',
   './data/categorias.v10.json',
   './data/herramientas.v10.json',
   './data/favoritos.v10.json',

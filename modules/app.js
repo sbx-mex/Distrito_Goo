@@ -2,7 +2,6 @@ import { state } from './state.js';
 import { loadData } from './data.js';
 import { $ } from './utils.js';
 import { toast } from './toast.js';
-import { setJSON, remove } from './storage.js';
 import { bindSearch } from './search.js';
 import { bindNavigation, revealWorkspace } from './navigation.js';
 import { bindPWA, bindPullToRefresh } from './pwa.js';
@@ -20,7 +19,6 @@ let lastQuickModalTrigger = null;
 async function boot(){
   bindStaticEvents();
   await loadData();
-  applyTheme();
   renderHeader();
   renderDashboard();
   renderQuickActions();
@@ -131,7 +129,6 @@ function updateClock(){
 }
 
 function bindStaticEvents(){
-  byId('theme-toggle')?.addEventListener('click', toggleTheme);
   byId('start-day')?.addEventListener('click', () => byId('dia-a-dia')?.scrollIntoView({behavior:'smooth', block:'start'}));
   byId('open-tools-panel')?.addEventListener('click', revealWorkspace);
   const toggleTools = $('#toggle-tools');
@@ -235,10 +232,12 @@ function openContentDetail(item, trigger){
   lastQuickModalTrigger = trigger || null;
   const link = safeDetailLink(item.link);
   const fullImage = item.fullImage || item.image || '';
+  const detailImage = item.imageOriginal || fullImage;
   const image = fullImage ? `<picture>
     ${String(fullImage).includes('.webp') ? `<source type="image/webp" srcset="${escapeHeroText(fullImage)}">` : ''}
-    <img class="visual-detail-media" src="${escapeHeroText(item.imageOriginal || item.image)}" alt="${escapeHeroText(item.title)}" width="1200" height="800" decoding="async">
+    <img class="visual-detail-media" src="${escapeHeroText(detailImage)}" alt="${escapeHeroText(item.title)}" width="1200" height="800" decoding="async">
   </picture>` : '';
+  const date = item.dateLabel ? `<p class="visual-detail-date">${escapeHeroText(item.dateLabel)}</p>` : '';
   const action = link
     ? `<a href="${escapeHeroText(link)}" target="_blank" rel="noopener">Abrir recurso</a>`
     : item.section ? `<button type="button" data-nav-target="${escapeHeroText(item.section)}">Ir a la sección</button>` : '';
@@ -246,6 +245,7 @@ function openContentDetail(item, trigger){
   setHtml('quick-modal-body', `<article class="visual-detail">
     ${image}
     <div class="visual-detail-meta"><span class="content-badge">${escapeHeroText(item.label || 'Actualizado')}</span><small>${escapeHeroText(item.category || item.source || '')}</small></div>
+    ${date}
     <p>${escapeHeroText(item.description || item.short || '')}</p>
     <div class="visual-detail-actions">${action}<button type="button" data-save-content="${escapeHeroText(item.id)}">♡ Guardar</button></div>
   </article>`);
@@ -313,19 +313,6 @@ function bindLazyLoading(){
     if(entries.some(entry => entry.isIntersecting)) loadMoreTools();
   }, {rootMargin:'360px'});
   observer.observe(sentinel);
-}
-
-function toggleTheme(){
-  const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-  document.documentElement.dataset.theme = next;
-  localStorage.setItem('dgx_theme', next);
-  setText('theme-toggle', next === 'dark' ? '☀' : '☾');
-}
-
-function applyTheme(){
-  const saved = localStorage.getItem('dgx_theme') || 'light';
-  document.documentElement.dataset.theme = saved;
-  setText('theme-toggle', saved === 'dark' ? '☀' : '☾');
 }
 
 window.addEventListener('online', () => updateConnectionState());

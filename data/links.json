@@ -9,7 +9,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Consulta tu plan en tiempo real y mantén actualizado tu tablero de trabajo.",
+    "Notas": "Consulta y actualiza tu PBT en tiempo real.",
     "Favorito": "Sí",
     "Orden": 1
   },
@@ -23,7 +23,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Diseña, ajusta y valida layouts operativos.",
+    "Notas": "Diseña y valida layouts operativos.",
     "Favorito": "Sí",
     "Orden": 2
   },
@@ -37,7 +37,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Consulta Informacion y Estrategia de la Region CN",
+    "Notas": "Consulta información y estrategia de la Región CN.",
     "Favorito": "Sí",
     "Orden": 3
   },
@@ -51,7 +51,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Da seguimiento semanal a compromisos, avances y planes de acción.",
+    "Notas": "Da seguimiento a prioridades y planes de acción.",
     "Favorito": "Sí",
     "Orden": 4
   },
@@ -65,7 +65,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Optimiza inventarios ideales, estaciones y control de costo.",
+    "Notas": "Optimiza inventarios y estaciones.",
     "Favorito": "Sí",
     "Orden": 5
   },
@@ -79,7 +79,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Consulta e imprime planes por WeekPart, DayPart y dotación.",
+    "Notas": "Consulta planes por WeekPart y DayPart.",
     "Favorito": "Sí",
     "Orden": 6
   },
@@ -93,7 +93,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Consulta aniversarios, cumpleaños e información de Partners.",
+    "Notas": "Consulta información y reconocimientos de Partners.",
     "Favorito": "Sí",
     "Orden": 7
   },
@@ -107,7 +107,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Consulta históricos, tendencias y oportunidades por tienda.",
+    "Notas": "Analiza indicadores y tendencias por tienda.",
     "Favorito": "Sí",
     "Orden": 8
   },
@@ -121,7 +121,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Busca artículos, códigos y mercancía de forma rápida.",
+    "Notas": "Busca códigos y mercancía rápidamente.",
     "Favorito": "Sí",
     "Orden": 9
   },
@@ -135,7 +135,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Analiza faltantes, sobrantes y variaciones semanales.",
+    "Notas": "Analiza variaciones y oportunidades.",
     "Favorito": "Sí",
     "Orden": 10
   },
@@ -149,7 +149,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Analiza WFM, productividad y códigos de pago.",
+    "Notas": "Consulta productividad y WFM.",
     "Favorito": "Sí",
     "Orden": 11
   },
@@ -163,7 +163,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Consulta el reporte regional de KPIs.",
+    "Notas": "Consulta los KPIs de la región.",
     "Favorito": "Sí",
     "Orden": 12
   },
@@ -177,7 +177,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Revisa hallazgos, System Check y seguimiento operativo.",
+    "Notas": "Gestiona System Checks y hallazgos.",
     "Favorito": "Sí",
     "Orden": 13
   },
@@ -191,7 +191,7 @@
     "WebURL": "https://neo.frogmi.com/alsea-mexico/dashboard/gallery",
     "Package": "com.inzpiral.neofrogmi",
     "PlayStore": "https://play.google.com/store/apps/details?id=com.inzpiral.neofrogmi",
-    "Notas": "Enfoca tus System Checks, corrige hallazgos y mejora la ejecución.",
+    "Notas": "Realiza y corrige System Checks.",
     "Favorito": "Sí",
     "Orden": 14
   },
@@ -205,7 +205,7 @@
     "WebURL": "https://centro.operaciones.alsea.net/Login",
     "Package": "com.alsea.appmanager",
     "PlayStore": "https://play.google.com/store/apps/details?id=com.alsea.appmanager",
-    "Notas": "Abre el portal central de herramientas operativas.",
+    "Notas": "Accede a herramientas operativas.",
     "Favorito": "Sí",
     "Orden": 15
   },
@@ -219,7 +219,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Consulta tiempos operativos de tiendas Drive Thru.",
+    "Notas": "Consulta métricas de Drive Thru.",
     "Favorito": "No",
     "Orden": 16
   },
@@ -233,7 +233,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Realiza y da seguimiento a tu AutoICA mensual.",
+    "Notas": "Gestiona tu AutoICA mensual.",
     "Favorito": "No",
     "Orden": 17
   },
@@ -247,7 +247,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Monitorea indicadores de Experiencia del Cliente.",
+    "Notas": "Consulta indicadores de experiencia del cliente.",
     "Favorito": "No",
     "Orden": 18
   },
@@ -261,7 +261,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Accede a reportes e información estratégica.",
+    "Notas": "Accede a reportes y documentos del portafolio.",
     "Favorito": "Sí",
     "Orden": 19
   },
@@ -275,7 +275,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Consulta avances de capacitación y pendientes del equipo.",
+    "Notas": "Consulta avances de capacitación.",
     "Favorito": "No",
     "Orden": 20
   },
@@ -289,7 +289,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Plataforma de aprendizaje para Partners.",
+    "Notas": "Accede a tu plataforma de aprendizaje.",
     "Favorito": "No",
     "Orden": 21
   },
@@ -303,7 +303,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Completa cursos pendientes y mantén actualizado tu Kardex.",
+    "Notas": "Completa cursos y consulta tu Kardex.",
     "Favorito": "No",
     "Orden": 22
   },
@@ -317,7 +317,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Coaching, desarrollo y conversaciones de desempeño.",
+    "Notas": "Gestiona coaching y desarrollo.",
     "Favorito": "No",
     "Orden": 23
   },
@@ -331,7 +331,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Consulta desempeño y seguimiento de cédula de tienda.",
+    "Notas": "Consulta el desempeño de tu tienda.",
     "Favorito": "No",
     "Orden": 24
   },
@@ -345,7 +345,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Consulta campañas vigentes, materiales y comunicados.",
+    "Notas": "Consulta campañas y materiales vigentes.",
     "Favorito": "No",
     "Orden": 25
   },
@@ -359,7 +359,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Accede a materiales POP y recursos visuales.",
+    "Notas": "Descarga recursos y materiales POP.",
     "Favorito": "No",
     "Orden": 26
   },
@@ -373,7 +373,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Completa encuestas y escala riesgos operativos.",
+    "Notas": "Reporta y da seguimiento a riesgos.",
     "Favorito": "No",
     "Orden": 27
   },
@@ -387,7 +387,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Levanta tickets de soporte y da seguimiento.",
+    "Notas": "Levanta y consulta tickets.",
     "Favorito": "No",
     "Orden": 28
   },
@@ -401,7 +401,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Registra incidencias críticas mediante ticket.",
+    "Notas": "Registra incidencias críticas.",
     "Favorito": "No",
     "Orden": 29
   },
@@ -429,7 +429,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Consulta información de Partners y cortes de nómina.",
+    "Notas": "Consulta información de Partners.",
     "Favorito": "No",
     "Orden": 31
   },
@@ -443,7 +443,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Consulta recibos y movimientos de nómina.",
+    "Notas": "Consulta tus recibos de nómina.",
     "Favorito": "No",
     "Orden": 32
   },
@@ -457,7 +457,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Gestiona donaciones del programa Va por mi Cuenta.",
+    "Notas": "Gestiona tus aportaciones solidarias.",
     "Favorito": "No",
     "Orden": 33
   },
@@ -471,7 +471,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Consulta información de Caja de Ahorro.",
+    "Notas": "Consulta tu Caja de Ahorro.",
     "Favorito": "No",
     "Orden": 34
   },
@@ -485,7 +485,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Consulta coberturas y beneficios SGMM.",
+    "Notas": "Consulta beneficios y coberturas.",
     "Favorito": "No",
     "Orden": 35
   },
@@ -499,7 +499,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Administra la programación musical de tienda.",
+    "Notas": "Administra la música de tienda.",
     "Favorito": "No",
     "Orden": 36
   },
@@ -513,7 +513,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Consulta y valida programación musical.",
+    "Notas": "Consulta la programación musical.",
     "Favorito": "No",
     "Orden": 37
   },
@@ -527,7 +527,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Comunicación directa para apertura, riesgos y evidencias.",
+    "Notas": "Contacto directo con tu DM.",
     "Favorito": "Sí",
     "Orden": 38
   },
@@ -541,7 +541,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Realiza publicaciones y comparte la cultura que vives en tienda.",
+    "Notas": "Comparte y conecta con la comunidad.",
     "Favorito": "No",
     "Orden": 39
   },
@@ -555,7 +555,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Audita transferencias entre tiendas con foco operativo y conciliación rápida.",
+    "Notas": "Audita transferencias entre tiendas.",
     "Favorito": "Sí",
     "Orden": 12
   },
@@ -569,7 +569,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Visualiza compras, tendencias e indicadores de la Región Centro Norte.",
+    "Notas": "Consulta compras e indicadores.",
     "Favorito": "Sí",
     "Orden": 40
   },
@@ -583,7 +583,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Consulta recursos, colaboración y contenidos operativos de Espresso Hub.",
+    "Notas": "Accede a recursos de Espresso Hub.",
     "Favorito": "Sí",
     "Orden": 4
   },
@@ -597,7 +597,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Documenta y compara evidencias operativas antes y después de cada intervención.",
+    "Notas": "Documenta mejoras antes y después.",
     "Favorito": "Sí",
     "Orden": 12.6
   },
@@ -611,7 +611,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Mide el ritmo de producción de bebidas durante observaciones en tienda.",
+    "Notas": "Mide el ritmo de producción en tienda.",
     "Favorito": "Sí",
     "Orden": 12.7
   },
@@ -625,9 +625,9 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "",
-    "Favorito": "",
-    "Orden": ""
+    "Notas": "Gestiona y consulta tus gastos.",
+    "Favorito": "No",
+    "Orden": 41
   },
   {
     "Categoria": "Operación",
@@ -639,7 +639,7 @@
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
-    "Notas": "Registra observaciones de Drive Thru, identifica bloqueos y da seguimiento a la tasa de éxito.",
+    "Notas": "Evalúa la tasa de éxito en Drive Thru.",
     "Favorito": "Sí",
     "Orden": 12.8
   }

@@ -1,4 +1,4 @@
-# Distrito Goo — versión 23 · experiencia visual
+# Distrito Goo — versión 24 · lectura operativa limpia
 
 Distrito Goo continúa siendo una PWA 100% estática para GitHub Pages. Python se utiliza únicamente durante auditoría y compilación para validar el CMS y generar JSON; no forma parte del runtime ni requiere servidor.
 
@@ -9,7 +9,6 @@ Distrito Goo continúa siendo una PWA 100% estática para GitHub Pages. Python s
 - `tools/validate_cms.py`, `tools/build_data.py` y `tools/audit_links.py`: validan el CMS, generan JSON y producen auditorías reproducibles.
 - `tools/audit_static.py`: valida JSON, rutas locales, IDs HTML y APP_SHELL.
 - `.github/workflows/actualizar-cms.yml`: valida y publica cada reemplazo del CMS o de una imagen fuente.
-- `.github/workflows/limpieza-auditada.yml`: elimina únicamente rutas autorizadas por `ARCHIVOS_ELIMINADOS.txt`, con respaldo previo cuando aún existen.
 - `sw.js`: caché offline compatible con rutas relativas de GitHub Pages.
 
 ## Actualizar desde el CMS
@@ -38,15 +37,15 @@ python tools/audit_static.py
 
 Publicar el contenido de la raíz de `main` mediante **Deploy from a branch**. Conservar `.nojekyll`, las rutas relativas `./` y todos los archivos incluidos en `APP_SHELL`.
 
-Después de publicar una nueva versión, abrir la PWA una vez con conexión para instalar la caché `distrito-go-v23.0.0-experiencia-visual`.
+Después de publicar una nueva versión, abrir la PWA una vez con conexión para instalar la caché `distrito-go-v24.0.0-version-limpia`.
 
 ## Inicio visual y navegación
 
-- El Inicio oficial muestra historias operativas, una sola prioridad semanal y tarjetas visuales.
+- El Inicio oficial muestra `Hoy`, `Apertura`, `Peak`, `Personas` y `Semana`; cada acceso filtra contenido vigente sin recargar la aplicación.
 - La barra inferior ofrece `Inicio`, `Explorar`, `Buscar` y `Guardados`.
 - `Guardados` conserva únicamente identificadores en el dispositivo mediante almacenamiento local.
 - La información completa se abre en el visor interno; las tarjetas no duplican la descripción extensa.
-- La versión anterior puede compararse temporalmente con `?vista=clasica`; `?vista=nueva` vuelve a la experiencia oficial.
+- Maquila, comunicados e infografías utilizan portadas HTML/CSS; el original se abre completo en el visor interno.
 - El Service Worker precarga únicamente la interfaz y los datos esenciales; imágenes y PDF se cargan al solicitarlos.
 - Desarrollo Partner y Duty Roster se renderizan al acercarse a su sección.
 - Solo **Actualizaciones de la semana** conserva el tratamiento visual prioritario.
@@ -60,6 +59,9 @@ La pestaña `Informativo` conserva sus encabezados originales y agrega:
 - `Orden`: prioridad de presentación visual.
 - `Mostrar Inicio`: debe existir solamente una prioridad principal.
 - `Mostrar Explorar`: permite incluir o retirar la tarjeta sin editar `index.html`.
+- `Acceso Rápido`: clasifica registros en `Hoy`, `Apertura`, `Peak`, `Personas` o `Semana`.
+
+`Peak` utiliza `Duty_Roster` como referencia operativa principal y también admite actividades clasificadas explícitamente como `Peak` desde el CMS.
 
 El pipeline conserva el original, genera WebP y miniaturas únicamente para recursos utilizados y publica en JSON las rutas optimizada, miniatura y respaldo.
 

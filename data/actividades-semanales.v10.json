@@ -2,7 +2,7 @@
   {
     "ID": 1,
     "Actividad": "WFM - Pronóstico",
-    "Descripción": "Revisa y ajusta el pronóstico de volumen de la semana que se planificará dentro de 15 días.",
+    "Descripción": "Revisa y ajusta el pronóstico de la semana en planeación.",
     "Día": "Lunes",
     "Hora / Corte": "",
     "Icono": "📈",
@@ -12,7 +12,7 @@
   {
     "ID": 2,
     "Actividad": "Green Apron Review",
-    "Descripción": "Analiza los 4 estándares y registra el resultado.",
+    "Descripción": "Evalúa los 4 estándares y registra el resultado.",
     "Día": "Lunes",
     "Hora / Corte": "Antes de 4:00 pm",
     "Icono": "🚀",
@@ -32,7 +32,7 @@
   {
     "ID": 4,
     "Actividad": "Gastos Concur",
-    "Descripción": "Registra y valida gastos pendientes.",
+    "Descripción": "Registra y valida los gastos pendientes.",
     "Día": "Lunes",
     "Hora / Corte": "",
     "Icono": "💳",
@@ -52,7 +52,7 @@
   {
     "ID": 6,
     "Actividad": "Workvivo",
-    "Descripción": "Realiza la publicación semanal en Workvivo.",
+    "Descripción": "Comparte la publicación semanal.",
     "Día": "Lunes",
     "Hora / Corte": "",
     "Icono": "📱",
@@ -62,7 +62,7 @@
   {
     "ID": 7,
     "Actividad": "Starbucks College",
-    "Descripción": "Valida el avance de cursos en Ubits.",
+    "Descripción": "Revisa el avance de cursos en Ubits.",
     "Día": "Martes",
     "Hora / Corte": "",
     "Icono": "🎓",
@@ -71,8 +71,8 @@
   },
   {
     "ID": 8,
-    "Actividad": "Coffee Tuesday",
-    "Descripción": "Participa con los clientes en degustaciones y genera una experiencia memorable.",
+    "Actividad": "#CoffeeMartes",
+    "Descripción": "Genera una experiencia memorable con degustaciones.",
     "Día": "Martes",
     "Hora / Corte": "",
     "Icono": "☕",
@@ -82,7 +82,7 @@
   {
     "ID": 9,
     "Actividad": "WFM - Carga Inicial",
-    "Descripción": "Realiza la carga inicial de horarios de la semana que se planificará dentro de 15 días.",
+    "Descripción": "Realiza la carga inicial de horarios.",
     "Día": "Martes",
     "Hora / Corte": "",
     "Icono": "📅",
@@ -92,7 +92,7 @@
   {
     "ID": 10,
     "Actividad": "WFM - Disponibilidades",
-    "Descripción": "Actualiza disponibilidades, vacaciones, permisos y restricciones de partners.",
+    "Descripción": "Actualiza disponibilidades, permisos y vacaciones.",
     "Día": "Miércoles",
     "Hora / Corte": "",
     "Icono": "👥",
@@ -102,7 +102,7 @@
   {
     "ID": 11,
     "Actividad": "WFM - Ajustes",
-    "Descripción": "Revisa los horarios generados por Kronos, realiza ajustes operativos y agrega actividades Non-Coverage.",
+    "Descripción": "Ajusta horarios y actividades Non-Coverage.",
     "Día": "Jueves",
     "Hora / Corte": "",
     "Icono": "⚙️",
@@ -112,7 +112,7 @@
   {
     "ID": 12,
     "Actividad": "Comunicado Semanal",
-    "Descripción": "Revisa el comunicado semanal y comparte los puntos relevantes con el equipo.",
+    "Descripción": "Revisa y comparte los puntos clave del comunicado.",
     "Día": "Viernes",
     "Hora / Corte": "",
     "Icono": "📢",
@@ -122,7 +122,7 @@
   {
     "ID": 13,
     "Actividad": "WFM - Revisión DM",
-    "Descripción": "El DM revisa los horarios y comunica observaciones o ajustes requeridos.",
+    "Descripción": "Revisa horarios y comunica observaciones.",
     "Día": "Viernes",
     "Hora / Corte": "",
     "Icono": "✅",
@@ -132,7 +132,7 @@
   {
     "ID": 14,
     "Actividad": "WFM - Publicación",
-    "Descripción": "Realiza las correcciones finales y publica los horarios en Humanet antes del domingo.",
+    "Descripción": "Publica los horarios finales en Humanet.",
     "Día": "Sábado",
     "Hora / Corte": "",
     "Icono": "🚀",
@@ -142,7 +142,7 @@
   {
     "ID": 15,
     "Actividad": "WFM - Validación Final",
-    "Descripción": "Verifica que los horarios publicados sean correctos y listos para iniciar la semana.",
+    "Descripción": "Confirma que los horarios estén listos para operar.",
     "Día": "Domingo",
     "Hora / Corte": "",
     "Icono": "📤",

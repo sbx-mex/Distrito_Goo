@@ -6,6 +6,7 @@
     "Imágenes": "lunes_food.png",
     "Color": "Naranja",
     "Enfoque": "Seguridad alimentaria, caducidades, refrigeración y preparación de alimentos.",
+    "Acceso Rápido": "Peak",
     "ImagenesPath": [
       "assets/premium/duty-roster/lunes_food.png?v=c0ece6d8dfa9"
     ],
@@ -26,6 +27,7 @@
     "Imágenes": "martes_pic.png, martes_lobby.png",
     "Color": "Rojo / Verde",
     "Enfoque": "Cumplimiento, seguridad alimentaria, limpieza y experiencia del cliente.",
+    "Acceso Rápido": "Peak",
     "ImagenesPath": [
       "assets/premium/duty-roster/martes_pic.webp?v=e9151bbad743",
       "assets/premium/duty-roster/martes_lobby.png?v=470aef546064"
@@ -49,6 +51,7 @@
     "Imágenes": "miercoles_boh.png",
     "Color": "Azul",
     "Enfoque": "Orden, limpieza profunda y seguridad alimentaria BOH.",
+    "Acceso Rápido": "Peak",
     "ImagenesPath": [
       "assets/premium/duty-roster/miercoles_boh.webp?v=9fe18616b6e9"
     ],
@@ -69,6 +72,7 @@
     "Imágenes": "jueves_espresso.png, jueves_lobby.png",
     "Color": "Café / Verde",
     "Enfoque": "Calidad de bebidas, ejecución de barra y experiencia del cliente.",
+    "Acceso Rápido": "Peak",
     "ImagenesPath": [
       "assets/premium/duty-roster/jueves_espresso.png?v=2f0780756188",
       "assets/premium/duty-roster/jueves_lobby.png?v=46a12a539650"
@@ -92,6 +96,7 @@
     "Imágenes": "viernes_cafe_filtrado.png",
     "Color": "Naranja",
     "Enfoque": "Seguimiento a seguridad alimentaria y condiciones Food.",
+    "Acceso Rápido": "Peak",
     "ImagenesPath": [
       "assets/premium/duty-roster/viernes_cafe_filtrado.png?v=82772032c6fa"
     ],
@@ -112,6 +117,7 @@
     "Imágenes": "sabado_cbs.png",
     "Color": "Azul",
     "Enfoque": "Equipos críticos, limpieza profunda y preparación operativa.",
+    "Acceso Rápido": "Peak",
     "ImagenesPath": [
       "assets/premium/duty-roster/sabado_cbs.png?v=72dc17ed98c1"
     ],
@@ -132,6 +138,7 @@
     "Imágenes": "domingo_lobby.png, domingo_drive_thru.png",
     "Color": "Verde",
     "Enfoque": "Experiencia del cliente y apariencia general de la tienda.",
+    "Acceso Rápido": "Peak",
     "ImagenesPath": [
       "assets/premium/duty-roster/domingo_lobby.png?v=1fd8ed0d1a57",
       "assets/premium/duty-roster/domingo_drive_thru.png?v=8aeb63083143"

@@ -73,6 +73,7 @@ function contentFromInfo(item){
     label:labelFor(item, normalize(item.Frecuencia) === 'semanal' ? 'Importante' : 'Actualizado'),
     image:item.MiniaturaRecurso || (isImage(resource) ? resource : ''), fullImage:isImage(resource) ? resource : '', imageOriginal:isImage(original) ? original : resource,
     link:item.TipoRecurso === 'link' ? resource : '', section:'informativo',
+    access:item['Acceso Rápido'] || '',
     priority:Number(item.Prioridad || 99), order:Number(item.Orden || item.Prioridad || 99),
     showHome:asBoolean(item['Mostrar Inicio'], normalize(item.Frecuencia) === 'semanal'),
     showExplore:asBoolean(item['Mostrar Explorar'], true),
@@ -85,17 +86,20 @@ function contentFromDaily(item){
   return {
     id:`daily-${item.ID}`, source:'Actividad diaria', category:'Operación',
     title:item.Actividad, description:item['Descripción'] || '', short:item.DescripcionBreve || item['Descripción'] || '',
-    label:item.Prioridad === 1 ? 'Importante' : 'Hoy', image:item.MiniaturaRecurso || (isImage(resource) ? resource : ''), fullImage:isImage(resource) ? resource : '',
+    label:item.Prioridad === 1 ? 'Importante' : 'Actualizado', image:item.MiniaturaRecurso || (isImage(resource) ? resource : ''), fullImage:isImage(resource) ? resource : '',
     imageOriginal:isImage(original) ? original : resource, link:item.TipoRecurso === 'link' ? resource : '',
-    section:'dia-a-dia', priority:Number(item.Prioridad || 99), order:Number(item.Prioridad || 99), showExplore:true
+    section:'dia-a-dia', access:item['Acceso Rápido'] || 'Hoy',
+    priority:Number(item.Prioridad || 99), order:Number(item.Prioridad || 99), showExplore:true
   };
 }
 function contentFromEvent(item){
   return {
     id:`event-${item.ID}`, source:'Evento', category:'Eventos', title:item.Actividad,
     description:item['Contexto / Recordatorio'] || '', short:item['Contexto / Recordatorio'] || '',
-    label:'Vigente', image:item.MiniaturaPath || item.ImagenPath || '', fullImage:item.ImagenPath || '', imageOriginal:item.ImagenOriginal || item.ImagenPath || '',
-    link:item.Link || '', section:'eventos-cms', priority:20, order:Number(dateValue(item['Fecha Inicio'])?.getTime() || 0),
+    label:'Actualizado', image:item.MiniaturaPath || item.ImagenPath || '', fullImage:item.ImagenPath || '', imageOriginal:item.ImagenOriginal || item.ImagenPath || '',
+    link:item.Link || '', section:'eventos-cms', access:'',
+    dateStart:item['Fecha Inicio'] || '', dateEnd:item['Fecha Fin'] || '',
+    priority:20, order:Number(dateValue(item['Fecha Inicio'])?.getTime() || 0),
     showExplore:isCurrentEvent(item)
   };
 }
@@ -110,9 +114,9 @@ function contentFromTool(tool){
 function sectionItems(){
   const duty = (state.operacional.dutyRoster || [])[0] || {};
   return [
-    {id:'section-duty',source:'Operación',category:'Operación',title:'Duty Roster',description:'Consulta estaciones, enfoque y detalle crítico del día.',short:'Enfoque y estaciones del día.',label:'Hoy',image:duty.MiniaturasPath?.[0] || duty.ImagenesPath?.[0] || '',fullImage:duty.ImagenesPath?.[0] || '',imageOriginal:duty.ImagenOriginal || duty.ImagenesPath?.[0] || '',section:'duty-roster',priority:5,order:5,showExplore:true},
-    {id:'section-celebrations',source:'Personas',category:'Personas',title:'Celebraciones',description:'Consulta aniversarios y cumpleaños vigentes del distrito.',short:'Aniversarios y cumpleaños.',label:'Personas',image:'',imageOriginal:'',section:'aniversarios-cumpleanos',priority:20,order:20,showExplore:true},
-    {id:'section-partner',source:'Personas',category:'Personas',title:'Desarrollo Partner',description:'Consulta BT, SS y TBW sin mezclar los focos operativos.',short:'BT, SS y TBW.',label:'Personas',image:'',imageOriginal:'',section:'altas-curso',priority:21,order:21,showExplore:true}
+    {id:'section-duty',source:'Operación',category:'Operación',title:'Duty Roster',description:'Consulta estaciones, enfoque y detalle crítico del día.',short:'Enfoque y estaciones del día.',label:'Hoy',access:duty['Acceso Rápido'] || 'Peak',image:duty.MiniaturasPath?.[0] || duty.ImagenesPath?.[0] || '',fullImage:duty.ImagenesPath?.[0] || '',imageOriginal:duty.ImagenOriginal || duty.ImagenesPath?.[0] || '',section:'duty-roster',priority:5,order:5,showExplore:true},
+    {id:'section-celebrations',source:'Personas',category:'Personas',title:'Celebraciones',description:'Consulta aniversarios y cumpleaños vigentes del distrito.',short:'Aniversarios y cumpleaños.',label:'Personas',access:'Personas',image:'',imageOriginal:'',section:'aniversarios-cumpleanos',priority:20,order:20,showExplore:true},
+    {id:'section-partner',source:'Personas',category:'Personas',title:'Desarrollo Partner',description:'Consulta BT, SS y TBW sin mezclar los focos operativos.',short:'BT, SS y TBW.',label:'Personas',access:'Personas',image:'',imageOriginal:'',section:'altas-curso',priority:21,order:21,showExplore:true}
   ];
 }
 
@@ -127,17 +131,37 @@ export function getContentCatalog(){
 }
 
 function storyMarkup(story, active){
-  return `<button class="story-item ${active ? 'is-active' : ''}" type="button" role="listitem" data-story="${story.id}" data-nav-target="${story.target}" aria-label="Abrir ${escapeHtml(story.label)}">
+  return `<button class="story-item ${active ? 'is-active' : ''}" type="button" role="listitem" data-story="${story.id}" data-access="${escapeHtml(story.label)}" aria-label="Filtrar por ${escapeHtml(story.label)}" aria-pressed="${active}">
     <span class="story-ring"><span class="story-ring-inner">${ICONS[story.icon]}</span></span><span>${escapeHtml(story.label)}</span>
   </button>`;
 }
+function coverIcon(item){
+  const value = normalize(`${item.category} ${item.title}`);
+  if(value.includes('persona') || value.includes('coffee')) return ICONS.people;
+  if(value.includes('semana') || value.includes('evento')) return ICONS.week;
+  if(value.includes('apertura')) return ICONS.opening;
+  if(value.includes('peak') || value.includes('duty') || value.includes('turno')) return ICONS.peak;
+  return ICONS.today;
+}
+function shouldUseStandardCover(item){
+  const value = normalize(`${item.source} ${item.title}`);
+  return ['Informativo','Actividad diaria','Evento'].includes(item.source)
+    || /(maquila|pasos|checklist|coffee master|comunicado|guia|protocolo|resumen)/.test(value);
+}
+function standardCoverMarkup(item){
+  const allowedLabel = ['Nuevo','Importante','Actualizado'].includes(item.label) ? item.label : '';
+  return `<span class="standard-cover" aria-hidden="true">
+    <span class="standard-cover-head"><span class="standard-cover-icon">${coverIcon(item)}</span>${allowedLabel ? `<span class="content-badge">${escapeHtml(allowedLabel)}</span>` : ''}</span>
+    <span class="standard-cover-meta"><small>${escapeHtml(item.category || item.source)}</small><strong>${escapeHtml(item.title)}</strong></span>
+  </span>`;
+}
 function cardMarkup(item){
-  const hasImage = Boolean(item.image && isImage(item.image));
+  const standardCover = shouldUseStandardCover(item);
+  const hasImage = !standardCover && Boolean(item.image && isImage(item.image));
   const saved = getSavedIds().includes(item.id);
   return `<article class="explore-card ${hasImage ? 'has-image' : ''}" data-content-card="${escapeHtml(item.id)}">
     <button class="explore-card-main" type="button" data-open-content="${escapeHtml(item.id)}" aria-label="Abrir ${escapeHtml(item.title)}">
-      ${hasImage ? imageMarkup(item, 'explore-card-media') : ''}
-      <span class="explore-card-body"><span class="content-badge">${escapeHtml(item.label)}</span><h4>${escapeHtml(item.title)}</h4></span>
+      ${standardCover ? standardCoverMarkup(item) : (hasImage ? `${imageMarkup(item, 'explore-card-media')}<span class="explore-card-body"><span class="content-badge">${escapeHtml(item.label)}</span><h4>${escapeHtml(item.title)}</h4></span>` : standardCoverMarkup(item))}
     </button>
     <button class="save-content ${saved ? 'is-saved' : ''}" type="button" data-save-content="${escapeHtml(item.id)}" aria-label="${saved ? 'Quitar de' : 'Agregar a'} Guardados" aria-pressed="${saved}">${saved ? '♥' : '♡'}</button>
   </article>`;
@@ -160,14 +184,41 @@ function toggleSaved(id){
 }
 
 let activeCategory = 'Todo';
+let activeAccess = '';
+function isThisWeek(startValue, endValue){
+  const startDate = dateValue(startValue);
+  const endDate = dateValue(endValue) || startDate;
+  if(!startDate || !endDate) return false;
+  const now = new Date();
+  const day = (now.getDay() + 6) % 7;
+  const start = new Date(now.getFullYear(), now.getMonth(), now.getDate() - day);
+  const end = new Date(start);
+  end.setDate(end.getDate() + 7);
+  return endDate >= start && startDate < end;
+}
+function matchesAccess(item, access){
+  const explicit = normalize(item.access);
+  if(explicit === normalize(access)) return true;
+  if(access === 'Hoy') return item.source === 'Actividad diaria' || item.label === 'Hoy';
+  if(access === 'Apertura') return normalize(`${item.title} ${item.description}`).includes('apertura');
+  if(access === 'Peak') return item.section === 'duty-roster' || /(peak|ritmo|cobertura|despliegue|servicio|turno)/.test(normalize(`${item.title} ${item.description}`));
+  if(access === 'Personas') return item.category === 'Personas';
+  if(access === 'Semana') return item.category === 'Semana' || (item.category === 'Eventos' && isThisWeek(item.dateStart, item.dateEnd));
+  return true;
+}
 export function renderExplore(){
   const catalog = getContentCatalog();
   const visibleCategories = CATEGORIES.filter(category => category === 'Todo' || catalog.some(item => item.category === category));
   const filters = document.getElementById('explore-filters');
   if(filters) filters.innerHTML = visibleCategories.map(category => `<button class="explore-filter ${category === activeCategory ? 'is-active' : ''}" type="button" data-explore-category="${escapeHtml(category)}" aria-pressed="${category === activeCategory}">${escapeHtml(category)}</button>`).join('');
-  const list = activeCategory === 'Todo' ? catalog : catalog.filter(item => item.category === activeCategory);
+  const categoryList = activeCategory === 'Todo' ? catalog : catalog.filter(item => item.category === activeCategory);
+  const list = activeAccess ? categoryList.filter(item => matchesAccess(item, activeAccess)) : categoryList;
+  const title = document.getElementById('visual-explore-title');
+  if(title) title.textContent = activeAccess ? activeAccess : 'Explorar Distrito Go';
   const grid = document.getElementById('explore-grid');
-  if(grid) grid.innerHTML = list.slice(0,36).map(cardMarkup).join('');
+  if(grid) grid.innerHTML = list.length
+    ? list.slice(0,36).map(cardMarkup).join('')
+    : '<div class="saved-empty"><strong>Sin contenido vigente</strong><p>Actualiza la clasificación o vigencia desde el CMS.</p></div>';
 }
 export function renderSaved(){
   const ids = getSavedIds();
@@ -186,31 +237,23 @@ function renderPriority(){
   const status = document.getElementById('visual-priority-status');
   if(status) status.textContent = priority?.label || 'Actualizado';
   if(!target || !priority) return;
-  target.innerHTML = `<button class="priority-card" type="button" data-open-content="${escapeHtml(priority.id)}" aria-label="Abrir ${escapeHtml(priority.title)}">
-    ${imageMarkup(priority, 'priority-image', true)}
-    <span class="priority-copy"><span class="content-badge">${escapeHtml(priority.label)}</span><h4>${escapeHtml(priority.title)}</h4><p>${escapeHtml(priority.short)}</p></span>
+  const standard = shouldUseStandardCover(priority);
+  target.innerHTML = `<button class="priority-card ${standard ? 'priority-standard' : ''}" type="button" data-open-content="${escapeHtml(priority.id)}" aria-label="Abrir ${escapeHtml(priority.title)}">
+    ${standard
+      ? standardCoverMarkup(priority)
+      : `${imageMarkup(priority, 'priority-image', true)}<span class="priority-copy"><span class="content-badge">${escapeHtml(priority.label)}</span><h4>${escapeHtml(priority.title)}</h4><p>${escapeHtml(priority.short)}</p></span>`}
   </button>`;
 }
 function renderStories(){
   const stories = [
-    {id:'today',label:'Hoy',icon:'today',target:'today'},
-    {id:'opening',label:'Apertura',icon:'opening',target:'today'},
-    {id:'peak',label:'Peak',icon:'peak',target:'duty'},
-    {id:'people',label:'Personas',icon:'people',target:'altas'},
-    {id:'week',label:'Semana',icon:'week',target:'weekly-summary'}
+    {id:'today',label:'Hoy',icon:'today'},
+    {id:'opening',label:'Apertura',icon:'opening'},
+    {id:'peak',label:'Peak',icon:'peak'},
+    {id:'people',label:'Personas',icon:'people'},
+    {id:'week',label:'Semana',icon:'week'}
   ];
   const target = document.getElementById('operational-stories');
-  if(target) target.innerHTML = stories.map((story,index)=>storyMarkup(story,index===0)).join('');
-}
-function applyViewMode(){
-  const mode = new URLSearchParams(window.location.search).get('vista');
-  const classic = mode === 'clasica';
-  document.body.classList.toggle('visual-classic', classic);
-  const switcher = document.querySelector('.view-switch');
-  if(switcher){
-    switcher.href = classic ? '?vista=nueva' : '?vista=clasica';
-    switcher.textContent = classic ? 'Vista nueva' : 'Vista clásica';
-  }
+  if(target) target.innerHTML = stories.map(story => storyMarkup(story, normalize(activeAccess) === story.id || normalize(activeAccess) === normalize(story.label))).join('');
 }
 function bindExperience(){
   document.body.addEventListener('click', event => {
@@ -228,9 +271,20 @@ function bindExperience(){
     }
     const filter = event.target.closest('[data-explore-category]');
     if(filter){
+      activeAccess = '';
       activeCategory = filter.dataset.exploreCategory || 'Todo';
+      renderStories();
       renderExplore();
       document.getElementById('visual-explore-title')?.focus({preventScroll:true});
+      return;
+    }
+    const story = event.target.closest('[data-story]');
+    if(story){
+      activeAccess = story.dataset.access || '';
+      activeCategory = 'Todo';
+      renderStories();
+      renderExplore();
+      document.getElementById('explorar')?.scrollIntoView({behavior:'smooth', block:'start'});
     }
   });
   document.getElementById('close-saved-view')?.addEventListener('click', () => showVisualView('home'));
@@ -253,7 +307,6 @@ export function showVisualView(view){
 }
 
 export function initExperience(){
-  applyViewMode();
   renderStories();
   renderPriority();
   renderExplore();

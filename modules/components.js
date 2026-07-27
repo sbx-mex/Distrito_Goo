@@ -29,7 +29,3 @@ export function toolCard(tool, isFav, compact = false){
   const cta = tool.cta ? `<span class="tool-cta">${escapeHtml(tool.cta)} <span aria-hidden="true">↗</span></span>` : '';
   return `<article class="tool-card ${tool.imagen ? 'has-image' : ''} ${compact ? 'is-compact' : ''}" tabindex="0" role="button" data-id="${escapeHtml(tool.id)}" aria-label="Abrir ${escapeHtml(tool.nombre)}">${image}<div class="tool-card-body"><div class="tool-top"><div class="tool-icon" aria-hidden="true">${tool.icono}</div><span class="tool-category">${escapeHtml(tool.categoria || '')}</span></div><h4>${escapeHtml(tool.nombre)}</h4><p>${escapeHtml(tool.notas)}</p>${cta}</div></article>`;
 }
-
-export function modalResult(tool){
-  return `<div class="modal-result" role="button" tabindex="0" data-id="${escapeHtml(tool.id)}"><div class="tool-icon">${tool.icono}</div><div><strong>${escapeHtml(tool.nombre)}</strong><br><small>${tool.categoriaIcono} ${escapeHtml(tool.categoria)} · ${escapeHtml(tool.notas)}</small></div></div>`;
-}

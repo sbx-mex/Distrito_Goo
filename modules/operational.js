@@ -1,37 +1,12 @@
 import { state } from './state.js';
 import { $, $$, escapeHtml } from './utils.js';
 import { toast } from './toast.js';
-import { generateCelebrationPdf } from './celebration-pdf.js';
 
 const today = new Date();
 const dayNames = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
 let periodFilter = 'week';
 let actionsBound = false;
-
-const PORTFOLIO_INFORMATIVOS = [
-  {
-    ID: 'PORT-DRESS-CODE-2026',
-    Actividad: 'Alineación Dress Code Portafolio',
-    'Descripción': 'Consulta la alineación vigente de Dress Code para mantener una imagen consistente y profesional en todo el portafolio.',
-    DescripcionBreve: 'Consulta la alineación vigente de Dress Code para mantener una imagen consistente y profesional en todo el portafolio.',
-    Prioridad: 2,
-    Icono: '👔',
-    Visible: true,
-    Recurso: 'assets/photos/dresscode26.jpeg',
-    TipoRecurso: 'imagen'
-  },
-  {
-    ID: 'PORT-CLOCK-IN-OUT-2026',
-    Actividad: 'Partners atentos a esta información de registro',
-    'Descripción': 'Partners, revisemos esta información para asegurar un registro correcto y oportuno de entradas y salidas.',
-    DescripcionBreve: 'Partners, revisemos esta información para asegurar un registro correcto y oportuno de entradas y salidas.',
-    Prioridad: 3,
-    Icono: '⏱️',
-    Visible: true,
-    Recurso: 'assets/photos/clockin_out.jpg',
-    TipoRecurso: 'imagen'
-  }
-];
+const deferredRendered = new Set();
 
 function setTextIfPresent(id, value){
   const element = document.getElementById(id);
@@ -95,6 +70,12 @@ function renderResourceAction(item){
 }
 function opsCard(title, text, icon='✅', extra='', item=null){
   return `<article class="ops-card"><div class="ops-icon">${icon}</div><div class="ops-content"><h4>${escapeHtml(title || 'Actividad')}</h4><p>${escapeHtml(briefText(text))}</p>${extra ? `<div class="inline-actions">${extra}</div>` : ''}</div></article>`;
+}
+function weeklyUpdateCard(item){
+  const image = item.TipoRecurso === 'imagen' && item.Recurso
+    ? `<button class="weekly-update-preview" type="button" data-image-viewer="${escapeHtml(item.Recurso)}" data-image-title="${escapeHtml(item.Actividad)}"><img src="${escapeHtml(item.Recurso)}" alt="${escapeHtml(item.Actividad)}" loading="lazy" decoding="async"/></button>`
+    : '';
+  return `<article class="weekly-update-card"><div class="weekly-update-copy"><span>Actualización vigente</span><h4>${escapeHtml(item.Actividad)}</h4><p>${escapeHtml(item.DescripcionBreve || item['Descripción'] || '')}</p>${renderResourceAction(item)}</div>${image}</article>`;
 }
 function eventCard(e){
   const icon = e.Imagen || '📅';
@@ -161,12 +142,29 @@ function tbwRow(p){
 }
 
 export function renderOperationalSections(){
+  renderCmsFeatures();
   renderInformativo();
   renderToday();
   renderEvents();
-  renderAltas();
-  renderDuty();
+  deferOperationalSections();
   bindOperationalActions();
+}
+function isWeeklyUpdate(item){
+  return normalizeLabel(item['Categoría']) === 'actualizaciones de la semana' || normalizeLabel(item.Frecuencia) === 'semanal';
+}
+function isCoffeeMaster(item){
+  return normalizeLabel(item.Actividad).includes('coffee master');
+}
+function normalizeLabel(value){
+  return String(value || '').trim().toLocaleLowerCase('es-MX');
+}
+export function renderCmsFeatures(){
+  const all = (state.operacional.informativo || []).filter(item => item.Visible !== false);
+  const coffee = all.filter(isCoffeeMaster);
+  const weekly = all.filter(isWeeklyUpdate);
+  setHtmlIfPresent('coffee-master-grid', coffee.map(item => opsCard(item.Actividad, item.DescripcionBreve || item['Descripción'], item.Icono || '☕', renderResourceAction(item), item)).join('') || opsCard('Sin reconocimiento activo', 'Actualiza el registro correspondiente desde el CMS.', '☕'));
+  setTextIfPresent('weekly-updates-count', `${weekly.length} vigente${weekly.length === 1 ? '' : 's'}`);
+  setHtmlIfPresent('weekly-updates-grid', weekly.map(weeklyUpdateCard).join('') || opsCard('Sin actualización semanal', 'Agrega un registro visible con frecuencia Semanal desde el CMS.', '📣'));
 }
 export function renderToday(){
   const day = dayNames[today.getDay()];
@@ -220,11 +218,8 @@ function renderWFM(day, todayActivity){
 }
 
 export function renderInformativo(){
-  const reservedTitles = new Set(PORTFOLIO_INFORMATIVOS.map(item => item.Actividad));
-  const info = [
-    ...(state.operacional.informativo || []).filter(item => !reservedTitles.has(item.Actividad)),
-    ...PORTFOLIO_INFORMATIVOS
-  ]
+  const info = (state.operacional.informativo || [])
+    .filter(item => !isWeeklyUpdate(item) && !isCoffeeMaster(item))
     .filter(a => a.Visible !== false)
     .sort((a,b)=>(a.Prioridad||9)-(b.Prioridad||9));
   const count = document.getElementById('info-count');
@@ -258,6 +253,8 @@ export function renderAltas(){
   setTextIfPresent('tbw-count', `${a.tbw.length} partners`);
   setHtmlIfPresent('btss-grid', [...a.bt.map(p => personRow(p,'BT')), ...a.ss.map(p => personRow(p,'SS'))].join('') || '<p class="muted">Sin registros BT/SS.</p>');
   setHtmlIfPresent('tbw-grid', a.tbw.map(tbwRow).join('') || '<p class="muted">Sin seguimiento TBW.</p>');
+  deferredRendered.add('altas-curso');
+  document.getElementById('altas-curso')?.classList.remove('is-pending');
 }
 export function renderDuty(){
   const day = dayNames[today.getDay()];
@@ -271,6 +268,27 @@ export function renderDuty(){
     return `<a class="duty-image premium-duty-link" href="${escapeHtml(src)}" data-image-viewer="${escapeHtml(src)}" data-image-title="${escapeHtml(item['Día'] + ' · ' + station)}" aria-label="Ver ${escapeHtml(item['Día'] + ' · ' + station)} en tamaño completo"><img src="${escapeHtml(src)}" alt="${escapeHtml(item['Día'] + ' · ' + station)}" loading="lazy"/><span>${escapeHtml(station)}</span></a>`;
   }).join('') : '');
   setHtmlIfPresent('duty-detail', detail.map(d => `<li class="${d['Crítico'] === true || String(d['Crítico']).toLowerCase() === 'true' ? 'is-critical' : ''}">${d.Icono || '•'} <span>${escapeHtml(d.Actividad)}</span>${d['Crítico'] === true || String(d['Crítico']).toLowerCase() === 'true' ? ' <strong>Crítico</strong>' : ''}</li>`).join(''));
+  deferredRendered.add('duty-roster');
+  document.getElementById('duty-roster')?.classList.remove('is-pending');
+}
+export function ensureOperationalSection(id){
+  if(deferredRendered.has(id)) return;
+  if(id === 'altas-curso') renderAltas();
+  if(id === 'duty-roster') renderDuty();
+}
+function deferOperationalSections(){
+  const targets = [...document.querySelectorAll('[data-deferred-section]')];
+  if(!('IntersectionObserver' in window)){
+    targets.forEach(target => ensureOperationalSection(target.dataset.deferredSection));
+    return;
+  }
+  const observer = new IntersectionObserver(entries => {
+    entries.filter(entry => entry.isIntersecting).forEach(entry => {
+      ensureOperationalSection(entry.target.dataset.deferredSection);
+      observer.unobserve(entry.target);
+    });
+  }, {rootMargin:'320px 0px'});
+  targets.forEach(target => observer.observe(target));
 }
 function bindOperationalActions(){
   if(actionsBound) return;
@@ -288,6 +306,7 @@ function bindOperationalActions(){
       celebration.classList.add('is-generating');
       celebration.setAttribute('aria-busy', 'true');
       try{
+        const { generateCelebrationPdf } = await import('./celebration-pdf.js');
         await generateCelebrationPdf({...source, occurrence:parseDate(celebration.dataset.celebrationDate)});
         toast(`Felicitación de ${source.Tipo.toLowerCase()} lista`);
       }catch(error){
@@ -309,6 +328,7 @@ function bindOperationalActions(){
   });
 }
 export function goToSection(id){
+  ensureOperationalSection(id);
   const el = document.getElementById(id);
   if(el){ el.scrollIntoView({behavior:'smooth', block:'start'}); toast('Sección abierta'); }
 }

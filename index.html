@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="./assets/icons/icon-192.png" />
   <link rel="apple-touch-icon" href="./assets/icons/icon-180.png" />
   <link rel="stylesheet" href="./styles/variables.css?v=16.4.1" />
-  <link rel="stylesheet" href="./styles/app.css?v=21.0.0" />
+  <link rel="stylesheet" href="./styles/app.css?v=22.0.0" />
 </head>
 <body class="v15-starbucks-contrast-experience v16-mobile-launcher-espresso-hub-optimization v16-2-visual-accessibility-refinement">
   <a class="skip-link" href="#main">Saltar al contenido</a>
@@ -48,7 +48,7 @@
         <nav class="hero-shortcuts" aria-label="Accesos rápidos">
           <a href="#informativo">Informativo</a>
           <a href="#dia-a-dia">Día operativo</a>
-          <a href="#eventos-cms">Eventos</a>
+          <a href="#actualizaciones-semana">Actualizaciones</a>
           <a href="#altas-curso">Partner</a>
           <a href="#duty-roster">Duty Roster</a>
         </nav>
@@ -146,18 +146,11 @@
       <div id="command-grid" class="command-grid skeleton-grid"></div>
     </section>
 
-    <section id="coffee-master-2026" class="ops-section visual-feature-section" aria-labelledby="coffee-master-title">
-      <div class="visual-feature-copy">
-        <span class="visual-feature-badge">Reconocimiento del portafolio</span>
-        <h3 id="coffee-master-title">Coffee Master 2026</h3>
-        <p>¡Felicidades a nuestros Partners Coffee Master 2026! Reconocemos su pasión por el café, dedicación y compromiso con seguir compartiendo conocimiento en cada tienda del portafolio.</p>
-        <button class="visual-feature-action" type="button" data-image-viewer="./assets/photos/coffemaster26.jpeg" data-image-title="Coffee Master 2026">
-          Ver imagen completa
-        </button>
+    <section id="coffee-master-2026" class="ops-section cms-feature-section" aria-labelledby="coffee-master-title">
+      <div class="section-title">
+        <div><h3 id="coffee-master-title">☕ Coffee Master 2026</h3><p class="section-subtitle">Reconocimientos publicados desde el CMS.</p></div>
       </div>
-      <button class="visual-feature-preview" type="button" data-image-viewer="./assets/photos/coffemaster26.jpeg" data-image-title="Coffee Master 2026" aria-label="Abrir imagen completa de Coffee Master 2026">
-        <img src="./assets/photos/coffemaster26.jpeg" alt="Reconocimiento a los Partners Coffee Master 2026 del portafolio" loading="lazy" />
-      </button>
+      <div id="coffee-master-grid" class="ops-grid skeleton-grid"></div>
     </section>
 
     <section id="informativo" class="ops-section info-section" aria-labelledby="info-title">
@@ -168,18 +161,12 @@
       <div id="info-grid" class="ops-grid info-grid skeleton-grid"></div>
     </section>
 
-    <section id="resumen-comunicado-semana-actual" class="ops-section visual-feature-section is-weekly-summary" aria-labelledby="weekly-summary-title">
-      <div class="visual-feature-copy">
-        <span class="visual-feature-badge">Actualización semanal</span>
-        <h3 id="weekly-summary-title">Resumen de Comunicado Semana Actual</h3>
-        <p>Consulta los puntos clave y prioridades del comunicado correspondiente a la semana actual.</p>
-        <button class="visual-feature-action" type="button" data-image-viewer="./assets/photos/resumen_comunicado_semana_actual.png" data-image-title="Resumen de Comunicado Semana Actual">
-          Ver imagen completa
-        </button>
+    <section id="actualizaciones-semana" class="ops-section weekly-updates-section" aria-labelledby="weekly-summary-title">
+      <div class="section-title">
+        <div><span class="weekly-badge">Prioridad visible</span><h3 id="weekly-summary-title">📣 Actualizaciones de la semana</h3><p class="section-subtitle">Solo los comunicados vigentes definidos en el CMS.</p></div>
+        <span id="weekly-updates-count">0</span>
       </div>
-      <button class="visual-feature-preview is-portrait" type="button" data-image-viewer="./assets/photos/resumen_comunicado_semana_actual.png" data-image-title="Resumen de Comunicado Semana Actual" aria-label="Abrir imagen completa del resumen de comunicado de la semana actual">
-        <img src="./assets/photos/resumen_comunicado_semana_actual.png" alt="Resumen visual del comunicado correspondiente a la semana actual" loading="lazy" />
-      </button>
+      <div id="weekly-updates-grid" class="weekly-updates-grid skeleton-grid"></div>
     </section>
 
     <section class="period-toolbar" aria-labelledby="period-title">
@@ -207,7 +194,7 @@
       <p class="partner-hub-note">Consulta y administra la información completa en <a href="https://sbx-mx.github.io/Partner_Hub/" target="_blank" rel="noopener">Partner Hub</a>.</p>
     </section>
 
-    <section id="altas-curso" class="ops-section" aria-labelledby="altas-title">
+    <section id="altas-curso" class="ops-section deferred-section is-pending" data-deferred-section="altas-curso" aria-labelledby="altas-title">
       <div class="section-title">
         <div><h3 id="altas-title">🌱 Desarrollo Partner</h3><p class="section-subtitle">BT y SS juntos; TBW separado para no mezclar focos.</p></div>
         <span id="altas-count">0</span>
@@ -218,7 +205,7 @@
       </div>
     </section>
 
-    <section id="duty-roster" class="ops-section" aria-labelledby="duty-title">
+    <section id="duty-roster" class="ops-section deferred-section is-pending" data-deferred-section="duty-roster" aria-labelledby="duty-title">
       <div class="section-title"><div><h3 id="duty-title">🧭 Duty Roster</h3><p class="section-subtitle">Imagen premium del día, estaciones y detalle crítico.</p></div></div>
       <div class="duty-card"><div id="duty-focus"></div><div id="duty-gallery" class="duty-gallery"></div><ul id="duty-detail"></ul></div>
     </section>
@@ -247,14 +234,12 @@
 
   <nav class="bottom-nav sidebar-nav" aria-label="Navegación principal">
     <button class="nav-item is-active" data-view="home" type="button">🏠<span>Inicio</span></button>
-    <button class="nav-item" data-view="today" type="button">✅<span>Día</span></button>
-    <button class="nav-item" data-view="coffee" type="button" aria-label="Coffee Master 2026" title="Coffee Master 2026">☕<span>Coffee Master</span></button>
-    <button class="nav-item" data-view="duty" type="button">🧭<span>Duty</span></button>
+    <button class="nav-item" data-view="today" type="button">✅<span>Operación</span></button>
     <button class="nav-item" data-view="all" type="button">🧰<span>Herramientas</span></button>
-    <button class="nav-item" data-view="events" type="button">📅<span>Eventos</span></button>
-    <button class="nav-item" data-view="weekly-summary" type="button" aria-label="Resumen de Comunicado Semana Actual" title="Resumen de Comunicado Semana Actual">📣<span>Resumen semanal</span></button>
+    <button class="nav-item" data-view="weekly-summary" type="button" aria-label="Actualizaciones de la semana">📣<span>Semana</span></button>
+    <button class="nav-item" data-view="more" type="button" aria-haspopup="dialog">☷<span>Más</span></button>
   </nav>
 
-  <script type="module" src="./modules/app.js?v=21.0.0"></script>
+  <script type="module" src="./modules/app.js?v=22.0.0"></script>
 </body>
 </html>

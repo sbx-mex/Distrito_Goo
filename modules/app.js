@@ -14,6 +14,7 @@ function byId(id){ return document.getElementById(id); }
 function setText(id, value){ const el = byId(id); if(el) el.textContent = value; }
 function setHtml(id, value){ const el = byId(id); if(el) el.innerHTML = value; }
 let lastImageViewerTrigger = null;
+let lastQuickModalTrigger = null;
 
 async function boot(){
   bindStaticEvents();
@@ -150,6 +151,7 @@ function bindStaticEvents(){
   byId('quick-modal')?.addEventListener('close', resetImageViewer);
   document.addEventListener('click', handleImageViewerClick);
   window.addEventListener('dgx:filtersChanged', () => { renderChips(); renderTools(true); });
+  window.addEventListener('dgx:open-navigation', event => openNavigationMenu(event.detail?.trigger));
 }
 
 
@@ -167,10 +169,44 @@ function resetImageViewer(){
   if(!modal) return;
   document.body.classList.remove('is-modal-open');
   modal.classList.remove('is-image-viewer');
+  modal.classList.remove('is-navigation-menu');
   setHtml('quick-modal-body', '');
-  const trigger = lastImageViewerTrigger;
+  const trigger = lastImageViewerTrigger || lastQuickModalTrigger;
   lastImageViewerTrigger = null;
+  lastQuickModalTrigger = null;
   if(trigger?.isConnected) requestAnimationFrame(() => trigger.focus({preventScroll:true}));
+}
+
+function openNavigationMenu(trigger){
+  const modal = byId('quick-modal');
+  if(!modal?.showModal) return;
+  lastQuickModalTrigger = trigger || null;
+  setText('quick-modal-title', 'Explorar Distrito Goo');
+  setHtml('quick-modal-body', `
+    <div class="navigation-groups" aria-label="Secciones agrupadas">
+      <section><h3>Operación</h3><div>
+        <button type="button" data-nav-target="today">✅ Día operativo</button>
+        <button type="button" data-nav-target="duty">🧭 Duty Roster</button>
+        <button type="button" data-nav-target="events">📅 Eventos</button>
+      </div></section>
+      <section><h3>Partners</h3><div>
+        <button type="button" data-nav-target="altas">🌱 Desarrollo Partner</button>
+        <button type="button" data-nav-target="celebrations">🎂 Celebraciones</button>
+      </div></section>
+      <section><h3>Comunicados</h3><div>
+        <button type="button" data-nav-target="coffee">☕ Coffee Master 2026</button>
+        <button type="button" data-nav-target="informativo">ℹ️ Informativo</button>
+        <button type="button" data-nav-target="weekly-summary">📣 Actualizaciones de la semana</button>
+      </div></section>
+      <section><h3>Recursos</h3><div>
+        <button type="button" data-nav-target="all">🧰 Herramientas por categoría</button>
+        <button type="button" data-nav-target="search">🔎 Búsqueda rápida</button>
+      </div></section>
+    </div>`);
+  modal.classList.add('is-navigation-menu');
+  document.body.classList.add('is-modal-open');
+  modal.showModal();
+  requestAnimationFrame(() => modal.querySelector('[data-nav-target]')?.focus());
 }
 
 function openImageViewer(title, src){

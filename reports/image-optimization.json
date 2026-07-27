@@ -1,0 +1,82 @@
+{
+  "ok": true,
+  "minimumBytes": 250000,
+  "excluded": [
+    "resumen_comunicado_semana_actual.png"
+  ],
+  "images": [
+    {
+      "source": "assets/photos/10-pasos-turno.png",
+      "optimized": "assets/photos/10-pasos-turno.webp",
+      "sourceBytes": 1434938,
+      "optimizedBytes": 1032868,
+      "savedBytes": 402070
+    },
+    {
+      "source": "assets/photos/cdd_3Q_2026.png",
+      "optimized": "assets/photos/cdd_3Q_2026.webp",
+      "sourceBytes": 614791,
+      "optimizedBytes": 486658,
+      "savedBytes": 128133
+    },
+    {
+      "source": "assets/photos/concurso_venta_dona_julio.jpeg",
+      "optimized": "assets/photos/concurso_venta_dona_julio.webp",
+      "sourceBytes": 278425,
+      "optimizedBytes": 178804,
+      "savedBytes": 99621
+    },
+    {
+      "source": "assets/photos/cortado_leche.jpeg",
+      "optimized": "assets/photos/cortado_leche.webp",
+      "sourceBytes": 299372,
+      "optimizedBytes": 185730,
+      "savedBytes": 113642
+    },
+    {
+      "source": "assets/photos/maquila_actualizado.png",
+      "optimized": "assets/photos/maquila_actualizado.webp",
+      "sourceBytes": 1416215,
+      "optimizedBytes": 851698,
+      "savedBytes": 564517
+    },
+    {
+      "source": "assets/photos/pinpad-atb-cambios.png",
+      "optimized": "assets/photos/pinpad-atb-cambios.webp",
+      "sourceBytes": 654381,
+      "optimizedBytes": 526260,
+      "savedBytes": 128121
+    },
+    {
+      "source": "assets/photos/store-walk.png",
+      "optimized": "assets/photos/store-walk.webp",
+      "sourceBytes": 1540226,
+      "optimizedBytes": 1073422,
+      "savedBytes": 466804
+    },
+    {
+      "source": "assets/photos/verificacion-cafe-espresso.png",
+      "optimized": "assets/photos/verificacion-cafe-espresso.webp",
+      "sourceBytes": 1172032,
+      "optimizedBytes": 783840,
+      "savedBytes": 388192
+    },
+    {
+      "source": "assets/premium/duty-roster/martes_pic.png",
+      "optimized": "assets/premium/duty-roster/martes_pic.webp",
+      "sourceBytes": 350013,
+      "optimizedBytes": 299016,
+      "savedBytes": 50997
+    },
+    {
+      "source": "assets/premium/duty-roster/miercoles_boh.png",
+      "optimized": "assets/premium/duty-roster/miercoles_boh.webp",
+      "sourceBytes": 312465,
+      "optimizedBytes": 267992,
+      "savedBytes": 44473
+    }
+  ],
+  "totalSourceBytes": 8072858,
+  "totalOptimizedBytes": 5686288,
+  "totalSavedBytes": 2386570
+}

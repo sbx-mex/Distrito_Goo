@@ -6,6 +6,7 @@ No se usa en el navegador ni requiere backend. Está pensado para ejecución loc
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import unicodedata
@@ -101,6 +102,14 @@ def validate_workbook(path: Path) -> tuple[dict[str, list[dict[str, Any]]], list
     return sheets, errors
 
 
+NETWORK_FIRST_IMAGE = "resumen_comunicado_semana_actual.png"
+
+
+def asset_version(path: Path) -> str:
+    digest = hashlib.sha256(path.read_bytes()).hexdigest()[:12]
+    return f"?v={digest}"
+
+
 def image_path(value: Any, root: Path, folder: str = "assets/photos") -> str:
     name = Path(str(value or "").strip()).name
     if not name:
@@ -108,7 +117,18 @@ def image_path(value: Any, root: Path, folder: str = "assets/photos") -> str:
     base = root / folder
     matches = {p.name.casefold(): p for p in base.glob("*") if p.is_file()}
     match = matches.get(name.casefold())
-    return match.relative_to(root).as_posix() if match else f"{folder}/{name}"
+    if not match:
+        return f"{folder}/{name}"
+
+    # El resumen semanal conserva su nombre PNG para mantener network-first.
+    # El resto prefiere el WebP generado por el pipeline, sin invalidar el
+    # nombre original indicado en el CMS.
+    preferred = match
+    if match.name.casefold() != NETWORK_FIRST_IMAGE.casefold():
+        optimized = matches.get(f"{match.stem}.webp".casefold())
+        if optimized:
+            preferred = optimized
+    return preferred.relative_to(root).as_posix() + asset_version(preferred)
 
 
 def resource(value: Any, root: Path) -> tuple[str, str]:
@@ -276,7 +296,7 @@ def build(root: Path, sheets: dict[str, list[dict[str, Any]]]) -> list[Path]:
         "eventos": events, "actividadesDiarias": daily, "actividadesSemanales": weekly,
         "dutyRoster": duty_roster, "dutyDetail": duty_detail, "checklistApertura": checklist,
         "altasCurso": {"bt": bt, "ss": ss, "tbw": tbw}, "wfm": raw["WFM"],
-        "cmsFuente": "Distrito_Go_CMS_v2.xlsx", "informativo": info, "celebraciones": celebrations,
+        "cmsFuente": "Distrito_Go_CMS_v2_actualizado.xlsx", "informativo": info, "celebraciones": celebrations,
         "wfmRegla": raw["WFM"][0].get("Regla WFM", "") if raw["WFM"] else "",
     }
 

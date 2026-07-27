@@ -1,4 +1,4 @@
-# Distrito Goo — versión auditada
+# Distrito Goo — versión 22 optimizada
 
 Distrito Goo continúa siendo una PWA 100% estática para GitHub Pages. Python se utiliza únicamente durante auditoría y compilación para validar el CMS y generar JSON; no forma parte del runtime ni requiere servidor.
 
@@ -8,20 +8,23 @@ Distrito Goo continúa siendo una PWA 100% estática para GitHub Pages. Python s
 - `data/`: JSON estáticos consumidos por la aplicación.
 - `tools/validate_cms.py`, `tools/build_data.py` y `tools/audit_links.py`: validan el CMS, generan JSON y producen auditorías reproducibles.
 - `tools/audit_static.py`: valida JSON, rutas locales, IDs HTML y APP_SHELL.
-- `.github/workflows/validate-static.yml`: control automático de sintaxis y estructura.
+- `.github/workflows/actualizar-cms.yml`: valida y publica cada reemplazo del CMS o de una imagen fuente.
+- `.github/workflows/limpieza-auditada.yml`: elimina únicamente rutas autorizadas por `ARCHIVOS_ELIMINADOS.txt`, con respaldo previo cuando aún existen.
 - `sw.js`: caché offline compatible con rutas relativas de GitHub Pages.
 
 ## Actualizar desde el CMS
 
 ```bash
 python -m pip install -r requirements.txt
+python tools/optimize_images.py --project . --report reports/image-optimization.json
 python tools/validate_cms.py /ruta/Distrito_Go_CMS.xlsx --report reports/cms-validation.json
 python tools/build_data.py /ruta/Distrito_Go_CMS.xlsx --project .
+python tools/validate_assets.py
 python tools/audit_links.py /ruta/Distrito_Go_CMS.xlsx --report reports/link-audit.json
 python tools/audit_static.py
 ```
 
-El pipeline lee por nombre de pestaña y encabezado. Detiene la generación cuando falta una pestaña o encabezado obligatorio y nunca depende de posiciones fijas de columnas.
+El pipeline lee por nombre de pestaña y encabezado. Detiene la generación cuando falta una pestaña o encabezado obligatorio y nunca depende de posiciones fijas de columnas. En `Informativo`, el nombre escrito en `Link /Imagen` se resuelve automáticamente y usa una variante WebP cuando existe.
 
 ## Validación antes de publicar
 
@@ -35,7 +38,14 @@ python tools/audit_static.py
 
 Publicar el contenido de la raíz de `main` mediante **Deploy from a branch**. Conservar `.nojekyll`, las rutas relativas `./` y todos los archivos incluidos en `APP_SHELL`.
 
-Después de publicar una nueva versión, abrir la PWA una vez con conexión para instalar la caché `distrito-go-v21.0.0-auditoria-integral`.
+Después de publicar una nueva versión, abrir la PWA una vez con conexión para instalar la caché `distrito-go-v22.0.0-cms-automatico`.
+
+## Carga y navegación
+
+- El Service Worker precarga únicamente la interfaz y los datos esenciales; imágenes y PDF se cargan al solicitarlos.
+- Desarrollo Partner y Duty Roster se renderizan al acercarse a su sección.
+- La navegación principal muestra cinco accesos y agrupa el resto en **Más**.
+- Solo **Actualizaciones de la semana** conserva el tratamiento visual prioritario.
 
 ## Auditoría integral
 

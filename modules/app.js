@@ -9,6 +9,7 @@ import { bindPWA, bindPullToRefresh } from './pwa.js';
 import { renderDashboard, renderQuickActions, renderChips, renderCategories } from './quick-actions.js';
 import { renderTools, loadMoreTools } from './cards.js';
 import { renderOperationalSections } from './operational.js';
+import { initExperience } from './experience.js';
 
 function byId(id){ return document.getElementById(id); }
 function setText(id, value){ const el = byId(id); if(el) el.textContent = value; }
@@ -25,6 +26,7 @@ async function boot(){
   renderQuickActions();
   renderChips();
   renderOperationalSections();
+  initExperience();
   renderCategories();
   renderTools(true);
   collapseFiltersByDefault();
@@ -152,6 +154,7 @@ function bindStaticEvents(){
   document.addEventListener('click', handleImageViewerClick);
   window.addEventListener('dgx:filtersChanged', () => { renderChips(); renderTools(true); });
   window.addEventListener('dgx:open-navigation', event => openNavigationMenu(event.detail?.trigger));
+  window.addEventListener('dgx:open-detail', event => openContentDetail(event.detail?.item, event.detail?.trigger));
 }
 
 
@@ -218,6 +221,37 @@ function openImageViewer(title, src){
   modal.classList.add('is-image-viewer');
   document.body.classList.add('is-modal-open');
   modal.showModal();
+}
+
+function safeDetailLink(value){
+  const text = String(value || '').trim();
+  return /^https?:\/\//i.test(text) ? text : '';
+}
+
+function openContentDetail(item, trigger){
+  if(!item) return;
+  const modal = byId('quick-modal');
+  if(!modal?.showModal) return;
+  lastQuickModalTrigger = trigger || null;
+  const link = safeDetailLink(item.link);
+  const fullImage = item.fullImage || item.image || '';
+  const image = fullImage ? `<picture>
+    ${String(fullImage).includes('.webp') ? `<source type="image/webp" srcset="${escapeHeroText(fullImage)}">` : ''}
+    <img class="visual-detail-media" src="${escapeHeroText(item.imageOriginal || item.image)}" alt="${escapeHeroText(item.title)}" width="1200" height="800" decoding="async">
+  </picture>` : '';
+  const action = link
+    ? `<a href="${escapeHeroText(link)}" target="_blank" rel="noopener">Abrir recurso</a>`
+    : item.section ? `<button type="button" data-nav-target="${escapeHeroText(item.section)}">Ir a la sección</button>` : '';
+  setText('quick-modal-title', item.title || 'Detalle');
+  setHtml('quick-modal-body', `<article class="visual-detail">
+    ${image}
+    <div class="visual-detail-meta"><span class="content-badge">${escapeHeroText(item.label || 'Actualizado')}</span><small>${escapeHeroText(item.category || item.source || '')}</small></div>
+    <p>${escapeHeroText(item.description || item.short || '')}</p>
+    <div class="visual-detail-actions">${action}<button type="button" data-save-content="${escapeHeroText(item.id)}">♡ Guardar</button></div>
+  </article>`);
+  document.body.classList.add('is-modal-open');
+  modal.showModal();
+  requestAnimationFrame(() => modal.querySelector('a,button')?.focus());
 }
 
 function handleImageViewerClick(event){

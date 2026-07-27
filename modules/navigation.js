@@ -2,6 +2,7 @@ import { state } from './state.js';
 import { $, $$ } from './utils.js';
 import { renderTools } from './cards.js';
 import { openSpotlight } from './search.js';
+import { showVisualView } from './experience.js';
 
 const LAST_VIEW_KEY = 'dgx_last_view';
 
@@ -44,9 +45,11 @@ export function nav(view, smooth = true){
     return;
   }
   sessionStorage.setItem(LAST_VIEW_KEY, view);
-  const primary = ['home','today','all','weekly-summary'].includes(view) ? view : 'more';
+  const primary = ['home','explore','search','saved'].includes(view) ? view : 'explore';
   $$('.nav-item').forEach(b => b.classList.toggle('is-active', b.dataset.view === primary));
-  if(view === 'home') window.scrollTo({top:0, behavior: smooth ? 'smooth' : 'auto'});
+  if(view === 'home') showVisualView('home');
+  if(view === 'explore') showVisualView('explore');
+  if(view === 'saved') showVisualView('saved');
   if(view === 'today') document.getElementById('dia-a-dia')?.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});
   if(view === 'coffee') document.getElementById('coffee-master-2026')?.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});
   if(view === 'events') document.getElementById('eventos-cms')?.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});
@@ -57,4 +60,7 @@ export function nav(view, smooth = true){
   if(view === 'informativo') document.getElementById('informativo')?.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});
   if(view === 'search') openSpotlight();
   if(view === 'all') revealWorkspace();
+  if(!['home','explore','search','saved','today','coffee','events','duty','weekly-summary','altas','celebrations','informativo','all','more'].includes(view)){
+    document.getElementById(view)?.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});
+  }
 }

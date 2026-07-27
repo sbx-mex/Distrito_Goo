@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="./styles/app.css?v=22.0.0" />
   <link rel="stylesheet" href="./styles/experience.css?v=24.0.0" />
   <link rel="stylesheet" href="./styles/clean.css?v=25.0.0" />
-  <link rel="stylesheet" href="./styles/navigation-v26.css?v=35.0.0" />
+  <link rel="stylesheet" href="./styles/navigation-v26.css?v=36.0.0" />
 </head>
 <body class="v15-starbucks-contrast-experience v16-mobile-launcher-espresso-hub-optimization v16-2-visual-accessibility-refinement">
   <a class="skip-link" href="#main">Saltar al contenido</a>
@@ -77,17 +77,6 @@
           </section>
         </div>
 
-        <section class="integrated-catalog-section" aria-labelledby="integrated-catalog-title">
-          <div class="integrated-section-heading">
-            <div>
-              <span class="visual-overline">Informativo</span>
-              <h3 id="integrated-catalog-title">Catálogo de consulta</h3>
-              <p>Accesos esenciales organizados desde el CMS para una consulta rápida y clara.</p>
-            </div>
-          </div>
-          <div id="integrated-catalog-grid" class="integrated-catalog-grid" aria-live="polite"></div>
-        </section>
-
         <section id="informativo" class="permanent-info-section" aria-labelledby="info-title">
           <div class="integrated-section-heading is-compact">
             <div>
@@ -98,6 +87,29 @@
             <span id="info-count" class="info-count">0</span>
           </div>
           <div id="info-grid" class="permanent-info-slot" aria-live="polite"></div>
+        </section>
+
+        <section id="altas-curso" class="partner-development-section" aria-labelledby="partner-development-title">
+          <div class="partner-development-heading">
+            <div>
+              <span class="visual-overline">Desarrollo</span>
+              <h3 id="partner-development-title">Desarrollo Partner</h3>
+              <p>Consulta las rutas vigentes de formación y seguimiento.</p>
+            </div>
+            <span id="altas-count" class="partner-development-count">0</span>
+          </div>
+          <div class="partner-development-options" role="group" aria-label="Rutas de Desarrollo Partner">
+            <button type="button" data-partner-route="courses" aria-pressed="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 9 9-5 9 5-9 5zM6 12v5c3 2 9 2 12 0v-5"/></svg>
+              <span><strong>Cursos de Alta</strong><small id="courses-route-count">0 Partners</small></span>
+            </button>
+            <button type="button" data-partner-route="tbw" aria-pressed="false">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM9 8h6m-6 4h6m-6 4h4"/></svg>
+              <span><strong>TBW</strong><small id="tbw-route-count">0 pendientes</small></span>
+            </button>
+          </div>
+          <div id="partner-development-visual" class="partner-development-visual" aria-live="polite"></div>
+          <p id="partner-development-detail" class="partner-development-detail" role="status" aria-live="polite"></p>
         </section>
       </section>
 
@@ -237,21 +249,6 @@
       </a>
     </section>
 
-    <section id="coffee-master-2026" class="ops-section cms-feature-section" aria-labelledby="coffee-master-title">
-      <div class="section-title">
-        <div><h3 id="coffee-master-title">☕ Coffee Master 2026</h3><p class="section-subtitle">Reconocimientos publicados desde el CMS.</p></div>
-      </div>
-      <div id="coffee-master-grid" class="ops-grid skeleton-grid"></div>
-    </section>
-
-    <section id="actualizaciones-semana" class="ops-section weekly-updates-section" aria-labelledby="weekly-summary-title">
-      <div class="section-title">
-        <div><span class="weekly-badge">Prioridad visible</span><h3 id="weekly-summary-title">📣 Actualizaciones de la semana</h3><p class="section-subtitle">Solo los comunicados vigentes definidos en el CMS.</p></div>
-        <span id="weekly-updates-count">0</span>
-      </div>
-      <div id="weekly-updates-grid" class="weekly-updates-grid skeleton-grid"></div>
-    </section>
-
     <section class="period-toolbar celebrations-toolbar" aria-labelledby="period-title">
       <div><strong id="period-title">Celebraciones</strong><span id="period-label"></span></div>
       <div class="segmented-control" role="group" aria-label="Periodo de celebraciones">
@@ -280,17 +277,6 @@
       </div>
       <div id="celebrations-grid" class="ops-grid events-grid skeleton-grid"></div>
       <p class="partner-hub-note">Consulta y administra la información completa en <a href="https://sbx-mx.github.io/Partner_Hub/" target="_blank" rel="noopener">Partner Hub</a>.</p>
-    </section>
-
-    <section id="altas-curso" class="ops-section deferred-section is-pending" data-deferred-section="altas-curso" aria-labelledby="altas-title">
-      <div class="section-title">
-        <div><h3 id="altas-title">🌱 Desarrollo Partner</h3><p class="section-subtitle">BT y SS juntos; TBW separado para no mezclar focos.</p></div>
-        <span id="altas-count">0</span>
-      </div>
-      <div class="people-split">
-        <article id="partner-courses-panel" class="people-panel" tabindex="-1"><div class="panel-head"><strong>Cursos de Alta · BT / SS</strong><span id="btss-count">0</span></div><div id="btss-grid" class="people-list"></div></article>
-        <article id="partner-tbw-panel" class="people-panel" tabindex="-1"><div class="panel-head"><strong>TBW</strong><span id="tbw-count">0</span></div><div id="tbw-grid" class="people-list tbw-list"></div></article>
-      </div>
     </section>
 
     <section id="duty-roster" class="ops-section deferred-section is-pending" data-deferred-section="duty-roster" aria-labelledby="duty-title">
@@ -331,8 +317,11 @@
     <button class="nav-item" data-view="saved" type="button">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v17l-6-4-6 4z"/></svg><span>Guardados</span>
     </button>
+    <button class="nav-item" data-view="search" type="button">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span>Buscar</span>
+    </button>
   </nav>
 
-  <script type="module" src="./modules/app.js?v=35.0.0"></script>
+  <script type="module" src="./modules/app.js?v=36.0.0"></script>
 </body>
 </html>

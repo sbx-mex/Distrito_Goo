@@ -1,0 +1,182 @@
+{
+  "actualizado": "2026-07-20",
+  "cursosAlta": [
+    {
+      "id": "SBX106137",
+      "nombre": "ANGEL SAID MONTESINOS GARCIA",
+      "tienda": "COSMOPOL",
+      "estatus": "Alta julio",
+      "programa": "BT",
+      "avance": "Completo",
+      "fecha": "Julio"
+    },
+    {
+      "id": "SBX099728",
+      "nombre": "ANDREA MICHELLE COLIN ROLON",
+      "tienda": "IZCALLI MEGA",
+      "estatus": "Alta Julio",
+      "programa": "SS",
+      "avance": "Completo",
+      "fecha": "Julio"
+    },
+    {
+      "id": "SBX096221",
+      "nombre": "MARIANA  PEREZ RAMIREZ",
+      "tienda": "IZCALLI MEGA",
+      "estatus": "Alta julio",
+      "programa": "BT",
+      "avance": "Completo",
+      "fecha": "Julio"
+    },
+    {
+      "id": "SBX102053",
+      "nombre": "MELANYE ARELY SALAS MONCADA",
+      "tienda": "IZCALLI MEGA",
+      "estatus": "Alta julio",
+      "programa": "BT",
+      "avance": "Completo",
+      "fecha": "Julio"
+    },
+    {
+      "id": "SBX100034",
+      "nombre": "RAYMUNDO ALEJANDRO ROJAS GRANIEL",
+      "tienda": "IZCALLI MEGA",
+      "estatus": "Alta julio",
+      "programa": "BT",
+      "avance": "Completo",
+      "fecha": "Julio"
+    },
+    {
+      "id": "SBX106807",
+      "nombre": "ALONDRA ABIGAIL HERNANDEZ GARCIA",
+      "tienda": "PATIO ECATEPEC",
+      "estatus": "Alta julio",
+      "programa": "BT",
+      "avance": "Completo",
+      "fecha": "Julio"
+    },
+    {
+      "id": "SBX095810",
+      "nombre": "SEBASTIAN  SOTO ZUÑIGA",
+      "tienda": "SAN MIGUEL IZCALLI",
+      "estatus": "Alta julio",
+      "programa": "BT",
+      "avance": "Completo",
+      "fecha": "Julio"
+    }
+  ],
+  "tbwPendientes": [
+    {
+      "id": "SBX109725",
+      "nombre": "LUZ MARIANA CHAVEZ CORONA",
+      "tienda": "CC COACALCO",
+      "estatus": "Pendiente",
+      "avance": 0,
+      "fecha": "2026-07-20"
+    },
+    {
+      "id": "SBX110164",
+      "nombre": "CHRISTOPHER OMAR SAENZ RIVAS",
+      "tienda": "COSMOPOL",
+      "estatus": "Pendiente",
+      "avance": 0,
+      "fecha": "2026-07-20"
+    },
+    {
+      "id": "SBX110138",
+      "nombre": "SAMANTA  GARCIA HERNANDEZ",
+      "tienda": "COSMOPOL N1",
+      "estatus": "Pendiente",
+      "avance": 0,
+      "fecha": "2026-07-20"
+    },
+    {
+      "id": "SBX109619",
+      "nombre": "ANA LUISA RAMIREZ DIAZ",
+      "tienda": "IZCALLI MEGA",
+      "estatus": "Pendiente",
+      "avance": 0,
+      "fecha": "2026-07-20"
+    },
+    {
+      "id": "SBX108726",
+      "nombre": "ANGEL ZAHAMI PEREZ VALDEZ",
+      "tienda": "IZCALLI MEGA",
+      "estatus": "Pendiente",
+      "avance": 0,
+      "fecha": "2026-07-20"
+    },
+    {
+      "id": "SBX108967",
+      "nombre": "LUIS PAULO ROJAS SOLIS",
+      "tienda": "IZCALLI MEGA",
+      "estatus": "Pendiente",
+      "avance": 0,
+      "fecha": "2026-07-20"
+    },
+    {
+      "id": "SBX108476",
+      "nombre": "ROBERTO ANTONIO AMADOR RUIZ",
+      "tienda": "IZCALLI MEGA",
+      "estatus": "Pendiente",
+      "avance": 0,
+      "fecha": "2026-07-20"
+    },
+    {
+      "id": "SBX109960",
+      "nombre": "DANIELA  SERRANO URIBE",
+      "tienda": "LUNA PARK",
+      "estatus": "Pendiente",
+      "avance": 0,
+      "fecha": "2026-07-20"
+    },
+    {
+      "id": "SBX108511",
+      "nombre": "FERNANDO JULIAN FLORES REYES",
+      "tienda": "LUNA PARK",
+      "estatus": "Pendiente",
+      "avance": 0,
+      "fecha": "2026-07-20"
+    },
+    {
+      "id": "SBX109957",
+      "nombre": "JONATHAN URIEL GONZALEZ SALAZAR",
+      "tienda": "LUNA PARK",
+      "estatus": "Pendiente",
+      "avance": 0,
+      "fecha": "2026-07-20"
+    },
+    {
+      "id": "SBX109197",
+      "nombre": "ANGELA LILIAN VARGAS ESCOTO",
+      "tienda": "SAN MARCOS",
+      "estatus": "Pendiente",
+      "avance": 0,
+      "fecha": "2026-07-20"
+    },
+    {
+      "id": "SBX108169",
+      "nombre": "GERARDO GUILLERMO VEGA LOPEZ",
+      "tienda": "SAN MARCOS",
+      "estatus": "Pendiente",
+      "avance": 80,
+      "fecha": "2026-07-20"
+    },
+    {
+      "id": "SBX110145",
+      "nombre": "MARCELA PATRICIA GALICIA MORALES",
+      "tienda": "SAN MARCOS",
+      "estatus": "Pendiente",
+      "avance": 0,
+      "fecha": "2026-07-20"
+    },
+    {
+      "id": "SBX110146",
+      "nombre": "YAEL  ALVA BUSTAMANTE",
+      "tienda": "SAN MARCOS",
+      "estatus": "Pendiente",
+      "avance": 0,
+      "fecha": "2026-07-20"
+    }
+  ]
+}

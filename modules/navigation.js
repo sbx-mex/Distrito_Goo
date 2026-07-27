@@ -43,7 +43,7 @@ export function nav(view, smooth = true){
   const requestedView = view;
   if(view === 'search') view = 'explore';
   sessionStorage.setItem(LAST_VIEW_KEY, view);
-  const primary = ['home','explore','saved'].includes(view) ? view : 'explore';
+  const primary = requestedView === 'search' ? 'search' : (['home','explore','saved'].includes(view) ? view : 'explore');
   $$('.nav-item').forEach(button => {
     const active = button.dataset.view === primary;
     button.classList.toggle('is-active', active);
@@ -55,16 +55,27 @@ export function nav(view, smooth = true){
   if(view === 'saved') showVisualView('saved');
   const detailTargets = {
     today:'dia-a-dia',
-    coffee:'coffee-master-2026',
+    coffee:'informativo',
     events:'eventos-cms',
     duty:'duty-roster',
-    'weekly-summary':'actualizaciones-semana',
+    'weekly-summary':'informativo',
     altas:'altas-curso',
     celebrations:'aniversarios-cumpleanos',
     informativo:'informativo',
   };
-  if(detailTargets[view]) showDetailSection(detailTargets[view], smooth);
+  if(detailTargets[view] === 'informativo'){
+    showVisualView('home');
+    requestAnimationFrame(() => {
+      const target = document.getElementById('informativo');
+      target?.scrollIntoView({behavior:smooth ? 'smooth' : 'auto', block:'start'});
+      target?.classList.add('is-destination-highlight');
+      window.setTimeout(() => target?.classList.remove('is-destination-highlight'), 1800);
+    });
+  }else if(detailTargets[view]){
+    showDetailSection(detailTargets[view], smooth);
+  }
   if(requestedView === 'search'){
+    document.body.dataset.appView = 'search';
     revealWorkspace(false);
     focusGeneralSearch();
   }

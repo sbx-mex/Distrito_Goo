@@ -8,7 +8,8 @@ export const DATA = {
   dashboard: './data/dashboard.v10.json',
   favoritos: './data/favoritos.v10.json',
   version: './data/version.v10.json',
-  operacional: './data/operacional.v10.json'
+  operacional: './data/operacional.v10.json',
+  partnerDevelopment: './data/desarrollo-partner.v1.json'
 };
 
 export const state = {
@@ -19,6 +20,7 @@ export const state = {
   favoritosBase: [],
   version: null,
   operacional: { eventos: [], actividadesDiarias: [], actividadesSemanales: [], dutyRoster: [], dutyDetail: [], checklistApertura: [], altasCurso: { bt: [], ss: [], tbw: [] }, wfm: [], informativo: [], celebraciones: [], wfmRegla: "" },
+  partnerDevelopment: { actualizado: "", cursosAlta: [], tbwPendientes: [] },
   query: '',
   categoria: localStorage.getItem('dgx_tool_category') || '',
   visibleCount: 16,

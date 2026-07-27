@@ -13,15 +13,6 @@ const ICONS = {
   people:'<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="11" r="4"/><circle cx="22" cy="13" r="3"/><path d="M5 25c0-6 3-9 7-9s7 3 7 9m0-7c1-1 2-2 4-2 3 0 5 3 5 7"/></svg>',
   week:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 9h18v16H7zM11 6v6m10-6v6M7 14h18"/><path d="M11 19h3m4 0h3"/></svg>'
 };
-const CATALOG_ICONS = {
-  clock:'<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="17" r="10"/><path d="M16 11v6l4 3M11 4h10M8 8l3-3m13 3-3-3"/></svg>',
-  maquila:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 11h16v13c0 3-2 5-5 5h-6c-3 0-5-2-5-5zM23 14h2c5 0 5 8 0 8h-2M5 29h22"/><path d="M12 8c-2-3 2-4 1-7m6 7c-2-3 2-4 1-7"/></svg>',
-  coffee:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="m5 12 11-6 11 6-11 6zM9 16v7c4 3 10 3 14 0v-7M27 12v8"/><path d="M25 22h4"/></svg>',
-  dress:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="m10 5 6 4 6-4 6 7-5 4v12H9V16l-5-4zM16 9v19"/></svg>',
-  message:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 6h24v16H15l-7 5v-5H4zM9 11h14M9 16h10"/></svg>',
-  partner:'<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="7" r="3"/><path d="M16 10v8m0 0-8 5m8-5 8 5M8 23v5m16-5v5"/><circle cx="8" cy="28" r="2"/><circle cx="24" cy="28" r="2"/></svg>'
-};
-
 function safeId(prefix, value){
   return `${prefix}-${normalize(value || 'item').replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`;
 }
@@ -151,18 +142,19 @@ function contentFromWeekly(item){
     trackable:isTrackableRow(item)
   };
 }
-function contentFromPerson(item, program){
-  const name = item['NOMBRE COMPLETO'] || item.NOMBRE || '';
-  const store = item.TIENDA || '';
-  const status = item['ESTATUS ALTA'] || (item.Avance != null ? `${Math.round(Number(item.Avance) * 100)}% de avance` : program);
+function contentFromPartnerDevelopment(item, program){
+  const name = item.nombre || '';
+  const store = item.tienda || '';
+  const status = program === 'TBW' && item.avance !== '' ? `${item.estatus} · ${item.avance}%` : item.estatus;
   return {
-    id:`person-${program}-${item.SBX || item['NO. EMPLEADO'] || safeId('partner', name)}`,
-    source:'Persona', category:'Personas', title:name,
+    id:`person-${normalize(program).replace(/\s+/g, '-')}-${item.id || safeId('partner', name)}`,
+    recordId:item.id,
+    source:program === 'TBW' ? 'TBW' : 'Cursos de Alta', category:'Desarrollo Partner', title:name,
     description:[program, store, status].filter(Boolean).join(' · '),
     short:[store, status].filter(Boolean).join(' · '), label:program,
     image:'', fullImage:'', imageOriginal:'', link:'', section:'altas-curso', access:'Personas',
     priority:60, order:60, showExplore:false, searchOnly:true,
-    keywords:[item.SBX, item['NO. EMPLEADO'], item.CECO, item.CeCo, item.PUESTO, store, status].filter(Boolean)
+    keywords:[item.id, item.programa, item.avance, item.fecha, 'Desarrollo Partner', 'Cursos de Alta', 'TBW', store, status].filter(Boolean)
   };
 }
 function contentFromCelebration(item){
@@ -181,7 +173,7 @@ function sectionItems(){
   return [
     {id:'section-duty',source:'Operación',category:'Operación',title:'Duty Roster',description:'Consulta estaciones, enfoque, cobertura y detalle crítico del día.',short:'Enfoque, cobertura y estaciones del día.',label:'Hoy',access:'Operación',image:duty.MiniaturasPath?.[0] || duty.ImagenesPath?.[0] || '',fullImage:duty.ImagenesPath?.[0] || '',imageOriginal:duty.ImagenOriginal || duty.ImagenesPath?.[0] || '',section:'duty-roster',priority:5,order:5,showExplore:true,keywords:['peak','ritmo','cobertura','despliegue','turno']},
     {id:'section-celebrations',source:'Personas',category:'Personas',title:'Celebraciones',description:'Consulta aniversarios y cumpleaños vigentes del distrito.',short:'Aniversarios y cumpleaños.',label:'Personas',access:'Personas',image:'',imageOriginal:'',section:'aniversarios-cumpleanos',priority:20,order:20,showExplore:true},
-    {id:'section-partner',source:'Personas',category:'Personas',title:'Desarrollo Partner',description:'Consulta BT, SS y TBW sin mezclar los focos operativos.',short:'BT, SS y TBW.',label:'Personas',access:'Personas',image:'',imageOriginal:'',section:'altas-curso',priority:21,order:21,showExplore:true}
+    {id:'section-partner',source:'Personas',category:'Personas',title:'Desarrollo Partner',description:'Consulta las rutas vigentes de formación y seguimiento.',short:'Cursos de Alta y TBW.',label:'Personas',access:'Personas',image:'',imageOriginal:'',section:'altas-curso',priority:21,order:21,showExplore:true}
   ];
 }
 
@@ -191,7 +183,10 @@ export function getContentCatalog(){
   const weekly = (state.operacional.actividadesSemanales || []).map(contentFromWeekly);
   const events = (state.operacional.eventos || []).filter(item => item.Publicar !== false && isCurrentEvent(item)).map(contentFromEvent);
   const tools = (state.herramientas || []).map(contentFromTool);
-  const partners = ['bt','ss','tbw'].flatMap(program => (state.operacional.altasCurso?.[program] || []).map(item => contentFromPerson(item, program.toUpperCase())));
+  const partners = [
+    ...(state.partnerDevelopment?.cursosAlta || []).map(item => contentFromPartnerDevelopment(item, 'Cursos de Alta')),
+    ...(state.partnerDevelopment?.tbwPendientes || []).map(item => contentFromPartnerDevelopment(item, 'TBW')),
+  ];
   const celebrations = (state.operacional.celebraciones || []).filter(item => item.Publicar !== false).map(contentFromCelebration);
   return [...info, ...daily, ...weekly, ...events, ...sectionItems(), ...tools, ...partners, ...celebrations]
     .filter(isWithinValidity)
@@ -244,82 +239,6 @@ function savedButtonMarkup(item, className = 'save-content'){
   return `<button class="${className} ${saved ? 'is-saved' : ''}" type="button" data-save-content="${escapeHtml(item.id)}" aria-label="${escapeHtml(label)}" aria-pressed="${saved}"><span aria-hidden="true">${saved ? '♥' : '♡'}</span><span class="save-content-label">${saved ? 'Guardado' : 'Guardar'}</span></button>`;
 }
 
-const INTEGRATED_CATALOG_SPECS = [
-  {key:'clock', title:'Registro Clock In/Out', match:item => normalize(item.title).includes('registro clock')},
-  {key:'maquila', title:'Maquila', match:item => normalize(item.title) === 'maquila'},
-  {key:'coffee', title:'Coffee Master 2026', match:item => normalize(item.title).includes('coffee master 2026')},
-  {key:'dress', title:'Dress Code Portafolio', match:item => normalize(item.title).includes('dress code portafolio')},
-  {key:'message', title:'Comunicado semanal', cmsKey:'resumen_comunicado_semana_actual', match:item => normalize(`${item.title} ${item.imageOriginal} ${item.fullImage}`).includes('resumen comunicado semana actual') || normalize(item.title).includes('resumen semanal')}
-];
-function catalogActionLabel(key){
-  if(key === 'clock') return 'Consultar';
-  if(key === 'message') return 'Ver comunicado';
-  return 'Ver';
-}
-function integratedCatalogCard(item, spec){
-  if(!item) return '';
-  const destination = hasDestination(item);
-  const title = spec.title || item.title;
-  const content = `<span class="integrated-card-icon">${CATALOG_ICONS[spec.key] || CATALOG_ICONS.message}</span>
-    <span class="integrated-card-copy">
-      ${item.label ? `<small>${escapeHtml(item.label)}</small>` : ''}
-      <strong>${escapeHtml(title)}</strong>
-      <span>${escapeHtml(compactText(item.short || item.description, 86))}</span>
-      ${destination ? `<b>${escapeHtml(catalogActionLabel(spec.key))} →</b>` : ''}
-    </span>`;
-  return `<article class="integrated-card" data-cms-key="${escapeHtml(spec.cmsKey || item.id)}">
-    ${destination
-      ? `<button class="integrated-card-main" type="button" data-open-cover="${escapeHtml(item.id)}" aria-label="${escapeHtml(catalogActionLabel(spec.key))}: ${escapeHtml(title)}">${content}</button>`
-      : `<div class="integrated-card-main is-static" aria-label="${escapeHtml(title)}">${content}</div>`}
-    ${savedButtonMarkup(item, 'integrated-card-save')}
-  </article>`;
-}
-function partnerRouteButton(route, label, available){
-  const icon = route === 'courses'
-    ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 9 9-5 9 5-9 5zM6 12v5c3 2 9 2 12 0v-5"/></svg>'
-    : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM9 8h6m-6 4h6m-6 4h4"/></svg>';
-  return available
-    ? `<button type="button" data-partner-route="${route}" aria-label="Abrir ${escapeHtml(label)}">${icon}<span>${escapeHtml(label)}</span><b>→</b></button>`
-    : `<span class="is-reference" aria-label="${escapeHtml(label)} sin destino disponible">${icon}<span>${escapeHtml(label)}</span></span>`;
-}
-function partnerCatalogCard(){
-  const partner = sectionItems().find(item => item.id === 'section-partner');
-  if(!partner) return '';
-  const alta = state.operacional.altasCurso || {bt:[],ss:[],tbw:[]};
-  const coursesAvailable = Boolean((alta.bt || []).length || (alta.ss || []).length);
-  const tbwAvailable = Boolean((alta.tbw || []).length);
-  return `<article class="integrated-card integrated-partner-card" data-cms-key="desarrollo-partner">
-    <div class="partner-card-heading">
-      <span class="integrated-card-icon">${CATALOG_ICONS.partner}</span>
-      <span><small>Desarrollo</small><strong>Desarrollo Partner</strong><span>Consulta las rutas vigentes de formación y seguimiento.</span></span>
-    </div>
-    <svg class="partner-path-visual" viewBox="0 0 640 138" role="img" aria-labelledby="partner-path-title partner-path-desc">
-      <title id="partner-path-title">Rutas de Desarrollo Partner</title>
-      <desc id="partner-path-desc">Desarrollo Partner conecta con Cursos de Alta y TBW.</desc>
-      <path d="M100 69h126m188 0h126" />
-      <circle cx="100" cy="69" r="34"/><circle cx="320" cy="69" r="42"/><circle cx="540" cy="69" r="34"/>
-      <path d="m218 61 10 8-10 8m314-16 10 8-10 8"/>
-      <text x="100" y="73">Alta</text><text x="320" y="73">Desarrollo</text><text x="540" y="73">TBW</text>
-    </svg>
-    <div class="partner-route-actions" aria-label="Rutas de Desarrollo Partner">
-      ${partnerRouteButton('courses', 'Cursos de Alta', coursesAvailable)}
-      ${partnerRouteButton('tbw', 'TBW', tbwAvailable)}
-    </div>
-    ${savedButtonMarkup(partner, 'integrated-card-save')}
-  </article>`;
-}
-function renderIntegratedCatalog(){
-  const info = (state.operacional.informativo || [])
-    .filter(item => item.Visible !== false)
-    .map(contentFromInfo)
-    .filter(isWithinValidity);
-  const cards = INTEGRATED_CATALOG_SPECS
-    .map(spec => integratedCatalogCard(info.find(spec.match), spec))
-    .filter(Boolean);
-  cards.push(partnerCatalogCard());
-  const target = document.getElementById('integrated-catalog-grid');
-  if(target) target.innerHTML = cards.join('');
-}
 function updateSavedControls(id){
   const selectorId = globalThis.CSS?.escape ? CSS.escape(id) : id.replace(/["\\]/g, '\\$&');
   document.querySelectorAll(`[data-save-content="${selectorId}"]`).forEach(button => {
@@ -352,6 +271,14 @@ function cleanDefaultSavedOnce(){
 export function findContent(id){ return getContentCatalog().find(item => item.id === id) || null; }
 export function openContent(item, trigger){
   if(!item) return;
+  if(item.source === 'Cursos de Alta' || item.source === 'TBW'){
+    window.dispatchEvent(new CustomEvent('dgx:open-partner-route', {detail:{
+      route:item.source === 'TBW' ? 'tbw' : 'courses',
+      recordId:item.recordId,
+      trigger
+    }}));
+    return;
+  }
   window.dispatchEvent(new CustomEvent('dgx:open-detail', {detail:{item, trigger}}));
 }
 export function toggleSaved(id){
@@ -824,7 +751,6 @@ export function showVisualView(view){
     return;
   }
   activeAccess = '';
-  renderIntegratedCatalog();
   if(home) home.hidden = false;
   if(exploreView) exploreView.hidden = true;
   if(contextual) contextual.hidden = true;
@@ -847,7 +773,6 @@ export function showDetailSection(id, smooth = true){
 export function initExperience(){
   cleanDefaultSavedOnce();
   migrateLegacyFavorites();
-  renderIntegratedCatalog();
   renderHomePriorities();
   renderExplore();
   renderSaved();

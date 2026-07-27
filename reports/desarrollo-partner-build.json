@@ -1,0 +1,20 @@
+{
+  "ok": true,
+  "actualizado": "2026-07-20",
+  "procesados": {
+    "BT": 6,
+    "SS": 1,
+    "TBW": 14
+  },
+  "publicados": {
+    "cursosAlta": 7,
+    "tbwPendientes": 14
+  },
+  "descartados": {
+    "cursosSinIdONombre": 0,
+    "cursosDuplicados": 0,
+    "tbwSinIdONombre": 0,
+    "tbwNoPendientes": 0,
+    "tbwDuplicados": 0
+  }
+}

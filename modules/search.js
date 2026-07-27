@@ -49,9 +49,38 @@ export function initializeGlobalSearch(){
   return searchIndex.length;
 }
 
+function isNearWord(word, term){
+  if(word.includes(term) || term.includes(word)) return true;
+  if(term.length < 4 || Math.abs(word.length - term.length) > 1) return false;
+  let i = 0;
+  let j = 0;
+  let edits = 0;
+  while(i < word.length && j < term.length){
+    if(word[i] === term[j]){
+      i += 1;
+      j += 1;
+      continue;
+    }
+    edits += 1;
+    if(edits > 1) return false;
+    if(word.length > term.length) i += 1;
+    else if(term.length > word.length) j += 1;
+    else {
+      i += 1;
+      j += 1;
+    }
+  }
+  return edits + Number(i < word.length || j < term.length) <= 1;
+}
+
+function termMatches(entry, term){
+  if(entry.haystack.includes(term)) return true;
+  return entry.haystack.split(/\s+/).some(word => isNearWord(word, term));
+}
+
 function scoreEntry(entry, query){
   const terms = query.split(/\s+/).filter(Boolean);
-  if(!terms.length || !terms.every(term => entry.haystack.includes(term))) return 0;
+  if(!terms.length || !terms.every(term => termMatches(entry, term))) return 0;
   let score = 0;
   if(entry.title === query) score += 180;
   else if(entry.title.startsWith(query)) score += 140;
@@ -66,6 +95,7 @@ function scoreEntry(entry, query){
     else if(entry.description.includes(term)) score += 8;
     else if(entry.label.includes(term)) score += 6;
     else if(entry.keywords.includes(term)) score += 5;
+    else score += 2;
   });
   return score;
 }
@@ -142,11 +172,11 @@ function renderSearchResults(query){
   const visible = showAllResults ? results : results.slice(0, INITIAL_LIMIT);
   grid.innerHTML = visible.length
     ? visible.map(resultCard).join('')
-    : `<div class="global-search-empty"><strong>No encontramos resultados para “${escapeHtml(query.trim())}”.</strong><span>Prueba con otra palabra, revisa la escritura o explora las categorías disponibles.</span></div>`;
+    : '<div class="global-search-empty"><strong>No encontramos contenido relacionado.</strong><span>Prueba con otra palabra o revisa la escritura.</span></div>';
   showAll.hidden = results.length <= INITIAL_LIMIT || showAllResults;
   setStatus(
-    results.length ? count.textContent : `No encontramos resultados para “${query.trim()}”.`,
-    results.length ? 'Selecciona una tarjeta para abrir el contenido correcto.' : 'Prueba con otra palabra, revisa la escritura o explora las categorías disponibles.',
+    results.length ? count.textContent : 'No encontramos contenido relacionado.',
+    results.length ? 'Selecciona una tarjeta para abrir el contenido correcto.' : 'Prueba con otra palabra o revisa la escritura.',
   );
 }
 

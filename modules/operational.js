@@ -8,6 +8,7 @@ const dayNames = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','S�
 let periodFilter = 'week';
 let eventFilter = 'upcoming';
 let actionsBound = false;
+let activePartnerRoute = 'courses';
 const deferredRendered = new Set();
 
 function setTextIfPresent(id, value){
@@ -89,12 +90,6 @@ function validityLabel(item){
   if(start) return `Desde ${start.toLocaleDateString('es-MX',{day:'2-digit',month:'short'})}`;
   return item?.Frecuencia || '';
 }
-function weeklyUpdateCard(item){
-  const image = item.TipoRecurso === 'imagen' && item.Recurso
-    ? `<button class="weekly-update-preview" type="button" data-image-viewer="${escapeHtml(item.Recurso)}" data-image-title="${escapeHtml(item.Actividad)}"><img src="${escapeHtml(item.Recurso)}" alt="${escapeHtml(item.Actividad)}" loading="lazy" decoding="async"/></button>`
-    : '';
-  return `<article class="weekly-update-card"><div class="weekly-update-copy"><span>Actualización vigente</span><h4>${escapeHtml(item.Actividad)}</h4><p>${escapeHtml(item.DescripcionBreve || item['Descripción'] || '')}</p>${renderResourceAction(item)}</div>${image}</article>`;
-}
 function eventCard(e){
   const title = e.Actividad || 'Evento';
   const dateLine = `${fmtDDMM(e['Fecha Inicio'])}${e['Fecha Fin'] ? ' al ' + fmtDDMM(e['Fecha Fin']) : ''}`;
@@ -153,29 +148,12 @@ function tbwRow(p){
 }
 
 export function renderOperationalSections(){
-  renderCmsFeatures();
   renderInformativo();
+  renderAltas();
   renderToday();
   renderEvents();
   deferOperationalSections();
   bindOperationalActions();
-}
-function isWeeklyUpdate(item){
-  return normalizeLabel(item['Categoría']) === 'actualizaciones de la semana' || normalizeLabel(item.Frecuencia) === 'semanal';
-}
-function isCoffeeMaster(item){
-  return normalizeLabel(item.Actividad).includes('coffee master');
-}
-function normalizeLabel(value){
-  return String(value || '').trim().toLocaleLowerCase('es-MX');
-}
-export function renderCmsFeatures(){
-  const all = (state.operacional.informativo || []).filter(item => item.Visible !== false);
-  const coffee = all.filter(isCoffeeMaster);
-  const weekly = all.filter(isWeeklyUpdate);
-  setHtmlIfPresent('coffee-master-grid', coffee.map(item => opsCard(item.Actividad, item.DescripcionBreve || item['Descripción'], item.Icono || '☕', renderResourceAction(item), item)).join('') || opsCard('Sin reconocimiento activo', 'Actualiza el registro correspondiente desde el CMS.', '☕'));
-  setTextIfPresent('weekly-updates-count', `${weekly.length} vigente${weekly.length === 1 ? '' : 's'}`);
-  setHtmlIfPresent('weekly-updates-grid', weekly.map(weeklyUpdateCard).join('') || opsCard('Sin actualización semanal', 'Agrega un registro visible con frecuencia Semanal desde el CMS.', '📣'));
 }
 export function renderToday(){
   const day = dayNames[today.getDay()];
@@ -238,6 +216,7 @@ export function renderInformativo(){
   const grid = document.getElementById('info-grid');
   if(!grid) return;
   grid.classList.toggle('is-empty', !info.length);
+  grid.hidden = !info.length;
   if(!info.length){
     grid.innerHTML = '';
     return;
@@ -250,7 +229,7 @@ export function renderInformativo(){
     return `<article class="permanent-info-card">
       <span class="permanent-info-icon" aria-hidden="true">${item.Icono || 'ℹ️'}</span>
       <div class="permanent-info-copy">
-        <div class="permanent-info-meta">${label ? `<small>${escapeHtml(label)}</small>` : ''}${validityLabel(item) ? `<span>${escapeHtml(validityLabel(item))}</span>` : ''}</div>
+        <div class="permanent-info-meta">${label ? `<small>${escapeHtml(label)}</small>` : ''}${item.Frecuencia ? `<span>${escapeHtml(item.Frecuencia)}</span>` : ''}${validityLabel(item) ? `<span>${escapeHtml(validityLabel(item))}</span>` : ''}</div>
         <strong>${escapeHtml(item.Actividad || 'Informativo')}</strong>
         <p>${escapeHtml(briefText(item.DescripcionBreve || item['Descripción'] || '', 120))}</p>
         <div class="permanent-info-actions">
@@ -300,13 +279,56 @@ export function renderCelebrations(){
   setTextIfPresent('celebrations-count', `${filtered.length} ${label}`);
   setHtmlIfPresent('celebrations-grid', filtered.map(celebrationCard).join('') || opsCard('Sin aniversarios o cumpleaños', 'No hay celebraciones para el periodo seleccionado.', '🎂'));
 }
-export function renderAltas(){
-  const a = state.operacional.altasCurso || {bt:[],ss:[],tbw:[]};
-  setTextIfPresent('altas-count', `${a.bt.length} BT · ${a.ss.length} SS · ${a.tbw.length} TBW`);
-  setTextIfPresent('btss-count', `${a.bt.length + a.ss.length} registros`);
-  setTextIfPresent('tbw-count', `${a.tbw.length} partners`);
-  setHtmlIfPresent('btss-grid', [...a.bt.map(p => personRow(p,'BT')), ...a.ss.map(p => personRow(p,'SS'))].join('') || '<p class="muted">Sin registros BT/SS.</p>');
-  setHtmlIfPresent('tbw-grid', a.tbw.map(tbwRow).join('') || '<p class="muted">Sin seguimiento TBW.</p>');
+function partnerSvg(route, records){
+  if(!records.length){
+    const message = route === 'tbw'
+      ? 'No hay Partners pendientes de TBW.'
+      : 'No hay Partners activos registrados en Cursos de Alta.';
+    return `<div class="partner-development-empty"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="21" r="9"/><path d="M15 55c0-13 7-21 17-21s17 8 17 21M11 10h42"/></svg><p>${message}</p></div>`;
+  }
+  const title = route === 'tbw' ? 'Partners pendientes de TBW' : 'Partners activos en Cursos de Alta';
+  const rowHeight = 80;
+  const height = 64 + records.length * rowHeight;
+  const rows = records.map((item, index) => {
+    const y = 52 + index * rowHeight;
+    const status = route === 'tbw'
+      ? `${item.estatus}${item.avance !== '' ? ` · ${item.avance}%` : ''}`
+      : [item.programa, item.estatus].filter(Boolean).join(' · ');
+    const detail = route === 'tbw'
+      ? [item.tienda, item.fecha ? `Corte ${item.fecha}` : ''].filter(Boolean).join(' · ')
+      : [item.tienda, item.avance, item.fecha].filter(Boolean).join(' · ');
+    return `<g class="partner-svg-row" transform="translate(0 ${y})" role="button" tabindex="0" data-partner-record="${escapeHtml(item.id)}" aria-label="${escapeHtml(`${item.nombre}. ${detail}. ${status}`)}">
+      <rect x="8" y="0" width="344" height="70" rx="14"/>
+      <circle cx="32" cy="28" r="11"/><path d="M26 28h12M32 22v12"/>
+      <text class="partner-svg-name" x="52" y="22">${escapeHtml(briefText(item.nombre, 31))}</text>
+      <text class="partner-svg-detail" x="52" y="42">${escapeHtml(briefText(detail, 43))}</text>
+      <text class="partner-svg-status" x="52" y="60">${escapeHtml(briefText(status, 38))}</text>
+    </g>`;
+  }).join('');
+  return `<svg class="partner-development-svg" viewBox="0 0 360 ${height}" role="list" aria-labelledby="partner-svg-title partner-svg-desc" preserveAspectRatio="xMidYMin meet">
+    <title id="partner-svg-title">${escapeHtml(title)}</title>
+    <desc id="partner-svg-desc">Selecciona un Partner para consultar su resumen procedente del CMS.</desc>
+    <path class="partner-svg-route" d="M10 34h340"/>
+    <text class="partner-svg-heading" x="10" y="24">${escapeHtml(title)}</text>
+    ${rows}
+  </svg>`;
+}
+export function renderAltas(route = activePartnerRoute){
+  activePartnerRoute = route === 'tbw' ? 'tbw' : 'courses';
+  const data = state.partnerDevelopment || {cursosAlta:[],tbwPendientes:[]};
+  const courses = Array.isArray(data.cursosAlta) ? data.cursosAlta : [];
+  const tbw = Array.isArray(data.tbwPendientes) ? data.tbwPendientes : [];
+  const records = activePartnerRoute === 'tbw' ? tbw : courses;
+  setTextIfPresent('altas-count', `${courses.length + tbw.length} registros`);
+  setTextIfPresent('courses-route-count', `${courses.length} Partner${courses.length === 1 ? '' : 's'}`);
+  setTextIfPresent('tbw-route-count', `${tbw.length} pendiente${tbw.length === 1 ? '' : 's'}`);
+  document.querySelectorAll('[data-partner-route]').forEach(button => {
+    button.setAttribute('aria-pressed', String(button.dataset.partnerRoute === activePartnerRoute));
+  });
+  setHtmlIfPresent('partner-development-visual', partnerSvg(activePartnerRoute, records));
+  setTextIfPresent('partner-development-detail', records.length
+    ? `${records.length} registro${records.length === 1 ? '' : 's'} · Actualizado ${data.actualizado || 'desde CMS'}`
+    : '');
   deferredRendered.add('altas-curso');
   document.getElementById('altas-curso')?.classList.remove('is-pending');
 }
@@ -361,25 +383,54 @@ function bindOperationalActions(){
   });
   window.addEventListener('dgx:open-partner-route', event => {
     const route = event.detail?.route === 'tbw' ? 'tbw' : 'courses';
-    renderAltas();
+    const recordId = event.detail?.recordId || '';
+    renderAltas(route);
     const section = document.getElementById('altas-curso');
-    const panel = document.getElementById(route === 'tbw' ? 'partner-tbw-panel' : 'partner-courses-panel');
-    if(!section || !panel) return;
+    const button = section?.querySelector(`[data-partner-route="${route}"]`);
+    const visual = document.getElementById('partner-development-visual');
+    if(!section || !button || !visual) return;
     section.classList.remove('is-destination-highlight');
-    panel.classList.remove('is-route-highlight');
+    visual.classList.remove('is-route-highlight');
     requestAnimationFrame(() => {
       section.classList.add('is-destination-highlight');
-      panel.classList.add('is-route-highlight');
+      visual.classList.add('is-route-highlight');
       section.scrollIntoView({behavior:'smooth', block:'start'});
-      window.setTimeout(() => panel.focus({preventScroll:true}), 380);
+      window.setTimeout(() => {
+        const record = recordId ? visual.querySelector(`[data-partner-record="${globalThis.CSS?.escape ? CSS.escape(recordId) : recordId}"]`) : null;
+        if(record){
+          record.dispatchEvent(new MouseEvent('click', {bubbles:true}));
+          record.focus({preventScroll:true});
+        }else{
+          button.focus({preventScroll:true});
+        }
+      }, 380);
     });
     window.setTimeout(() => {
       section.classList.remove('is-destination-highlight');
-      panel.classList.remove('is-route-highlight');
+      visual.classList.remove('is-route-highlight');
     }, 2200);
     toast(route === 'tbw' ? 'Ruta TBW abierta' : 'Cursos de Alta abiertos');
   });
+  document.body.addEventListener('keydown', event => {
+    const record = event.target.closest?.('[data-partner-record]');
+    if(!record || !['Enter', ' '].includes(event.key)) return;
+    event.preventDefault();
+    record.dispatchEvent(new MouseEvent('click', {bubbles:true}));
+  });
   document.body.addEventListener('click', async e => {
+    const partnerRecord = e.target.closest('[data-partner-record]');
+    if(partnerRecord){
+      const data = state.partnerDevelopment || {cursosAlta:[],tbwPendientes:[]};
+      const records = activePartnerRoute === 'tbw' ? data.tbwPendientes || [] : data.cursosAlta || [];
+      const item = records.find(record => record.id === partnerRecord.dataset.partnerRecord);
+      if(!item) return;
+      document.querySelectorAll('[data-partner-record]').forEach(row => row.classList.toggle('is-selected', row === partnerRecord));
+      const summary = activePartnerRoute === 'tbw'
+        ? `${item.nombre} · ${item.tienda} · ${item.estatus}${item.avance !== '' ? ` · ${item.avance}% de avance` : ''}${item.fecha ? ` · Corte ${item.fecha}` : ''}`
+        : `${item.nombre} · ${item.tienda} · ${item.programa} · ${item.estatus}${item.avance ? ` · ${item.avance}` : ''}${item.fecha ? ` · ${item.fecha}` : ''}`;
+      setTextIfPresent('partner-development-detail', summary);
+      return;
+    }
     const celebration = e.target.closest('[data-celebration-id]');
     if(celebration){
       e.preventDefault();

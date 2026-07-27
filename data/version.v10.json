@@ -1,5 +1,5 @@
 {
-  "version": "35.0.0",
+  "version": "36.0.0",
   "releaseDate": "2026-07-27",
   "changes": [
     "Maquila actualizada con mensaje único y recurso vigente.",
@@ -36,12 +36,15 @@
     "Consultar actividades Duty muestra una estación a la vez con ilustración SVG y actividades dinámicas del CMS.",
     "El menú contextual redundante fue sustituido por un catálogo de seis accesos esenciales integrado al CMS.",
     "Informativo permanece al final de Inicio y presenta los contenidos vigentes uno por uno sin acciones simuladas.",
-    "Desarrollo Partner conecta de forma accesible con Cursos de Alta y TBW usando únicamente datos disponibles."
+    "Desarrollo Partner conecta de forma accesible con Cursos de Alta y TBW usando únicamente datos disponibles.",
+    "El catálogo informativo redundante fue retirado y los cinco contenidos viven exclusivamente en Siempre disponible.",
+    "Desarrollo Partner se genera desde un JSON ligero preparado por Python y muestra SVG interactivos sin recortes.",
+    "El menú principal integra Buscar como cuarto acceso horizontal con coincidencias exactas, parciales, cercanas y sin acentos."
   ],
   "notes": "La PWA conserva su arquitectura estática y las funciones existentes. El contenido visual se administra desde el CMS sin editar index.html.",
   "fecha": "2026-07-27",
-  "descripcion": "Catálogo informativo integrado al CMS con Desarrollo Partner interactivo.",
+  "descripcion": "Experiencia menos es más con Informativo único, Desarrollo Partner dinámico y búsqueda principal.",
   "updatedAt": "2026-07-27",
-  "runtimeFix": "v35.0.0",
+  "runtimeFix": "v36.0.0",
   "name": "Juntémonos Más"
 }

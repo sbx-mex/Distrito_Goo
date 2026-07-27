@@ -169,6 +169,97 @@ def resource(value: Any, root: Path) -> tuple[str, str, str]:
     return image_path(text, root), "imagen", original_image_path(text, root)
 
 
+def partner_key(row: dict[str, Any]) -> str:
+    """Devuelve el identificador real más estable disponible en el CMS."""
+    return str(row.get("SBX") or row.get("NO. EMPLEADO") or "").strip()
+
+
+def build_partner_development(
+    bt: list[dict[str, Any]],
+    ss: list[dict[str, Any]],
+    tbw: list[dict[str, Any]],
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Normaliza únicamente los datos que consume la vista Desarrollo Partner."""
+    courses_by_id: dict[str, dict[str, Any]] = {}
+    pending_by_id: dict[str, dict[str, Any]] = {}
+    discarded = {"cursosSinIdONombre": 0, "cursosDuplicados": 0, "tbwSinIdONombre": 0, "tbwNoPendientes": 0, "tbwDuplicados": 0}
+
+    for program, rows in (("BT", bt), ("SS", ss)):
+        for row in rows:
+            item_id = partner_key(row)
+            name = str(row.get("NOMBRE COMPLETO") or row.get("NOMBRE") or "").strip()
+            if not item_id or not name:
+                discarded["cursosSinIdONombre"] += 1
+                continue
+            if item_id in courses_by_id:
+                discarded["cursosDuplicados"] += 1
+                existing = courses_by_id[item_id]
+                if program not in existing["programa"].split(" / "):
+                    existing["programa"] = f"{existing['programa']} / {program}"
+                continue
+            courses_by_id[item_id] = {
+                "id": item_id,
+                "nombre": name,
+                "tienda": str(row.get("TIENDA") or "").strip(),
+                "estatus": str(row.get("ESTATUS ALTA") or "").strip(),
+                "programa": program,
+                "avance": str(row.get("GB180") or row.get("BT") or "").strip(),
+                "fecha": str(row.get("Mes") or row.get("mes de solicitud") or "").strip(),
+            }
+
+    pending_values = {"incompleto", "en curso"}
+    for row in tbw:
+        item_id = partner_key(row)
+        name = str(row.get("NOMBRE") or row.get("NOMBRE COMPLETO") or "").strip()
+        if not item_id or not name:
+            discarded["tbwSinIdONombre"] += 1
+            continue
+        statuses = [
+            str(value).strip()
+            for key, value in row.items()
+            if str(key).startswith("To be Welcoming") and str(value).strip()
+        ]
+        explicit_pending = [value for value in statuses if value.casefold() in pending_values]
+        if not explicit_pending:
+            discarded["tbwNoPendientes"] += 1
+            continue
+        if item_id in pending_by_id:
+            discarded["tbwDuplicados"] += 1
+            continue
+        raw_progress = row.get("Avance", "")
+        try:
+            numeric_progress = float(raw_progress)
+            progress = round(numeric_progress * 100 if 0 <= numeric_progress <= 1 else numeric_progress)
+        except (TypeError, ValueError):
+            progress = ""
+        pending_by_id[item_id] = {
+            "id": item_id,
+            "nombre": name,
+            "tienda": str(row.get("TIENDA") or "").strip(),
+            "estatus": "Pendiente",
+            "avance": progress,
+            "fecha": str(row.get("Corte") or "").strip(),
+        }
+
+    courses = sorted(courses_by_id.values(), key=lambda item: (item["tienda"].casefold(), item["nombre"].casefold()))
+    pending = sorted(pending_by_id.values(), key=lambda item: (item["tienda"].casefold(), item["nombre"].casefold()))
+    source_dates = [item["fecha"] for item in pending if re.match(r"^\d{4}-\d{2}-\d{2}$", item["fecha"])]
+    updated = max(source_dates) if source_dates else date.today().isoformat()
+    data = {
+        "actualizado": updated,
+        "cursosAlta": courses,
+        "tbwPendientes": pending,
+    }
+    report = {
+        "ok": True,
+        "actualizado": updated,
+        "procesados": {"BT": len(bt), "SS": len(ss), "TBW": len(tbw)},
+        "publicados": {"cursosAlta": len(courses), "tbwPendientes": len(pending)},
+        "descartados": discarded,
+    }
+    return data, report
+
+
 def write_json(path: Path, value: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -180,6 +271,15 @@ def build(root: Path, sheets: dict[str, list[dict[str, Any]]]) -> list[Path]:
 
     def emit(name: str, value: Any):
         target = data / name
+        before = target.read_text(encoding="utf-8") if target.exists() else None
+        text = json.dumps(value, ensure_ascii=False, indent=2) + "\n"
+        if text != before:
+            target.write_text(text, encoding="utf-8")
+            changed.append(target)
+
+    def emit_report(name: str, value: Any):
+        target = root / "reports" / name
+        target.parent.mkdir(parents=True, exist_ok=True)
         before = target.read_text(encoding="utf-8") if target.exists() else None
         text = json.dumps(value, ensure_ascii=False, indent=2) + "\n"
         if text != before:
@@ -319,6 +419,7 @@ def build(root: Path, sheets: dict[str, list[dict[str, Any]]]) -> list[Path]:
     }
 
     bt, ss, tbw = raw["BT"], raw["SS"], raw["TBW"]
+    partner_development, partner_report = build_partner_development(bt, ss, tbw)
     celebrations = []
     for row in raw["Aniversarios_Cumpleanos"]:
         if not truthy(row.get("Publicar")):
@@ -346,10 +447,12 @@ def build(root: Path, sheets: dict[str, list[dict[str, Any]]]) -> list[Path]:
         "wfm.json": raw["WFM"], "links.json": links, "herramientas.v10.json": tools,
         "favoritos.v10.json": favorites, "categorias.v10.json": categories,
         "altas-curso.v10.json": {"bt": bt, "ss": ss, "tbw": tbw}, "identity.json": identity,
+        "desarrollo-partner.v1.json": partner_development,
         "operacional.v10.json": operational,
     }
     for name, value in outputs.items():
         emit(name, value)
+    emit_report("desarrollo-partner-build.json", partner_report)
     return changed
 
 

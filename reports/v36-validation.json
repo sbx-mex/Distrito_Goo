@@ -1,0 +1,178 @@
+{
+  "ok": true,
+  "generatedAt": "2026-07-27T12:53:06.865Z",
+  "summary": {
+    "passed": 32,
+    "failed": 0,
+    "total": 32
+  },
+  "cms": {
+    "sheets": 14,
+    "records": 490,
+    "informativos": 5,
+    "cursosAlta": 7,
+    "tbwPendientes": 14
+  },
+  "checks": [
+    {
+      "name": "1. Catálogo redundante eliminado",
+      "ok": true,
+      "detail": "sin representación duplicada"
+    },
+    {
+      "name": "2. Cinco informativos vigentes",
+      "ok": true,
+      "detail": "5"
+    },
+    {
+      "name": "3. Informativos solicitados",
+      "ok": true,
+      "detail": "Maquila, Dress Code Portafolio, Registro Clock In/Out, Coffee Master 2026, Resumen Semanal"
+    },
+    {
+      "name": "4. Fuente CMS visible y vigente",
+      "ok": true,
+      "detail": "filtros presentes"
+    },
+    {
+      "name": "5. Orden CMS respetado",
+      "ok": true,
+      "detail": "Orden 1–5 del CMS"
+    },
+    {
+      "name": "6. Contador dinámico",
+      "ok": true,
+      "detail": "contador por registros"
+    },
+    {
+      "name": "7. Carrusel navegable",
+      "ok": true,
+      "detail": "flechas y pista"
+    },
+    {
+      "name": "8. Flechas condicionales",
+      "ok": true,
+      "detail": "ocultas con un registro"
+    },
+    {
+      "name": "9. Guardados conservado",
+      "ok": true,
+      "detail": "ID estable y localStorage"
+    },
+    {
+      "name": "10. Desarrollo Partner único",
+      "ok": true,
+      "detail": "módulo compacto"
+    },
+    {
+      "name": "11. Cursos de Alta reales",
+      "ok": true,
+      "detail": "7"
+    },
+    {
+      "name": "12. TBW pendientes reales",
+      "ok": true,
+      "detail": "14"
+    },
+    {
+      "name": "13. IDs sin duplicados",
+      "ok": true,
+      "detail": "21 IDs"
+    },
+    {
+      "name": "14. TBW explícitamente pendiente",
+      "ok": true,
+      "detail": "clasificación explícita"
+    },
+    {
+      "name": "15. JSON dinámico cargado",
+      "ok": true,
+      "detail": "contrato estático"
+    },
+    {
+      "name": "16. Python regenerable",
+      "ok": true,
+      "detail": "pipeline CMS"
+    },
+    {
+      "name": "17. SVG responsive",
+      "ok": true,
+      "detail": "sin imagen estática"
+    },
+    {
+      "name": "18. SVG accesible por teclado",
+      "ok": true,
+      "detail": "Enter y espacio"
+    },
+    {
+      "name": "19. Menú de cuatro accesos",
+      "ok": true,
+      "detail": "Inicio, Explorar, Guardados y Buscar"
+    },
+    {
+      "name": "20. Lupa monoline",
+      "ok": true,
+      "detail": "icono SVG"
+    },
+    {
+      "name": "21. Búsqueda exacta",
+      "ok": true,
+      "detail": "Maquila"
+    },
+    {
+      "name": "22. Búsqueda parcial",
+      "ok": true,
+      "detail": "maqui"
+    },
+    {
+      "name": "23. Búsqueda sin acentos",
+      "ok": true,
+      "detail": "verificacion"
+    },
+    {
+      "name": "24. Búsqueda cercana",
+      "ok": true,
+      "detail": "una sustitución"
+    },
+    {
+      "name": "25. Búsqueda inicia vacía",
+      "ok": true,
+      "detail": "sin catálogo previo"
+    },
+    {
+      "name": "26. Mensaje sin resultados",
+      "ok": true,
+      "detail": "texto solicitado"
+    },
+    {
+      "name": "27. Sin acciones sin destino",
+      "ok": true,
+      "detail": "los contenidos informativos permanecen estáticos"
+    },
+    {
+      "name": "28. Responsive desde 320 px",
+      "ok": true,
+      "detail": "menú horizontal"
+    },
+    {
+      "name": "29. PWA sincronizada",
+      "ok": true,
+      "detail": "caché y JSON"
+    },
+    {
+      "name": "30. GitHub Pages estático",
+      "ok": true,
+      "detail": "sin backend"
+    },
+    {
+      "name": "31. Persistencia comprobada",
+      "ok": true,
+      "detail": "info-1"
+    },
+    {
+      "name": "32. Partner abre su ruta correcta",
+      "ok": true,
+      "detail": "SBX106137"
+    }
+  ]
+}

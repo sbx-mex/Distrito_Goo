@@ -1,0 +1,101 @@
+name: Automatizar CMS de Distrito Goo
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "Distrito_Go_CMS_v2_actualizado.xlsx"
+      - "assets/photos/**/*.png"
+      - "assets/photos/**/*.jpg"
+      - "assets/photos/**/*.jpeg"
+      - "assets/premium/duty-roster/**/*.png"
+      - "assets/premium/duty-roster/**/*.jpg"
+      - "assets/premium/duty-roster/**/*.jpeg"
+      - "tools/cms_pipeline.py"
+      - "tools/build_data.py"
+      - "tools/validate_cms.py"
+      - "tools/validate_assets.py"
+      - "tools/optimize_images.py"
+      - ".github/workflows/actualizar-cms.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: actualizar-cms-distrito-goo
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    name: Validar, optimizar y publicar
+    if: github.repository == 'sbx-mx/Distrito_Goo'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Instalar dependencias
+        run: python -m pip install --disable-pip-version-check -r requirements.txt
+
+      - name: Convertir imágenes pesadas a WebP
+        run: python tools/optimize_images.py --project . --report reports/image-optimization.json
+
+      - name: Validar CMS
+        run: python tools/validate_cms.py Distrito_Go_CMS_v2_actualizado.xlsx --report reports/cms-validation.json
+
+      - name: Regenerar datos
+        run: python tools/build_data.py Distrito_Go_CMS_v2_actualizado.xlsx --project .
+
+      - name: Validar rutas, datos y aplicación
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/validate_assets.py
+          python tools/validate_enhancements.py --report reports/v22-validation.json
+          python tools/audit_links.py Distrito_Go_CMS_v2_actualizado.xlsx --report reports/link-audit.json
+          python tools/audit_static.py
+          find modules -name '*.js' -print0 | xargs -0 -n1 node --check
+          node --check sw.js
+
+      - name: Comprobar alcance generado
+        shell: bash
+        run: |
+          set -euo pipefail
+          unexpected="$(
+            git status --short |
+            awk '{print $2}' |
+            grep -Ev '^(data/|reports/|assets/photos/.*\.webp$|assets/premium/duty-roster/.*\.webp$)' || true
+          )"
+          if [ -n "$unexpected" ]; then
+            echo "FALLO: el pipeline intentó modificar rutas no autorizadas:"
+            echo "$unexpected"
+            exit 1
+          fi
+
+      - name: Publicar datos regenerados
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet && [ -z "$(git ls-files --others --exclude-standard)" ]; then
+            echo "CMS válido; no hubo cambios por publicar." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data reports assets/photos assets/premium/duty-roster
+          git commit -m "Regenerar datos y optimizar imágenes desde CMS"
+          git push
+          echo "Datos validados, optimizados y publicados en main." >> "$GITHUB_STEP_SUMMARY"

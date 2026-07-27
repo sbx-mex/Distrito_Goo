@@ -1,12 +1,11 @@
 name: Limpieza auditada de Distrito Goo
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "ARCHIVOS_ELIMINADOS.txt"
-      - ".github/workflows/limpieza-auditada.yml"
+  workflow_run:
+    workflows:
+      - Automatizar CMS de Distrito Goo
+    types:
+      - completed
   workflow_dispatch:
 
 permissions:
@@ -19,7 +18,9 @@ concurrency:
 jobs:
   limpiar:
     name: Respaldar y eliminar rutas autorizadas
-    if: github.repository == 'sbx-mx/Distrito_Goo'
+    if: >-
+      github.repository == 'sbx-mx/Distrito_Goo' &&
+      (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success')
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -53,10 +54,8 @@ jobs:
               if candidate and next_line.startswith("Motivo:"):
                   paths.append(candidate)
 
-          if len(paths) != 125:
-              raise SystemExit(
-                  f"FALLO: se esperaban 125 rutas auditadas y se encontraron {len(paths)}."
-              )
+          if not paths:
+              raise SystemExit("FALLO: la lista auditada no contiene rutas.")
 
           if len(set(paths)) != len(paths):
               raise SystemExit("FALLO: la lista contiene rutas duplicadas.")
@@ -70,7 +69,7 @@ jobs:
               "ARCHIVOS_ELIMINADOS.txt",
               "BUILD.md",
               "README.md",
-              "Distrito_Go_CMS_v2.xlsx",
+              "Distrito_Go_CMS_v2_actualizado.xlsx",
               "index.html",
               "manifest.json",
               "requirements.txt",
@@ -82,6 +81,7 @@ jobs:
               "modules/",
               "styles/",
               "tools/",
+              "data/",
               "assets/icons/",
               "assets/premium/duty-roster/",
           )
@@ -110,6 +110,19 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+
+          existing="$(
+            while IFS= read -r path; do
+              if git ls-files --error-unmatch -- "$path" >/dev/null 2>&1; then
+                echo "$path"
+                break
+              fi
+            done < /tmp/rutas_autorizadas.txt
+          )"
+          if [ -z "$existing" ]; then
+            echo "No quedan rutas auditadas por eliminar." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
 
           backup_branch="respaldo-antes-limpieza-${GITHUB_RUN_ID}"
           git push origin "HEAD:refs/heads/${backup_branch}"

@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="./styles/app.css?v=22.0.0" />
   <link rel="stylesheet" href="./styles/experience.css?v=24.0.0" />
   <link rel="stylesheet" href="./styles/clean.css?v=25.0.0" />
-  <link rel="stylesheet" href="./styles/navigation-v26.css?v=36.0.0" />
+  <link rel="stylesheet" href="./styles/navigation-v26.css?v=37.0.0" />
 </head>
 <body class="v15-starbucks-contrast-experience v16-mobile-launcher-espresso-hub-optimization v16-2-visual-accessibility-refinement">
   <a class="skip-link" href="#main">Saltar al contenido</a>
@@ -94,21 +94,21 @@
             <div>
               <span class="visual-overline">Desarrollo</span>
               <h3 id="partner-development-title">Desarrollo Partner</h3>
-              <p>Consulta las rutas vigentes de formación y seguimiento.</p>
+              <p>Seguimiento vigente, simple y agrupado por tienda.</p>
             </div>
             <span id="altas-count" class="partner-development-count">0</span>
           </div>
-          <div class="partner-development-options" role="group" aria-label="Rutas de Desarrollo Partner">
-            <button type="button" data-partner-route="courses" aria-pressed="true">
+          <div class="partner-development-options" role="tablist" aria-label="Rutas de Desarrollo Partner">
+            <button type="button" role="tab" data-partner-route="courses" aria-selected="true" aria-controls="partner-development-visual">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 9 9-5 9 5-9 5zM6 12v5c3 2 9 2 12 0v-5"/></svg>
-              <span><strong>Cursos de Alta</strong><small id="courses-route-count">0 Partners</small></span>
+              <span><strong>Alta</strong><small id="courses-route-count">0 Partners</small></span>
             </button>
-            <button type="button" data-partner-route="tbw" aria-pressed="false">
+            <button type="button" role="tab" data-partner-route="tbw" aria-selected="false" aria-controls="partner-development-visual" tabindex="-1">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM9 8h6m-6 4h6m-6 4h4"/></svg>
               <span><strong>TBW</strong><small id="tbw-route-count">0 pendientes</small></span>
             </button>
           </div>
-          <div id="partner-development-visual" class="partner-development-visual" aria-live="polite"></div>
+          <div id="partner-development-visual" class="partner-development-visual" role="tabpanel" aria-live="polite"></div>
           <p id="partner-development-detail" class="partner-development-detail" role="status" aria-live="polite"></p>
         </section>
       </section>
@@ -322,6 +322,6 @@
     </button>
   </nav>
 
-  <script type="module" src="./modules/app.js?v=36.0.0"></script>
+  <script type="module" src="./modules/app.js?v=37.0.0"></script>
 </body>
 </html>

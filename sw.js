@@ -1,4 +1,4 @@
-const CACHE_NAME = 'distrito-go-v36.0.0-menos-es-mas';
+const CACHE_NAME = 'distrito-go-v37.0.0-desarrollo-compacto';
 const APP_SHELL = [
   './',
   './index.html',

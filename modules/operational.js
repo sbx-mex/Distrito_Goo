@@ -279,39 +279,79 @@ export function renderCelebrations(){
   setTextIfPresent('celebrations-count', `${filtered.length} ${label}`);
   setHtmlIfPresent('celebrations-grid', filtered.map(celebrationCard).join('') || opsCard('Sin aniversarios o cumpleaños', 'No hay celebraciones para el periodo seleccionado.', '🎂'));
 }
-function partnerSvg(route, records){
+function partnerGroups(records, route){
+  const grouped = new Map();
+  records.forEach(item => {
+    const store = String(item.tienda || 'Tienda no indicada').replace(/\s+/g, ' ').trim();
+    const partner = {id:item.id, nombre:String(item.nombre || '').replace(/\s+/g, ' ').trim()};
+    if(route === 'tbw') partner.avance = item.avance;
+    else partner.programa = item.programa;
+    if(!grouped.has(store)) grouped.set(store, []);
+    grouped.get(store).push(partner);
+  });
+  return [...grouped.entries()]
+    .sort(([a],[b]) => a.localeCompare(b, 'es-MX'))
+    .map(([tienda, partners]) => ({
+      tienda,
+      total:partners.length,
+      partners:partners.sort((a,b) => a.nombre.localeCompare(b.nombre, 'es-MX'))
+    }));
+}
+function formattedCut(value){
+  const parsed = parseDate(value);
+  return parsed
+    ? parsed.toLocaleDateString('es-MX', {day:'2-digit', month:'short', year:'numeric'}).replace('.', '')
+    : String(value || '');
+}
+function partnerBoard(route, data, records){
   if(!records.length){
     const message = route === 'tbw'
       ? 'No hay Partners pendientes de TBW.'
       : 'No hay Partners activos registrados en Cursos de Alta.';
     return `<div class="partner-development-empty"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="21" r="9"/><path d="M15 55c0-13 7-21 17-21s17 8 17 21M11 10h42"/></svg><p>${message}</p></div>`;
   }
-  const title = route === 'tbw' ? 'Partners pendientes de TBW' : 'Partners activos en Cursos de Alta';
-  const rowHeight = 80;
-  const height = 64 + records.length * rowHeight;
-  const rows = records.map((item, index) => {
-    const y = 52 + index * rowHeight;
-    const status = route === 'tbw'
-      ? `${item.estatus}${item.avance !== '' ? ` · ${item.avance}%` : ''}`
-      : [item.programa, item.estatus].filter(Boolean).join(' · ');
-    const detail = route === 'tbw'
-      ? [item.tienda, item.fecha ? `Corte ${item.fecha}` : ''].filter(Boolean).join(' · ')
-      : [item.tienda, item.avance, item.fecha].filter(Boolean).join(' · ');
-    return `<g class="partner-svg-row" transform="translate(0 ${y})" role="button" tabindex="0" data-partner-record="${escapeHtml(item.id)}" aria-label="${escapeHtml(`${item.nombre}. ${detail}. ${status}`)}">
-      <rect x="8" y="0" width="344" height="70" rx="14"/>
-      <circle cx="32" cy="28" r="11"/><path d="M26 28h12M32 22v12"/>
-      <text class="partner-svg-name" x="52" y="22">${escapeHtml(briefText(item.nombre, 31))}</text>
-      <text class="partner-svg-detail" x="52" y="42">${escapeHtml(briefText(detail, 43))}</text>
-      <text class="partner-svg-status" x="52" y="60">${escapeHtml(briefText(status, 38))}</text>
-    </g>`;
+  const savedView = route === 'tbw' ? data.vistas?.tbw : data.vistas?.alta;
+  const groups = Array.isArray(savedView?.grupos) && savedView.grupos.length
+    ? savedView.grupos
+    : partnerGroups(records, route);
+  const storeCount = savedView?.tiendas ?? groups.length;
+  const total = savedView?.total ?? records.length;
+  const isTbw = route === 'tbw';
+  const title = isTbw ? 'Partners pendientes de TBW' : 'Partners en Cursos de Alta';
+  const context = isTbw
+    ? `Corte ${formattedCut(savedView?.corte || data.actualizado)}`
+    : `Periodo ${savedView?.periodo || records.map(item => item.fecha).find(Boolean) || 'vigente'}`;
+  const programs = savedView?.programas || {
+    BT:records.filter(item => String(item.programa || '').includes('BT')).length,
+    SS:records.filter(item => String(item.programa || '').includes('SS')).length
+  };
+  const progress = savedView?.progreso || {
+    sinIniciar:records.filter(item => Number(item.avance || 0) === 0).length,
+    enCurso:records.filter(item => Number(item.avance || 0) > 0).length
+  };
+  const secondaryStats = isTbw
+    ? `<span>${progress.sinIniciar} sin iniciar</span>${progress.enCurso ? `<span>${progress.enCurso} en curso</span>` : ''}`
+    : `<span>${programs.BT || 0} BT</span><span>${programs.SS || 0} SS</span>`;
+  const cards = groups.map(group => {
+    const partners = group.partners.map(item => {
+      const marker = isTbw
+        ? (Number(item.avance || 0) > 0 ? `<em>${escapeHtml(item.avance)}%</em>` : '')
+        : `<em>${escapeHtml(item.programa || '')}</em>`;
+      return `<li><span>${escapeHtml(item.nombre)}</span>${marker}</li>`;
+    }).join('');
+    return `<article class="partner-store-card">
+      <header><span>${escapeHtml(group.tienda)}</span><b>${group.total}</b></header>
+      <ul>${partners}</ul>
+    </article>`;
   }).join('');
-  return `<svg class="partner-development-svg" viewBox="0 0 360 ${height}" role="list" aria-labelledby="partner-svg-title partner-svg-desc" preserveAspectRatio="xMidYMin meet">
-    <title id="partner-svg-title">${escapeHtml(title)}</title>
-    <desc id="partner-svg-desc">Selecciona un Partner para consultar su resumen procedente del CMS.</desc>
-    <path class="partner-svg-route" d="M10 34h340"/>
-    <text class="partner-svg-heading" x="10" y="24">${escapeHtml(title)}</text>
-    ${rows}
-  </svg>`;
+  return `<div class="partner-board" role="region" aria-label="${escapeHtml(title)}">
+    <header class="partner-board-summary">
+      <div><span class="partner-board-kicker">${escapeHtml(context)}</span><h4>${escapeHtml(title)}</h4></div>
+      <strong><b>${total}</b><span>Partners</span></strong>
+    </header>
+    <div class="partner-board-stats"><span>${storeCount} tiendas</span>${secondaryStats}</div>
+    <div class="partner-store-grid" role="list">${cards}</div>
+  </div>`;
 }
 export function renderAltas(route = activePartnerRoute){
   activePartnerRoute = route === 'tbw' ? 'tbw' : 'courses';
@@ -323,11 +363,13 @@ export function renderAltas(route = activePartnerRoute){
   setTextIfPresent('courses-route-count', `${courses.length} Partner${courses.length === 1 ? '' : 's'}`);
   setTextIfPresent('tbw-route-count', `${tbw.length} pendiente${tbw.length === 1 ? '' : 's'}`);
   document.querySelectorAll('[data-partner-route]').forEach(button => {
-    button.setAttribute('aria-pressed', String(button.dataset.partnerRoute === activePartnerRoute));
+    const selected = button.dataset.partnerRoute === activePartnerRoute;
+    button.setAttribute('aria-selected', String(selected));
+    button.setAttribute('tabindex', selected ? '0' : '-1');
   });
-  setHtmlIfPresent('partner-development-visual', partnerSvg(activePartnerRoute, records));
+  setHtmlIfPresent('partner-development-visual', partnerBoard(activePartnerRoute, data, records));
   setTextIfPresent('partner-development-detail', records.length
-    ? `${records.length} registro${records.length === 1 ? '' : 's'} · Actualizado ${data.actualizado || 'desde CMS'}`
+    ? `Información agrupada por tienda · Actualización ${formattedCut(data.actualizado) || 'desde CMS'}`
     : '');
   deferredRendered.add('altas-curso');
   document.getElementById('altas-curso')?.classList.remove('is-pending');
@@ -383,7 +425,6 @@ function bindOperationalActions(){
   });
   window.addEventListener('dgx:open-partner-route', event => {
     const route = event.detail?.route === 'tbw' ? 'tbw' : 'courses';
-    const recordId = event.detail?.recordId || '';
     renderAltas(route);
     const section = document.getElementById('altas-curso');
     const button = section?.querySelector(`[data-partner-route="${route}"]`);
@@ -395,15 +436,7 @@ function bindOperationalActions(){
       section.classList.add('is-destination-highlight');
       visual.classList.add('is-route-highlight');
       section.scrollIntoView({behavior:'smooth', block:'start'});
-      window.setTimeout(() => {
-        const record = recordId ? visual.querySelector(`[data-partner-record="${globalThis.CSS?.escape ? CSS.escape(recordId) : recordId}"]`) : null;
-        if(record){
-          record.dispatchEvent(new MouseEvent('click', {bubbles:true}));
-          record.focus({preventScroll:true});
-        }else{
-          button.focus({preventScroll:true});
-        }
-      }, 380);
+      window.setTimeout(() => button.focus({preventScroll:true}), 380);
     });
     window.setTimeout(() => {
       section.classList.remove('is-destination-highlight');
@@ -411,26 +444,7 @@ function bindOperationalActions(){
     }, 2200);
     toast(route === 'tbw' ? 'Ruta TBW abierta' : 'Cursos de Alta abiertos');
   });
-  document.body.addEventListener('keydown', event => {
-    const record = event.target.closest?.('[data-partner-record]');
-    if(!record || !['Enter', ' '].includes(event.key)) return;
-    event.preventDefault();
-    record.dispatchEvent(new MouseEvent('click', {bubbles:true}));
-  });
   document.body.addEventListener('click', async e => {
-    const partnerRecord = e.target.closest('[data-partner-record]');
-    if(partnerRecord){
-      const data = state.partnerDevelopment || {cursosAlta:[],tbwPendientes:[]};
-      const records = activePartnerRoute === 'tbw' ? data.tbwPendientes || [] : data.cursosAlta || [];
-      const item = records.find(record => record.id === partnerRecord.dataset.partnerRecord);
-      if(!item) return;
-      document.querySelectorAll('[data-partner-record]').forEach(row => row.classList.toggle('is-selected', row === partnerRecord));
-      const summary = activePartnerRoute === 'tbw'
-        ? `${item.nombre} · ${item.tienda} · ${item.estatus}${item.avance !== '' ? ` · ${item.avance}% de avance` : ''}${item.fecha ? ` · Corte ${item.fecha}` : ''}`
-        : `${item.nombre} · ${item.tienda} · ${item.programa} · ${item.estatus}${item.avance ? ` · ${item.avance}` : ''}${item.fecha ? ` · ${item.fecha}` : ''}`;
-      setTextIfPresent('partner-development-detail', summary);
-      return;
-    }
     const celebration = e.target.closest('[data-celebration-id]');
     if(celebration){
       e.preventDefault();

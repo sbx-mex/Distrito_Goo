@@ -174,6 +174,35 @@ def partner_key(row: dict[str, Any]) -> str:
     return str(row.get("SBX") or row.get("NO. EMPLEADO") or "").strip()
 
 
+def clean_partner_text(value: Any) -> str:
+    """Normaliza espacios del CMS sin alterar acentos, nombres o identificadores."""
+    return re.sub(r"\s+", " ", str(value or "")).strip()
+
+
+def group_partners_by_store(items: list[dict[str, Any]], route: str) -> list[dict[str, Any]]:
+    """Agrupa la vista informativa por tienda para evitar metadatos repetidos."""
+    grouped: dict[str, list[dict[str, Any]]] = {}
+    for item in items:
+        store = clean_partner_text(item.get("tienda")) or "Tienda no indicada"
+        partner = {
+            "id": item["id"],
+            "nombre": clean_partner_text(item.get("nombre")),
+        }
+        if route == "alta":
+            partner["programa"] = clean_partner_text(item.get("programa"))
+        else:
+            partner["avance"] = item.get("avance", "")
+        grouped.setdefault(store, []).append(partner)
+    return [
+        {
+            "tienda": store,
+            "total": len(partners),
+            "partners": sorted(partners, key=lambda item: item["nombre"].casefold()),
+        }
+        for store, partners in sorted(grouped.items(), key=lambda item: item[0].casefold())
+    ]
+
+
 def build_partner_development(
     bt: list[dict[str, Any]],
     ss: list[dict[str, Any]],
@@ -187,7 +216,7 @@ def build_partner_development(
     for program, rows in (("BT", bt), ("SS", ss)):
         for row in rows:
             item_id = partner_key(row)
-            name = str(row.get("NOMBRE COMPLETO") or row.get("NOMBRE") or "").strip()
+            name = clean_partner_text(row.get("NOMBRE COMPLETO") or row.get("NOMBRE"))
             if not item_id or not name:
                 discarded["cursosSinIdONombre"] += 1
                 continue
@@ -200,17 +229,17 @@ def build_partner_development(
             courses_by_id[item_id] = {
                 "id": item_id,
                 "nombre": name,
-                "tienda": str(row.get("TIENDA") or "").strip(),
-                "estatus": str(row.get("ESTATUS ALTA") or "").strip(),
+                "tienda": clean_partner_text(row.get("TIENDA")),
+                "estatus": clean_partner_text(row.get("ESTATUS ALTA")),
                 "programa": program,
-                "avance": str(row.get("GB180") or row.get("BT") or "").strip(),
-                "fecha": str(row.get("Mes") or row.get("mes de solicitud") or "").strip(),
+                "avance": clean_partner_text(row.get("GB180") or row.get("BT")),
+                "fecha": clean_partner_text(row.get("Mes") or row.get("mes de solicitud")),
             }
 
     pending_values = {"incompleto", "en curso"}
     for row in tbw:
         item_id = partner_key(row)
-        name = str(row.get("NOMBRE") or row.get("NOMBRE COMPLETO") or "").strip()
+        name = clean_partner_text(row.get("NOMBRE") or row.get("NOMBRE COMPLETO"))
         if not item_id or not name:
             discarded["tbwSinIdONombre"] += 1
             continue
@@ -235,18 +264,48 @@ def build_partner_development(
         pending_by_id[item_id] = {
             "id": item_id,
             "nombre": name,
-            "tienda": str(row.get("TIENDA") or "").strip(),
+            "tienda": clean_partner_text(row.get("TIENDA")),
             "estatus": "Pendiente",
             "avance": progress,
-            "fecha": str(row.get("Corte") or "").strip(),
+            "fecha": clean_partner_text(row.get("Corte")),
         }
 
     courses = sorted(courses_by_id.values(), key=lambda item: (item["tienda"].casefold(), item["nombre"].casefold()))
     pending = sorted(pending_by_id.values(), key=lambda item: (item["tienda"].casefold(), item["nombre"].casefold()))
     source_dates = [item["fecha"] for item in pending if re.match(r"^\d{4}-\d{2}-\d{2}$", item["fecha"])]
     updated = max(source_dates) if source_dates else date.today().isoformat()
+    course_periods = sorted({item["fecha"] for item in courses if item["fecha"]}, key=str.casefold)
+    course_programs = {
+        program: sum(program in item["programa"].split(" / ") for item in courses)
+        for program in ("BT", "SS")
+    }
+    pending_started = sum(
+        isinstance(item.get("avance"), (int, float)) and item["avance"] > 0
+        for item in pending
+    )
     data = {
         "actualizado": updated,
+        "vistas": {
+            "alta": {
+                "titulo": "Cursos de Alta",
+                "periodo": " · ".join(course_periods),
+                "total": len(courses),
+                "tiendas": len({item["tienda"] for item in courses if item["tienda"]}),
+                "programas": course_programs,
+                "grupos": group_partners_by_store(courses, "alta"),
+            },
+            "tbw": {
+                "titulo": "TBW",
+                "corte": updated,
+                "total": len(pending),
+                "tiendas": len({item["tienda"] for item in pending if item["tienda"]}),
+                "progreso": {
+                    "sinIniciar": len(pending) - pending_started,
+                    "enCurso": pending_started,
+                },
+                "grupos": group_partners_by_store(pending, "tbw"),
+            },
+        },
         "cursosAlta": courses,
         "tbwPendientes": pending,
     }

@@ -1,5 +1,196 @@
 {
   "actualizado": "2026-07-20",
+  "vistas": {
+    "alta": {
+      "titulo": "Cursos de Alta",
+      "periodo": "Julio",
+      "total": 7,
+      "tiendas": 4,
+      "programas": {
+        "BT": 6,
+        "SS": 1
+      },
+      "grupos": [
+        {
+          "tienda": "COSMOPOL",
+          "total": 1,
+          "partners": [
+            {
+              "id": "SBX106137",
+              "nombre": "ANGEL SAID MONTESINOS GARCIA",
+              "programa": "BT"
+            }
+          ]
+        },
+        {
+          "tienda": "IZCALLI MEGA",
+          "total": 4,
+          "partners": [
+            {
+              "id": "SBX099728",
+              "nombre": "ANDREA MICHELLE COLIN ROLON",
+              "programa": "SS"
+            },
+            {
+              "id": "SBX096221",
+              "nombre": "MARIANA PEREZ RAMIREZ",
+              "programa": "BT"
+            },
+            {
+              "id": "SBX102053",
+              "nombre": "MELANYE ARELY SALAS MONCADA",
+              "programa": "BT"
+            },
+            {
+              "id": "SBX100034",
+              "nombre": "RAYMUNDO ALEJANDRO ROJAS GRANIEL",
+              "programa": "BT"
+            }
+          ]
+        },
+        {
+          "tienda": "PATIO ECATEPEC",
+          "total": 1,
+          "partners": [
+            {
+              "id": "SBX106807",
+              "nombre": "ALONDRA ABIGAIL HERNANDEZ GARCIA",
+              "programa": "BT"
+            }
+          ]
+        },
+        {
+          "tienda": "SAN MIGUEL IZCALLI",
+          "total": 1,
+          "partners": [
+            {
+              "id": "SBX095810",
+              "nombre": "SEBASTIAN SOTO ZUÑIGA",
+              "programa": "BT"
+            }
+          ]
+        }
+      ]
+    },
+    "tbw": {
+      "titulo": "TBW",
+      "corte": "2026-07-20",
+      "total": 14,
+      "tiendas": 6,
+      "progreso": {
+        "sinIniciar": 13,
+        "enCurso": 1
+      },
+      "grupos": [
+        {
+          "tienda": "CC COACALCO",
+          "total": 1,
+          "partners": [
+            {
+              "id": "SBX109725",
+              "nombre": "LUZ MARIANA CHAVEZ CORONA",
+              "avance": 0
+            }
+          ]
+        },
+        {
+          "tienda": "COSMOPOL",
+          "total": 1,
+          "partners": [
+            {
+              "id": "SBX110164",
+              "nombre": "CHRISTOPHER OMAR SAENZ RIVAS",
+              "avance": 0
+            }
+          ]
+        },
+        {
+          "tienda": "COSMOPOL N1",
+          "total": 1,
+          "partners": [
+            {
+              "id": "SBX110138",
+              "nombre": "SAMANTA GARCIA HERNANDEZ",
+              "avance": 0
+            }
+          ]
+        },
+        {
+          "tienda": "IZCALLI MEGA",
+          "total": 4,
+          "partners": [
+            {
+              "id": "SBX109619",
+              "nombre": "ANA LUISA RAMIREZ DIAZ",
+              "avance": 0
+            },
+            {
+              "id": "SBX108726",
+              "nombre": "ANGEL ZAHAMI PEREZ VALDEZ",
+              "avance": 0
+            },
+            {
+              "id": "SBX108967",
+              "nombre": "LUIS PAULO ROJAS SOLIS",
+              "avance": 0
+            },
+            {
+              "id": "SBX108476",
+              "nombre": "ROBERTO ANTONIO AMADOR RUIZ",
+              "avance": 0
+            }
+          ]
+        },
+        {
+          "tienda": "LUNA PARK",
+          "total": 3,
+          "partners": [
+            {
+              "id": "SBX109960",
+              "nombre": "DANIELA SERRANO URIBE",
+              "avance": 0
+            },
+            {
+              "id": "SBX108511",
+              "nombre": "FERNANDO JULIAN FLORES REYES",
+              "avance": 0
+            },
+            {
+              "id": "SBX109957",
+              "nombre": "JONATHAN URIEL GONZALEZ SALAZAR",
+              "avance": 0
+            }
+          ]
+        },
+        {
+          "tienda": "SAN MARCOS",
+          "total": 4,
+          "partners": [
+            {
+              "id": "SBX109197",
+              "nombre": "ANGELA LILIAN VARGAS ESCOTO",
+              "avance": 0
+            },
+            {
+              "id": "SBX108169",
+              "nombre": "GERARDO GUILLERMO VEGA LOPEZ",
+              "avance": 80
+            },
+            {
+              "id": "SBX110145",
+              "nombre": "MARCELA PATRICIA GALICIA MORALES",
+              "avance": 0
+            },
+            {
+              "id": "SBX110146",
+              "nombre": "YAEL ALVA BUSTAMANTE",
+              "avance": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
   "cursosAlta": [
     {
       "id": "SBX106137",
@@ -21,7 +212,7 @@
     },
     {
       "id": "SBX096221",
-      "nombre": "MARIANA  PEREZ RAMIREZ",
+      "nombre": "MARIANA PEREZ RAMIREZ",
       "tienda": "IZCALLI MEGA",
       "estatus": "Alta julio",
       "programa": "BT",
@@ -57,7 +248,7 @@
     },
     {
       "id": "SBX095810",
-      "nombre": "SEBASTIAN  SOTO ZUÑIGA",
+      "nombre": "SEBASTIAN SOTO ZUÑIGA",
       "tienda": "SAN MIGUEL IZCALLI",
       "estatus": "Alta julio",
       "programa": "BT",
@@ -84,7 +275,7 @@
     },
     {
       "id": "SBX110138",
-      "nombre": "SAMANTA  GARCIA HERNANDEZ",
+      "nombre": "SAMANTA GARCIA HERNANDEZ",
       "tienda": "COSMOPOL N1",
       "estatus": "Pendiente",
       "avance": 0,
@@ -124,7 +315,7 @@
     },
     {
       "id": "SBX109960",
-      "nombre": "DANIELA  SERRANO URIBE",
+      "nombre": "DANIELA SERRANO URIBE",
       "tienda": "LUNA PARK",
       "estatus": "Pendiente",
       "avance": 0,
@@ -172,7 +363,7 @@
     },
     {
       "id": "SBX110146",
-      "nombre": "YAEL  ALVA BUSTAMANTE",
+      "nombre": "YAEL ALVA BUSTAMANTE",
       "tienda": "SAN MARCOS",
       "estatus": "Pendiente",
       "avance": 0,

@@ -16,6 +16,8 @@ on:
       - "tools/build_data.py"
       - "tools/validate_cms.py"
       - "tools/validate_assets.py"
+      - "tools/validate_enhancements.py"
+      - "tools/test_experience_v27.mjs"
       - "tools/optimize_images.py"
       - ".github/workflows/actualizar-cms.yml"
   workflow_dispatch:
@@ -64,11 +66,12 @@ jobs:
         run: |
           set -euo pipefail
           python tools/validate_assets.py
-          python tools/validate_enhancements.py --report reports/v26-validation.json
+          python tools/validate_enhancements.py --report reports/v27-validation.json
           python tools/audit_links.py Distrito_Go_CMS_v2_actualizado.xlsx --report reports/link-audit.json
           python tools/audit_static.py
           find modules -name '*.js' -print0 | xargs -0 -n1 node --check
           node --check sw.js
+          node tools/test_experience_v27.mjs --report reports/v27-interaction-tests.json
 
       - name: Comprobar alcance generado
         shell: bash

@@ -12,7 +12,7 @@ export function bindNavigation(){
     const target = event.target.closest('[data-nav-target]');
     if(!target) return;
     document.getElementById('quick-modal')?.close();
-    nav(target.dataset.navTarget);
+    requestAnimationFrame(() => nav(target.dataset.navTarget));
   });
   const savedView = sessionStorage.getItem(LAST_VIEW_KEY);
   if(savedView && savedView !== 'home') requestAnimationFrame(() => nav(savedView, false));

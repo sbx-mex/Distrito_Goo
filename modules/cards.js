@@ -88,7 +88,16 @@ export function openTool(id){
 export function toggleFavorite(id){
   state.favorites = state.favorites.includes(id) ? state.favorites.filter(x => x !== id) : [id, ...state.favorites];
   setJSON('dgx_favorites', state.favorites);
+  const savedKey = 'dgx_saved_content';
+  let saved = [];
+  try { saved = JSON.parse(localStorage.getItem(savedKey)) || []; } catch { saved = []; }
+  const contentId = `tool-${id}`;
+  saved = state.favorites.includes(id)
+    ? [contentId, ...saved.filter(item => item !== contentId)]
+    : saved.filter(item => item !== contentId);
+  setJSON(savedKey, [...new Set(saved)].slice(0,80));
   renderTools(false);
+  window.dispatchEvent(new CustomEvent('dgx:saved-changed', {detail:{id:contentId, saved:state.favorites.includes(id)}}));
   toast(state.favorites.includes(id) ? 'Agregado a favoritos' : 'Quitado de favoritos');
 }
 

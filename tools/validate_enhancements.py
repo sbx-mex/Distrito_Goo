@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Pruebas reproducibles para la navegación única v26 de Distrito Goo."""
+"""Pruebas reproducibles para la experiencia personalizada v27 de Distrito Goo."""
 from __future__ import annotations
 
 import argparse
@@ -21,7 +21,8 @@ def check(name: str, condition: bool, detail: str) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--report", type=Path, default=ROOT / "reports" / "v26-validation.json")
+    parser.add_argument("--report", type=Path, default=ROOT / "reports" / "v27-validation.json")
+    parser.add_argument("--cms", type=Path, default=ROOT / "Distrito_Go_CMS_v2_actualizado.xlsx")
     args = parser.parse_args()
 
     html = (ROOT / "index.html").read_text(encoding="utf-8")
@@ -34,7 +35,7 @@ def main() -> int:
     navigation_css = (ROOT / "styles" / "navigation-v26.css").read_text(encoding="utf-8")
     info = json.loads((ROOT / "data" / "informativo.v10.json").read_text(encoding="utf-8"))
 
-    wb = load_workbook(ROOT / "Distrito_Go_CMS_v2_actualizado.xlsx", read_only=True, data_only=True)
+    wb = load_workbook(args.cms, read_only=True, data_only=True)
     ws = wb["Informativo"]
     headers = [cell.value for cell in next(ws.iter_rows(min_row=1, max_row=1))]
     records = [dict(zip(headers, row)) for row in ws.iter_rows(min_row=2, values_only=True) if any(value not in (None, "") for value in row)]
@@ -74,6 +75,13 @@ def main() -> int:
     check("Cuatro accesos", all(label in experience for label in ("Hoy","Apertura","Personas","Semana")) and "{id:'peak'" not in experience, "Hoy, Apertura, Personas y Semana")
     check("Peak agrupado en Operación", "keywords:['peak','ritmo','cobertura','despliegue','turno']" in experience and "access:'Operación'" in experience, "Duty Roster conserva Peak como palabra clave operativa")
     check("Accesos con CMS", "matchesAccess" in experience and "Acceso Rápido" in experience, "Clasificación compatible con CMS")
+    check("Personas sin nombres visibles", "activeAccess === 'Semana'" in experience and "activeAccess === 'Personas'" not in experience.split("export function renderExplore", 1)[1].split("export function renderSaved", 1)[0], "Los registros searchOnly no se renderizan en Personas")
+    check("Partners conservados en búsqueda", "contentFromPerson" in experience and "getContentCatalog" in search, "Los nombres permanecen dentro del índice global")
+    check("Catálogo de rutinas", all(value in experience for value in ("daily-catalog-track","data-daily-scroll","ArrowLeft","ArrowRight","renderDailyCatalog")), "Rutinas horizontales con controles y teclado")
+    check("Deslizamiento táctil", "scroll-snap-type:x mandatory" in navigation_css and "overscroll-behavior-inline:contain" in navigation_css, "Scroll snap sin desbordar la página")
+    check("Sin carrusel automático", "setInterval" not in experience, "El catálogo solo se mueve por acción del usuario")
+    check("Favoritos sincronizados", all(value in experience for value in ("dgx_saved_content","aria-pressed","dgx:saved-changed","migrateLegacyFavorites")), "Tarjeta, catálogo, detalle, búsqueda y Guardados comparten IDs")
+    check("Actividad semanal consolidada", "label:'Semana'" in experience and "join(' · ')" in experience, "Semana, día y actividad sin rótulos duplicados")
     check("Categorías contraídas", 'id="category-hubs" class="category-grid skeleton-grid" hidden' in html and 'id="toggle-categories"' in html, "Ver categorías y Ocultar categorías disponibles")
     check("Detalle operativo conservado", "showDetailSection" in experience and "showDetailSection" in navigation, "Las secciones heredadas se abren bajo demanda")
     check("Guardados locales", "dgx_saved_content" in experience and "localStorage" not in experience, "Persistencia mediante abstracción local existente")
@@ -83,6 +91,8 @@ def main() -> int:
     check("Búsqueda normalizada", "normalize(query)" in search and "scoreEntry" in search, "Mayúsculas y acentos normalizados")
     check("Estados de búsqueda", all(value in search for value in ("Busca en todo Distrito Goo","Buscando en Distrito Goo…","No encontramos resultados para")), "Inicial, procesando y sin resultados")
     check("Detalle interno", "dgx:open-detail" in experience and "openContentDetail" in app, "Visor existente ampliado")
+    check("Acción con destino", all(value in app for value in ("data-image-viewer","data-nav-target","byId(item.section)")) and "is-destination-highlight" in navigation_css, "Imagen, recurso o sección real; sin botón vacío")
+    check("Detalle accesible", all(value in app for value in ("lastQuickModalTrigger","is-modal-open","modal.showModal")) and 'id="close-quick-modal"' in html, "Cierre, foco restaurado y desplazamiento bloqueado")
     check("Portadas estándar", "standardCoverMarkup" in experience and "shouldUseStandardCover" in experience, "Maquila e infografías sin fondo saturado")
     check("Eventos limpios", all(value in html for value in ('data-event-filter="upcoming"', 'data-event-filter="week"', 'data-event-filter="month"')) and "data-open-event-id" in operational, "Próximos, semana y mes")
     check("Sin controles superiores", all(value not in html for value in ("open-spotlight","theme-toggle","spotlight-modal","⌘K")), "Spotlight y tema retirados")
@@ -124,7 +134,7 @@ def main() -> int:
     check("Miniaturas WebP", len(thumbnails) >= 8, f"{len(thumbnails)} miniaturas derivadas")
     check("Picture con respaldo", "<picture>" in experience and "imageOriginal" in experience, "WebP con original preservado")
     check("Carga diferida", 'loading="${eager ? \'eager\' : \'lazy\'}"' in experience and 'decoding="async"' in experience, "Lazy fuera del primer bloque")
-    check("Caché actualizado", "distrito-go-v26.0.0-navegacion-unica" in sw and "./styles/navigation-v26.css" in shell_refs, "Versión v26")
+    check("Caché actualizado", "distrito-go-v27.0.0-experiencia-personalizada" in sw and "./styles/navigation-v26.css" in shell_refs, "Versión v27")
     check("Caché tolera versiones", "ignoreSearch:true" in sw, "CSS y JS versionados disponibles offline")
     check("Menú responsive", "grid-template-columns:repeat(3" in navigation_css and "@media(min-width:901px)" in navigation_css and "@media(max-width:900px)" in navigation_css, "Tres destinos en lateral y barra inferior")
     check("Áreas táctiles y foco", "min-height:44px" in navigation_css and ":focus-visible" in navigation_css, "Controles accesibles")

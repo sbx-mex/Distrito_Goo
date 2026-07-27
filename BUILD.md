@@ -1,4 +1,4 @@
-# Build y despliegue — navegación única v26
+# Build y despliegue — experiencia personalizada v27
 
 ```bash
 python -m pip install -r requirements.txt
@@ -27,3 +27,8 @@ cargados. No requiere una columna adicional ni cambios en el CMS. `Peak` se
 conserva como palabra clave operativa de Duty Roster, agrupada bajo `Operación`,
 y ya no se muestra como acceso principal. El menú único contiene Inicio,
 Explorar y Guardados.
+
+La vista Personas excluye del renderizado los registros individuales de Partners,
+pero conserva esos nombres en el índice global. Rutina diaria utiliza un catálogo
+horizontal sin reproducción automática. Favoritos se guarda localmente mediante
+IDs estables y se sincroniza entre catálogo, búsqueda, detalle y Guardados.

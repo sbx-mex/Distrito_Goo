@@ -18,6 +18,22 @@
     },
     {
       "ID": "EVT-002",
+      "Actividad": "Concurso de Venta ",
+      "Contexto / Recordatorio": "Enfoca a los dos Cursos Activos ",
+      "Fecha Inicio": "2026-07-01",
+      "Fecha Fin": "2026-08-10",
+      "Región": "Centro Norte",
+      "Distrito": "Enrique Cesar Flores",
+      "Tienda": "Todas",
+      "Publicar": true,
+      "Imagen": "💰",
+      "Link": "https://sbx-mx.github.io/concurso_venta/",
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
+    },
+    {
+      "ID": "EVT-003",
       "Actividad": "Best Talent - Cascada RD y DM",
       "Contexto / Recordatorio": "Sesiones de revisión y proyección de talento.",
       "Fecha Inicio": "2026-07-13",
@@ -33,7 +49,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-003",
+      "ID": "EVT-004",
       "Actividad": "Mujeres que Inspiran - Club de Lectura",
       "Contexto / Recordatorio": "Sesión de lectura, reflexión y desarrollo.",
       "Fecha Inicio": "2026-07-28",
@@ -49,7 +65,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-004",
+      "ID": "EVT-005",
       "Actividad": "️ AutoICA",
       "Contexto / Recordatorio": "Ejecuta AutoICA y da seguimiento a hallazgos.",
       "Fecha Inicio": "2026-08-01",
@@ -65,7 +81,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-005",
+      "ID": "EVT-006",
       "Actividad": "Corte de Nómina",
       "Contexto / Recordatorio": "Valida incidencias del 16 al 31 de julio.",
       "Fecha Inicio": "2026-08-02",
@@ -81,7 +97,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-006",
+      "ID": "EVT-007",
       "Actividad": "Best Talent - Cascada DM - SM",
       "Contexto / Recordatorio": "Calibración y desarrollo de talento DM-SM.",
       "Fecha Inicio": "2026-08-03",
@@ -97,7 +113,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-007",
+      "ID": "EVT-008",
       "Actividad": "️ Upsize sin costo adicional",
       "Contexto / Recordatorio": "Impulsa el incremento de ADTs.",
       "Fecha Inicio": "2026-08-03",
@@ -113,7 +129,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-008",
+      "ID": "EVT-009",
       "Actividad": "Coffee Webinar",
       "Contexto / Recordatorio": "Webinar para Coffee Masters.",
       "Fecha Inicio": "2026-08-13",
@@ -129,7 +145,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-009",
+      "ID": "EVT-010",
       "Actividad": "Corte de Nómina",
       "Contexto / Recordatorio": "Valida incidencias del 1 al 15 de agosto.",
       "Fecha Inicio": "2026-08-16",
@@ -145,7 +161,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-010",
+      "ID": "EVT-011",
       "Actividad": "Seminario de Café",
       "Contexto / Recordatorio": "Seminario para Coffee Masters.",
       "Fecha Inicio": "2026-08-17",
@@ -161,7 +177,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-011",
+      "ID": "EVT-012",
       "Actividad": "Mujeres que Inspiran - Abriendo Camino",
       "Contexto / Recordatorio": "Sesión de desarrollo y liderazgo.",
       "Fecha Inicio": "2026-08-25",
@@ -177,7 +193,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-012",
+      "ID": "EVT-013",
       "Actividad": "Corte de Nómina",
       "Contexto / Recordatorio": "Valida incidencias del 16 al 31 de agosto.",
       "Fecha Inicio": "2026-08-31",
@@ -193,7 +209,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-013",
+      "ID": "EVT-014",
       "Actividad": "️ AutoICA",
       "Contexto / Recordatorio": "Ejecuta AutoICA y da seguimiento a hallazgos.",
       "Fecha Inicio": "2026-09-01",
@@ -209,7 +225,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-014",
+      "ID": "EVT-015",
       "Actividad": "Corte de Nómina",
       "Contexto / Recordatorio": "Valida incidencias del 1 al 15 de septiembre.",
       "Fecha Inicio": "2026-09-16",
@@ -225,7 +241,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-015",
+      "ID": "EVT-016",
       "Actividad": "Mujeres que Inspiran - Voces que Inspiran",
       "Contexto / Recordatorio": "Conversaciones con líderes inspiradores.",
       "Fecha Inicio": "2026-09-29",
@@ -241,7 +257,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-016",
+      "ID": "EVT-017",
       "Actividad": "Corte de Nómina",
       "Contexto / Recordatorio": "Valida incidencias del 16 al 30 de septiembre.",
       "Fecha Inicio": "2026-09-30",
@@ -257,7 +273,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-017",
+      "ID": "EVT-018",
       "Actividad": "Inventario Pin Pad y TPV Q4",
       "Contexto / Recordatorio": "Actualiza el inventario de Pin Pad y TPV.",
       "Fecha Inicio": "2026-10-01",
@@ -273,7 +289,7 @@
       "ImagenOriginal": "assets/photos/pinpad-atb-cambios.png?v=6791390d2399"
     },
     {
-      "ID": "EVT-018",
+      "ID": "EVT-019",
       "Actividad": "️ AutoICA",
       "Contexto / Recordatorio": "Ejecuta AutoICA y da seguimiento a hallazgos.",
       "Fecha Inicio": "2026-10-01",
@@ -289,7 +305,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-019",
+      "ID": "EVT-020",
       "Actividad": "Corte de Nómina",
       "Contexto / Recordatorio": "Valida incidencias del 1 al 15 de octubre.",
       "Fecha Inicio": "2026-10-15",
@@ -305,7 +321,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-020",
+      "ID": "EVT-021",
       "Actividad": "Mujeres que Inspiran - Entre Páginas",
       "Contexto / Recordatorio": "Club de lectura y aprendizaje compartido.",
       "Fecha Inicio": "2026-10-27",
@@ -321,7 +337,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-021",
+      "ID": "EVT-022",
       "Actividad": "️ AutoICA",
       "Contexto / Recordatorio": "Ejecuta AutoICA y da seguimiento a hallazgos.",
       "Fecha Inicio": "2026-11-01",
@@ -337,7 +353,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-022",
+      "ID": "EVT-023",
       "Actividad": "Corte de Nómina",
       "Contexto / Recordatorio": "Valida incidencias del 16 al 31 de octubre.",
       "Fecha Inicio": "2026-11-02",
@@ -353,7 +369,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-023",
+      "ID": "EVT-024",
       "Actividad": "Corte de Nómina",
       "Contexto / Recordatorio": "Valida incidencias del 1 al 15 de noviembre.",
       "Fecha Inicio": "2026-11-16",
@@ -369,7 +385,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-024",
+      "ID": "EVT-025",
       "Actividad": "Corte de Nómina",
       "Contexto / Recordatorio": "Valida incidencias del 16 al 30 de noviembre.",
       "Fecha Inicio": "2026-11-30",
@@ -385,7 +401,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-025",
+      "ID": "EVT-026",
       "Actividad": "️ AutoICA",
       "Contexto / Recordatorio": "Ejecuta AutoICA y da seguimiento a hallazgos.",
       "Fecha Inicio": "2026-12-01",
@@ -401,7 +417,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-026",
+      "ID": "EVT-027",
       "Actividad": "Corte de Nómina",
       "Contexto / Recordatorio": "Valida incidencias del 1 al 15 de diciembre.",
       "Fecha Inicio": "2026-12-15",
@@ -430,8 +446,8 @@
       "Visible": true,
       "Acceso Rápido": "Hoy",
       "Recurso": "assets/photos/verificacion-cafe-espresso.webp?v=61e3213ae9ac",
-      "MiniaturaRecurso": "assets/photos/verificacion-cafe-espresso.png?v=481f927a9ef9",
-      "OriginalRecurso": "assets/photos/verificacion-cafe-espresso.png?v=481f927a9ef9",
+      "MiniaturaRecurso": "assets/photos/verificacion-cafe-espresso.png?v=83d6cb51241f",
+      "OriginalRecurso": "assets/photos/verificacion-cafe-espresso.png?v=83d6cb51241f",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Valida Espresso, Calidad del Café y registra resultados."
     },
@@ -464,8 +480,8 @@
       "Visible": true,
       "Acceso Rápido": "Peak",
       "Recurso": "assets/photos/store-walk.webp?v=3400f53c1019",
-      "MiniaturaRecurso": "assets/photos/store-walk.png?v=2a4bd1261db1",
-      "OriginalRecurso": "assets/photos/store-walk.png?v=2a4bd1261db1",
+      "MiniaturaRecurso": "assets/photos/store-walk.png?v=6a35e05de86c",
+      "OriginalRecurso": "assets/photos/store-walk.png?v=6a35e05de86c",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Realiza el recorrido de los 4 Estándares y registra acciones."
     },
@@ -480,9 +496,9 @@
       "Color": "Azul",
       "Visible": true,
       "Acceso Rápido": "Apertura",
-      "Recurso": "assets/photos/Rutina_apertura.jpeg?v=510a6564c19a",
-      "MiniaturaRecurso": "assets/photos/Rutina_apertura.jpeg?v=510a6564c19a",
-      "OriginalRecurso": "assets/photos/Rutina_apertura.jpeg?v=510a6564c19a",
+      "Recurso": "assets/photos/Rutina_apertura.jpeg?v=e24e2270e060",
+      "MiniaturaRecurso": "assets/photos/Rutina_apertura.jpeg?v=e24e2270e060",
+      "OriginalRecurso": "assets/photos/Rutina_apertura.jpeg?v=e24e2270e060",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Antes de las 09:00 a.m. reporta únicamente incidencias o desviaciones."
     },
@@ -498,8 +514,8 @@
       "Visible": true,
       "Acceso Rápido": "Peak",
       "Recurso": "assets/photos/10-pasos-turno.webp?v=8d2da38bd7f1",
-      "MiniaturaRecurso": "assets/photos/10-pasos-turno.png?v=5d69b79bcd4e",
-      "OriginalRecurso": "assets/photos/10-pasos-turno.png?v=5d69b79bcd4e",
+      "MiniaturaRecurso": "assets/photos/10-pasos-turno.png?v=9cc09190d881",
+      "OriginalRecurso": "assets/photos/10-pasos-turno.png?v=9cc09190d881",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Ejecuta los 10 Pasos durante tu turno"
     },
@@ -532,8 +548,8 @@
       "Visible": true,
       "Acceso Rápido": "Peak",
       "Recurso": "assets/photos/cortado_leche.webp?v=3101b2235a79",
-      "MiniaturaRecurso": "assets/photos/cortado_leche.jpeg?v=96d84fce8098",
-      "OriginalRecurso": "assets/photos/cortado_leche.jpeg?v=96d84fce8098",
+      "MiniaturaRecurso": "assets/photos/cortado_leche.jpeg?v=cc6a6cffd563",
+      "OriginalRecurso": "assets/photos/cortado_leche.jpeg?v=cc6a6cffd563",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Verifica el corte correcto uso de tijeras"
     }
@@ -1835,8 +1851,8 @@
       "Mostrar Explorar": true,
       "Acceso Rápido": "Hoy",
       "Recurso": "assets/photos/maquila_actualizado.webp?v=12d143b2e9cd",
-      "MiniaturaRecurso": "assets/photos/maquila_actualizado.png?v=d94b965a0432",
-      "OriginalRecurso": "assets/photos/maquila_actualizado.png?v=d94b965a0432",
+      "MiniaturaRecurso": "assets/photos/maquila_actualizado.png?v=7af1a5cd58c9",
+      "OriginalRecurso": "assets/photos/maquila_actualizado.png?v=7af1a5cd58c9",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Consulta el costo actualizado de maquila."
     },
@@ -1880,9 +1896,9 @@
       "Mostrar Inicio": false,
       "Mostrar Explorar": true,
       "Acceso Rápido": "Apertura",
-      "Recurso": "assets/photos/clockin_out.jpg?v=ae93c0ed48b2",
-      "MiniaturaRecurso": "assets/photos/clockin_out.jpg?v=ae93c0ed48b2",
-      "OriginalRecurso": "assets/photos/clockin_out.jpg?v=ae93c0ed48b2",
+      "Recurso": "assets/photos/clockin_out.jpg?v=d368a3864b99",
+      "MiniaturaRecurso": "assets/photos/clockin_out.jpg?v=d368a3864b99",
+      "OriginalRecurso": "assets/photos/clockin_out.jpg?v=d368a3864b99",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Consulta el enfoque vigente de Clock In/Out."
     },
@@ -1926,9 +1942,9 @@
       "Mostrar Inicio": true,
       "Mostrar Explorar": true,
       "Acceso Rápido": "Semana",
-      "Recurso": "assets/photos/resumen_comunicado_semana_actual.png?v=3d4638a892e4",
-      "MiniaturaRecurso": "assets/photos/resumen_comunicado_semana_actual.png?v=3d4638a892e4",
-      "OriginalRecurso": "assets/photos/resumen_comunicado_semana_actual.png?v=3d4638a892e4",
+      "Recurso": "assets/photos/resumen_comunicado_semana_actual.png?v=bd04c737449f",
+      "MiniaturaRecurso": "assets/photos/resumen_comunicado_semana_actual.png?v=bd04c737449f",
+      "OriginalRecurso": "assets/photos/resumen_comunicado_semana_actual.png?v=bd04c737449f",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Consulta los puntos clave de esta semana."
     }

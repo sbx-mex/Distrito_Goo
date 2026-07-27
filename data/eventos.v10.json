@@ -17,6 +17,22 @@
   },
   {
     "ID": "EVT-002",
+    "Actividad": "Concurso de Venta ",
+    "Contexto / Recordatorio": "Enfoca a los dos Cursos Activos ",
+    "Fecha Inicio": "2026-07-01",
+    "Fecha Fin": "2026-08-10",
+    "Región": "Centro Norte",
+    "Distrito": "Enrique Cesar Flores",
+    "Tienda": "Todas",
+    "Publicar": true,
+    "Imagen": "💰",
+    "Link": "https://sbx-mx.github.io/concurso_venta/",
+    "ImagenPath": "",
+    "MiniaturaPath": "",
+    "ImagenOriginal": ""
+  },
+  {
+    "ID": "EVT-003",
     "Actividad": "Best Talent - Cascada RD y DM",
     "Contexto / Recordatorio": "Sesiones de revisión y proyección de talento.",
     "Fecha Inicio": "2026-07-13",
@@ -32,7 +48,7 @@
     "ImagenOriginal": ""
   },
   {
-    "ID": "EVT-003",
+    "ID": "EVT-004",
     "Actividad": "Mujeres que Inspiran - Club de Lectura",
     "Contexto / Recordatorio": "Sesión de lectura, reflexión y desarrollo.",
     "Fecha Inicio": "2026-07-28",
@@ -48,7 +64,7 @@
     "ImagenOriginal": ""
   },
   {
-    "ID": "EVT-004",
+    "ID": "EVT-005",
     "Actividad": "️ AutoICA",
     "Contexto / Recordatorio": "Ejecuta AutoICA y da seguimiento a hallazgos.",
     "Fecha Inicio": "2026-08-01",
@@ -64,7 +80,7 @@
     "ImagenOriginal": ""
   },
   {
-    "ID": "EVT-005",
+    "ID": "EVT-006",
     "Actividad": "Corte de Nómina",
     "Contexto / Recordatorio": "Valida incidencias del 16 al 31 de julio.",
     "Fecha Inicio": "2026-08-02",
@@ -80,7 +96,7 @@
     "ImagenOriginal": ""
   },
   {
-    "ID": "EVT-006",
+    "ID": "EVT-007",
     "Actividad": "Best Talent - Cascada DM - SM",
     "Contexto / Recordatorio": "Calibración y desarrollo de talento DM-SM.",
     "Fecha Inicio": "2026-08-03",
@@ -96,7 +112,7 @@
     "ImagenOriginal": ""
   },
   {
-    "ID": "EVT-007",
+    "ID": "EVT-008",
     "Actividad": "️ Upsize sin costo adicional",
     "Contexto / Recordatorio": "Impulsa el incremento de ADTs.",
     "Fecha Inicio": "2026-08-03",
@@ -112,7 +128,7 @@
     "ImagenOriginal": ""
   },
   {
-    "ID": "EVT-008",
+    "ID": "EVT-009",
     "Actividad": "Coffee Webinar",
     "Contexto / Recordatorio": "Webinar para Coffee Masters.",
     "Fecha Inicio": "2026-08-13",
@@ -128,7 +144,7 @@
     "ImagenOriginal": ""
   },
   {
-    "ID": "EVT-009",
+    "ID": "EVT-010",
     "Actividad": "Corte de Nómina",
     "Contexto / Recordatorio": "Valida incidencias del 1 al 15 de agosto.",
     "Fecha Inicio": "2026-08-16",
@@ -144,7 +160,7 @@
     "ImagenOriginal": ""
   },
   {
-    "ID": "EVT-010",
+    "ID": "EVT-011",
     "Actividad": "Seminario de Café",
     "Contexto / Recordatorio": "Seminario para Coffee Masters.",
     "Fecha Inicio": "2026-08-17",
@@ -160,7 +176,7 @@
     "ImagenOriginal": ""
   },
   {
-    "ID": "EVT-011",
+    "ID": "EVT-012",
     "Actividad": "Mujeres que Inspiran - Abriendo Camino",
     "Contexto / Recordatorio": "Sesión de desarrollo y liderazgo.",
     "Fecha Inicio": "2026-08-25",
@@ -176,7 +192,7 @@
     "ImagenOriginal": ""
   },
   {
-    "ID": "EVT-012",
+    "ID": "EVT-013",
     "Actividad": "Corte de Nómina",
     "Contexto / Recordatorio": "Valida incidencias del 16 al 31 de agosto.",
     "Fecha Inicio": "2026-08-31",
@@ -192,7 +208,7 @@
     "ImagenOriginal": ""
   },
   {
-    "ID": "EVT-013",
+    "ID": "EVT-014",
     "Actividad": "️ AutoICA",
     "Contexto / Recordatorio": "Ejecuta AutoICA y da seguimiento a hallazgos.",
     "Fecha Inicio": "2026-09-01",
@@ -208,7 +224,7 @@
     "ImagenOriginal": ""
   },
   {
-    "ID": "EVT-014",
+    "ID": "EVT-015",
     "Actividad": "Corte de Nómina",
     "Contexto / Recordatorio": "Valida incidencias del 1 al 15 de septiembre.",
     "Fecha Inicio": "2026-09-16",
@@ -224,7 +240,7 @@
     "ImagenOriginal": ""
   },
   {
-    "ID": "EVT-015",
+    "ID": "EVT-016",
     "Actividad": "Mujeres que Inspiran - Voces que Inspiran",
     "Contexto / Recordatorio": "Conversaciones con líderes inspiradores.",
     "Fecha Inicio": "2026-09-29",
@@ -240,7 +256,7 @@
     "ImagenOriginal": ""
   },
   {
-    "ID": "EVT-016",
+    "ID": "EVT-017",
     "Actividad": "Corte de Nómina",
     "Contexto / Recordatorio": "Valida incidencias del 16 al 30 de septiembre.",
     "Fecha Inicio": "2026-09-30",
@@ -256,7 +272,7 @@
     "ImagenOriginal": ""
   },
   {
-    "ID": "EVT-017",
+    "ID": "EVT-018",
     "Actividad": "Inventario Pin Pad y TPV Q4",
     "Contexto / Recordatorio": "Actualiza el inventario de Pin Pad y TPV.",
     "Fecha Inicio": "2026-10-01",
@@ -272,7 +288,7 @@
     "ImagenOriginal": "assets/photos/pinpad-atb-cambios.png?v=6791390d2399"
   },
   {
-    "ID": "EVT-018",
+    "ID": "EVT-019",
     "Actividad": "️ AutoICA",
     "Contexto / Recordatorio": "Ejecuta AutoICA y da seguimiento a hallazgos.",
     "Fecha Inicio": "2026-10-01",
@@ -288,7 +304,7 @@
     "ImagenOriginal": ""
   },
   {
-    "ID": "EVT-019",
+    "ID": "EVT-020",
     "Actividad": "Corte de Nómina",
     "Contexto / Recordatorio": "Valida incidencias del 1 al 15 de octubre.",
     "Fecha Inicio": "2026-10-15",
@@ -304,7 +320,7 @@
     "ImagenOriginal": ""
   },
   {
-    "ID": "EVT-020",
+    "ID": "EVT-021",
     "Actividad": "Mujeres que Inspiran - Entre Páginas",
     "Contexto / Recordatorio": "Club de lectura y aprendizaje compartido.",
     "Fecha Inicio": "2026-10-27",
@@ -320,7 +336,7 @@
     "ImagenOriginal": ""
   },
   {
-    "ID": "EVT-021",
+    "ID": "EVT-022",
     "Actividad": "️ AutoICA",
     "Contexto / Recordatorio": "Ejecuta AutoICA y da seguimiento a hallazgos.",
     "Fecha Inicio": "2026-11-01",
@@ -336,7 +352,7 @@
     "ImagenOriginal": ""
   },
   {
-    "ID": "EVT-022",
+    "ID": "EVT-023",
     "Actividad": "Corte de Nómina",
     "Contexto / Recordatorio": "Valida incidencias del 16 al 31 de octubre.",
     "Fecha Inicio": "2026-11-02",
@@ -352,7 +368,7 @@
     "ImagenOriginal": ""
   },
   {
-    "ID": "EVT-023",
+    "ID": "EVT-024",
     "Actividad": "Corte de Nómina",
     "Contexto / Recordatorio": "Valida incidencias del 1 al 15 de noviembre.",
     "Fecha Inicio": "2026-11-16",
@@ -368,7 +384,7 @@
     "ImagenOriginal": ""
   },
   {
-    "ID": "EVT-024",
+    "ID": "EVT-025",
     "Actividad": "Corte de Nómina",
     "Contexto / Recordatorio": "Valida incidencias del 16 al 30 de noviembre.",
     "Fecha Inicio": "2026-11-30",
@@ -384,7 +400,7 @@
     "ImagenOriginal": ""
   },
   {
-    "ID": "EVT-025",
+    "ID": "EVT-026",
     "Actividad": "️ AutoICA",
     "Contexto / Recordatorio": "Ejecuta AutoICA y da seguimiento a hallazgos.",
     "Fecha Inicio": "2026-12-01",
@@ -400,7 +416,7 @@
     "ImagenOriginal": ""
   },
   {
-    "ID": "EVT-026",
+    "ID": "EVT-027",
     "Actividad": "Corte de Nómina",
     "Contexto / Recordatorio": "Valida incidencias del 1 al 15 de diciembre.",
     "Fecha Inicio": "2026-12-15",

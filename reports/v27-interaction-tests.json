@@ -1,0 +1,52 @@
+{
+  "ok": true,
+  "checks": [
+    {
+      "name": "Siete rutinas CMS",
+      "ok": true,
+      "detail": "7 rutinas"
+    },
+    {
+      "name": "Orden estable de rutinas",
+      "ok": true,
+      "detail": "Verificación Espresso, RSA Checklist, Protocolo de Apertura, Corte de Leche, Store Walk, 10 pasos para un turno exitoso, Menu Core"
+    },
+    {
+      "name": "Partners indexados",
+      "ok": true,
+      "detail": "21 registros individuales"
+    },
+    {
+      "name": "Búsqueda exacta de Partner",
+      "ok": true,
+      "detail": "ALONDRA ABIGAIL HERNANDEZ GARCIA"
+    },
+    {
+      "name": "Sin duplicado exacto",
+      "ok": true,
+      "detail": "person-BT-SBX106807"
+    },
+    {
+      "name": "Búsqueda sin acentos o mayúsculas",
+      "ok": true,
+      "detail": "ALONDRA ABIGAIL HERNANDEZ GARCIA"
+    },
+    {
+      "name": "Sin acciones sin destino",
+      "ok": true,
+      "detail": "0 casos"
+    },
+    {
+      "name": "Guardar persiste",
+      "ok": true,
+      "detail": "daily-1"
+    },
+    {
+      "name": "Retirar favorito persiste",
+      "ok": true,
+      "detail": "daily-1"
+    }
+  ],
+  "catalogItems": 410,
+  "searchItems": 410
+}

@@ -17,8 +17,8 @@
     "Mostrar Explorar": true,
     "Acceso Rápido": "Hoy",
     "Recurso": "assets/photos/maquila_actualizado.webp?v=12d143b2e9cd",
-    "MiniaturaRecurso": "assets/photos/maquila_actualizado.png?v=d94b965a0432",
-    "OriginalRecurso": "assets/photos/maquila_actualizado.png?v=d94b965a0432",
+    "MiniaturaRecurso": "assets/photos/maquila_actualizado.png?v=7af1a5cd58c9",
+    "OriginalRecurso": "assets/photos/maquila_actualizado.png?v=7af1a5cd58c9",
     "TipoRecurso": "imagen",
     "DescripcionBreve": "Consulta el costo actualizado de maquila."
   },
@@ -62,9 +62,9 @@
     "Mostrar Inicio": false,
     "Mostrar Explorar": true,
     "Acceso Rápido": "Apertura",
-    "Recurso": "assets/photos/clockin_out.jpg?v=ae93c0ed48b2",
-    "MiniaturaRecurso": "assets/photos/clockin_out.jpg?v=ae93c0ed48b2",
-    "OriginalRecurso": "assets/photos/clockin_out.jpg?v=ae93c0ed48b2",
+    "Recurso": "assets/photos/clockin_out.jpg?v=d368a3864b99",
+    "MiniaturaRecurso": "assets/photos/clockin_out.jpg?v=d368a3864b99",
+    "OriginalRecurso": "assets/photos/clockin_out.jpg?v=d368a3864b99",
     "TipoRecurso": "imagen",
     "DescripcionBreve": "Consulta el enfoque vigente de Clock In/Out."
   },
@@ -108,9 +108,9 @@
     "Mostrar Inicio": true,
     "Mostrar Explorar": true,
     "Acceso Rápido": "Semana",
-    "Recurso": "assets/photos/resumen_comunicado_semana_actual.png?v=3d4638a892e4",
-    "MiniaturaRecurso": "assets/photos/resumen_comunicado_semana_actual.png?v=3d4638a892e4",
-    "OriginalRecurso": "assets/photos/resumen_comunicado_semana_actual.png?v=3d4638a892e4",
+    "Recurso": "assets/photos/resumen_comunicado_semana_actual.png?v=bd04c737449f",
+    "MiniaturaRecurso": "assets/photos/resumen_comunicado_semana_actual.png?v=bd04c737449f",
+    "OriginalRecurso": "assets/photos/resumen_comunicado_semana_actual.png?v=bd04c737449f",
     "TipoRecurso": "imagen",
     "DescripcionBreve": "Consulta los puntos clave de esta semana."
   }

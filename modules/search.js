@@ -1,7 +1,7 @@
 import { state } from './state.js';
 import { escapeHtml, normalize } from './utils.js';
-import { getContentCatalog, openContent } from './experience.js';
-import { openTool, renderTools, toggleFavorite } from './cards.js';
+import { getContentCatalog, isContentSaved, openContent } from './experience.js';
+import { openTool, renderTools } from './cards.js';
 
 const INITIAL_LIMIT = 8;
 const SEARCH_DELAY = 200;
@@ -92,7 +92,7 @@ function resultType(item){
 
 function resultCard(item){
   const type = resultType(item);
-  const favorite = Boolean(item.toolId && state.favorites.includes(item.toolId));
+  const favorite = isContentSaved(item.id);
   const image = item.image
     ? `<img src="${escapeHtml(item.image)}" alt="" loading="lazy" decoding="async">`
     : (RESULT_ICONS[type] || RESULT_ICONS.default);
@@ -106,7 +106,7 @@ function resultCard(item){
       </span>
       <span class="global-result-open">Abrir</span>
     </button>
-    ${item.toolId ? `<button class="global-result-favorite ${favorite ? 'is-favorite' : ''}" type="button" data-search-favorite="${escapeHtml(item.toolId)}" aria-label="${favorite ? 'Quitar de' : 'Agregar a'} favoritos" aria-pressed="${favorite}">${favorite ? '♥' : '♡'}</button>` : ''}
+    <button class="global-result-favorite ${favorite ? 'is-favorite' : ''}" type="button" data-save-content="${escapeHtml(item.id)}" aria-label="${escapeHtml(favorite ? `Quitar ${item.title} de Guardados` : `Guardar ${item.title}`)}" aria-pressed="${favorite}"><span aria-hidden="true">${favorite ? '♥' : '♡'}</span><span class="sr-only save-content-label">${favorite ? 'Guardado' : 'Guardar'}</span></button>
   </article>`;
 }
 
@@ -191,18 +191,15 @@ export function bindSearch(){
     renderSearchResults(input.value);
   });
   document.getElementById('global-search-grid')?.addEventListener('click', event => {
-    const favorite = event.target.closest('[data-search-favorite]');
-    if(favorite){
-      toggleFavorite(favorite.dataset.searchFavorite);
-      renderSearchResults(input.value);
-      return;
-    }
     const trigger = event.target.closest('[data-open-search-result]');
     if(!trigger) return;
     const item = searchIndex.find(entry => entry.item.id === trigger.dataset.openSearchResult)?.item;
     if(!item) return;
     if(item.toolId) openTool(item.toolId);
     else openContent(item, trigger);
+  });
+  window.addEventListener('dgx:saved-changed', () => {
+    if(normalize(input.value)) renderSearchResults(input.value);
   });
 }
 

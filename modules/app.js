@@ -8,7 +8,7 @@ import { bindPWA, bindPullToRefresh } from './pwa.js';
 import { renderDashboard, renderQuickActions, renderChips, renderCategories } from './quick-actions.js';
 import { renderTools, loadMoreTools } from './cards.js';
 import { renderOperationalSections } from './operational.js';
-import { initExperience } from './experience.js';
+import { initExperience, isContentSaved } from './experience.js';
 
 function byId(id){ return document.getElementById(id); }
 function setText(id, value){ const el = byId(id); if(el) el.textContent = value; }
@@ -168,6 +168,7 @@ function bindStaticEvents(){
   document.addEventListener('click', handleImageViewerClick);
   window.addEventListener('dgx:filtersChanged', () => { renderChips(); renderTools(true); });
   window.addEventListener('dgx:open-detail', event => openContentDetail(event.detail?.item, event.detail?.trigger));
+  window.addEventListener('dgx:saved-changed', () => renderTools(false));
 }
 
 
@@ -187,7 +188,7 @@ function resetImageViewer(){
   modal.classList.remove('is-image-viewer');
   modal.classList.remove('is-navigation-menu');
   setHtml('quick-modal-body', '');
-  const trigger = lastImageViewerTrigger || lastQuickModalTrigger;
+  const trigger = lastImageViewerTrigger?.isConnected ? lastImageViewerTrigger : lastQuickModalTrigger;
   lastImageViewerTrigger = null;
   lastQuickModalTrigger = null;
   if(trigger?.isConnected) requestAnimationFrame(() => trigger.focus({preventScroll:true}));
@@ -201,7 +202,7 @@ function openImageViewer(title, src){
   setHtml('quick-modal-body', `<img class="modal-image image-viewer-media" src="${src}" alt="${title || 'Imagen'}" loading="eager"/>`);
   modal.classList.add('is-image-viewer');
   document.body.classList.add('is-modal-open');
-  modal.showModal();
+  if(!modal.open) modal.showModal();
 }
 
 function safeDetailLink(value){
@@ -224,14 +225,22 @@ function openContentDetail(item, trigger){
   const date = item.dateLabel ? `<p class="visual-detail-date">${escapeHeroText(item.dateLabel)}</p>` : '';
   const action = link
     ? `<a href="${escapeHeroText(link)}" target="_blank" rel="noopener">Abrir recurso</a>`
-    : item.section ? `<button type="button" data-nav-target="${escapeHeroText(item.section)}">Ir a la sección</button>` : '';
+    : detailImage
+      ? `<button type="button" data-image-viewer="${escapeHeroText(detailImage)}" data-image-title="${escapeHeroText(item.title)}">Ver imagen completa</button>`
+      : item.section && byId(item.section)
+        ? `<button type="button" data-nav-target="${escapeHeroText(item.section)}">Ir a la sección</button>`
+        : '';
+  const saved = isContentSaved(item.id);
+  const secondaryMeta = item.category && item.category !== item.label
+    ? `<small>${escapeHeroText(item.category || item.source || '')}</small>`
+    : '';
   setText('quick-modal-title', item.title || 'Detalle');
   setHtml('quick-modal-body', `<article class="visual-detail">
     ${image}
-    <div class="visual-detail-meta"><span class="content-badge">${escapeHeroText(item.label || 'Actualizado')}</span><small>${escapeHeroText(item.category || item.source || '')}</small></div>
+    <div class="visual-detail-meta"><span class="content-badge">${escapeHeroText(item.label || 'Actualizado')}</span>${secondaryMeta}</div>
     ${date}
     <p>${escapeHeroText(item.description || item.short || '')}</p>
-    <div class="visual-detail-actions">${action}<button type="button" data-save-content="${escapeHeroText(item.id)}">♡ Guardar</button></div>
+    <div class="visual-detail-actions">${action}<button class="${saved ? 'is-saved' : ''}" type="button" data-save-content="${escapeHeroText(item.id)}" aria-label="${escapeHeroText(saved ? `Quitar ${item.title} de Guardados` : `Guardar ${item.title}`)}" aria-pressed="${saved}"><span aria-hidden="true">${saved ? '♥' : '♡'}</span> <span class="save-content-label">${saved ? 'Guardado' : 'Guardar'}</span></button></div>
   </article>`);
   document.body.classList.add('is-modal-open');
   modal.showModal();

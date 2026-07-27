@@ -1,4 +1,4 @@
-const CACHE_NAME = 'distrito-go-v31.0.0-semana-explorar-juntemonos';
+const CACHE_NAME = 'distrito-go-v32.0.0-semana-duty-celebraciones';
 const APP_SHELL = [
   './',
   './index.html',

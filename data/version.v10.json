@@ -1,5 +1,5 @@
 {
-  "version": "31.0.0",
+  "version": "32.0.0",
   "releaseDate": "2026-07-27",
   "changes": [
     "Maquila actualizada con mensaje único y recurso vigente.",
@@ -27,12 +27,14 @@
     "Acciones visibles únicamente cuando existe un destino real.",
     "Catálogo semanal de lunes a domingo con fecha y una actividad por posición.",
     "Explorar oculta herramientas hasta que el usuario selecciona un filtro.",
-    "Juntémonos Más integrado en Inicio desde el JSON de identidad."
+    "Juntémonos Más integrado en Inicio desde el JSON de identidad.",
+    "Ruta Juntémonos Más compacta para priorizar el mensaje principal.",
+    "Semana abre en el día actual e integra actividades, Duty Roster y celebraciones desde el CMS."
   ],
   "notes": "La PWA conserva su arquitectura estática y las funciones existentes. El contenido visual se administra desde el CMS sin editar index.html.",
   "fecha": "2026-07-27",
-  "descripcion": "Experiencia operativa compacta con navegación horizontal, semana por fecha, filtros explícitos y Juntémonos Más dinámico.",
+  "descripcion": "Experiencia semanal dinámica con actividades, Duty Roster y celebraciones por fecha.",
   "updatedAt": "2026-07-27",
-  "runtimeFix": "v31.0.0",
+  "runtimeFix": "v32.0.0",
   "name": "Juntémonos Más"
 }

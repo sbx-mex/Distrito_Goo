@@ -451,6 +451,82 @@ function weekDayPickerMarkup(){
     }).join('')}
   </div>`;
 }
+function weekBounds(){
+  const start = weekDate(0);
+  const end = weekDate(6);
+  start.setHours(0,0,0,0);
+  end.setHours(23,59,59,999);
+  return {start, end};
+}
+function celebrationOccurrence(item, year){
+  const source = dateValue(item.Fecha);
+  if(!source) return null;
+  const occurrence = new Date(year, source.getMonth(), source.getDate());
+  if(normalize(item.Tipo).includes('anivers') && year - source.getFullYear() < 1) return null;
+  return occurrence;
+}
+function weeklyCelebrations(){
+  const {start, end} = weekBounds();
+  return (state.operacional.celebraciones || [])
+    .filter(item => item.Publicar !== false)
+    .flatMap(item => [...new Set([start.getFullYear(), end.getFullYear()])]
+      .map(year => celebrationOccurrence(item, year))
+      .filter(occurrence => occurrence && occurrence >= start && occurrence <= end)
+      .map(occurrence => ({...item, occurrence})))
+    .sort((a,b) => a.occurrence - b.occurrence || String(a.NOMBRE).localeCompare(String(b.NOMBRE), 'es'));
+}
+function weeklyCelebrationsMarkup(){
+  const items = weeklyCelebrations();
+  if(!items.length) return '';
+  return `<section class="week-celebrations" aria-labelledby="week-celebrations-title">
+    <div class="week-feature-heading">
+      <span class="week-feature-icon" aria-hidden="true">✦</span>
+      <div><small>Personas que nos inspiran</small><strong id="week-celebrations-title">Esta semana celebramos</strong></div>
+      <b>${items.length}</b>
+    </div>
+    <div class="week-celebrations-track" aria-label="Cumpleaños y aniversarios de la semana">
+      ${items.map(item => {
+        const anniversary = normalize(item.Tipo).includes('anivers');
+        const source = dateValue(item.Fecha);
+        const years = anniversary && source ? item.occurrence.getFullYear() - source.getFullYear() : 0;
+        const occurrence = `${item.occurrence.getFullYear()}-${String(item.occurrence.getMonth()+1).padStart(2,'0')}-${String(item.occurrence.getDate()).padStart(2,'0')}`;
+        const date = item.occurrence.toLocaleDateString('es-MX', {weekday:'short', day:'2-digit', month:'short'});
+        return `<button class="week-celebration-card ${anniversary ? 'is-anniversary' : 'is-birthday'}" type="button" data-celebration-id="${escapeHtml(item.ID || '')}" data-celebration-date="${occurrence}" aria-label="Crear felicitación para ${escapeHtml(item.NOMBRE || 'Partner')}">
+          <span aria-hidden="true">${anniversary ? '🏅' : '🎂'}</span>
+          <span><small>${escapeHtml(date)}</small><strong>${escapeHtml(item.NOMBRE || 'Partner')}</strong><em>${escapeHtml(anniversary ? `${Math.max(1, years)} año${years === 1 ? '' : 's'} con nosotros` : 'Cumpleaños')}</em></span>
+        </button>`;
+      }).join('')}
+    </div>
+  </section>`;
+}
+function dutyForDay(day){
+  return (state.operacional.dutyRoster || []).find(item => normalize(item['Día']) === normalize(day)) || null;
+}
+function dutyMarkup(day){
+  const duty = dutyForDay(day);
+  if(!duty) return '';
+  const details = (state.operacional.dutyDetail || [])
+    .filter(item => normalize(item['Día']) === normalize(day))
+    .sort((a,b) => Number(a.Orden || 0) - Number(b.Orden || 0));
+  const critical = details.filter(item => item['Crítico'] === true || normalize(item['Crítico']) === 'true');
+  const image = duty.ImagenOriginal || duty.ImagenesOriginales?.[0] || duty.ImagenesPath?.[0] || '';
+  return `<section class="week-duty" aria-labelledby="week-duty-title">
+    <div class="week-feature-heading">
+      <span class="week-feature-icon" aria-hidden="true">🧭</span>
+      <div><small>Duty del ${escapeHtml(day.toLocaleLowerCase('es-MX'))}</small><strong id="week-duty-title">${escapeHtml(duty.Estaciones || 'Duty Roster')}</strong></div>
+      <b>${details.length} puntos</b>
+    </div>
+    <p>${escapeHtml(compactText(duty.Enfoque || '', 150))}</p>
+    <div class="week-duty-meta">
+      <span><b>${critical.length}</b> crítico${critical.length === 1 ? '' : 's'}</span>
+      <span><b>${String(duty.Estaciones || '').split(',').filter(Boolean).length}</b> estación${String(duty.Estaciones || '').split(',').filter(Boolean).length === 1 ? '' : 'es'}</span>
+    </div>
+    <div class="week-duty-actions">
+      ${image && isImage(image) ? `<button type="button" data-image-viewer="${escapeHtml(image)}" data-image-title="${escapeHtml(`${day} · ${duty.Estaciones || 'Duty Roster'}`)}">Ver guía visual</button>` : ''}
+      <button type="button" data-week-duty-detail="${escapeHtml(day)}">Consultar actividades Duty</button>
+    </div>
+  </section>`;
+}
 function renderWeeklyCatalog(items){
   if(!items.length) return '<div class="home-focus-empty"><strong>Sin actividad semanal vigente</strong><span>Consulta Explorar Distrito Go para revisar el contenido disponible.</span></div>';
   const selectedIndex = Math.max(0, WEEK_DAYS.findIndex(day => normalize(day) === normalize(selectedWeekDay)));
@@ -476,6 +552,10 @@ function renderWeeklyCatalog(items){
     <div id="weekly-catalog-track" class="home-catalog-track weekly-catalog-track" tabindex="0" aria-label="Actividades de ${escapeHtml(selectedWeekDay)}">
       ${dayItems.map(item => catalogCoverCardMarkup(item, 'weekly')).join('')}
     </div>` : '<div class="week-day-empty"><strong>Sin actividades publicadas</strong><span>Este día permanece visible porque forma parte del catálogo semanal.</span></div>'}
+    <div class="week-context-grid">
+      ${dutyMarkup(selectedWeekDay)}
+      ${weeklyCelebrationsMarkup()}
+    </div>
   </div>`;
 }
 function renderWeeklyArea(){
@@ -621,6 +701,12 @@ function bindExperience(){
     }
     const story = event.target.closest('[data-story]');
     if(story){
+      if(normalize(story.dataset.access) === 'semana'){
+        selectedWeekDay = todayName();
+        renderWeeklyArea();
+        document.getElementById('home-weekly-card')?.scrollIntoView({behavior:'smooth', block:'start'});
+        return;
+      }
       activeAccess = story.dataset.access || '';
       activeCategory = 'Todo';
       renderStories();
@@ -628,6 +714,12 @@ function bindExperience(){
       const contextual = document.getElementById('explorar');
       if(contextual) contextual.hidden = false;
       contextual?.scrollIntoView({behavior:'smooth', block:'start'});
+      return;
+    }
+    const dutyDetail = event.target.closest('[data-week-duty-detail]');
+    if(dutyDetail){
+      const day = dutyDetail.dataset.weekDutyDetail || selectedWeekDay;
+      window.dispatchEvent(new CustomEvent('dgx:show-duty-day', {detail:{day, trigger:dutyDetail}}));
       return;
     }
     const weekDay = event.target.closest('[data-week-day]');

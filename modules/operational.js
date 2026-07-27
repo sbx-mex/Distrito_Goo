@@ -261,8 +261,8 @@ export function renderAltas(){
   deferredRendered.add('altas-curso');
   document.getElementById('altas-curso')?.classList.remove('is-pending');
 }
-export function renderDuty(){
-  const day = dayNames[today.getDay()];
+export function renderDuty(requestedDay=dayNames[today.getDay()]){
+  const day = dayNames.find(item => item.toLowerCase() === String(requestedDay || '').toLowerCase()) || dayNames[today.getDay()];
   const roster = state.operacional.dutyRoster || [];
   const item = roster.find(d => (d['Día'] || '').toLowerCase() === day.toLowerCase()) || roster[0];
   const detail = (state.operacional.dutyDetail || []).filter(d => item && (d['Día'] || '').toLowerCase() === (item['Día'] || '').toLowerCase()).sort((a,b)=>(a.Orden||0)-(b.Orden||0));
@@ -298,6 +298,18 @@ function deferOperationalSections(){
 function bindOperationalActions(){
   if(actionsBound) return;
   actionsBound = true;
+  window.addEventListener('dgx:show-duty-day', event => {
+    const day = event.detail?.day || dayNames[today.getDay()];
+    renderDuty(day);
+    const target = document.getElementById('duty-roster');
+    if(target){
+      target.classList.remove('is-destination-highlight');
+      requestAnimationFrame(() => target.classList.add('is-destination-highlight'));
+      target.scrollIntoView({behavior:'smooth', block:'start'});
+      window.setTimeout(() => target.classList.remove('is-destination-highlight'), 1800);
+      toast(`Duty Roster de ${day}`);
+    }
+  });
   document.body.addEventListener('click', async e => {
     const celebration = e.target.closest('[data-celebration-id]');
     if(celebration){

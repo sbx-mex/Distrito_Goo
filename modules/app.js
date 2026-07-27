@@ -8,7 +8,7 @@ import { bindPWA, bindPullToRefresh } from './pwa.js';
 import { renderDashboard, renderQuickActions, renderChips, renderCategories } from './quick-actions.js';
 import { renderTools, loadMoreTools } from './cards.js';
 import { renderOperationalSections } from './operational.js';
-import { initExperience, isContentSaved } from './experience.js';
+import { initExperience, isContentSaved, showDetailSection } from './experience.js';
 
 function byId(id){ return document.getElementById(id); }
 function setText(id, value){ const el = byId(id); if(el) el.textContent = value; }
@@ -168,6 +168,7 @@ function bindStaticEvents(){
   document.addEventListener('click', handleImageViewerClick);
   window.addEventListener('dgx:filtersChanged', () => { renderChips(); renderTools(true); });
   window.addEventListener('dgx:open-detail', event => openContentDetail(event.detail?.item, event.detail?.trigger));
+  window.addEventListener('dgx:open-destination', event => openContentDestination(event.detail?.item, event.detail?.trigger));
   window.addEventListener('dgx:saved-changed', () => renderTools(false));
 }
 
@@ -219,6 +220,25 @@ function openImageViewer(title, src){
 function safeDetailLink(value){
   const text = String(value || '').trim();
   return /^https?:\/\//i.test(text) ? text : '';
+}
+
+function openContentDestination(item, trigger){
+  if(!item) return;
+  const link = safeDetailLink(item.link);
+  const image = item.imageOriginal || item.fullImage || '';
+  if(link){
+    const opened = window.open(link, '_blank', 'noopener');
+    if(opened) opened.opener = null;
+    return;
+  }
+  if(image && IMAGE_LINK_PATTERN.test(image)){
+    lastImageViewerTrigger = trigger || null;
+    openImageViewer(item.title, image);
+    return;
+  }
+  if(item.section && showDetailSection(item.section)){
+    toast('Sección abierta');
+  }
 }
 
 function openContentDetail(item, trigger){

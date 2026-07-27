@@ -455,9 +455,10 @@ body[data-app-view="detail"] .app-shell>section.is-detail-target{
   }
 }
 
-/* v28 · catálogos de una tarjeta, Guardados elegidos por el usuario */
+/* v30 · portadas interactivas de una tarjeta para Hoy y Semana */
 .home-priority-grid{
-  grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-template-columns:1fr;
+  gap:28px;
 }
 
 .home-focus-card-shell{
@@ -470,7 +471,8 @@ body[data-app-view="detail"] .app-shell>section.is-detail-target{
 }
 
 .home-focus-save,
-.daily-routine-save{
+.daily-routine-save,
+.catalog-cover-save{
   position:absolute;
   z-index:3;
   top:10px;
@@ -495,6 +497,7 @@ body[data-app-view="detail"] .app-shell>section.is-detail-target{
 
 .home-focus-save.is-saved,
 .daily-routine-save.is-saved,
+.catalog-cover-save.is-saved,
 .visual-detail-actions [data-save-content].is-saved{
   border-color:var(--dg-green);
   background:var(--dg-green);
@@ -560,7 +563,8 @@ body[data-app-view="detail"] .app-shell>section.is-detail-target{
   display:none;
 }
 
-.daily-routine-card{
+.daily-routine-card,
+.catalog-cover-card{
   position:relative;
   flex:0 0 100%;
   min-width:0;
@@ -572,11 +576,182 @@ body[data-app-view="detail"] .app-shell>section.is-detail-target{
   scroll-snap-stop:always;
 }
 
-.weekly-catalog-track>.home-focus-card-shell{
+.daily-routine-card{
+  flex:0 0 100%;
+}
+
+.catalog-cover-card{
+  flex:0 0 100%;
+}
+
+.weekly-catalog-track>.home-focus-card-shell,
+.weekly-catalog-track>.catalog-cover-card{
   flex:0 0 100%;
   scroll-snap-align:start;
   scroll-snap-stop:always;
 }
+
+.weekly-catalog-track>.home-focus-card-shell{
+  flex:0 0 100%;
+}
+
+.catalog-cover-card{
+  min-height:410px;
+  background:#f4f8f5;
+}
+
+.catalog-cover-main{
+  width:100%;
+  min-height:410px;
+  display:grid;
+  grid-template-columns:minmax(300px,.88fr) minmax(360px,1.12fr);
+  padding:0;
+  overflow:hidden;
+  border:0;
+  background:#fff;
+  color:var(--dg-ink);
+  text-align:left;
+  font:inherit;
+  cursor:pointer;
+}
+
+.catalog-cover-main.is-static{
+  cursor:default;
+}
+
+.catalog-cover-copy{
+  order:1;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  gap:12px;
+  padding:clamp(32px,5vw,68px);
+}
+
+.catalog-cover-visual{
+  order:2;
+  position:relative;
+  min-width:0;
+  min-height:410px;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  color:#006241;
+  background:#e8f3ed;
+  clip-path:ellipse(82% 77% at 67% 50%);
+}
+
+.catalog-cover-art{
+  width:min(86%,520px);
+  color:#144d3a;
+}
+
+.catalog-cover-art svg{
+  display:block;
+  width:100%;
+  height:auto;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:5;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.catalog-cover-art .cover-accent{
+  stroke:#00a862;
+  stroke-width:7;
+}
+
+.catalog-cover-stamp{
+  position:absolute;
+  top:34px;
+  right:34px;
+  width:76px;
+  height:76px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:#006241;
+  color:#fff;
+}
+
+.catalog-cover-stamp svg{
+  width:42px;
+  height:42px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.7;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.catalog-cover-badge,
+.catalog-cover-date{
+  display:inline-flex;
+  align-items:center;
+  min-height:32px;
+  padding:7px 14px;
+  border-radius:999px;
+  background:#e7f1e9;
+  color:#07583d;
+  font-size:.78rem;
+  font-weight:900;
+  letter-spacing:.055em;
+  text-transform:uppercase;
+}
+
+.catalog-cover-date{
+  min-height:auto;
+  padding:0;
+  background:transparent;
+  color:var(--dg-muted);
+  font-size:.72rem;
+}
+
+.catalog-cover-copy>strong{
+  max-width:12ch;
+  font-size:clamp(2rem,4.3vw,3.55rem);
+  line-height:1;
+  letter-spacing:-.045em;
+}
+
+.catalog-cover-rule{
+  width:64px;
+  height:4px;
+  border-radius:999px;
+  background:#006241;
+}
+
+.catalog-cover-description{
+  max-width:37ch;
+  color:var(--dg-muted);
+  font-size:clamp(.95rem,1.6vw,1.18rem);
+  line-height:1.48;
+}
+
+.catalog-cover-copy>b{
+  margin-top:6px;
+  color:#006241;
+  font-size:1rem;
+}
+
+.catalog-cover-visual.is-espresso{background:#f1ede5}
+.catalog-cover-visual.is-checklist{background:#e7f3ed}
+.catalog-cover-visual.is-opening{background:#eef4e8}
+.catalog-cover-visual.is-walk{background:#e8f4ef}
+.catalog-cover-visual.is-steps{background:#f3efe7}
+.catalog-cover-visual.is-menu{background:#eef0f6}
+.catalog-cover-visual.is-milk{background:#edf6f7}
+.catalog-cover-visual.is-planning{background:#eaf1f8}
+.catalog-cover-visual.is-review{background:#e8f3ed}
+.catalog-cover-visual.is-metrics{background:#edf1f7}
+.catalog-cover-visual.is-expenses{background:#f5f0e7}
+.catalog-cover-visual.is-community{background:#edf0f7}
+.catalog-cover-visual.is-learning{background:#eeeaf6}
+.catalog-cover-visual.is-coffee{background:#f3ece4}
+.catalog-cover-visual.is-message{background:#f6eee8}
 
 .daily-routine-main{
   width:100%;
@@ -674,9 +849,11 @@ body[data-app-view="detail"] .app-shell>section.is-detail-target{
 
 .home-catalog-track:focus-visible,
 .daily-routine-main:focus-visible,
+.catalog-cover-main:focus-visible,
 .home-catalog-controls button:focus-visible,
 .home-focus-save:focus-visible,
 .daily-routine-save:focus-visible,
+.catalog-cover-save:focus-visible,
 .visual-detail-actions [data-save-content]:focus-visible{
   outline:3px solid #00a862;
   outline-offset:2px;
@@ -759,6 +936,14 @@ body[data-app-view="detail"] .app-shell>section.is-detail-target{
   .home-priority-grid{
     grid-template-columns:1fr;
   }
+
+  .catalog-cover-main{
+    grid-template-columns:minmax(250px,.9fr) minmax(300px,1.1fr);
+  }
+
+  .catalog-cover-copy{
+    padding:34px;
+  }
 }
 
 @media(max-width:620px){
@@ -768,6 +953,56 @@ body[data-app-view="detail"] .app-shell>section.is-detail-target{
 
   .daily-routine-card{
     flex-basis:100%;
+  }
+
+  .catalog-cover-card,
+  .catalog-cover-main{
+    min-height:560px;
+  }
+
+  .catalog-cover-main{
+    grid-template-columns:1fr;
+    grid-template-rows:230px 1fr;
+  }
+
+  .catalog-cover-visual{
+    order:1;
+    min-height:230px;
+    clip-path:ellipse(84% 94% at 58% 20%);
+  }
+
+  .catalog-cover-copy{
+    order:2;
+    justify-content:flex-start;
+    gap:9px;
+    padding:24px 22px 28px;
+  }
+
+  .catalog-cover-copy>strong{
+    max-width:15ch;
+    padding-right:45px;
+    font-size:clamp(1.8rem,10vw,2.65rem);
+  }
+
+  .catalog-cover-description{
+    font-size:.93rem;
+  }
+
+  .catalog-cover-art{
+    width:min(82%,330px);
+    transform:translateY(-8px);
+  }
+
+  .catalog-cover-stamp{
+    top:18px;
+    right:18px;
+    width:58px;
+    height:58px;
+  }
+
+  .catalog-cover-stamp svg{
+    width:32px;
+    height:32px;
   }
 
   .save-content-label{

@@ -320,44 +320,77 @@ function compactText(value, max = 105){
   const text = String(value || '').replace(/\s+/g, ' ').trim();
   return text.length > max ? `${text.slice(0, max - 1).trim()}…` : text;
 }
-function homeCover(item, kind){
-  if(item.image && isImage(item.image)) return `<span class="home-focus-media">${imageMarkup(item, 'home-focus-image', kind === 'daily')}</span>`;
-  const icon = kind === 'weekly' ? ICONS.week : ICONS.today;
-  return `<span class="home-focus-media"><span class="home-focus-cover">${icon}<strong>${escapeHtml(kind === 'weekly' ? item.dateLabel || 'Actividad de hoy' : 'Rutina operativa')}</strong></span></span>`;
+const COVER_SCENES = {
+  espresso:'<svg viewBox="0 0 360 260" aria-hidden="true"><path d="M67 42h226v77H67zM91 119v30m178-30v30M111 82h138M132 149h96v63h-96zM115 212h130"/><path d="M154 149v-24h52v24m-88 21H91v28h27m124-28h27v28h-27"/><path class="cover-accent" d="M166 125c0 13-17 13-17 27m62-27c0 13-17 13-17 27"/></svg>',
+  checklist:'<svg viewBox="0 0 360 260" aria-hidden="true"><rect x="106" y="38" width="148" height="184" rx="18"/><path d="M151 38v-9h58v28h-58zM139 96l11 11 22-26m-33 69 11 11 22-26m18-37h35m-35 54h35"/><circle class="cover-accent" cx="180" cy="132" r="91"/></svg>',
+  opening:'<svg viewBox="0 0 360 260" aria-hidden="true"><path d="M76 217h208M98 217V101l82-57 82 57v116M148 217v-69h64v69"/><path class="cover-accent" d="M71 83h218M236 48l13-19m15 46 23-8m-72-34-5-25"/></svg>',
+  walk:'<svg viewBox="0 0 360 260" aria-hidden="true"><path d="M69 213c38-83 84-22 112-91 27-66 69-22 110-76"/><circle cx="76" cy="201" r="19"/><path d="m67 201 7 7 13-16"/><path class="cover-accent" d="M277 34c22 0 37 16 37 36 0 28-37 63-37 63s-37-35-37-63c0-20 15-36 37-36z"/><circle cx="277" cy="70" r="10"/></svg>',
+  steps:'<svg viewBox="0 0 360 260" aria-hidden="true"><path d="M70 211h62v-43h57v-44h54V81h51"/><circle cx="101" cy="190" r="15"/><circle cx="161" cy="146" r="15"/><circle cx="216" cy="102" r="15"/><circle cx="270" cy="59" r="15"/><path class="cover-accent" d="m94 190 5 5 10-12m45-37 5 5 10-12m40-37 5 5 10-12m39-36 5 5 10-12"/></svg>',
+  menu:'<svg viewBox="0 0 360 260" aria-hidden="true"><rect x="76" y="45" width="208" height="170" rx="20"/><path d="M76 91h208M123 45v170m33-91h87m-87 33h87m-87 32h58"/><circle class="cover-accent" cx="99" cy="69" r="8"/></svg>',
+  milk:'<svg viewBox="0 0 360 260" aria-hidden="true"><path d="M83 85h89v132H83zM83 85l22-37h49l18 37m-67-37v37m49-37v37M231 90l48 75m0-75-48 75"/><circle cx="222" cy="77" r="18"/><circle cx="288" cy="77" r="18"/><path class="cover-accent" d="M105 141h45"/></svg>',
+  planning:'<svg viewBox="0 0 360 260" aria-hidden="true"><rect x="70" y="53" width="220" height="167" rx="18"/><path d="M70 99h220M111 36v35m138-35v35M104 187l45-44 35 25 69-52"/><path class="cover-accent" d="M230 116h23v23"/></svg>',
+  review:'<svg viewBox="0 0 360 260" aria-hidden="true"><path d="M180 38l73 28v57c0 47-31 78-73 101-42-23-73-54-73-101V66z"/><path d="m143 127 25 25 52-59"/><path class="cover-accent" d="M180 38v186"/></svg>',
+  metrics:'<svg viewBox="0 0 360 260" aria-hidden="true"><path d="M67 214h229M96 214v-58h43v58m26 0V99h43v115m26 0V55h43v159"/><path class="cover-accent" d="m89 127 62-47 45 21 77-63"/></svg>',
+  expenses:'<svg viewBox="0 0 360 260" aria-hidden="true"><rect x="65" y="64" width="230" height="137" rx="20"/><path d="M65 103h230m-189 55h58m88 0h1"/><circle class="cover-accent" cx="252" cy="158" r="19"/></svg>',
+  community:'<svg viewBox="0 0 360 260" aria-hidden="true"><rect x="116" y="34" width="128" height="193" rx="21"/><path d="M151 62h58M134 187h92"/><path class="cover-accent" d="M148 95h65v48h-31l-21 17v-17h-13z"/></svg>',
+  learning:'<svg viewBox="0 0 360 260" aria-hidden="true"><path d="m65 94 115-53 115 53-115 53zM106 116v59c42 25 106 25 148 0v-59M295 94v77"/><path class="cover-accent" d="M283 177h24"/></svg>',
+  coffee:'<svg viewBox="0 0 360 260" aria-hidden="true"><path d="M94 98h151v73c0 31-23 48-52 48h-47c-29 0-52-17-52-48zM245 119h24c37 0 37 53 0 53h-24M74 219h210"/><path class="cover-accent" d="M135 79c-18-25 22-27 5-52m56 52c-18-25 22-27 5-52"/></svg>',
+  message:'<svg viewBox="0 0 360 260" aria-hidden="true"><path d="M65 68h230v135H166l-49 31v-31H65zM103 108h154m-154 39h112"/><path class="cover-accent" d="M249 147h8"/></svg>',
+  default:'<svg viewBox="0 0 360 260" aria-hidden="true"><rect x="71" y="48" width="218" height="170" rx="22"/><path d="M71 94h218M111 31v35m138-35v35m-137 75 25 25 53-55"/><path class="cover-accent" d="M224 139h29m-29 29h29"/></svg>'
+};
+function coverSceneKey(item){
+  const value = normalize(`${item.title} ${item.category}`);
+  if(value.includes('espresso')) return 'espresso';
+  if(value.includes('rsa') || value.includes('checklist')) return 'checklist';
+  if(value.includes('apertura')) return 'opening';
+  if(value.includes('store walk') || value.includes('recorrido')) return 'walk';
+  if(value.includes('10 pasos') || value.includes('turno exitoso')) return 'steps';
+  if(value.includes('menu core')) return 'menu';
+  if(value.includes('leche')) return 'milk';
+  if(value.includes('green apron') || value.includes('revision dm') || value.includes('validacion final')) return 'review';
+  if(value.includes('kpi') || value.includes('pronostico')) return 'metrics';
+  if(value.includes('gasto') || value.includes('pago')) return 'expenses';
+  if(value.includes('workvivo')) return 'community';
+  if(value.includes('college') || value.includes('curso')) return 'learning';
+  if(value.includes('coffee')) return 'coffee';
+  if(value.includes('comunicado')) return 'message';
+  if(value.includes('wfm') || value.includes('horario') || value.includes('publicacion')) return 'planning';
+  return 'default';
 }
-function homeCard(item, kind){
+function hasDestination(item){
+  return Boolean(safeContentLink(item.link) || (item.fullImage && isImage(item.fullImage)) || item.section);
+}
+function safeContentLink(value){
+  return /^https?:\/\//i.test(String(value || '').trim()) ? String(value).trim() : '';
+}
+function catalogCoverVisual(item, kind){
+  const scene = coverSceneKey(item);
+  return `<span class="catalog-cover-visual is-${scene}" aria-hidden="true">
+    <span class="catalog-cover-art">${COVER_SCENES[scene] || COVER_SCENES.default}</span>
+    <span class="catalog-cover-stamp">${kind === 'weekly' ? ICONS.week : coverIcon(item)}</span>
+  </span>`;
+}
+function catalogCoverCardMarkup(item, kind){
   if(!item) return `<div class="home-focus-empty"><strong>Sin actividad vigente</strong><span>Consulta Explorar Distrito Go para revisar el contenido disponible.</span></div>`;
-  const action = kind === 'weekly' ? 'Ver actividad' : 'Ver rutina';
-  const meta = kind === 'weekly'
-    ? [item.label || 'Semana', item.dateLabel || todayName()].filter(Boolean).join(' · ')
-    : (item.label || 'Hoy');
-  return `<article class="home-focus-card-shell">
-    <button class="home-focus-card" type="button" data-open-content="${escapeHtml(item.id)}" aria-label="${action}: ${escapeHtml(item.title)}">
-      ${homeCover(item, kind)}
-      <span class="home-focus-copy">
-        <span class="home-focus-meta"><span>${escapeHtml(meta)}</span><b class="home-focus-action">${action} →</b></span>
-        <h4>${escapeHtml(item.title)}</h4>
-        <p>${escapeHtml(compactText(item.short || item.description))}</p>
-      </span>
-    </button>
-    ${savedButtonMarkup(item, 'home-focus-save')}
-  </article>`;
-}
-function dailyCardMarkup(item){
-  const media = item.image && isImage(item.image)
-    ? `<span class="daily-routine-media">${imageMarkup(item, 'daily-routine-image')}</span>`
-    : `<span class="daily-routine-media"><span class="daily-routine-icon" aria-hidden="true">${coverIcon(item)}</span></span>`;
-  return `<article class="daily-routine-card" data-daily-routine="${escapeHtml(item.id)}">
-    <button class="daily-routine-main" type="button" data-open-content="${escapeHtml(item.id)}" aria-label="Ver rutina: ${escapeHtml(item.title)}">
-      ${media}
-      <span class="daily-routine-copy">
-        <span class="daily-routine-meta">${escapeHtml(item.label || 'Diario')}</span>
-        <strong>${escapeHtml(item.title)}</strong>
-        <span>${escapeHtml(compactText(item.short || item.description, 92))}</span>
-        <b>Ver rutina →</b>
-      </span>
-    </button>
-    ${savedButtonMarkup(item, 'daily-routine-save')}
+  const weekly = kind === 'weekly';
+  const action = weekly ? 'Abrir actividad' : 'Ver rutina';
+  const meta = weekly ? (item.label || 'Semana') : (item.label || 'Hoy');
+  const date = weekly && item.dateLabel ? `<span class="catalog-cover-date">${escapeHtml(item.dateLabel)}</span>` : '';
+  const destination = hasDestination(item);
+  const content = `${catalogCoverVisual(item, kind)}
+    <span class="catalog-cover-copy">
+      <span class="catalog-cover-badge">${escapeHtml(meta)}</span>
+      ${date}
+      <strong>${escapeHtml(item.title)}</strong>
+      <span class="catalog-cover-rule" aria-hidden="true"></span>
+      <span class="catalog-cover-description">${escapeHtml(compactText(item.short || item.description, 120))}</span>
+      ${destination ? `<b>${action} →</b>` : ''}
+    </span>`;
+  return `<article class="catalog-cover-card ${weekly ? 'is-weekly' : 'is-daily'}" data-catalog-cover="${escapeHtml(item.id)}">
+    ${destination
+      ? `<button class="catalog-cover-main" type="button" data-open-cover="${escapeHtml(item.id)}" aria-label="${action}: ${escapeHtml(item.title)}">${content}</button>`
+      : `<div class="catalog-cover-main is-static" aria-label="${escapeHtml(item.title)}">${content}</div>`}
+    ${savedButtonMarkup(item, 'catalog-cover-save')}
   </article>`;
 }
 function renderDailyCatalog(items){
@@ -371,7 +404,7 @@ function renderDailyCatalog(items){
       </div>
     </div>
     <div id="daily-catalog-track" class="home-catalog-track daily-catalog-track" tabindex="0" aria-label="Catálogo de rutinas diarias">
-      ${items.map(dailyCardMarkup).join('')}
+      ${items.map(item => catalogCoverCardMarkup(item, 'daily')).join('')}
     </div>
   </div>`;
 }
@@ -386,7 +419,7 @@ function renderWeeklyCatalog(items){
       </div>
     </div>
     <div id="weekly-catalog-track" class="home-catalog-track weekly-catalog-track" tabindex="0" aria-label="Catálogo de actividades semanales de hoy">
-      ${items.map(item => homeCard(item, 'weekly')).join('')}
+      ${items.map(item => catalogCoverCardMarkup(item, 'weekly')).join('')}
     </div>
   </div>`;
 }
@@ -464,6 +497,11 @@ function renderStories(){
 }
 function bindExperience(){
   document.body.addEventListener('click', event => {
+    const cover = event.target.closest('[data-open-cover]');
+    if(cover){
+      window.dispatchEvent(new CustomEvent('dgx:open-destination', {detail:{item:findContent(cover.dataset.openCover), trigger:cover}}));
+      return;
+    }
     const open = event.target.closest('[data-open-content]');
     if(open){
       openContent(findContent(open.dataset.openContent), open);

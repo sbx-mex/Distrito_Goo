@@ -16,7 +16,7 @@ on:
       - "tools/build_data.py"
       - "tools/validate_cms.py"
       - "tools/validate_assets.py"
-      - "tools/test_experience_v32.mjs"
+      - "tools/test_experience_v33.mjs"
       - "tools/optimize_images.py"
       - ".github/workflows/actualizar-cms.yml"
   workflow_dispatch:
@@ -69,7 +69,7 @@ jobs:
           python tools/audit_static.py
           find modules -name '*.js' -print0 | xargs -0 -n1 node --check
           node --check sw.js
-          node tools/test_experience_v32.mjs --report reports/v32-interaction-tests.json
+          node tools/test_experience_v33.mjs --report reports/v33-interaction-tests.json
 
       - name: Comprobar alcance generado
         shell: bash

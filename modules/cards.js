@@ -36,17 +36,9 @@ export function renderTools(reset = false){
   if(reset) state.visibleCount = 16;
   const all = getFilteredTools();
   const visible = all.slice(0, state.visibleCount);
-  const isAllWithoutQuery = state.categoria === 'all' && !state.query && state.toolMode === 'all';
   const toolsSection = document.querySelector('.tools-section');
-  if(isAllWithoutQuery){
-    toolsSection?.classList.add('is-initially-hidden');
-    setTextIfPresent('result-count', '');
-    setHtmlIfPresent('tools-grid', '');
-    document.getElementById('lazy-sentinel')?.classList.add('hidden');
-    return;
-  }
   toolsSection?.classList.remove('is-initially-hidden');
-  setTextIfPresent('result-count', `${all.length} herramienta${all.length === 1 ? '' : 's'}`);
+  setTextIfPresent('result-count', `${all.length} herramienta${all.length === 1 ? '' : 's'} disponible${all.length === 1 ? '' : 's'}`);
   setHtmlIfPresent('tools-grid', visible.map(t => toolCard(t, false)).join('') || emptyState('No encontré herramientas'));
   bindToolCards('#tools-grid');
   document.getElementById('lazy-sentinel')?.classList.toggle('hidden', visible.length >= all.length);

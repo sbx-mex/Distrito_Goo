@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="./styles/variables.css?v=16.4.1" />
   <link rel="stylesheet" href="./styles/app.css?v=22.0.0" />
   <link rel="stylesheet" href="./styles/experience.css?v=24.0.0" />
-  <link rel="stylesheet" href="./styles/clean.css?v=24.0.0" />
+  <link rel="stylesheet" href="./styles/clean.css?v=25.0.0" />
 </head>
 <body class="v15-starbucks-contrast-experience v16-mobile-launcher-espresso-hub-optimization v16-2-visual-accessibility-refinement">
   <a class="skip-link" href="#main">Saltar al contenido</a>
@@ -36,7 +36,69 @@
         </div>
       </div>
 
-      <nav class="story-strip" aria-label="Historias operativas">
+      <section id="tool-workspace" class="workspace-section launchpad-section" aria-labelledby="workspace-title">
+        <div id="workspace-body" class="workspace-body">
+          <section class="search-panel global-search-panel" aria-labelledby="workspace-title">
+            <div class="search-intro">
+              <span class="search-scope">Búsqueda global</span>
+              <h3 id="workspace-title">Buscar en Distrito Goo</h3>
+              <p>Encuentra herramientas, eventos, personas, comunicados y contenido operativo.</p>
+            </div>
+            <div class="search-box executive-search-box">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+              <label class="sr-only" for="general-search-input">Buscar en todo Distrito Goo</label>
+              <input id="general-search-input" type="search" placeholder="Escribe lo que necesitas encontrar…" autocomplete="off" aria-describedby="search-help global-search-status" />
+              <button id="clear-global-search" class="clear-search" type="button" aria-label="Limpiar búsqueda" hidden>×</button>
+            </div>
+            <p id="search-help" class="search-help">Ejemplo: PBT, Maquila, cumpleaños o apertura</p>
+            <div id="global-search-status" class="search-status" role="status" aria-live="polite" aria-atomic="true">
+              <strong>Busca en todo Distrito Goo</strong>
+              <span>Escribe una palabra para encontrar rápidamente herramientas, eventos, personas y contenido operativo.</span>
+            </div>
+            <section id="global-search-results" class="global-search-results" aria-labelledby="global-search-title" hidden>
+              <div class="search-results-heading">
+                <h4 id="global-search-title">Resultados</h4>
+                <span id="global-search-count"></span>
+              </div>
+              <div id="global-search-grid" class="global-search-grid"></div>
+              <button id="show-all-search-results" class="show-all-results" type="button" hidden>Ver todos los resultados</button>
+            </section>
+          </section>
+
+          <section class="tools-section" aria-labelledby="tools-title">
+            <div class="section-title">
+              <div><h3 id="tools-title">Herramientas disponibles</h3><p class="section-subtitle">Accede rápidamente a las herramientas que apoyan tu operación diaria.</p></div>
+              <div class="tools-title-actions"><span id="result-count"></span></div>
+            </div>
+            <div class="tool-controls" aria-label="Organización de herramientas">
+              <div class="segmented-control tool-mode-control" role="group" aria-label="Vista de herramientas">
+                <button class="segment is-active" type="button" data-tool-mode="all">Todas</button>
+                <button class="segment" type="button" data-tool-mode="favorites">Favoritos</button>
+                <button class="segment" type="button" data-tool-mode="recent">Recientes</button>
+              </div>
+              <label class="sort-control">Orden
+                <select id="tool-sort" aria-label="Ordenar herramientas">
+                  <option value="cms">Definido en CMS</option>
+                  <option value="name">Nombre A-Z</option>
+                  <option value="used">Más utilizadas</option>
+                </select>
+              </label>
+            </div>
+            <div id="tools-grid" class="tools-grid" aria-live="polite"></div>
+            <div id="lazy-sentinel" class="lazy-sentinel" aria-hidden="true"></div>
+          </section>
+
+          <section class="categories-section" aria-labelledby="categories-title">
+            <div class="section-title">
+              <div><h3 id="categories-title">Explora por categoría</h3><p class="section-subtitle">Encuentra contenido organizado según lo que necesitas consultar.</p></div>
+              <button id="show-all" class="text-button" type="button">Ver todo</button>
+            </div>
+            <div id="category-hubs" class="category-grid skeleton-grid"></div>
+          </section>
+        </div>
+      </section>
+
+      <nav class="story-strip" aria-label="Accesos operativos">
         <div id="operational-stories" class="story-track" role="list"></div>
       </nav>
 
@@ -97,45 +159,6 @@
       </div>
     </section>
 
-
-    <section id="tool-workspace" class="workspace-section launchpad-section" aria-labelledby="workspace-title">
-      <div class="section-title">
-        <div><h3 id="workspace-title">Categorías</h3><p class="section-subtitle">Selecciona una categoría para ver únicamente las herramientas relacionadas.</p><p id="workspace-campaign" class="workspace-campaign"></p></div>
-        <button id="toggle-tools" class="text-button" type="button">Ir a herramientas</button>
-      </div>
-      <div id="workspace-body" class="workspace-body">
-        <section class="search-panel" aria-label="Buscador general">
-          <label class="search-box">
-            <span aria-hidden="true">🔎</span>
-            <input id="general-search-input" type="search" placeholder="Buscar herramienta, categoría o palabra clave..." autocomplete="off" />
-          </label>
-          <div id="active-chips" class="chip-row" aria-label="Filtros activos"></div>
-          <div class="tool-controls" aria-label="Organización de herramientas">
-            <div class="segmented-control tool-mode-control" role="group" aria-label="Vista de herramientas">
-              <button class="segment is-active" type="button" data-tool-mode="all">Todas</button>
-              <button class="segment" type="button" data-tool-mode="favorites">Favoritos</button>
-              <button class="segment" type="button" data-tool-mode="recent">Recientes</button>
-            </div>
-            <label class="sort-control">Orden
-              <select id="tool-sort" aria-label="Ordenar herramientas">
-                <option value="cms">Definido en CMS</option>
-                <option value="name">Nombre A-Z</option>
-                <option value="used">Más utilizadas</option>
-              </select>
-            </label>
-          </div>
-        </section>
-        <section class="categories-section" aria-labelledby="categories-title">
-          <div class="section-title"><h3 id="categories-title">Categorías</h3><button id="show-all" class="text-button" type="button">Ver todo</button></div>
-          <div id="category-hubs" class="category-grid skeleton-grid"></div>
-        </section>
-        <section class="tools-section is-initially-hidden" aria-labelledby="tools-title">
-          <div class="section-title"><h3 id="tools-title">Herramientas disponibles</h3><div class="tools-title-actions"><button id="toggle-filters" class="text-button redundant-filter-toggle" type="button" aria-expanded="false" tabindex="-1" aria-hidden="true">Mostrar filtros</button><span id="result-count">Selecciona una categoría</span></div></div>
-          <div id="tools-grid" class="tools-grid" aria-live="polite"></div>
-          <div id="lazy-sentinel" class="lazy-sentinel" aria-hidden="true"></div>
-        </section>
-      </div>
-    </section>
 
     <section id="bearista-informativo" class="bearista-info hidden" aria-labelledby="bearista-title" data-active-start="2026-07-05" data-active-end="2026-07-06">
       <div class="bearista-copy">
@@ -279,6 +302,6 @@
     <button class="nav-item" data-view="saved" type="button">♡<span>Guardados</span></button>
   </nav>
 
-  <script type="module" src="./modules/app.js?v=24.0.0"></script>
+  <script type="module" src="./modules/app.js?v=25.0.0"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Pruebas reproducibles para la versión limpia v24 de Distrito Goo."""
+"""Pruebas reproducibles para la búsqueda global v25 de Distrito Goo."""
 from __future__ import annotations
 
 import argparse
@@ -21,7 +21,7 @@ def check(name: str, condition: bool, detail: str) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--report", type=Path, default=ROOT / "reports" / "v23-validation.json")
+    parser.add_argument("--report", type=Path, default=ROOT / "reports" / "v25-validation.json")
     args = parser.parse_args()
 
     html = (ROOT / "index.html").read_text(encoding="utf-8")
@@ -67,11 +67,16 @@ def main() -> int:
     check("Carga diferida PDF", "await import('./celebration-pdf.js')" in operational, "PDF se importa al solicitarlo")
     check("Secciones diferidas", "IntersectionObserver" in operational and "data-deferred-section" in html, "Duty y Partner bajo demanda")
     check("Inicio visual", all(token in html for token in ('id="visual-home"', 'id="operational-stories"', 'id="visual-priority-card"', 'id="explore-grid"')), "Historias, prioridad y Explorar presentes")
-    check("Cinco accesos", all(label in experience for label in ("Hoy","Apertura","Peak","Personas","Semana")), "Accesos visibles y filtrables")
+    check("Cuatro accesos", all(label in experience for label in ("Hoy","Apertura","Personas","Semana")) and "{id:'peak'" not in experience, "Hoy, Apertura, Personas y Semana")
+    check("Peak agrupado en Operación", "keywords:['peak','ritmo','cobertura','despliegue','turno']" in experience and "access:'Operación'" in experience, "Duty Roster conserva Peak como palabra clave operativa")
     check("Accesos con CMS", "matchesAccess" in experience and "Acceso Rápido" in experience, "Clasificación compatible con CMS")
     check("Explorar filtrable", "data-explore-category" in experience and "CATEGORIES" in experience, "Filtros sin recarga")
     check("Guardados locales", "dgx_saved_content" in experience and "localStorage" not in experience, "Persistencia mediante abstracción local existente")
-    check("Buscador general", "general-search-input" in html and "focusGeneralSearch" in search, "Búsqueda principal conservada")
+    check("Buscador global", all(value in html for value in ("Buscar en Distrito Goo","global-search-results","global-search-status","clear-global-search")) and "createSearchIndex" in search, "Índice único y resultados contiguos")
+    check("Jerarquía de búsqueda", html.index('id="global-search-results"') < html.index('class="tools-section"') < html.index('class="categories-section"'), "Resultados, herramientas y categorías en ese orden")
+    check("Búsqueda diferida", "const SEARCH_DELAY = 200" in search and "setTimeout(() => renderSearchResults" in search, "Espera de 200 ms")
+    check("Búsqueda normalizada", "normalize(query)" in search and "scoreEntry" in search, "Mayúsculas y acentos normalizados")
+    check("Estados de búsqueda", all(value in search for value in ("Busca en todo Distrito Goo","Buscando en Distrito Goo…","No encontramos resultados para")), "Inicial, procesando y sin resultados")
     check("Detalle interno", "dgx:open-detail" in experience and "openContentDetail" in app, "Visor existente ampliado")
     check("Portadas estándar", "standardCoverMarkup" in experience and "shouldUseStandardCover" in experience, "Maquila e infografías sin fondo saturado")
     check("Eventos limpios", all(value in html for value in ('data-event-filter="upcoming"', 'data-event-filter="week"', 'data-event-filter="month"')) and "data-open-event-id" in operational, "Próximos, semana y mes")
@@ -114,7 +119,7 @@ def main() -> int:
     check("Miniaturas WebP", len(thumbnails) >= 8, f"{len(thumbnails)} miniaturas derivadas")
     check("Picture con respaldo", "<picture>" in experience and "imageOriginal" in experience, "WebP con original preservado")
     check("Carga diferida", 'loading="${eager ? \'eager\' : \'lazy\'}"' in experience and 'decoding="async"' in experience, "Lazy fuera del primer bloque")
-    check("Caché actualizado", "distrito-go-v24.0.0-version-limpia" in sw and "./styles/clean.css" in shell_refs, "Versión v24")
+    check("Caché actualizado", "distrito-go-v25.0.0-busqueda-global" in sw and "./styles/clean.css" in shell_refs, "Versión v25")
     check("Caché tolera versiones", "ignoreSearch:true" in sw, "CSS y JS versionados disponibles offline")
 
     cms_workflow = ROOT / ".github" / "workflows" / "actualizar-cms.yml"

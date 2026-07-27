@@ -1,4 +1,4 @@
-# Distrito Goo — versión 24 · lectura operativa limpia
+# Distrito Goo — versión 25 · búsqueda global ejecutiva
 
 Distrito Goo continúa siendo una PWA 100% estática para GitHub Pages. Python se utiliza únicamente durante auditoría y compilación para validar el CMS y generar JSON; no forma parte del runtime ni requiere servidor.
 
@@ -37,11 +37,14 @@ python tools/audit_static.py
 
 Publicar el contenido de la raíz de `main` mediante **Deploy from a branch**. Conservar `.nojekyll`, las rutas relativas `./` y todos los archivos incluidos en `APP_SHELL`.
 
-Después de publicar una nueva versión, abrir la PWA una vez con conexión para instalar la caché `distrito-go-v24.0.0-version-limpia`.
+Después de publicar una nueva versión, abrir la PWA una vez con conexión para instalar la caché `distrito-go-v25.0.0-busqueda-global`.
 
 ## Inicio visual y navegación
 
-- El Inicio oficial muestra `Hoy`, `Apertura`, `Peak`, `Personas` y `Semana`; cada acceso filtra contenido vigente sin recargar la aplicación.
+- El Inicio oficial muestra `Hoy`, `Apertura`, `Personas` y `Semana`; cada acceso filtra contenido vigente sin recargar la aplicación.
+- `Peak` dejó de ser un acceso superior. Su contenido real permanece dentro de `Operación`, especialmente en Duty Roster, ritmo, cobertura y despliegue.
+- `Buscar en Distrito Goo` crea un índice local una sola vez y muestra inmediatamente debajo del campo coincidencias de herramientas, eventos, personas, celebraciones, comunicados y contenido operativo.
+- La búsqueda normaliza mayúsculas y acentos, prioriza títulos, evita duplicados y conserva el foco al cerrar el visor.
 - La barra inferior ofrece `Inicio`, `Explorar`, `Buscar` y `Guardados`.
 - `Guardados` conserva únicamente identificadores en el dispositivo mediante almacenamiento local.
 - La información completa se abre en el visor interno; las tarjetas no duplican la descripción extensa.
@@ -59,9 +62,9 @@ La pestaña `Informativo` conserva sus encabezados originales y agrega:
 - `Orden`: prioridad de presentación visual.
 - `Mostrar Inicio`: debe existir solamente una prioridad principal.
 - `Mostrar Explorar`: permite incluir o retirar la tarjeta sin editar `index.html`.
-- `Acceso Rápido`: clasifica registros en `Hoy`, `Apertura`, `Peak`, `Personas` o `Semana`.
+- `Acceso Rápido`: clasifica registros en `Hoy`, `Apertura`, `Personas` o `Semana`. El valor histórico `Peak`, si existe, se interpreta dentro de `Operación`.
 
-`Peak` utiliza `Duty_Roster` como referencia operativa principal y también admite actividades clasificadas explícitamente como `Peak` desde el CMS.
+Duty Roster conserva las referencias operativas de Peak como contenido de `Operación`, sin mostrarlas como un quinto acceso superior.
 
 El pipeline conserva el original, genera WebP y miniaturas únicamente para recursos utilizados y publica en JSON las rutas optimizada, miniatura y respaldo.
 

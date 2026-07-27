@@ -108,13 +108,48 @@ function contentFromTool(tool){
     id:`tool-${tool.id}`, source:'Herramienta', category:'Herramientas', title:tool.nombre,
     description:tool.notas || '', short:tool.notas || '', label:'Herramienta', image:tool.imagen || '', fullImage:tool.imagen || '',
     imageOriginal:tool.imagen || '', link:tool.url || tool.webUrl || '', toolId:tool.id,
-    section:'tool-workspace', priority:50, order:Number(tool.orden || 99), showExplore:true
+    section:'tool-workspace', priority:50, order:Number(tool.orden || 99), showExplore:true,
+    keywords:[tool.categoria, tool.grupo, tool.alias, tool.etiquetas, tool.funcion, ...(tool.keywords || [])].filter(Boolean)
+  };
+}
+function contentFromWeekly(item){
+  return {
+    id:`weekly-${item.ID}`, source:'Actividad semanal', category:'Semana', title:item.Actividad,
+    description:item['Descripción'] || '', short:item['Descripción'] || '', label:item['Día'] || 'Semana',
+    image:'', fullImage:'', imageOriginal:'', link:item.Link || '', section:'dia-a-dia', access:'Semana',
+    priority:30, order:Number(item.ID || 99), showExplore:false, searchOnly:true,
+    keywords:[item['Día'], item['Hora / Corte'], item.Categoría].filter(Boolean)
+  };
+}
+function contentFromPerson(item, program){
+  const name = item['NOMBRE COMPLETO'] || item.NOMBRE || '';
+  const store = item.TIENDA || '';
+  const status = item['ESTATUS ALTA'] || (item.Avance != null ? `${Math.round(Number(item.Avance) * 100)}% de avance` : program);
+  return {
+    id:`person-${program}-${item.SBX || item['NO. EMPLEADO'] || safeId('partner', name)}`,
+    source:'Persona', category:'Personas', title:name,
+    description:[program, store, status].filter(Boolean).join(' · '),
+    short:[store, status].filter(Boolean).join(' · '), label:program,
+    image:'', fullImage:'', imageOriginal:'', link:'', section:'altas-curso', access:'Personas',
+    priority:60, order:60, showExplore:false, searchOnly:true,
+    keywords:[item.SBX, item['NO. EMPLEADO'], item.CECO, item.CeCo, item.PUESTO, store, status].filter(Boolean)
+  };
+}
+function contentFromCelebration(item){
+  const source = normalize(item.Tipo).includes('anivers') ? 'Aniversario' : 'Cumpleaños';
+  return {
+    id:`celebration-${item.ID}`, source, category:'Personas', title:item.NOMBRE,
+    description:[source, item.PUESTO, item.TIENDA, item.Fecha].filter(Boolean).join(' · '),
+    short:[source, item.TIENDA].filter(Boolean).join(' · '), label:source,
+    image:'', fullImage:'', imageOriginal:'', link:'', section:'aniversarios-cumpleanos', access:'Personas',
+    priority:65, order:65, showExplore:false, searchOnly:true,
+    keywords:[item.NUM_EMP, item.CECO, item.PUESTO, item.TIENDA, item.Fecha].filter(Boolean)
   };
 }
 function sectionItems(){
   const duty = (state.operacional.dutyRoster || [])[0] || {};
   return [
-    {id:'section-duty',source:'Operación',category:'Operación',title:'Duty Roster',description:'Consulta estaciones, enfoque y detalle crítico del día.',short:'Enfoque y estaciones del día.',label:'Hoy',access:duty['Acceso Rápido'] || 'Peak',image:duty.MiniaturasPath?.[0] || duty.ImagenesPath?.[0] || '',fullImage:duty.ImagenesPath?.[0] || '',imageOriginal:duty.ImagenOriginal || duty.ImagenesPath?.[0] || '',section:'duty-roster',priority:5,order:5,showExplore:true},
+    {id:'section-duty',source:'Operación',category:'Operación',title:'Duty Roster',description:'Consulta estaciones, enfoque, cobertura y detalle crítico del día.',short:'Enfoque, cobertura y estaciones del día.',label:'Hoy',access:'Operación',image:duty.MiniaturasPath?.[0] || duty.ImagenesPath?.[0] || '',fullImage:duty.ImagenesPath?.[0] || '',imageOriginal:duty.ImagenOriginal || duty.ImagenesPath?.[0] || '',section:'duty-roster',priority:5,order:5,showExplore:true,keywords:['peak','ritmo','cobertura','despliegue','turno']},
     {id:'section-celebrations',source:'Personas',category:'Personas',title:'Celebraciones',description:'Consulta aniversarios y cumpleaños vigentes del distrito.',short:'Aniversarios y cumpleaños.',label:'Personas',access:'Personas',image:'',imageOriginal:'',section:'aniversarios-cumpleanos',priority:20,order:20,showExplore:true},
     {id:'section-partner',source:'Personas',category:'Personas',title:'Desarrollo Partner',description:'Consulta BT, SS y TBW sin mezclar los focos operativos.',short:'BT, SS y TBW.',label:'Personas',access:'Personas',image:'',imageOriginal:'',section:'altas-curso',priority:21,order:21,showExplore:true}
   ];
@@ -123,10 +158,13 @@ function sectionItems(){
 export function getContentCatalog(){
   const info = (state.operacional.informativo || []).filter(item => item.Visible !== false).map(contentFromInfo);
   const daily = (state.operacional.actividadesDiarias || []).filter(item => item.Visible !== false).map(contentFromDaily);
+  const weekly = (state.operacional.actividadesSemanales || []).map(contentFromWeekly);
   const events = (state.operacional.eventos || []).filter(item => item.Publicar !== false && isCurrentEvent(item)).map(contentFromEvent);
   const tools = (state.herramientas || []).map(contentFromTool);
-  return [...info, ...daily, ...events, ...sectionItems(), ...tools]
-    .filter(item => item.showExplore !== false && isWithinValidity(item))
+  const partners = ['bt','ss','tbw'].flatMap(program => (state.operacional.altasCurso?.[program] || []).map(item => contentFromPerson(item, program.toUpperCase())));
+  const celebrations = (state.operacional.celebraciones || []).filter(item => item.Publicar !== false).map(contentFromCelebration);
+  return [...info, ...daily, ...weekly, ...events, ...sectionItems(), ...tools, ...partners, ...celebrations]
+    .filter(isWithinValidity)
     .sort((a,b) => a.priority - b.priority || a.order - b.order || String(a.title).localeCompare(String(b.title), 'es'));
 }
 
@@ -201,13 +239,13 @@ function matchesAccess(item, access){
   if(explicit === normalize(access)) return true;
   if(access === 'Hoy') return item.source === 'Actividad diaria' || item.label === 'Hoy';
   if(access === 'Apertura') return normalize(`${item.title} ${item.description}`).includes('apertura');
-  if(access === 'Peak') return item.section === 'duty-roster' || /(peak|ritmo|cobertura|despliegue|servicio|turno)/.test(normalize(`${item.title} ${item.description}`));
+  if(access === 'Operación') return item.category === 'Operación' || explicit === 'peak' || /(peak|ritmo|cobertura|despliegue|servicio|turno)/.test(normalize(`${item.title} ${item.description}`));
   if(access === 'Personas') return item.category === 'Personas';
   if(access === 'Semana') return item.category === 'Semana' || (item.category === 'Eventos' && isThisWeek(item.dateStart, item.dateEnd));
   return true;
 }
 export function renderExplore(){
-  const catalog = getContentCatalog();
+  const catalog = getContentCatalog().filter(item => item.showExplore !== false && !item.searchOnly);
   const visibleCategories = CATEGORIES.filter(category => category === 'Todo' || catalog.some(item => item.category === category));
   const filters = document.getElementById('explore-filters');
   if(filters) filters.innerHTML = visibleCategories.map(category => `<button class="explore-filter ${category === activeCategory ? 'is-active' : ''}" type="button" data-explore-category="${escapeHtml(category)}" aria-pressed="${category === activeCategory}">${escapeHtml(category)}</button>`).join('');
@@ -248,7 +286,6 @@ function renderStories(){
   const stories = [
     {id:'today',label:'Hoy',icon:'today'},
     {id:'opening',label:'Apertura',icon:'opening'},
-    {id:'peak',label:'Peak',icon:'peak'},
     {id:'people',label:'Personas',icon:'people'},
     {id:'week',label:'Semana',icon:'week'}
   ];

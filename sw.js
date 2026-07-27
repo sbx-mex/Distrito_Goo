@@ -52,7 +52,7 @@ const APP_SHELL = [
   './assets/photos/cortado_leche.jpeg',
   './assets/photos/hugo-barista-champion.jpeg',
   './assets/photos/limpieza_back.jpeg',
-  './assets/photos/maquila_abril.png',
+  './assets/photos/maquila_actualizado.png',
   './assets/photos/pinpad-atb-cambios.png',
   './assets/photos/store-walk.png',
   './assets/photos/verificacion-cafe-espresso.png',

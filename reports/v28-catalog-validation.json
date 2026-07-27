@@ -1,0 +1,70 @@
+{
+  "ok": true,
+  "checks": [
+    {
+      "name": "Rutinas completas del CMS",
+      "ok": true,
+      "detail": "7 registros"
+    },
+    {
+      "name": "Semana completa del CMS",
+      "ok": true,
+      "detail": "15 registros"
+    },
+    {
+      "name": "Lunes conserva sus actividades",
+      "ok": true,
+      "detail": "6 registros"
+    },
+    {
+      "name": "Catálogo diario de una tarjeta",
+      "ok": true,
+      "detail": "cada rutina ocupa el 100% del visor"
+    },
+    {
+      "name": "Catálogo semanal de una tarjeta",
+      "ok": true,
+      "detail": "cada actividad ocupa el 100% del visor"
+    },
+    {
+      "name": "Controles independientes",
+      "ok": true,
+      "detail": "Hoy y Semana"
+    },
+    {
+      "name": "Flechas accesibles",
+      "ok": true,
+      "detail": "4 controles"
+    },
+    {
+      "name": "Guardados sin valores predeterminados",
+      "ok": true,
+      "detail": "inicio vacío"
+    },
+    {
+      "name": "Limpieza de favoritos heredados",
+      "ok": true,
+      "detail": "migración v28"
+    },
+    {
+      "name": "Instructivo de Guardados",
+      "ok": true,
+      "detail": "visible"
+    },
+    {
+      "name": "Buscador general conservado",
+      "ok": true,
+      "detail": "entrada y resultados"
+    },
+    {
+      "name": "Destino operativo conservado",
+      "ok": true,
+      "detail": "Ir a la sección"
+    },
+    {
+      "name": "Nombre visual consistente",
+      "ok": true,
+      "detail": "Distrito Go"
+    }
+  ]
+}

@@ -455,9 +455,9 @@ body[data-app-view="detail"] .app-shell>section.is-detail-target{
   }
 }
 
-/* v27 · catálogo de rutinas, favoritos sincronizados y destino visible */
+/* v28 · catálogos de una tarjeta, Guardados elegidos por el usuario */
 .home-priority-grid{
-  grid-template-columns:minmax(0,1.45fr) minmax(280px,.75fr);
+  grid-template-columns:repeat(2,minmax(0,1fr));
 }
 
 .home-focus-card-shell{
@@ -501,13 +501,14 @@ body[data-app-view="detail"] .app-shell>section.is-detail-target{
   color:#fff;
 }
 
-.daily-catalog{
+.daily-catalog,
+.weekly-catalog{
   min-width:0;
   display:grid;
   gap:8px;
 }
 
-.daily-catalog-toolbar{
+.home-catalog-toolbar{
   min-height:44px;
   display:flex;
   align-items:center;
@@ -515,18 +516,18 @@ body[data-app-view="detail"] .app-shell>section.is-detail-target{
   gap:10px;
 }
 
-.daily-catalog-toolbar>span{
+.home-catalog-toolbar>span{
   color:var(--dg-muted);
   font-size:.78rem;
   font-weight:850;
 }
 
-.daily-catalog-controls{
+.home-catalog-controls{
   display:flex;
   gap:7px;
 }
 
-.daily-catalog-controls button{
+.home-catalog-controls button{
   width:44px;
   height:44px;
   border:1px solid #b7d4c7;
@@ -539,31 +540,40 @@ body[data-app-view="detail"] .app-shell>section.is-detail-target{
   cursor:pointer;
 }
 
-.daily-catalog-controls button:disabled{
+.home-catalog-controls button:disabled{
   opacity:.35;
   cursor:default;
 }
 
-.daily-catalog-track{
+.home-catalog-track{
   min-width:0;
   display:flex;
   gap:12px;
   overflow-x:auto;
   overscroll-behavior-inline:contain;
   scroll-snap-type:x mandatory;
-  scrollbar-width:thin;
-  scrollbar-color:#9fc9b7 transparent;
-  padding:2px 2px 8px;
+  scrollbar-width:none;
+  padding:2px 0 8px;
+}
+
+.home-catalog-track::-webkit-scrollbar{
+  display:none;
 }
 
 .daily-routine-card{
   position:relative;
-  flex:0 0:min(280px,78%);
+  flex:0 0 100%;
   min-width:0;
   overflow:hidden;
   border:1px solid var(--dg-line);
   border-radius:20px;
   background:#fff;
+  scroll-snap-align:start;
+  scroll-snap-stop:always;
+}
+
+.weekly-catalog-track>.home-focus-card-shell{
+  flex:0 0 100%;
   scroll-snap-align:start;
   scroll-snap-stop:always;
 }
@@ -662,9 +672,9 @@ body[data-app-view="detail"] .app-shell>section.is-detail-target{
   font-size:.8rem;
 }
 
-.daily-catalog-track:focus-visible,
+.home-catalog-track:focus-visible,
 .daily-routine-main:focus-visible,
-.daily-catalog-controls button:focus-visible,
+.home-catalog-controls button:focus-visible,
 .home-focus-save:focus-visible,
 .daily-routine-save:focus-visible,
 .visual-detail-actions [data-save-content]:focus-visible{
@@ -700,6 +710,42 @@ body[data-app-view="detail"] .app-shell>section.is-detail-target{
   gap:6px;
 }
 
+.saved-guide{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:15px 17px;
+  border:1px solid #b7d4c7;
+  border-radius:20px;
+  background:var(--dg-green-soft);
+  color:var(--dg-ink);
+}
+
+.saved-guide-icon{
+  flex:0 0 46px;
+  width:46px;
+  height:46px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:#fff;
+  color:var(--dg-green);
+  font-size:1.55rem;
+  font-weight:900;
+}
+
+.saved-guide strong{
+  display:block;
+  margin-bottom:3px;
+}
+
+.saved-guide p{
+  margin:0;
+  color:var(--dg-muted);
+  font-size:.84rem;
+  line-height:1.4;
+}
+
 .is-destination-highlight{
   animation:destination-highlight 1.8s ease-out;
 }
@@ -716,16 +762,12 @@ body[data-app-view="detail"] .app-shell>section.is-detail-target{
 }
 
 @media(max-width:620px){
-  .daily-catalog-controls{
-    display:none;
-  }
-
-  .daily-catalog-toolbar{
-    min-height:24px;
+  .home-catalog-toolbar{
+    min-height:44px;
   }
 
   .daily-routine-card{
-    flex-basis:84%;
+    flex-basis:100%;
   }
 
   .save-content-label{

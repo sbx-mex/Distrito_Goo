@@ -235,8 +235,17 @@ function updateSavedControls(id){
   });
 }
 function migrateLegacyFavorites(){
-  const migrated = (state.favorites || []).map(id => `tool-${id}`);
+  const defaultIds = new Set(state.favoritosBase || []);
+  const migrated = (state.favorites || [])
+    .filter(id => !defaultIds.has(id))
+    .map(id => `tool-${id}`);
   if(migrated.length) saveIds([...getSavedIds(), ...migrated]);
+}
+function cleanDefaultSavedOnce(){
+  if(getJSON('dgx_saved_clean_v28', false)) return;
+  const defaults = new Set((state.favoritosBase || []).map(id => `tool-${id}`));
+  saveIds(getSavedIds().filter(id => !defaults.has(id)));
+  setJSON('dgx_saved_clean_v28', true);
 }
 
 export function findContent(id){ return getContentCatalog().find(item => item.id === id) || null; }
@@ -317,7 +326,7 @@ function homeCover(item, kind){
   return `<span class="home-focus-media"><span class="home-focus-cover">${icon}<strong>${escapeHtml(kind === 'weekly' ? item.dateLabel || 'Actividad de hoy' : 'Rutina operativa')}</strong></span></span>`;
 }
 function homeCard(item, kind){
-  if(!item) return `<div class="home-focus-empty"><strong>Sin actividad vigente</strong><span>Consulta Explorar Distrito Goo para revisar el contenido disponible.</span></div>`;
+  if(!item) return `<div class="home-focus-empty"><strong>Sin actividad vigente</strong><span>Consulta Explorar Distrito Go para revisar el contenido disponible.</span></div>`;
   const action = kind === 'weekly' ? 'Ver actividad' : 'Ver rutina';
   const meta = kind === 'weekly'
     ? [item.label || 'Semana', item.dateLabel || todayName()].filter(Boolean).join(' · ')
@@ -352,61 +361,77 @@ function dailyCardMarkup(item){
   </article>`;
 }
 function renderDailyCatalog(items){
-  if(!items.length) return '<div class="home-focus-empty"><strong>Sin rutinas vigentes</strong><span>Consulta Explorar Distrito Goo para revisar el contenido disponible.</span></div>';
+  if(!items.length) return '<div class="home-focus-empty"><strong>Sin rutinas vigentes</strong><span>Consulta Explorar Distrito Go para revisar el contenido disponible.</span></div>';
   return `<div class="daily-catalog">
-    <div class="daily-catalog-toolbar">
+    <div class="home-catalog-toolbar">
       <span id="daily-catalog-status" aria-live="polite">1 de ${items.length}</span>
-      <div class="daily-catalog-controls" aria-label="Controles del catálogo">
-        <button type="button" data-daily-scroll="prev" aria-label="Rutina anterior">‹</button>
-        <button type="button" data-daily-scroll="next" aria-label="Rutina siguiente">›</button>
+      <div class="home-catalog-controls" aria-label="Controles de Rutina diaria">
+        <button type="button" data-catalog-scroll="prev" data-catalog-kind="daily" aria-label="Rutina anterior">‹</button>
+        <button type="button" data-catalog-scroll="next" data-catalog-kind="daily" aria-label="Rutina siguiente">›</button>
       </div>
     </div>
-    <div id="daily-catalog-track" class="daily-catalog-track" tabindex="0" aria-label="Catálogo de rutinas diarias">
+    <div id="daily-catalog-track" class="home-catalog-track daily-catalog-track" tabindex="0" aria-label="Catálogo de rutinas diarias">
       ${items.map(dailyCardMarkup).join('')}
     </div>
   </div>`;
 }
-function updateDailyCatalogControls(){
-  const track = document.getElementById('daily-catalog-track');
+function renderWeeklyCatalog(items){
+  if(!items.length) return '<div class="home-focus-empty"><strong>Sin actividad semanal vigente</strong><span>Consulta Explorar Distrito Go para revisar el contenido disponible.</span></div>';
+  return `<div class="weekly-catalog">
+    <div class="home-catalog-toolbar">
+      <span id="weekly-catalog-status" aria-live="polite">1 de ${items.length}</span>
+      <div class="home-catalog-controls" aria-label="Controles de Actividad semanal">
+        <button type="button" data-catalog-scroll="prev" data-catalog-kind="weekly" aria-label="Actividad anterior">‹</button>
+        <button type="button" data-catalog-scroll="next" data-catalog-kind="weekly" aria-label="Actividad siguiente">›</button>
+      </div>
+    </div>
+    <div id="weekly-catalog-track" class="home-catalog-track weekly-catalog-track" tabindex="0" aria-label="Catálogo de actividades semanales de hoy">
+      ${items.map(item => homeCard(item, 'weekly')).join('')}
+    </div>
+  </div>`;
+}
+function updateCatalogControls(kind){
+  const track = document.getElementById(`${kind}-catalog-track`);
   if(!track) return;
-  const previous = document.querySelector('[data-daily-scroll="prev"]');
-  const next = document.querySelector('[data-daily-scroll="next"]');
+  const previous = document.querySelector(`[data-catalog-kind="${kind}"][data-catalog-scroll="prev"]`);
+  const next = document.querySelector(`[data-catalog-kind="${kind}"][data-catalog-scroll="next"]`);
   const max = Math.max(0, track.scrollWidth - track.clientWidth);
   if(previous) previous.disabled = track.scrollLeft <= 4;
   if(next) next.disabled = track.scrollLeft >= max - 4;
-  const cards = [...track.querySelectorAll('.daily-routine-card')];
+  const cards = [...track.children];
   const trackLeft = track.getBoundingClientRect().left;
   const current = cards.reduce((best, card, index) => (
     Math.abs(card.getBoundingClientRect().left - trackLeft) < best.distance
       ? {index, distance:Math.abs(card.getBoundingClientRect().left - trackLeft)}
       : best
   ), {index:0, distance:Number.POSITIVE_INFINITY}).index;
-  const status = document.getElementById('daily-catalog-status');
+  const status = document.getElementById(`${kind}-catalog-status`);
   if(status) status.textContent = `${current + 1} de ${cards.length}`;
 }
-function moveDailyCatalog(direction){
-  const track = document.getElementById('daily-catalog-track');
+function moveCatalog(kind, direction){
+  const track = document.getElementById(`${kind}-catalog-track`);
   if(!track) return;
-  const card = track.querySelector('.daily-routine-card');
-  const distance = (card?.getBoundingClientRect().width || track.clientWidth * .82) + 12;
+  const card = track.firstElementChild;
+  const gap = Number.parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap) || 0;
+  const distance = (card?.getBoundingClientRect().width || track.clientWidth) + gap;
   const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
   track.scrollBy({left:direction * distance, behavior:reduceMotion ? 'auto' : 'smooth'});
-  window.setTimeout(updateDailyCatalogControls, reduceMotion ? 0 : 260);
+  window.setTimeout(() => updateCatalogControls(kind), reduceMotion ? 0 : 260);
 }
-function bindDailyCatalog(){
-  const track = document.getElementById('daily-catalog-track');
+function bindCatalog(kind){
+  const track = document.getElementById(`${kind}-catalog-track`);
   if(!track) return;
   let frame = 0;
   track.addEventListener('scroll', () => {
     cancelAnimationFrame(frame);
-    frame = requestAnimationFrame(updateDailyCatalogControls);
+    frame = requestAnimationFrame(() => updateCatalogControls(kind));
   }, {passive:true});
   track.addEventListener('keydown', event => {
     if(event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
     event.preventDefault();
-    moveDailyCatalog(event.key === 'ArrowRight' ? 1 : -1);
+    moveCatalog(kind, event.key === 'ArrowRight' ? 1 : -1);
   });
-  requestAnimationFrame(updateDailyCatalogControls);
+  requestAnimationFrame(() => updateCatalogControls(kind));
 }
 function renderHomePriorities(){
   const daily = (state.operacional.actividadesDiarias || [])
@@ -423,8 +448,9 @@ function renderHomePriorities(){
   const dailyTarget = document.getElementById('home-daily-card');
   const weeklyTarget = document.getElementById('home-weekly-card');
   if(dailyTarget) dailyTarget.innerHTML = renderDailyCatalog(daily);
-  if(weeklyTarget) weeklyTarget.innerHTML = homeCard(weekly[0], 'weekly');
-  bindDailyCatalog();
+  if(weeklyTarget) weeklyTarget.innerHTML = renderWeeklyCatalog(weekly);
+  bindCatalog('daily');
+  bindCatalog('weekly');
 }
 function renderStories(){
   const stories = [
@@ -450,9 +476,9 @@ function bindExperience(){
       toggleSaved(save.dataset.saveContent);
       return;
     }
-    const dailyScroll = event.target.closest('[data-daily-scroll]');
-    if(dailyScroll){
-      moveDailyCatalog(dailyScroll.dataset.dailyScroll === 'next' ? 1 : -1);
+    const catalogScroll = event.target.closest('[data-catalog-scroll]');
+    if(catalogScroll){
+      moveCatalog(catalogScroll.dataset.catalogKind, catalogScroll.dataset.catalogScroll === 'next' ? 1 : -1);
       return;
     }
     const filter = event.target.closest('[data-explore-category]');
@@ -526,6 +552,7 @@ export function showDetailSection(id, smooth = true){
 }
 
 export function initExperience(){
+  cleanDefaultSavedOnce();
   migrateLegacyFavorites();
   renderStories();
   renderHomePriorities();

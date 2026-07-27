@@ -31,8 +31,9 @@ export async function loadData(){
   state.favoritosBase = loaded.favoritos;
   state.version = loaded.version;
   state.operacional = loaded.operacional;
-  if(!state.favorites){
-    state.favorites = loaded.favoritos.length ? loaded.favoritos : state.herramientas.filter(t => t.favorito).map(t => t.id);
+  if(!Array.isArray(state.favorites)){
+    // Guardados inicia vacío: cada usuario decide qué conservar en su dispositivo.
+    state.favorites = [];
     setJSON('dgx_favorites', state.favorites);
   }
 }

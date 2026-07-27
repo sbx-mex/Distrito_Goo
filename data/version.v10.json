@@ -1,5 +1,5 @@
 {
-  "version": "26.0.0",
+  "version": "28.0.0",
   "releaseDate": "2026-07-27",
   "changes": [
     "Maquila actualizada con mensaje único y recurso vigente.",
@@ -10,19 +10,22 @@
     "CMS automático con validación, rutas de imagen versionadas y publicación desde GitHub Actions.",
     "Imágenes pesadas con variante WebP y carga inicial reducida.",
     "Navegación única con Inicio, Explorar y Guardados.",
-    "Buscar integrado dentro de Explorar Distrito Goo.",
+    "Buscar integrado dentro de Explorar Distrito Go.",
     "Inicio operativo con Rutina diaria y Actividad semanal de hoy.",
     "Accesos contextuales Hoy, Apertura, Personas y Semana.",
     "Categorías ocultas inicialmente y disponibles con una sola acción.",
     "Portadas estándar para Maquila, comunicados e infografías.",
     "Eventos con filtros Próximos, Esta semana y Este mes.",
     "Detalle completo en el visor interno, con originales preservados.",
-    "Spotlight, el atajo ⌘K y el cambio de tema fueron retirados."
+    "Spotlight, el atajo ⌘K y el cambio de tema fueron retirados.",
+    "Hoy y Semana muestran un solo contenido por vista con flechas y deslizamiento.",
+    "Guardados inicia sin selecciones predeterminadas y explica cómo personalizarlo.",
+    "La búsqueda general y los destinos reales conservan todo el contenido del CMS."
   ],
   "notes": "La PWA conserva su arquitectura estática y las funciones existentes. El contenido visual se administra desde el CMS sin editar index.html.",
   "fecha": "2026-07-27",
-  "descripcion": "Navegación única, Inicio operativo y búsqueda integrada dentro de Explorar Distrito Goo.",
+  "descripcion": "Catálogos limpios de una tarjeta para Hoy y Semana, con Guardados elegidos por cada usuario.",
   "updatedAt": "2026-07-27",
-  "runtimeFix": "v26.0.0",
+  "runtimeFix": "v28.0.0",
   "name": "Juntémonos Más"
 }

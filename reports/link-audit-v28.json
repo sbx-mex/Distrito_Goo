@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "cms": "Distrito_Go_CMS_v2_actualizado.xlsx",
+  "linksReviewed": 87,
+  "invalidFormats": [],
+  "repeatedValues": {
+    "https://neo.frogmi.com/alsea-mexico/dashboard/gallery": 2,
+    "https://ica-stage.bw-globalsolutions.com/Login.php": 6,
+    "https://login.ubitslearning.com/login": 2,
+    "https://alsea.workvivo.us/login": 2,
+    "https://eu2.concursolutions.com/home": 2,
+    "https://ejlw.login.us2.oraclecloud.com/oam/server/obrareq.cgi?encquery%3DLK1T...": 10
+  },
+  "validationErrors": [],
+  "note": "Los enlaces repetidos se reportan; no se eliminan porque pueden ser accesos válidos definidos por el CMS."
+}

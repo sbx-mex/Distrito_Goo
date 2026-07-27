@@ -123,7 +123,7 @@ function resetSearchView(){
   if(grid) grid.innerHTML = '';
   if(count) count.textContent = '';
   document.body.classList.remove('is-global-searching');
-  setStatus('Busca en todo Distrito Goo', 'Escribe una palabra para encontrar rápidamente herramientas, eventos, personas y contenido operativo.');
+  setStatus('Busca en todo Distrito Go', 'Escribe una palabra para encontrar rápidamente herramientas, eventos, personas y contenido operativo.');
 }
 
 function renderSearchResults(query){
@@ -181,7 +181,7 @@ export function bindSearch(){
       return;
     }
     document.body.classList.add('is-global-searching');
-    setStatus('Buscando en Distrito Goo…', 'Consultando el índice disponible en este dispositivo.');
+    setStatus('Buscando en Distrito Go…', 'Consultando el índice disponible en este dispositivo.');
     debounceTimer = window.setTimeout(() => renderSearchResults(query), SEARCH_DELAY);
   });
 

@@ -131,7 +131,7 @@ def image_path(value: Any, root: Path, folder: str = "assets/photos") -> str:
     return preferred.relative_to(root).as_posix() + asset_version(preferred)
 
 def original_image_path(value: Any, root: Path, folder: str = "assets/photos") -> str:
-    name = Path(str(value or "").strip()).name
+    name = Path(str(value or "").strip().split("?", 1)[0].split("#", 1)[0]).name
     if not name:
         return ""
     base = root / folder
@@ -142,7 +142,7 @@ def original_image_path(value: Any, root: Path, folder: str = "assets/photos") -
     return match.relative_to(root).as_posix() + asset_version(match)
 
 def thumbnail_image_path(value: Any, root: Path, folder: str = "assets/photos") -> str:
-    name = Path(str(value or "").strip()).name
+    name = Path(str(value or "").strip().split("?", 1)[0].split("#", 1)[0]).name
     if not name:
         return ""
     base = root / folder

@@ -186,6 +186,7 @@ function resetImageViewer(){
   if(!modal) return;
   document.body.classList.remove('is-modal-open');
   modal.classList.remove('is-image-viewer');
+  modal.removeAttribute('data-image-orientation');
   modal.classList.remove('is-navigation-menu');
   setHtml('quick-modal-body', '');
   const trigger = lastImageViewerTrigger?.isConnected ? lastImageViewerTrigger : lastQuickModalTrigger;
@@ -199,10 +200,20 @@ function openImageViewer(title, src){
   const modal = byId('quick-modal');
   if(!modal?.showModal) return;
   setText('quick-modal-title', title || 'Imagen');
-  setHtml('quick-modal-body', `<img class="modal-image image-viewer-media" src="${src}" alt="${title || 'Imagen'}" loading="eager"/>`);
+  const safeTitle = escapeHeroText(title || 'Imagen');
+  const safeSrc = escapeHeroText(src);
+  setHtml('quick-modal-body', `<div class="image-viewer-stage">
+    <img class="modal-image image-viewer-media" src="${safeSrc}" alt="${safeTitle}" loading="eager" decoding="async"/>
+  </div>`);
   modal.classList.add('is-image-viewer');
   document.body.classList.add('is-modal-open');
   if(!modal.open) modal.showModal();
+  const image = modal.querySelector('.image-viewer-media');
+  image?.addEventListener('load', () => {
+    const orientation = image.naturalHeight > image.naturalWidth ? 'portrait' : image.naturalHeight === image.naturalWidth ? 'square' : 'landscape';
+    modal.dataset.imageOrientation = orientation;
+  }, {once:true});
+  requestAnimationFrame(() => byId('close-quick-modal')?.focus({preventScroll:true}));
 }
 
 function safeDetailLink(value){

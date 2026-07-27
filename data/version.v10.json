@@ -1,5 +1,5 @@
 {
-  "version": "28.0.0",
+  "version": "29.0.0",
   "releaseDate": "2026-07-27",
   "changes": [
     "Maquila actualizada con mensaje único y recurso vigente.",
@@ -20,12 +20,14 @@
     "Spotlight, el atajo ⌘K y el cambio de tema fueron retirados.",
     "Hoy y Semana muestran un solo contenido por vista con flechas y deslizamiento.",
     "Guardados inicia sin selecciones predeterminadas y explica cómo personalizarlo.",
-    "La búsqueda general y los destinos reales conservan todo el contenido del CMS."
+    "La búsqueda general y los destinos reales conservan todo el contenido del CMS.",
+    "El visor de imágenes utiliza toda la pantalla disponible y adapta cada recurso sin recortarlo ni deformarlo.",
+    "Los formatos internos de JPG/JPEG y sus derivados WebP fueron auditados para conservar nombres, rutas y contenido."
   ],
   "notes": "La PWA conserva su arquitectura estática y las funciones existentes. El contenido visual se administra desde el CMS sin editar index.html.",
   "fecha": "2026-07-27",
-  "descripcion": "Catálogos limpios de una tarjeta para Hoy y Semana, con Guardados elegidos por cada usuario.",
+  "descripcion": "Catálogos limpios con visor inmersivo de imágenes, ajustado a computadora, tableta y teléfono.",
   "updatedAt": "2026-07-27",
-  "runtimeFix": "v28.0.0",
+  "runtimeFix": "v29.0.0",
   "name": "Juntémonos Más"
 }

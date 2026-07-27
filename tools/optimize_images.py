@@ -45,19 +45,22 @@ def main() -> int:
     parser.add_argument("--report", type=Path)
     args = parser.parse_args()
     root = args.project.resolve()
+    photos = root / "assets" / "photos"
+    premium = root / "assets" / "premium" / "duty-roster"
     sources = [
-        path
-        for folder in (root / "assets" / "photos", root / "assets" / "premium" / "duty-roster")
-        for path in sorted(folder.glob("*"))
-        if should_optimize(path, args.minimum_bytes)
+        path for path in sorted(photos.glob("*"))
+        if path.is_file() and path.suffix.casefold() in SOURCE_SUFFIXES
     ]
+    sources.extend(
+        path for path in sorted(premium.glob("*"))
+        if should_optimize(path, args.minimum_bytes)
+    )
     records = []
     for source in sources:
         target = source.with_suffix(".webp")
         thumbnail = source.with_name(f"{source.stem}.thumb.webp")
         preview_only = source.name.casefold() in PREVIEW_ONLY_NAMES
-        if not preview_only:
-            convert(source, target)
+        convert(source, target)
         convert(source, thumbnail, max_width=720)
         optimized = source if preview_only else target
         records.append(

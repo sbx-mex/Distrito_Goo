@@ -482,18 +482,21 @@ body{background:linear-gradient(180deg,#f7fbf8 0%,#eef7f2 100%);}
 
 .quick-modal-head .modal-back{display:inline-flex;align-items:center;justify-content:center;gap:7px;width:auto!important;min-width:108px;height:42px!important;padding:0 14px!important;border-radius:999px!important;font-size:.9rem!important;font-weight:900;cursor:pointer;}
 .quick-modal-head strong{flex:1;min-width:0;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.quick-modal.is-image-viewer{width:min(98vw,1440px)!important;max-width:none;height:min(96vh,1080px);max-height:none;border-radius:24px!important;background:#f5f7f5!important;overflow:hidden;}
-.quick-modal.is-image-viewer .quick-modal-head{height:64px;padding:10px 14px;background:#fff;}
-.quick-modal.is-image-viewer .quick-modal-body{display:grid;place-items:center;height:calc(100% - 64px);max-height:none!important;overflow:auto;padding:12px;background:#edf2ef;}
-.quick-modal.is-image-viewer .image-viewer-media{display:block;width:auto;max-width:100%;height:auto;max-height:calc(96vh - 92px);object-fit:contain;border:0!important;border-radius:14px!important;padding:0!important;margin:auto;box-shadow:none!important;background:#fff!important;}
+.quick-modal.is-image-viewer{inset:0;width:100vw!important;max-width:none;height:100vh;height:100dvh;max-height:none;margin:0!important;border-radius:0!important;background:#10231c!important;overflow:hidden;}
+.quick-modal.is-image-viewer .quick-modal-head{height:52px;padding:5px 10px;background:rgba(255,255,255,.98);border-bottom:1px solid rgba(16,42,34,.12);}
+.quick-modal.is-image-viewer .quick-modal-head .modal-back{min-width:96px;height:40px!important;padding:0 12px!important;}
+.quick-modal.is-image-viewer .quick-modal-head strong{text-align:center;padding-right:96px;}
+.quick-modal.is-image-viewer .quick-modal-body{display:block;width:100%;height:calc(100vh - 52px);height:calc(100dvh - 52px);max-height:none!important;overflow:hidden;padding:0;background:#10231c;}
+.quick-modal.is-image-viewer .image-viewer-stage{display:grid;place-items:center;width:100%;height:100%;padding:clamp(2px,.45vw,7px);overflow:hidden;}
+.quick-modal.is-image-viewer .image-viewer-media{display:block;width:100%;max-width:none;height:100%;max-height:none;object-fit:contain;object-position:center;border:0!important;border-radius:0!important;padding:0!important;margin:0!important;box-shadow:none!important;background:transparent!important;}
 .quick-modal.is-image-viewer::backdrop{background:rgba(4,20,14,.82);backdrop-filter:blur(8px);}
 
 @media(max-width:620px){
-  .quick-modal.is-image-viewer{width:100vw!important;height:100dvh!important;max-height:100dvh!important;border-radius:0!important;margin:0!important;}
-  .quick-modal.is-image-viewer .quick-modal-head{height:60px;padding:9px 10px;}
-  .quick-modal.is-image-viewer .quick-modal-body{height:calc(100dvh - 60px);padding:8px;}
-  .quick-modal.is-image-viewer .image-viewer-media{max-height:calc(100dvh - 76px);border-radius:10px!important;}
-  .quick-modal-head .modal-back{min-width:96px;padding:0 12px!important;}
+  .quick-modal.is-image-viewer .quick-modal-head{height:48px;padding:4px 8px;}
+  .quick-modal.is-image-viewer .quick-modal-head .modal-back{min-width:86px;height:38px!important;padding:0 10px!important;}
+  .quick-modal.is-image-viewer .quick-modal-head strong{padding-right:86px;font-size:.88rem;}
+  .quick-modal.is-image-viewer .quick-modal-body{height:calc(100dvh - 48px);}
+  .quick-modal.is-image-viewer .image-viewer-stage{padding:2px;}
 }
 
 /* === Distrito Go v20.4 · Informativos visuales === */

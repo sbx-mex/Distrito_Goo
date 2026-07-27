@@ -1,9 +1,9 @@
 {
   "appName": "Distrito Go",
-  "version": "16.4 Juntémonos Más",
+  "version": "21.0 Auditoría integral",
   "tagline": "Dashboard operativo diario para priorizar actividades, Duty Roster y herramientas clave del Distrito.",
   "org": "Centro Norte",
   "modoVisual": "green_apron_dashboard",
-  "cmsFuente": "Distrito_Go_CMS.xlsx",
+  "cmsFuente": "Distrito_Go_CMS_v2_actualizado.xlsx",
   "githubReady": true
 }

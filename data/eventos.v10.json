@@ -14,18 +14,18 @@
     "ImagenPath": "assets/photos/cdd_3Q_2026.png"
   },
   {
-    "ID": "EVT-003",
-    "Actividad": "✅ Validación Summer Attensi",
-    "Contexto / Recordatorio": "Validación de conocimientos Summer antes del lanzamiento.",
-    "Fecha Inicio": "2026-07-13",
-    "Fecha Fin": "2026-07-19",
+    "ID": "EVT-002",
+    "Actividad": "🍩 Dona Grab & Go",
+    "Contexto / Recordatorio": "Enfocar venta incremental vs Semana 26.",
+    "Fecha Inicio": "2026-07-01",
+    "Fecha Fin": "2026-07-31",
     "Región": "Centro Norte",
     "Distrito": "Enrique Cesar Flores",
     "Tienda": "Todas",
     "Publicar": true,
-    "Imagen": "✅",
+    "Imagen": "🍩",
     "Link": "",
-    "ImagenPath": ""
+    "ImagenPath": "assets/photos/concurso_venta_dona_julio.jpeg"
   },
   {
     "ID": "EVT-004",
@@ -39,20 +39,6 @@
     "Publicar": true,
     "Imagen": "👥",
     "Link": "",
-    "ImagenPath": ""
-  },
-  {
-    "ID": "EVT-005",
-    "Actividad": "📅 Corte de Nómina",
-    "Contexto / Recordatorio": "Ejecutar y validar incidencias del periodo del 1 al 15 de julio.",
-    "Fecha Inicio": "2026-07-15",
-    "Fecha Fin": "2026-07-16",
-    "Región": "Centro Norte",
-    "Distrito": "Enrique Cesar Flores",
-    "Tienda": "Todas",
-    "Publicar": true,
-    "Imagen": "📅",
-    "Link": "https://ejlw.login.us2.oraclecloud.com/oam/server/obrareq.cgi?encquery%3DLK1T...",
     "ImagenPath": ""
   },
   {

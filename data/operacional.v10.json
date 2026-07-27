@@ -29,20 +29,6 @@
       "ImagenPath": "assets/photos/concurso_venta_dona_julio.jpeg"
     },
     {
-      "ID": "EVT-003",
-      "Actividad": "✅ Validación Summer Attensi",
-      "Contexto / Recordatorio": "Validación de conocimientos Summer antes del lanzamiento.",
-      "Fecha Inicio": "2026-07-13",
-      "Fecha Fin": "2026-07-19",
-      "Región": "Centro Norte",
-      "Distrito": "Enrique Cesar Flores",
-      "Tienda": "Todas",
-      "Publicar": true,
-      "Imagen": "✅",
-      "Link": "",
-      "ImagenPath": ""
-    },
-    {
       "ID": "EVT-004",
       "Actividad": "👥 Best Talent - Cascada RD y DM",
       "Contexto / Recordatorio": "Sesiones de revisión y proyección de talento.",
@@ -54,20 +40,6 @@
       "Publicar": true,
       "Imagen": "👥",
       "Link": "",
-      "ImagenPath": ""
-    },
-    {
-      "ID": "EVT-005",
-      "Actividad": "📅 Corte de Nómina",
-      "Contexto / Recordatorio": "Ejecutar y validar incidencias del periodo del 1 al 15 de julio.",
-      "Fecha Inicio": "2026-07-15",
-      "Fecha Fin": "2026-07-16",
-      "Región": "Centro Norte",
-      "Distrito": "Enrique Cesar Flores",
-      "Tienda": "Todas",
-      "Publicar": true,
-      "Imagen": "📅",
-      "Link": "https://ejlw.login.us2.oraclecloud.com/oam/server/obrareq.cgi?encquery%3DLK1T...",
       "ImagenPath": ""
     },
     {
@@ -1909,16 +1881,16 @@
     {
       "ID": 1,
       "Actividad": "Maquila",
-      "Descripción": "Valida tus ingresos de maquila con el costo mas actual (Abril-26)",
+      "Descripción": "Valida tus ingresos de maquila con el costo más actual.",
       "Frecuencia": "Diario",
       "Prioridad": 1,
       "Categoría": "Operación",
       "Icono": "☕",
       "Color": "Marrón",
       "Visible": true,
-      "Recurso": "assets/photos/maquila_abril.png",
+      "Recurso": "assets/photos/maquila_actualizado.png",
       "TipoRecurso": "imagen",
-      "DescripcionBreve": "Valida tus ingresos de maquila con el costo mas actual (Abril-26)"
+      "DescripcionBreve": "Valida tus ingresos de maquila con el costo más actual."
     }
   ],
   "celebraciones": [

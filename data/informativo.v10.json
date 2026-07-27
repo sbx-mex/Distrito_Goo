@@ -2,29 +2,15 @@
   {
     "ID": 1,
     "Actividad": "Maquila",
-    "Descripción": "Valida tus ingresos de maquila con el costo mas actual (Abril-26)",
+    "Descripción": "Valida tus ingresos de maquila con el costo más actual.",
     "Frecuencia": "Diario",
     "Prioridad": 1,
     "Categoría": "Operación",
     "Icono": "☕",
     "Color": "Marrón",
     "Visible": true,
-    "Recurso": "assets/photos/maquila_abril.png",
+    "Recurso": "assets/photos/maquila_actualizado.png",
     "TipoRecurso": "imagen",
-    "DescripcionBreve": "Valida tus ingresos de maquila con el costo mas actual (Abril-26)"
-  },
-  {
-    "ID": 2,
-    "Actividad": "Dress Code",
-    "Descripción": "Consulta la alineación semanal de vestimenta e imagen personal.",
-    "Frecuencia": "Semanal",
-    "Prioridad": 2,
-    "Categoría": "Personas",
-    "Icono": "👔",
-    "Color": "Verde",
-    "Visible": true,
-    "Recurso": "assets/photos/dress_code.png",
-    "TipoRecurso": "imagen",
-    "DescripcionBreve": "Consulta la alineación semanal de vestimenta e imagen personal."
+    "DescripcionBreve": "Valida tus ingresos de maquila con el costo más actual."
   }
 ]

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'distrito-go-v20.4.0-informativos-semanales';
+const CACHE_NAME = 'distrito-go-v21.0.0-auditoria-integral';
 const APP_SHELL = [
   './',
   './index.html',
@@ -47,16 +47,12 @@ const APP_SHELL = [
   './assets/photos/dresscode26.jpeg',
   './assets/photos/clockin_out.jpg',
   './assets/photos/resumen_comunicado_semana_actual.png',
-  './assets/photos/dress_code.png',
   './assets/photos/concurso_venta_dona_julio.jpeg',
   './assets/photos/cortado_leche.jpeg',
-  './assets/photos/hugo-barista-champion.jpeg',
-  './assets/photos/limpieza_back.jpeg',
   './assets/photos/maquila_actualizado.png',
   './assets/photos/pinpad-atb-cambios.png',
   './assets/photos/store-walk.png',
   './assets/photos/verificacion-cafe-espresso.png',
-  './assets/photos/y-si-si-inicio.jpeg',
   './assets/img/bearistahugger.jpeg',
   './assets/tools/espresso-hub.jpeg',
   './assets/premium/duty-roster/domingo_drive_thru.png',

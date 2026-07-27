@@ -1,17 +1,17 @@
 {
-  "version": "20.3.0",
-  "releaseDate": "2026-07-22",
+  "version": "21.0.0",
+  "releaseDate": "2026-07-26",
   "changes": [
-    "Felicitaciones PDF rediseñadas en formato cuadrado y listas para compartir.",
-    "Nombre del partner convertido en el elemento visual protagonista.",
-    "Mensajes cálidos completos y tres hashtags institucionales integrados.",
-    "Aniversario con antigüedad dinámica, singular y plural correctos.",
-    "Tarjetas de selección con mayor contraste, jerarquía y accesibilidad."
+    "Maquila actualizada con mensaje único y recurso vigente.",
+    "CMS depurado y pestaña Links restaurada con 46 herramientas.",
+    "Recursos duplicados y obsoletos retirados con evidencia.",
+    "Caché PWA sincronizada con los archivos activos.",
+    "Funciones, navegación, celebraciones y Duty Roster conservados."
   ],
-  "notes": "La PWA conserva su arquitectura estática. Cumpleaños y aniversario se generan dinámicamente para el partner seleccionado; la antigüedad se calcula desde la fecha de ingreso y la celebración elegida.",
-  "fecha": "2026-07-22",
-  "descripcion": "Reconocimientos Partner cuadrados, cálidos y diferenciados para cumpleaños y aniversario.",
-  "updatedAt": "2026-07-22",
-  "runtimeFix": "v20.3.0",
+  "notes": "La PWA conserva su arquitectura estática y las funciones existentes. La auditoría retiró únicamente recursos sin dependencias activas.",
+  "fecha": "2026-07-26",
+  "descripcion": "Auditoría integral, limpieza segura y actualización de Maquila.",
+  "updatedAt": "2026-07-26",
+  "runtimeFix": "v21.0.0",
   "name": "Juntémonos Más"
 }

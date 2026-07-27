@@ -1,4 +1,4 @@
-# Distrito Goo — Fase 3
+# Distrito Goo — versión auditada
 
 Distrito Goo continúa siendo una PWA 100% estática para GitHub Pages. Python se utiliza únicamente durante auditoría y compilación para validar el CMS y generar JSON; no forma parte del runtime ni requiere servidor.
 
@@ -35,11 +35,15 @@ python tools/audit_static.py
 
 Publicar el contenido de la raíz de `main` mediante **Deploy from a branch**. Conservar `.nojekyll`, las rutas relativas `./` y todos los archivos incluidos en `APP_SHELL`.
 
-Después de publicar una nueva versión, abrir la PWA una vez con conexión para instalar la caché `distrito-go-v20.3.0-felicitaciones-cuadradas`.
+Después de publicar una nueva versión, abrir la PWA una vez con conexión para instalar la caché `distrito-go-v21.0.0-auditoria-integral`.
 
+## Auditoría integral
 
-## Fase 3
-Inicio consolidado sin tarjeta del District Coach, PWA v19 y depuración segura de recursos exclusivos. Consulta `reports/FASE_3_RESUMEN.md`.
+- El proyecto conserva únicamente las rutas activas o necesarias para mantenimiento.
+- El apartado **Maquila** consume `assets/photos/maquila_actualizado.png` y el mensaje autorizado desde el CMS.
+- `photos/`, `logo/`, `premium/`, las variantes antiguas de Duty Roster y los JSON heredados sin consumo fueron retirados.
+- La imagen `resumen_comunicado_semana_actual.png` continúa con estrategia `network-first`; el resto de imágenes mantiene `cache-first`.
+- Consulta `reports/AUDITORIA_INTEGRAL.md` y `ARCHIVOS_ELIMINADOS.txt`.
 
 ## Felicitaciones PDF
 

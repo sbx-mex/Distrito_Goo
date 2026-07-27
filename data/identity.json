@@ -19,15 +19,40 @@
       "#DistritoKike"
     ],
     "journey": [
-      {"title": "META", "description": "Definimos objetivos claros juntos.", "icon": "goal"},
-      {"title": "EXPERIENCIA", "description": "Vivimos cada momento con excelencia.", "icon": "experience"},
-      {"title": "ACTIVIDAD", "description": "Colaboramos, compartimos y aprendemos.", "icon": "team"},
-      {"title": "RESULTADOS", "description": "Creamos impacto que nos impulsa más lejos.", "icon": "results"}
+      {
+        "title": "META",
+        "description": "Definimos objetivos claros juntos.",
+        "icon": "goal"
+      },
+      {
+        "title": "EXPERIENCIA",
+        "description": "Vivimos cada momento con excelencia.",
+        "icon": "experience"
+      },
+      {
+        "title": "ACTIVIDAD",
+        "description": "Colaboramos, compartimos y aprendemos.",
+        "icon": "team"
+      },
+      {
+        "title": "RESULTADOS",
+        "description": "Creamos impacto que nos impulsa más lejos.",
+        "icon": "results"
+      }
     ],
-    "districtMessage": {"title": "Distrito Kike", "message": "juntos llegamos más lejos."},
+    "districtMessage": {
+      "title": "Distrito Kike",
+      "message": "juntos llegamos más lejos."
+    },
     "actions": [
-      {"label": "Revisar prioridades", "action": "priorities"},
-      {"label": "Abrir herramientas", "action": "tools"}
+      {
+        "label": "Revisar prioridades",
+        "action": "priorities"
+      },
+      {
+        "label": "Abrir herramientas",
+        "action": "tools"
+      }
     ]
   }
 }

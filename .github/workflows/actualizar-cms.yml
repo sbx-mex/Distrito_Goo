@@ -64,7 +64,7 @@ jobs:
         run: |
           set -euo pipefail
           python tools/validate_assets.py
-          python tools/validate_enhancements.py --report reports/v22-validation.json
+          python tools/validate_enhancements.py --report reports/v23-validation.json
           python tools/audit_links.py Distrito_Go_CMS_v2_actualizado.xlsx --report reports/link-audit.json
           python tools/audit_static.py
           find modules -name '*.js' -print0 | xargs -0 -n1 node --check

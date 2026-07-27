@@ -1,9 +1,9 @@
 {
   "appName": "Distrito Go",
-  "version": "22.0 CMS automático",
-  "tagline": "Dashboard operativo diario para priorizar actividades, Duty Roster y herramientas clave del Distrito.",
+  "version": "23.0 Experiencia visual",
+  "tagline": "Contenido operativo visual para encontrar prioridades, personas y herramientas en menos pasos.",
   "org": "Centro Norte",
-  "modoVisual": "green_apron_dashboard",
+  "modoVisual": "green_apron_visual_feed",
   "cmsFuente": "Distrito_Go_CMS_v2_actualizado.xlsx",
   "githubReady": true
 }

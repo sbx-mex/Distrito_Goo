@@ -1,82 +1,112 @@
 {
   "ok": true,
   "minimumBytes": 250000,
-  "excluded": [
+  "previewOnly": [
     "resumen_comunicado_semana_actual.png"
   ],
   "images": [
     {
       "source": "assets/photos/10-pasos-turno.png",
       "optimized": "assets/photos/10-pasos-turno.webp",
+      "thumbnail": "assets/photos/10-pasos-turno.thumb.webp",
       "sourceBytes": 1434938,
       "optimizedBytes": 1032868,
+      "thumbnailBytes": 113214,
       "savedBytes": 402070
     },
     {
       "source": "assets/photos/cdd_3Q_2026.png",
       "optimized": "assets/photos/cdd_3Q_2026.webp",
+      "thumbnail": "assets/photos/cdd_3Q_2026.thumb.webp",
       "sourceBytes": 614791,
       "optimizedBytes": 486658,
+      "thumbnailBytes": 43458,
       "savedBytes": 128133
     },
     {
       "source": "assets/photos/concurso_venta_dona_julio.jpeg",
       "optimized": "assets/photos/concurso_venta_dona_julio.webp",
+      "thumbnail": "assets/photos/concurso_venta_dona_julio.thumb.webp",
       "sourceBytes": 278425,
-      "optimizedBytes": 178804,
-      "savedBytes": 99621
+      "optimizedBytes": 202328,
+      "thumbnailBytes": 63336,
+      "savedBytes": 76097
     },
     {
       "source": "assets/photos/cortado_leche.jpeg",
       "optimized": "assets/photos/cortado_leche.webp",
+      "thumbnail": "assets/photos/cortado_leche.thumb.webp",
       "sourceBytes": 299372,
-      "optimizedBytes": 185730,
-      "savedBytes": 113642
+      "optimizedBytes": 203920,
+      "thumbnailBytes": 115238,
+      "savedBytes": 95452
     },
     {
       "source": "assets/photos/maquila_actualizado.png",
       "optimized": "assets/photos/maquila_actualizado.webp",
+      "thumbnail": "assets/photos/maquila_actualizado.thumb.webp",
       "sourceBytes": 1416215,
       "optimizedBytes": 851698,
+      "thumbnailBytes": 93222,
       "savedBytes": 564517
     },
     {
       "source": "assets/photos/pinpad-atb-cambios.png",
       "optimized": "assets/photos/pinpad-atb-cambios.webp",
+      "thumbnail": "assets/photos/pinpad-atb-cambios.thumb.webp",
       "sourceBytes": 654381,
       "optimizedBytes": 526260,
+      "thumbnailBytes": 100822,
       "savedBytes": 128121
+    },
+    {
+      "source": "assets/photos/resumen_comunicado_semana_actual.png",
+      "optimized": "assets/photos/resumen_comunicado_semana_actual.png",
+      "thumbnail": "assets/photos/resumen_comunicado_semana_actual.thumb.webp",
+      "sourceBytes": 2074206,
+      "optimizedBytes": 2074206,
+      "thumbnailBytes": 111482,
+      "savedBytes": 0
     },
     {
       "source": "assets/photos/store-walk.png",
       "optimized": "assets/photos/store-walk.webp",
+      "thumbnail": "assets/photos/store-walk.thumb.webp",
       "sourceBytes": 1540226,
       "optimizedBytes": 1073422,
+      "thumbnailBytes": 134176,
       "savedBytes": 466804
     },
     {
       "source": "assets/photos/verificacion-cafe-espresso.png",
       "optimized": "assets/photos/verificacion-cafe-espresso.webp",
+      "thumbnail": "assets/photos/verificacion-cafe-espresso.thumb.webp",
       "sourceBytes": 1172032,
       "optimizedBytes": 783840,
+      "thumbnailBytes": 102642,
       "savedBytes": 388192
     },
     {
       "source": "assets/premium/duty-roster/martes_pic.png",
       "optimized": "assets/premium/duty-roster/martes_pic.webp",
+      "thumbnail": "assets/premium/duty-roster/martes_pic.thumb.webp",
       "sourceBytes": 350013,
       "optimizedBytes": 299016,
+      "thumbnailBytes": 186238,
       "savedBytes": 50997
     },
     {
       "source": "assets/premium/duty-roster/miercoles_boh.png",
       "optimized": "assets/premium/duty-roster/miercoles_boh.webp",
+      "thumbnail": "assets/premium/duty-roster/miercoles_boh.thumb.webp",
       "sourceBytes": 312465,
       "optimizedBytes": 267992,
+      "thumbnailBytes": 159190,
       "savedBytes": 44473
     }
   ],
-  "totalSourceBytes": 8072858,
-  "totalOptimizedBytes": 5686288,
-  "totalSavedBytes": 2386570
+  "totalSourceBytes": 10147064,
+  "totalOptimizedBytes": 7802208,
+  "totalThumbnailBytes": 1223018,
+  "totalSavedBytes": 2344856
 }

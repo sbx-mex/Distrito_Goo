@@ -10,6 +10,8 @@
     "Color": "Marrón",
     "Visible": true,
     "Recurso": "assets/photos/verificacion-cafe-espresso.webp?v=61e3213ae9ac",
+    "MiniaturaRecurso": "assets/photos/verificacion-cafe-espresso.png?v=481f927a9ef9",
+    "OriginalRecurso": "assets/photos/verificacion-cafe-espresso.png?v=481f927a9ef9",
     "TipoRecurso": "imagen",
     "DescripcionBreve": "Valida las verificaciones de Espresso y Calidad del Café, registra resultados y comentarios en cada turno."
   },
@@ -24,6 +26,8 @@
     "Color": "Rojo",
     "Visible": true,
     "Recurso": "https://sbx-mx.github.io/checklist-rsa-semaforo/",
+    "MiniaturaRecurso": "",
+    "OriginalRecurso": "",
     "TipoRecurso": "link",
     "DescripcionBreve": "Completa el RSA Checklist antes de las 10:00 a.m. y comparte evidencia de las correcciones realizadas."
   },
@@ -38,6 +42,8 @@
     "Color": "Verde",
     "Visible": true,
     "Recurso": "assets/photos/store-walk.webp?v=3400f53c1019",
+    "MiniaturaRecurso": "assets/photos/store-walk.png?v=2a4bd1261db1",
+    "OriginalRecurso": "assets/photos/store-walk.png?v=2a4bd1261db1",
     "TipoRecurso": "imagen",
     "DescripcionBreve": "Realiza el recorrido diario de los 4 Estándares, identifica oportunidades y documenta acciones en el Daily Record Boo…"
   },
@@ -52,6 +58,8 @@
     "Color": "Azul",
     "Visible": true,
     "Recurso": "assets/photos/Rutina_apertura.jpeg?v=510a6564c19a",
+    "MiniaturaRecurso": "assets/photos/Rutina_apertura.jpeg?v=510a6564c19a",
+    "OriginalRecurso": "assets/photos/Rutina_apertura.jpeg?v=510a6564c19a",
     "TipoRecurso": "imagen",
     "DescripcionBreve": "Antes de las 09:00 a.m. envía al equipo de Excelencia únicamente incidencias o desviaciones detectadas."
   },
@@ -66,6 +74,8 @@
     "Color": "Naranja",
     "Visible": true,
     "Recurso": "assets/photos/10-pasos-turno.webp?v=8d2da38bd7f1",
+    "MiniaturaRecurso": "assets/photos/10-pasos-turno.png?v=5d69b79bcd4e",
+    "OriginalRecurso": "assets/photos/10-pasos-turno.png?v=5d69b79bcd4e",
     "TipoRecurso": "imagen",
     "DescripcionBreve": "Revisa y ejecuta los 10 Pasos para un Turno Exitoso antes de iniciar la operación."
   },
@@ -80,6 +90,8 @@
     "Color": "Morado",
     "Visible": true,
     "Recurso": "http://consulta.delivery.alsea.net/",
+    "MiniaturaRecurso": "",
+    "OriginalRecurso": "",
     "TipoRecurso": "link",
     "DescripcionBreve": "Verifica la disponibilidad de productos, horarios y estatus operativo antes del inicio del turno."
   },
@@ -93,7 +105,9 @@
     "Icono": "🥛",
     "Color": "Celeste",
     "Visible": true,
-    "Recurso": "assets/photos/cortado_leche.webp?v=28e75c1dc55f",
+    "Recurso": "assets/photos/cortado_leche.webp?v=3101b2235a79",
+    "MiniaturaRecurso": "assets/photos/cortado_leche.jpeg?v=96d84fce8098",
+    "OriginalRecurso": "assets/photos/cortado_leche.jpeg?v=96d84fce8098",
     "TipoRecurso": "imagen",
     "DescripcionBreve": "Verifica que las estaciones CBS y Espresso cuenten con tijeras asignadas y que el corte de bolsas sea el correcto par…"
   }

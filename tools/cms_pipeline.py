@@ -130,14 +130,37 @@ def image_path(value: Any, root: Path, folder: str = "assets/photos") -> str:
             preferred = optimized
     return preferred.relative_to(root).as_posix() + asset_version(preferred)
 
+def original_image_path(value: Any, root: Path, folder: str = "assets/photos") -> str:
+    name = Path(str(value or "").strip()).name
+    if not name:
+        return ""
+    base = root / folder
+    matches = {p.name.casefold(): p for p in base.glob("*") if p.is_file()}
+    match = matches.get(name.casefold())
+    if not match:
+        return f"{folder}/{name}"
+    return match.relative_to(root).as_posix() + asset_version(match)
 
-def resource(value: Any, root: Path) -> tuple[str, str]:
+def thumbnail_image_path(value: Any, root: Path, folder: str = "assets/photos") -> str:
+    name = Path(str(value or "").strip()).name
+    if not name:
+        return ""
+    base = root / folder
+    matches = {p.name.casefold(): p for p in base.glob("*") if p.is_file()}
+    source = matches.get(name.casefold())
+    if not source:
+        return image_path(value, root, folder)
+    thumbnail = matches.get(f"{source.stem}.thumb.webp".casefold())
+    chosen = thumbnail or source
+    return chosen.relative_to(root).as_posix() + asset_version(chosen)
+
+def resource(value: Any, root: Path) -> tuple[str, str, str]:
     text = str(value or "").strip()
     if not text:
-        return "", ""
+        return "", "", ""
     if re.match(r"^https?://", text, re.I):
-        return text, "link"
-    return image_path(text, root), "imagen"
+        return text, "link", ""
+    return image_path(text, root), "imagen", original_image_path(text, root)
 
 
 def write_json(path: Path, value: Any) -> None:
@@ -161,20 +184,25 @@ def build(root: Path, sheets: dict[str, list[dict[str, Any]]]) -> list[Path]:
 
     daily = []
     for row in raw["Actividades_Diaria"]:
-        rec, typ = resource(row.pop("Link / Imagen", ""), root)
+        rec, typ, original = resource(row.pop("Link / Imagen", ""), root)
         row["ID"] = int(row["ID"])
         row["Prioridad"] = int(row["Prioridad"])
         row["Visible"] = truthy(row["Visible"])
-        row.update({"Recurso": rec, "TipoRecurso": typ, "DescripcionBreve": short(row.get("Descripción"))})
+        thumbnail = thumbnail_image_path(original or rec, root) if typ == "imagen" else ""
+        row.update({"Recurso": rec, "MiniaturaRecurso": thumbnail, "OriginalRecurso": original, "TipoRecurso": typ, "DescripcionBreve": short(row.get("Descripción"))})
         daily.append(row)
 
     info = []
     for row in raw["Informativo"]:
-        rec, typ = resource(row.pop("Link /Imagen", ""), root)
+        rec, typ, original = resource(row.pop("Link /Imagen", ""), root)
         row["ID"] = int(row["ID"])
         row["Prioridad"] = int(row["Prioridad"])
         row["Visible"] = truthy(row["Visible"])
-        row.update({"Recurso": rec, "TipoRecurso": typ, "DescripcionBreve": short(row.get("Descripción"))})
+        for field in ("Mostrar Inicio", "Mostrar Explorar"):
+            if field in row:
+                row[field] = truthy(row[field])
+        thumbnail = thumbnail_image_path(original or rec, root) if typ == "imagen" else ""
+        row.update({"Recurso": rec, "MiniaturaRecurso": thumbnail, "OriginalRecurso": original, "TipoRecurso": typ, "DescripcionBreve": short(row.get("Descripción"))})
         info.append(row)
 
     weekly = raw["Actividades_Semanales"]
@@ -194,14 +222,18 @@ def build(root: Path, sheets: dict[str, list[dict[str, Any]]]) -> list[Path]:
             "Fecha Inicio": row.get("Fecha Inicio", ""), "Fecha Fin": row.get("Fecha Fin", ""),
             "Región": row.get("Región", ""), "Distrito": row.get("Distrito", ""),
             "Tienda": row.get("Tienda", ""), "Publicar": True, "Imagen": row.get("Imagen", ""),
-            "Link": link, "ImagenPath": image_path(img_candidate, root) if img_candidate else ""
+            "Link": link, "ImagenPath": image_path(img_candidate, root) if img_candidate else "",
+            "MiniaturaPath": thumbnail_image_path(img_candidate, root) if img_candidate else "",
+            "ImagenOriginal": original_image_path(img_candidate, root) if img_candidate else ""
         })
 
     duty_roster = []
     for row in raw["Duty_Roster"]:
         names = [x.strip() for x in str(row.get("Imágenes", "")).split(",") if x.strip()]
         paths = [image_path(x, root, "assets/premium/duty-roster") for x in names]
-        duty_roster.append({**row, "Orden": int(row["Orden"]), "ImagenesPath": paths, "Premium": bool(paths), "Link": paths[0] if paths else ""})
+        thumbnails = [thumbnail_image_path(x, root, "assets/premium/duty-roster") for x in names]
+        originals = [original_image_path(x, root, "assets/premium/duty-roster") for x in names]
+        duty_roster.append({**row, "Orden": int(row["Orden"]), "ImagenesPath": paths, "MiniaturasPath": thumbnails, "ImagenesOriginales": originals, "ImagenOriginal": originals[0] if originals else "", "Premium": bool(paths), "Link": paths[0] if paths else ""})
 
     duty_detail = raw["Duty_Detail"]
     for row in duty_detail:

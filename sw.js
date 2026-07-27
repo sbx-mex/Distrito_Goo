@@ -1,4 +1,4 @@
-const CACHE_NAME = 'distrito-go-v22.0.0-cms-automatico';
+const CACHE_NAME = 'distrito-go-v23.0.0-experiencia-visual';
 const APP_SHELL = [
   './',
   './index.html',
@@ -6,6 +6,7 @@ const APP_SHELL = [
   './README.md',
   './styles/variables.css',
   './styles/app.css',
+  './styles/experience.css',
   './data/categorias.v10.json',
   './data/herramientas.v10.json',
   './data/favoritos.v10.json',
@@ -29,6 +30,7 @@ const APP_SHELL = [
   './modules/pwa.js',
   './modules/app.js',
   './modules/operational.js',
+  './modules/experience.js',
   './assets/icons/icon-192.png',
   './assets/icons/icon-512.png',
 ];
@@ -56,13 +58,13 @@ async function networkFirst(request, fallbackUrl) {
     if (response && response.ok) await cache.put(request, response.clone());
     return response;
   } catch (error) {
-    return (await cache.match(request)) || (fallbackUrl ? await cache.match(fallbackUrl) : undefined) || Response.error();
+    return (await cache.match(request, {ignoreSearch:true})) || (fallbackUrl ? await cache.match(fallbackUrl, {ignoreSearch:true}) : undefined) || Response.error();
   }
 }
 
 async function cacheFirst(request) {
   const cache = await caches.open(CACHE_NAME);
-  const cached = await cache.match(request);
+  const cached = await cache.match(request, {ignoreSearch:true});
   if (cached) return cached;
   const response = await fetch(request);
   if (response && response.ok) await cache.put(request, response.clone());

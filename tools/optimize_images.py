@@ -9,7 +9,7 @@ from pathlib import Path
 
 from PIL import Image, ImageOps
 
-EXCLUDED_NAMES = {"resumen_comunicado_semana_actual.png"}
+PREVIEW_ONLY_NAMES = {"resumen_comunicado_semana_actual.png"}
 SOURCE_SUFFIXES = {".png", ".jpg", ".jpeg"}
 
 
@@ -17,22 +17,24 @@ def should_optimize(path: Path, minimum_bytes: int) -> bool:
     return (
         path.is_file()
         and path.suffix.casefold() in SOURCE_SUFFIXES
-        and path.name.casefold() not in EXCLUDED_NAMES
         and path.stat().st_size >= minimum_bytes
     )
 
 
-def convert(source: Path, target: Path) -> None:
+def convert(source: Path, target: Path, max_width: int | None = None) -> None:
     target.parent.mkdir(parents=True, exist_ok=True)
     buffer = io.BytesIO()
     with Image.open(source) as original:
         image = ImageOps.exif_transpose(original)
+        if max_width and image.width > max_width:
+            height = max(1, round(image.height * (max_width / image.width)))
+            image = image.resize((max_width, height), Image.Resampling.LANCZOS)
         if image.mode not in {"RGB", "RGBA"}:
             image = image.convert("RGBA" if "transparency" in image.info else "RGB")
-        if source.suffix.casefold() == ".png":
+        if source.suffix.casefold() == ".png" and max_width is None:
             image.save(buffer, "WEBP", lossless=True, method=6, exact=True)
         else:
-            image.save(buffer, "WEBP", quality=86, method=6)
+            image.save(buffer, "WEBP", quality=88, method=6)
     target.write_bytes(buffer.getvalue())
 
 
@@ -52,23 +54,31 @@ def main() -> int:
     records = []
     for source in sources:
         target = source.with_suffix(".webp")
-        convert(source, target)
+        thumbnail = source.with_name(f"{source.stem}.thumb.webp")
+        preview_only = source.name.casefold() in PREVIEW_ONLY_NAMES
+        if not preview_only:
+            convert(source, target)
+        convert(source, thumbnail, max_width=720)
+        optimized = source if preview_only else target
         records.append(
             {
                 "source": source.relative_to(root).as_posix(),
-                "optimized": target.relative_to(root).as_posix(),
+                "optimized": optimized.relative_to(root).as_posix(),
+                "thumbnail": thumbnail.relative_to(root).as_posix(),
                 "sourceBytes": source.stat().st_size,
-                "optimizedBytes": target.stat().st_size,
-                "savedBytes": source.stat().st_size - target.stat().st_size,
+                "optimizedBytes": optimized.stat().st_size,
+                "thumbnailBytes": thumbnail.stat().st_size,
+                "savedBytes": source.stat().st_size - optimized.stat().st_size,
             }
         )
     report = {
         "ok": True,
         "minimumBytes": args.minimum_bytes,
-        "excluded": sorted(EXCLUDED_NAMES),
+        "previewOnly": sorted(PREVIEW_ONLY_NAMES),
         "images": records,
         "totalSourceBytes": sum(item["sourceBytes"] for item in records),
         "totalOptimizedBytes": sum(item["optimizedBytes"] for item in records),
+        "totalThumbnailBytes": sum(item["thumbnailBytes"] for item in records),
         "totalSavedBytes": sum(item["savedBytes"] for item in records),
     }
     text = json.dumps(report, ensure_ascii=False, indent=2) + "\n"

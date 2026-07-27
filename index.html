@@ -11,6 +11,7 @@
   <link rel="apple-touch-icon" href="./assets/icons/icon-180.png" />
   <link rel="stylesheet" href="./styles/variables.css?v=16.4.1" />
   <link rel="stylesheet" href="./styles/app.css?v=22.0.0" />
+  <link rel="stylesheet" href="./styles/experience.css?v=23.0.0" />
 </head>
 <body class="v15-starbucks-contrast-experience v16-mobile-launcher-espresso-hub-optimization v16-2-visual-accessibility-refinement">
   <a class="skip-link" href="#main">Saltar al contenido</a>
@@ -30,7 +31,45 @@
     </div>
   </header>
 <main id="main" class="app-shell" tabindex="-1">
-    <section class="hero-card hero-partner" aria-labelledby="hero-title">
+    <section id="visual-home" class="visual-home" aria-labelledby="visual-home-title">
+      <div class="visual-home-heading">
+        <div>
+          <p class="visual-kicker">Distrito Go · Ahora</p>
+          <h2 id="visual-home-title">Lo esencial, a primera vista</h2>
+        </div>
+        <a class="view-switch" href="?vista=clasica" aria-label="Comparar con el Inicio clásico">Vista clásica</a>
+      </div>
+
+      <nav class="story-strip" aria-label="Historias operativas">
+        <div id="operational-stories" class="story-track" role="list"></div>
+      </nav>
+
+      <section class="visual-priority" aria-labelledby="visual-priority-title">
+        <div class="visual-section-title">
+          <div><span class="visual-overline">Prioridad</span><h3 id="visual-priority-title">Lo importante esta semana</h3></div>
+          <span id="visual-priority-status" class="status-pill">Actualizado</span>
+        </div>
+        <div id="visual-priority-card" class="priority-card-shell" aria-live="polite"></div>
+      </section>
+
+      <section id="explorar" class="visual-explore" aria-labelledby="visual-explore-title">
+        <div class="visual-section-title">
+          <div><span class="visual-overline">Descubre</span><h3 id="visual-explore-title">Explorar Distrito Go</h3></div>
+        </div>
+        <div id="explore-filters" class="explore-filters" role="group" aria-label="Filtrar contenido"></div>
+        <div id="explore-grid" class="explore-grid" aria-live="polite"></div>
+      </section>
+
+      <section id="guardados" class="saved-view" aria-labelledby="saved-title" hidden>
+        <div class="visual-section-title">
+          <div><span class="visual-overline">En este dispositivo</span><h3 id="saved-title">Guardados</h3></div>
+          <button id="close-saved-view" class="text-button" type="button">Volver</button>
+        </div>
+        <div id="saved-grid" class="explore-grid"></div>
+      </section>
+    </section>
+
+    <section class="hero-card hero-partner legacy-home" aria-labelledby="hero-title">
       <div class="hero-copy">
         <h2 id="hero-title" class="hero-greeting" aria-live="polite"></h2>
         <p id="hero-campaign" class="hero-campaign" aria-label="Identidad de campaña">
@@ -212,6 +251,12 @@
 
   </main>
 
+  <footer class="site-footer">
+    <strong>Diseñado por Enrique César Flores</strong>
+    <p>Distrito Goo es una herramienta interna desarrollada para apoyar la operación, la toma de decisiones y la mejora continua. Su contenido es de uso exclusivo de los equipos autorizados y no debe reproducirse, distribuirse ni difundirse fuera del ámbito de trabajo.</p>
+    <span>#DistritoKike 🚀 · #GreenApronService · JUNTÉMONOS MÁS</span>
+  </footer>
+
   <dialog id="spotlight-modal" class="spotlight-modal" aria-label="Búsqueda rápida">
     <div class="modal-search"><span aria-hidden="true">🔎</span><input id="modal-search-input" type="search" placeholder="Buscar herramienta, categoría, función, alias o etiqueta..." /><button id="close-spotlight" type="button" aria-label="Cerrar">×</button></div>
     <div id="modal-results" class="modal-results"></div>
@@ -232,14 +277,13 @@
   </div>
   <div id="toast-root" class="toast-root" aria-live="polite" aria-atomic="true"></div>
 
-  <nav class="bottom-nav sidebar-nav" aria-label="Navegación principal">
+  <nav class="bottom-nav sidebar-nav visual-bottom-nav" aria-label="Navegación principal">
     <button class="nav-item is-active" data-view="home" type="button">🏠<span>Inicio</span></button>
-    <button class="nav-item" data-view="today" type="button">✅<span>Operación</span></button>
-    <button class="nav-item" data-view="all" type="button">🧰<span>Herramientas</span></button>
-    <button class="nav-item" data-view="weekly-summary" type="button" aria-label="Actualizaciones de la semana">📣<span>Semana</span></button>
-    <button class="nav-item" data-view="more" type="button" aria-haspopup="dialog">☷<span>Más</span></button>
+    <button class="nav-item" data-view="explore" type="button">◫<span>Explorar</span></button>
+    <button class="nav-item" data-view="search" type="button">⌕<span>Buscar</span></button>
+    <button class="nav-item" data-view="saved" type="button">♡<span>Guardados</span></button>
   </nav>
 
-  <script type="module" src="./modules/app.js?v=22.0.0"></script>
+  <script type="module" src="./modules/app.js?v=23.0.0"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Pruebas reproducibles para las mejoras v22 de Distrito Goo."""
+"""Pruebas reproducibles para la experiencia visual v23 de Distrito Goo."""
 from __future__ import annotations
 
 import argparse
@@ -21,12 +21,15 @@ def check(name: str, condition: bool, detail: str) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--report", type=Path, default=ROOT / "reports" / "v22-validation.json")
+    parser.add_argument("--report", type=Path, default=ROOT / "reports" / "v23-validation.json")
     args = parser.parse_args()
 
     html = (ROOT / "index.html").read_text(encoding="utf-8")
     sw = (ROOT / "sw.js").read_text(encoding="utf-8")
     operational = (ROOT / "modules" / "operational.js").read_text(encoding="utf-8")
+    experience = (ROOT / "modules" / "experience.js").read_text(encoding="utf-8")
+    search = (ROOT / "modules" / "search.js").read_text(encoding="utf-8")
+    app = (ROOT / "modules" / "app.js").read_text(encoding="utf-8")
     info = json.loads((ROOT / "data" / "informativo.v10.json").read_text(encoding="utf-8"))
 
     wb = load_workbook(ROOT / "Distrito_Go_CMS_v2_actualizado.xlsx", read_only=True, data_only=True)
@@ -47,6 +50,9 @@ def main() -> int:
         ", ".join(sorted(names)),
     )
     check("Resumen semanal CMS", any(row.get("Frecuencia") == "Semanal" for row in records), "Frecuencia Semanal presente")
+    visual_headers = {"Etiqueta", "Vigencia Inicio", "Vigencia Fin", "Orden", "Mostrar Inicio", "Mostrar Explorar"}
+    check("Controles visuales CMS", visual_headers.issubset(set(headers)), ", ".join(sorted(visual_headers)))
+    check("Prioridad única CMS", sum(str(row.get("Mostrar Inicio", "")).casefold() in {"sí","si","true","1"} for row in records) == 1, "Un registro visible en Inicio")
 
     check("Contenedor CMS Coffee", 'id="coffee-master-grid"' in html, "Coffee Master sin ruta fija en HTML")
     check("Contenedor CMS semanal", 'id="weekly-updates-grid"' in html, "Actualizaciones sin ruta fija en HTML")
@@ -56,10 +62,18 @@ def main() -> int:
         and "data-image-viewer=\"./assets/photos/resumen_comunicado_semana_actual.png\"" not in html,
         "Las rutas se reciben del JSON generado",
     )
-    check("Navegación primaria compacta", len(re.findall(r'class="nav-item', html)) == 5, "5 accesos principales")
+    check("Navegación primaria app", len(re.findall(r'class="nav-item', html)) == 4, "Inicio, Explorar, Buscar y Guardados")
     check("Navegación agrupada", "navigation-groups" in (ROOT / "modules" / "app.js").read_text(encoding="utf-8"), "Menú Más agrupado")
     check("Carga diferida PDF", "await import('./celebration-pdf.js')" in operational, "PDF se importa al solicitarlo")
     check("Secciones diferidas", "IntersectionObserver" in operational and "data-deferred-section" in html, "Duty y Partner bajo demanda")
+    check("Inicio visual", all(token in html for token in ('id="visual-home"', 'id="operational-stories"', 'id="visual-priority-card"', 'id="explore-grid"')), "Historias, prioridad y Explorar presentes")
+    check("Versión paralela", "?vista=clasica" in html and "visual-classic" in experience, "Comparación mediante parámetro controlado")
+    check("Historias reales", all(target in experience for target in ("today","duty","altas","weekly-summary")), "Historias enlazadas con funciones existentes")
+    check("Explorar filtrable", "data-explore-category" in experience and "CATEGORIES" in experience, "Filtros sin recarga")
+    check("Guardados locales", "dgx_saved_content" in experience and "localStorage" not in experience, "Persistencia mediante abstracción local existente")
+    check("Buscador integral", "getContentCatalog" in search and "searchTools" in search, "Contenido y herramientas comparten búsqueda")
+    check("Detalle interno", "dgx:open-detail" in experience and "openContentDetail" in app, "Visor existente ampliado")
+    check("Pie corporativo", all(text in html for text in ("Diseñado por Enrique César Flores", "#DistritoKike 🚀", "#GreenApronService", "JUNTÉMONOS MÁS")), "Identidad y uso interno presentes una vez")
 
     shell_match = re.search(r"const APP_SHELL = \[(.*?)\];", sw, re.S)
     shell_refs = re.findall(r"['\"]([^'\"]+)['\"]", shell_match.group(1)) if shell_match else []
@@ -70,6 +84,7 @@ def main() -> int:
             shell_bytes += path.stat().st_size
     check("APP_SHELL esencial", shell_bytes < 2_000_000, f"{shell_bytes} bytes")
     check("Sin imágenes pesadas precargadas", not any("/photos/" in ref or "/duty-roster/" in ref for ref in shell_refs), f"{len(shell_refs)} recursos esenciales")
+    check("Experiencia offline", "./styles/experience.css" in shell_refs and "./modules/experience.js" in shell_refs, "CSS y módulo visual en APP_SHELL")
     check(
         "Resumen network-first",
         "resumen_comunicado_semana_actual.png" in sw and "event.respondWith(networkFirst(request))" in sw,
@@ -91,6 +106,12 @@ def main() -> int:
         except Exception:
             pass
     check("WebP válidos", valid_webps == len(webps) and len(webps) >= 8, f"{valid_webps}/{len(webps)} válidos")
+    thumbnails = [path for path in webps if path.name.endswith(".thumb.webp")]
+    check("Miniaturas WebP", len(thumbnails) >= 8, f"{len(thumbnails)} miniaturas derivadas")
+    check("Picture con respaldo", "<picture>" in experience and "imageOriginal" in experience, "WebP con original preservado")
+    check("Carga diferida", 'loading="${eager ? \'eager\' : \'lazy\'}"' in experience and 'decoding="async"' in experience, "Lazy fuera del primer bloque")
+    check("Caché actualizado", "distrito-go-v23.0.0-experiencia-visual" in sw, "Versión v23")
+    check("Caché tolera versiones", "ignoreSearch:true" in sw, "CSS y JS versionados disponibles offline")
 
     cms_workflow = ROOT / ".github" / "workflows" / "actualizar-cms.yml"
     cleanup_workflow = ROOT / ".github" / "workflows" / "limpieza-auditada.yml"

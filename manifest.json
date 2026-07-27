@@ -1,7 +1,7 @@
 {
   "name": "Distrito Go - Multiherramienta Operativa",
   "short_name": "Distrito Go",
-  "description": "Distrito Go con contraste Starbucks, navegación ejecutiva y experiencia diaria accesible.",
+  "description": "Distrito Go: experiencia operativa visual, accesible y preparada para uso diario.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

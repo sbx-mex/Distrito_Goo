@@ -12,24 +12,12 @@
       "Publicar": true,
       "Imagen": "📖",
       "Link": "",
-      "ImagenPath": "assets/photos/cdd_3Q_2026.webp?v=db990f5a14a8"
+      "ImagenPath": "assets/photos/cdd_3Q_2026.webp?v=db990f5a14a8",
+      "MiniaturaPath": "assets/photos/cdd_3Q_2026.thumb.webp?v=0d6c1eca2037",
+      "ImagenOriginal": "assets/photos/cdd_3Q_2026.png?v=50d564c3a573"
     },
     {
       "ID": "EVT-002",
-      "Actividad": "🍩 Dona Grab & Go",
-      "Contexto / Recordatorio": "Enfocar venta incremental vs Semana 26.",
-      "Fecha Inicio": "2026-07-01",
-      "Fecha Fin": "2026-07-31",
-      "Región": "Centro Norte",
-      "Distrito": "Enrique Cesar Flores",
-      "Tienda": "Todas",
-      "Publicar": true,
-      "Imagen": "🍩",
-      "Link": "",
-      "ImagenPath": "assets/photos/concurso_venta_dona_julio.webp?v=ea63c0425656"
-    },
-    {
-      "ID": "EVT-004",
       "Actividad": "👥 Best Talent - Cascada RD y DM",
       "Contexto / Recordatorio": "Sesiones de revisión y proyección de talento.",
       "Fecha Inicio": "2026-07-13",
@@ -40,10 +28,12 @@
       "Publicar": true,
       "Imagen": "👥",
       "Link": "",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-006",
+      "ID": "EVT-003",
       "Actividad": "☀️ Campaña Summer 2026",
       "Contexto / Recordatorio": "Inicio de campaña Summer; ejecución de bebidas, food, retail y promociones.",
       "Fecha Inicio": "2026-07-20",
@@ -54,10 +44,12 @@
       "Publicar": true,
       "Imagen": "☀️",
       "Link": "",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-007",
+      "ID": "EVT-004",
       "Actividad": "🥥 Coconut Ube Platform",
       "Contexto / Recordatorio": "Lanzamiento de Coconut Ube Latte y Frappuccino.",
       "Fecha Inicio": "2026-07-20",
@@ -68,10 +60,12 @@
       "Publicar": true,
       "Imagen": "🥥",
       "Link": "",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-008",
+      "ID": "EVT-005",
       "Actividad": "☕ Aerocano",
       "Contexto / Recordatorio": "Nueva plataforma de Espresso aireado.",
       "Fecha Inicio": "2026-07-20",
@@ -82,10 +76,12 @@
       "Publicar": true,
       "Imagen": "☕",
       "Link": "",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-009",
+      "ID": "EVT-006",
       "Actividad": "💪 Protein Lattes",
       "Contexto / Recordatorio": "Nueva línea de bebidas con proteína.",
       "Fecha Inicio": "2026-07-20",
@@ -96,10 +92,12 @@
       "Publicar": true,
       "Imagen": "💪",
       "Link": "",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-010",
+      "ID": "EVT-007",
       "Actividad": "🥤 Strato Frappuccino",
       "Contexto / Recordatorio": "Nueva plataforma Frappuccino con Cold Foam.",
       "Fecha Inicio": "2026-07-20",
@@ -110,10 +108,12 @@
       "Publicar": true,
       "Imagen": "🥤",
       "Link": "",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-011",
+      "ID": "EVT-008",
       "Actividad": "🥪 Nueva Focaccia",
       "Contexto / Recordatorio": "Innovación Food. Revisar producción y disponibilidad.",
       "Fecha Inicio": "2026-07-20",
@@ -124,10 +124,12 @@
       "Publicar": true,
       "Imagen": "🥪",
       "Link": "",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-012",
+      "ID": "EVT-009",
       "Actividad": "🍩 Dona Ube",
       "Contexto / Recordatorio": "Nuevo producto de temporada Food.",
       "Fecha Inicio": "2026-07-20",
@@ -138,10 +140,12 @@
       "Publicar": true,
       "Imagen": "🍩",
       "Link": "",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-013",
+      "ID": "EVT-010",
       "Actividad": "🦄 Cake Pop Unicorn",
       "Contexto / Recordatorio": "Nuevo producto de temporada Food.",
       "Fecha Inicio": "2026-07-20",
@@ -152,10 +156,12 @@
       "Publicar": true,
       "Imagen": "🦄",
       "Link": "",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-014",
+      "ID": "EVT-011",
       "Actividad": "🍰 Cheesecake Brulée de Limón",
       "Contexto / Recordatorio": "Nuevo producto de temporada Food.",
       "Fecha Inicio": "2026-07-20",
@@ -166,10 +172,12 @@
       "Publicar": true,
       "Imagen": "🍰",
       "Link": "",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-015",
+      "ID": "EVT-012",
       "Actividad": "🥭 Mango Enchilado",
       "Contexto / Recordatorio": "Innovación Retail Attach para incrementar ticket.",
       "Fecha Inicio": "2026-07-20",
@@ -180,10 +188,12 @@
       "Publicar": true,
       "Imagen": "🥭",
       "Link": "",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-016",
+      "ID": "EVT-013",
       "Actividad": "🧀 Snack Box",
       "Contexto / Recordatorio": "Nueva opción Retail Lobby.",
       "Fecha Inicio": "2026-07-20",
@@ -194,10 +204,12 @@
       "Publicar": true,
       "Imagen": "🧀",
       "Link": "",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-017",
+      "ID": "EVT-014",
       "Actividad": "🌍 Kati Kati Blend",
       "Contexto / Recordatorio": "Café de temporada para Retail y Coffee Experience.",
       "Fecha Inicio": "2026-07-20",
@@ -208,10 +220,12 @@
       "Publicar": true,
       "Imagen": "🌍",
       "Link": "",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-018",
+      "ID": "EVT-015",
       "Actividad": "⭐ Starbucks Rewards Summer",
       "Contexto / Recordatorio": "Promociones diferenciadas por día en Starbucks Rewards.",
       "Fecha Inicio": "2026-07-20",
@@ -222,10 +236,12 @@
       "Publicar": true,
       "Imagen": "⭐",
       "Link": "",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-019",
+      "ID": "EVT-016",
       "Actividad": "📚 Mujeres que Inspiran - Club de Lectura",
       "Contexto / Recordatorio": "Sesión de desarrollo y reflexión.",
       "Fecha Inicio": "2026-07-28",
@@ -236,10 +252,12 @@
       "Publicar": true,
       "Imagen": "📚",
       "Link": "",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-020",
+      "ID": "EVT-017",
       "Actividad": "🛡️ AutoICA",
       "Contexto / Recordatorio": "Ejecutar AutoICA de todas las tiendas. Validar evidencias, corregir hallazgos...",
       "Fecha Inicio": "2026-08-01",
@@ -250,10 +268,12 @@
       "Publicar": true,
       "Imagen": "🛡️",
       "Link": "https://ica-stage.bw-globalsolutions.com/Login.php",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-021",
+      "ID": "EVT-018",
       "Actividad": "📅 Corte de Nómina",
       "Contexto / Recordatorio": "Ejecutar y validar incidencias del periodo del 16 al 31 de julio.",
       "Fecha Inicio": "2026-08-02",
@@ -264,10 +284,12 @@
       "Publicar": true,
       "Imagen": "📅",
       "Link": "https://ejlw.login.us2.oraclecloud.com/oam/server/obrareq.cgi?encquery%3DLK1T...",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-022",
+      "ID": "EVT-019",
       "Actividad": "🌟 Best Talent - Cascada DM - SM",
       "Contexto / Recordatorio": "Inicio de calibraciones y desarrollo DM-SM.",
       "Fecha Inicio": "2026-08-03",
@@ -278,10 +300,12 @@
       "Publicar": true,
       "Imagen": "🌟",
       "Link": "",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-023",
+      "ID": "EVT-020",
       "Actividad": "⬆️ Upsize sin costo adicional",
       "Contexto / Recordatorio": "Promoción para impulsar ADTs.",
       "Fecha Inicio": "2026-08-03",
@@ -292,10 +316,12 @@
       "Publicar": true,
       "Imagen": "⬆️",
       "Link": "",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-024",
+      "ID": "EVT-021",
       "Actividad": "🎥 Coffee Webinar",
       "Contexto / Recordatorio": "Sesión virtual para Coffee Masters.",
       "Fecha Inicio": "2026-08-13",
@@ -306,10 +332,12 @@
       "Publicar": true,
       "Imagen": "🎥",
       "Link": "",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-025",
+      "ID": "EVT-022",
       "Actividad": "📅 Corte de Nómina",
       "Contexto / Recordatorio": "Ejecutar y validar incidencias del periodo del 1 al 15 de agosto.",
       "Fecha Inicio": "2026-08-16",
@@ -320,10 +348,12 @@
       "Publicar": true,
       "Imagen": "📅",
       "Link": "https://ejlw.login.us2.oraclecloud.com/oam/server/obrareq.cgi?encquery%3DLK1T...",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-026",
+      "ID": "EVT-023",
       "Actividad": "☕ Seminario de Café",
       "Contexto / Recordatorio": "Ejecución del Seminario para Coffee Masters.",
       "Fecha Inicio": "2026-08-17",
@@ -334,10 +364,12 @@
       "Publicar": true,
       "Imagen": "☕",
       "Link": "",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-027",
+      "ID": "EVT-024",
       "Actividad": "🚀 Mujeres que Inspiran - Abriendo Camino",
       "Contexto / Recordatorio": "Sesión de capacitación formal.",
       "Fecha Inicio": "2026-08-25",
@@ -348,10 +380,12 @@
       "Publicar": true,
       "Imagen": "🚀",
       "Link": "",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-028",
+      "ID": "EVT-025",
       "Actividad": "📅 Corte de Nómina",
       "Contexto / Recordatorio": "Ejecutar y validar incidencias del periodo del 16 al 31 de agosto.",
       "Fecha Inicio": "2026-08-31",
@@ -362,10 +396,12 @@
       "Publicar": true,
       "Imagen": "📅",
       "Link": "https://ejlw.login.us2.oraclecloud.com/oam/server/obrareq.cgi?encquery%3DLK1T...",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-029",
+      "ID": "EVT-026",
       "Actividad": "🛡️ AutoICA",
       "Contexto / Recordatorio": "Ejecutar AutoICA de todas las tiendas. Validar evidencias, corregir hallazgos...",
       "Fecha Inicio": "2026-09-01",
@@ -376,10 +412,12 @@
       "Publicar": true,
       "Imagen": "🛡️",
       "Link": "https://ica-stage.bw-globalsolutions.com/Login.php",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-030",
+      "ID": "EVT-027",
       "Actividad": "📅 Corte de Nómina",
       "Contexto / Recordatorio": "Ejecutar y validar incidencias del periodo del 1 al 15 de septiembre.",
       "Fecha Inicio": "2026-09-16",
@@ -390,10 +428,12 @@
       "Publicar": true,
       "Imagen": "📅",
       "Link": "https://ejlw.login.us2.oraclecloud.com/oam/server/obrareq.cgi?encquery%3DLK1T...",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-031",
+      "ID": "EVT-028",
       "Actividad": "🎤 Mujeres que Inspiran - Voces que Inspiran",
       "Contexto / Recordatorio": "Conversaciones con líderes y desarrollo profesional.",
       "Fecha Inicio": "2026-09-29",
@@ -404,10 +444,12 @@
       "Publicar": true,
       "Imagen": "🎤",
       "Link": "",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-032",
+      "ID": "EVT-029",
       "Actividad": "📅 Corte de Nómina",
       "Contexto / Recordatorio": "Ejecutar y validar incidencias del periodo del 16 al 30 de septiembre.",
       "Fecha Inicio": "2026-09-30",
@@ -418,10 +460,12 @@
       "Publicar": true,
       "Imagen": "📅",
       "Link": "https://ejlw.login.us2.oraclecloud.com/oam/server/obrareq.cgi?encquery%3DLK1T...",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-033",
+      "ID": "EVT-030",
       "Actividad": "💳 Inventario Pin Pad y TPV Q4",
       "Contexto / Recordatorio": "Realiza en WOE la actualización de Pin Pad y TPVs.",
       "Fecha Inicio": "2026-10-01",
@@ -432,10 +476,12 @@
       "Publicar": true,
       "Imagen": "💳",
       "Link": "",
-      "ImagenPath": "assets/photos/pinpad-atb-cambios.webp?v=7ce68e5d4b7f"
+      "ImagenPath": "assets/photos/pinpad-atb-cambios.webp?v=7ce68e5d4b7f",
+      "MiniaturaPath": "assets/photos/pinpad-atb-cambios.thumb.webp?v=7a0202bd4915",
+      "ImagenOriginal": "assets/photos/pinpad-atb-cambios.png?v=6791390d2399"
     },
     {
-      "ID": "EVT-034",
+      "ID": "EVT-031",
       "Actividad": "🛡️ AutoICA",
       "Contexto / Recordatorio": "Ejecutar AutoICA de todas las tiendas. Validar evidencias, corregir hallazgos...",
       "Fecha Inicio": "2026-10-01",
@@ -446,10 +492,12 @@
       "Publicar": true,
       "Imagen": "🛡️",
       "Link": "https://ica-stage.bw-globalsolutions.com/Login.php",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-035",
+      "ID": "EVT-032",
       "Actividad": "📅 Corte de Nómina",
       "Contexto / Recordatorio": "Ejecutar y validar incidencias del periodo del 1 al 15 de octubre.",
       "Fecha Inicio": "2026-10-15",
@@ -460,10 +508,12 @@
       "Publicar": true,
       "Imagen": "📅",
       "Link": "https://ejlw.login.us2.oraclecloud.com/oam/server/obrareq.cgi?encquery%3DLK1T...",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-036",
+      "ID": "EVT-033",
       "Actividad": "📖 Mujeres que Inspiran - Entre Páginas",
       "Contexto / Recordatorio": "Club de lectura y aprendizaje compartido.",
       "Fecha Inicio": "2026-10-27",
@@ -474,10 +524,12 @@
       "Publicar": true,
       "Imagen": "📖",
       "Link": "",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-037",
+      "ID": "EVT-034",
       "Actividad": "🛡️ AutoICA",
       "Contexto / Recordatorio": "Ejecutar AutoICA de todas las tiendas. Validar evidencias, corregir hallazgos...",
       "Fecha Inicio": "2026-11-01",
@@ -488,10 +540,12 @@
       "Publicar": true,
       "Imagen": "🛡️",
       "Link": "https://ica-stage.bw-globalsolutions.com/Login.php",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-038",
+      "ID": "EVT-035",
       "Actividad": "📅 Corte de Nómina",
       "Contexto / Recordatorio": "Ejecutar y validar incidencias del periodo del 16 al 31 de octubre.",
       "Fecha Inicio": "2026-11-02",
@@ -502,10 +556,12 @@
       "Publicar": true,
       "Imagen": "📅",
       "Link": "https://ejlw.login.us2.oraclecloud.com/oam/server/obrareq.cgi?encquery%3DLK1T...",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-039",
+      "ID": "EVT-036",
       "Actividad": "📅 Corte de Nómina",
       "Contexto / Recordatorio": "Ejecutar y validar incidencias del periodo del 1 al 15 de noviembre.",
       "Fecha Inicio": "2026-11-16",
@@ -516,10 +572,12 @@
       "Publicar": true,
       "Imagen": "📅",
       "Link": "https://ejlw.login.us2.oraclecloud.com/oam/server/obrareq.cgi?encquery%3DLK1T...",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-040",
+      "ID": "EVT-037",
       "Actividad": "📅 Corte de Nómina",
       "Contexto / Recordatorio": "Ejecutar y validar incidencias del periodo del 16 al 30 de noviembre.",
       "Fecha Inicio": "2026-11-30",
@@ -530,10 +588,12 @@
       "Publicar": true,
       "Imagen": "📅",
       "Link": "https://ejlw.login.us2.oraclecloud.com/oam/server/obrareq.cgi?encquery%3DLK1T...",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-041",
+      "ID": "EVT-038",
       "Actividad": "🛡️ AutoICA",
       "Contexto / Recordatorio": "Ejecutar AutoICA de todas las tiendas. Validar evidencias, corregir hallazgos...",
       "Fecha Inicio": "2026-12-01",
@@ -544,10 +604,12 @@
       "Publicar": true,
       "Imagen": "🛡️",
       "Link": "https://ica-stage.bw-globalsolutions.com/Login.php",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-042",
+      "ID": "EVT-039",
       "Actividad": "📅 Corte de Nómina",
       "Contexto / Recordatorio": "Ejecutar y validar incidencias del periodo del 1 al 15 de diciembre.",
       "Fecha Inicio": "2026-12-15",
@@ -558,7 +620,9 @@
       "Publicar": true,
       "Imagen": "📅",
       "Link": "https://ejlw.login.us2.oraclecloud.com/oam/server/obrareq.cgi?encquery%3DLK1T...",
-      "ImagenPath": ""
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     }
   ],
   "actividadesDiarias": [
@@ -573,6 +637,8 @@
       "Color": "Marrón",
       "Visible": true,
       "Recurso": "assets/photos/verificacion-cafe-espresso.webp?v=61e3213ae9ac",
+      "MiniaturaRecurso": "assets/photos/verificacion-cafe-espresso.png?v=481f927a9ef9",
+      "OriginalRecurso": "assets/photos/verificacion-cafe-espresso.png?v=481f927a9ef9",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Valida las verificaciones de Espresso y Calidad del Café, registra resultados y comentarios en cada turno."
     },
@@ -587,6 +653,8 @@
       "Color": "Rojo",
       "Visible": true,
       "Recurso": "https://sbx-mx.github.io/checklist-rsa-semaforo/",
+      "MiniaturaRecurso": "",
+      "OriginalRecurso": "",
       "TipoRecurso": "link",
       "DescripcionBreve": "Completa el RSA Checklist antes de las 10:00 a.m. y comparte evidencia de las correcciones realizadas."
     },
@@ -601,6 +669,8 @@
       "Color": "Verde",
       "Visible": true,
       "Recurso": "assets/photos/store-walk.webp?v=3400f53c1019",
+      "MiniaturaRecurso": "assets/photos/store-walk.png?v=2a4bd1261db1",
+      "OriginalRecurso": "assets/photos/store-walk.png?v=2a4bd1261db1",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Realiza el recorrido diario de los 4 Estándares, identifica oportunidades y documenta acciones en el Daily Record Boo…"
     },
@@ -615,6 +685,8 @@
       "Color": "Azul",
       "Visible": true,
       "Recurso": "assets/photos/Rutina_apertura.jpeg?v=510a6564c19a",
+      "MiniaturaRecurso": "assets/photos/Rutina_apertura.jpeg?v=510a6564c19a",
+      "OriginalRecurso": "assets/photos/Rutina_apertura.jpeg?v=510a6564c19a",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Antes de las 09:00 a.m. envía al equipo de Excelencia únicamente incidencias o desviaciones detectadas."
     },
@@ -629,6 +701,8 @@
       "Color": "Naranja",
       "Visible": true,
       "Recurso": "assets/photos/10-pasos-turno.webp?v=8d2da38bd7f1",
+      "MiniaturaRecurso": "assets/photos/10-pasos-turno.png?v=5d69b79bcd4e",
+      "OriginalRecurso": "assets/photos/10-pasos-turno.png?v=5d69b79bcd4e",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Revisa y ejecuta los 10 Pasos para un Turno Exitoso antes de iniciar la operación."
     },
@@ -643,6 +717,8 @@
       "Color": "Morado",
       "Visible": true,
       "Recurso": "http://consulta.delivery.alsea.net/",
+      "MiniaturaRecurso": "",
+      "OriginalRecurso": "",
       "TipoRecurso": "link",
       "DescripcionBreve": "Verifica la disponibilidad de productos, horarios y estatus operativo antes del inicio del turno."
     },
@@ -656,7 +732,9 @@
       "Icono": "🥛",
       "Color": "Celeste",
       "Visible": true,
-      "Recurso": "assets/photos/cortado_leche.webp?v=28e75c1dc55f",
+      "Recurso": "assets/photos/cortado_leche.webp?v=3101b2235a79",
+      "MiniaturaRecurso": "assets/photos/cortado_leche.jpeg?v=96d84fce8098",
+      "OriginalRecurso": "assets/photos/cortado_leche.jpeg?v=96d84fce8098",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Verifica que las estaciones CBS y Espresso cuenten con tijeras asignadas y que el corte de bolsas sea el correcto par…"
     }
@@ -824,6 +902,13 @@
       "ImagenesPath": [
         "assets/premium/duty-roster/lunes_food.png?v=c0ece6d8dfa9"
       ],
+      "MiniaturasPath": [
+        "assets/premium/duty-roster/lunes_food.png?v=c0ece6d8dfa9"
+      ],
+      "ImagenesOriginales": [
+        "assets/premium/duty-roster/lunes_food.png?v=c0ece6d8dfa9"
+      ],
+      "ImagenOriginal": "assets/premium/duty-roster/lunes_food.png?v=c0ece6d8dfa9",
       "Premium": true,
       "Link": "assets/premium/duty-roster/lunes_food.png?v=c0ece6d8dfa9"
     },
@@ -838,6 +923,15 @@
         "assets/premium/duty-roster/martes_pic.webp?v=e9151bbad743",
         "assets/premium/duty-roster/martes_lobby.png?v=470aef546064"
       ],
+      "MiniaturasPath": [
+        "assets/premium/duty-roster/martes_pic.thumb.webp?v=bda83d1a881f",
+        "assets/premium/duty-roster/martes_lobby.png?v=470aef546064"
+      ],
+      "ImagenesOriginales": [
+        "assets/premium/duty-roster/martes_pic.png?v=e34e819bb0be",
+        "assets/premium/duty-roster/martes_lobby.png?v=470aef546064"
+      ],
+      "ImagenOriginal": "assets/premium/duty-roster/martes_pic.png?v=e34e819bb0be",
       "Premium": true,
       "Link": "assets/premium/duty-roster/martes_pic.webp?v=e9151bbad743"
     },
@@ -851,6 +945,13 @@
       "ImagenesPath": [
         "assets/premium/duty-roster/miercoles_boh.webp?v=9fe18616b6e9"
       ],
+      "MiniaturasPath": [
+        "assets/premium/duty-roster/miercoles_boh.thumb.webp?v=0e564af4b269"
+      ],
+      "ImagenesOriginales": [
+        "assets/premium/duty-roster/miercoles_boh.png?v=ec2fd1aa67a7"
+      ],
+      "ImagenOriginal": "assets/premium/duty-roster/miercoles_boh.png?v=ec2fd1aa67a7",
       "Premium": true,
       "Link": "assets/premium/duty-roster/miercoles_boh.webp?v=9fe18616b6e9"
     },
@@ -865,6 +966,15 @@
         "assets/premium/duty-roster/jueves_espresso.png?v=2f0780756188",
         "assets/premium/duty-roster/jueves_lobby.png?v=46a12a539650"
       ],
+      "MiniaturasPath": [
+        "assets/premium/duty-roster/jueves_espresso.png?v=2f0780756188",
+        "assets/premium/duty-roster/jueves_lobby.png?v=46a12a539650"
+      ],
+      "ImagenesOriginales": [
+        "assets/premium/duty-roster/jueves_espresso.png?v=2f0780756188",
+        "assets/premium/duty-roster/jueves_lobby.png?v=46a12a539650"
+      ],
+      "ImagenOriginal": "assets/premium/duty-roster/jueves_espresso.png?v=2f0780756188",
       "Premium": true,
       "Link": "assets/premium/duty-roster/jueves_espresso.png?v=2f0780756188"
     },
@@ -878,6 +988,13 @@
       "ImagenesPath": [
         "assets/premium/duty-roster/viernes_cafe_filtrado.png?v=82772032c6fa"
       ],
+      "MiniaturasPath": [
+        "assets/premium/duty-roster/viernes_cafe_filtrado.png?v=82772032c6fa"
+      ],
+      "ImagenesOriginales": [
+        "assets/premium/duty-roster/viernes_cafe_filtrado.png?v=82772032c6fa"
+      ],
+      "ImagenOriginal": "assets/premium/duty-roster/viernes_cafe_filtrado.png?v=82772032c6fa",
       "Premium": true,
       "Link": "assets/premium/duty-roster/viernes_cafe_filtrado.png?v=82772032c6fa"
     },
@@ -891,6 +1008,13 @@
       "ImagenesPath": [
         "assets/premium/duty-roster/sabado_cbs.png?v=72dc17ed98c1"
       ],
+      "MiniaturasPath": [
+        "assets/premium/duty-roster/sabado_cbs.png?v=72dc17ed98c1"
+      ],
+      "ImagenesOriginales": [
+        "assets/premium/duty-roster/sabado_cbs.png?v=72dc17ed98c1"
+      ],
+      "ImagenOriginal": "assets/premium/duty-roster/sabado_cbs.png?v=72dc17ed98c1",
       "Premium": true,
       "Link": "assets/premium/duty-roster/sabado_cbs.png?v=72dc17ed98c1"
     },
@@ -905,6 +1029,15 @@
         "assets/premium/duty-roster/domingo_lobby.png?v=1fd8ed0d1a57",
         "assets/premium/duty-roster/domingo_drive_thru.png?v=8aeb63083143"
       ],
+      "MiniaturasPath": [
+        "assets/premium/duty-roster/domingo_lobby.png?v=1fd8ed0d1a57",
+        "assets/premium/duty-roster/domingo_drive_thru.png?v=8aeb63083143"
+      ],
+      "ImagenesOriginales": [
+        "assets/premium/duty-roster/domingo_lobby.png?v=1fd8ed0d1a57",
+        "assets/premium/duty-roster/domingo_drive_thru.png?v=8aeb63083143"
+      ],
+      "ImagenOriginal": "assets/premium/duty-roster/domingo_lobby.png?v=1fd8ed0d1a57",
       "Premium": true,
       "Link": "assets/premium/duty-roster/domingo_lobby.png?v=1fd8ed0d1a57"
     }
@@ -1888,7 +2021,15 @@
       "Icono": "☕",
       "Color": "Marrón",
       "Visible": true,
+      "Etiqueta": "Actualizado",
+      "Vigencia Inicio": "",
+      "Vigencia Fin": "",
+      "Orden": 2,
+      "Mostrar Inicio": false,
+      "Mostrar Explorar": true,
       "Recurso": "assets/photos/maquila_actualizado.webp?v=12d143b2e9cd",
+      "MiniaturaRecurso": "assets/photos/maquila_actualizado.png?v=d94b965a0432",
+      "OriginalRecurso": "assets/photos/maquila_actualizado.png?v=d94b965a0432",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Valida tus ingresos de maquila con el costo más actual."
     },
@@ -1902,7 +2043,15 @@
       "Icono": "👔",
       "Color": "Verde",
       "Visible": true,
+      "Etiqueta": "Vigente",
+      "Vigencia Inicio": "",
+      "Vigencia Fin": "",
+      "Orden": 4,
+      "Mostrar Inicio": false,
+      "Mostrar Explorar": true,
       "Recurso": "assets/photos/dresscode26.jpeg?v=23ebe8e0d939",
+      "MiniaturaRecurso": "assets/photos/dresscode26.jpeg?v=23ebe8e0d939",
+      "OriginalRecurso": "assets/photos/dresscode26.jpeg?v=23ebe8e0d939",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Consulta la alineación vigente de Dress Code para mantener una imagen consistente y profesional en todo el portafolio."
     },
@@ -1916,7 +2065,15 @@
       "Icono": "⏱️",
       "Color": "Verde",
       "Visible": true,
+      "Etiqueta": "Importante",
+      "Vigencia Inicio": "",
+      "Vigencia Fin": "",
+      "Orden": 5,
+      "Mostrar Inicio": false,
+      "Mostrar Explorar": true,
       "Recurso": "assets/photos/clockin_out.jpg?v=ae93c0ed48b2",
+      "MiniaturaRecurso": "assets/photos/clockin_out.jpg?v=ae93c0ed48b2",
+      "OriginalRecurso": "assets/photos/clockin_out.jpg?v=ae93c0ed48b2",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Partners, revisemos esta información para asegurar un registro correcto y oportuno de entradas y salidas."
     },
@@ -1930,7 +2087,15 @@
       "Icono": "☕",
       "Color": "Verde",
       "Visible": true,
+      "Etiqueta": "Nuevo",
+      "Vigencia Inicio": "",
+      "Vigencia Fin": "",
+      "Orden": 3,
+      "Mostrar Inicio": false,
+      "Mostrar Explorar": true,
       "Recurso": "assets/photos/coffemaster26.jpeg?v=04918871ad02",
+      "MiniaturaRecurso": "assets/photos/coffemaster26.jpeg?v=04918871ad02",
+      "OriginalRecurso": "assets/photos/coffemaster26.jpeg?v=04918871ad02",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "¡Felicidades a nuestros Partners Coffee Master 2026! Reconocemos su pasión por el café, dedicación y compromiso con s…"
     },
@@ -1944,7 +2109,15 @@
       "Icono": "📣",
       "Color": "Verde",
       "Visible": true,
+      "Etiqueta": "Importante",
+      "Vigencia Inicio": "",
+      "Vigencia Fin": "",
+      "Orden": 1,
+      "Mostrar Inicio": true,
+      "Mostrar Explorar": true,
       "Recurso": "assets/photos/resumen_comunicado_semana_actual.png?v=3d4638a892e4",
+      "MiniaturaRecurso": "assets/photos/resumen_comunicado_semana_actual.png?v=3d4638a892e4",
+      "OriginalRecurso": "assets/photos/resumen_comunicado_semana_actual.png?v=3d4638a892e4",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Consulta los puntos clave y prioridades del comunicado correspondiente a la semana actual."
     }

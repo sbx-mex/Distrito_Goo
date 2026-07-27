@@ -9,6 +9,13 @@
     "ImagenesPath": [
       "assets/premium/duty-roster/lunes_food.png?v=c0ece6d8dfa9"
     ],
+    "MiniaturasPath": [
+      "assets/premium/duty-roster/lunes_food.png?v=c0ece6d8dfa9"
+    ],
+    "ImagenesOriginales": [
+      "assets/premium/duty-roster/lunes_food.png?v=c0ece6d8dfa9"
+    ],
+    "ImagenOriginal": "assets/premium/duty-roster/lunes_food.png?v=c0ece6d8dfa9",
     "Premium": true,
     "Link": "assets/premium/duty-roster/lunes_food.png?v=c0ece6d8dfa9"
   },
@@ -23,6 +30,15 @@
       "assets/premium/duty-roster/martes_pic.webp?v=e9151bbad743",
       "assets/premium/duty-roster/martes_lobby.png?v=470aef546064"
     ],
+    "MiniaturasPath": [
+      "assets/premium/duty-roster/martes_pic.thumb.webp?v=bda83d1a881f",
+      "assets/premium/duty-roster/martes_lobby.png?v=470aef546064"
+    ],
+    "ImagenesOriginales": [
+      "assets/premium/duty-roster/martes_pic.png?v=e34e819bb0be",
+      "assets/premium/duty-roster/martes_lobby.png?v=470aef546064"
+    ],
+    "ImagenOriginal": "assets/premium/duty-roster/martes_pic.png?v=e34e819bb0be",
     "Premium": true,
     "Link": "assets/premium/duty-roster/martes_pic.webp?v=e9151bbad743"
   },
@@ -36,6 +52,13 @@
     "ImagenesPath": [
       "assets/premium/duty-roster/miercoles_boh.webp?v=9fe18616b6e9"
     ],
+    "MiniaturasPath": [
+      "assets/premium/duty-roster/miercoles_boh.thumb.webp?v=0e564af4b269"
+    ],
+    "ImagenesOriginales": [
+      "assets/premium/duty-roster/miercoles_boh.png?v=ec2fd1aa67a7"
+    ],
+    "ImagenOriginal": "assets/premium/duty-roster/miercoles_boh.png?v=ec2fd1aa67a7",
     "Premium": true,
     "Link": "assets/premium/duty-roster/miercoles_boh.webp?v=9fe18616b6e9"
   },
@@ -50,6 +73,15 @@
       "assets/premium/duty-roster/jueves_espresso.png?v=2f0780756188",
       "assets/premium/duty-roster/jueves_lobby.png?v=46a12a539650"
     ],
+    "MiniaturasPath": [
+      "assets/premium/duty-roster/jueves_espresso.png?v=2f0780756188",
+      "assets/premium/duty-roster/jueves_lobby.png?v=46a12a539650"
+    ],
+    "ImagenesOriginales": [
+      "assets/premium/duty-roster/jueves_espresso.png?v=2f0780756188",
+      "assets/premium/duty-roster/jueves_lobby.png?v=46a12a539650"
+    ],
+    "ImagenOriginal": "assets/premium/duty-roster/jueves_espresso.png?v=2f0780756188",
     "Premium": true,
     "Link": "assets/premium/duty-roster/jueves_espresso.png?v=2f0780756188"
   },
@@ -63,6 +95,13 @@
     "ImagenesPath": [
       "assets/premium/duty-roster/viernes_cafe_filtrado.png?v=82772032c6fa"
     ],
+    "MiniaturasPath": [
+      "assets/premium/duty-roster/viernes_cafe_filtrado.png?v=82772032c6fa"
+    ],
+    "ImagenesOriginales": [
+      "assets/premium/duty-roster/viernes_cafe_filtrado.png?v=82772032c6fa"
+    ],
+    "ImagenOriginal": "assets/premium/duty-roster/viernes_cafe_filtrado.png?v=82772032c6fa",
     "Premium": true,
     "Link": "assets/premium/duty-roster/viernes_cafe_filtrado.png?v=82772032c6fa"
   },
@@ -76,6 +115,13 @@
     "ImagenesPath": [
       "assets/premium/duty-roster/sabado_cbs.png?v=72dc17ed98c1"
     ],
+    "MiniaturasPath": [
+      "assets/premium/duty-roster/sabado_cbs.png?v=72dc17ed98c1"
+    ],
+    "ImagenesOriginales": [
+      "assets/premium/duty-roster/sabado_cbs.png?v=72dc17ed98c1"
+    ],
+    "ImagenOriginal": "assets/premium/duty-roster/sabado_cbs.png?v=72dc17ed98c1",
     "Premium": true,
     "Link": "assets/premium/duty-roster/sabado_cbs.png?v=72dc17ed98c1"
   },
@@ -90,6 +136,15 @@
       "assets/premium/duty-roster/domingo_lobby.png?v=1fd8ed0d1a57",
       "assets/premium/duty-roster/domingo_drive_thru.png?v=8aeb63083143"
     ],
+    "MiniaturasPath": [
+      "assets/premium/duty-roster/domingo_lobby.png?v=1fd8ed0d1a57",
+      "assets/premium/duty-roster/domingo_drive_thru.png?v=8aeb63083143"
+    ],
+    "ImagenesOriginales": [
+      "assets/premium/duty-roster/domingo_lobby.png?v=1fd8ed0d1a57",
+      "assets/premium/duty-roster/domingo_drive_thru.png?v=8aeb63083143"
+    ],
+    "ImagenOriginal": "assets/premium/duty-roster/domingo_lobby.png?v=1fd8ed0d1a57",
     "Premium": true,
     "Link": "assets/premium/duty-roster/domingo_lobby.png?v=1fd8ed0d1a57"
   }

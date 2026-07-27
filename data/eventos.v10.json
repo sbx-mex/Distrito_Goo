@@ -11,7 +11,7 @@
     "Publicar": true,
     "Imagen": "📖",
     "Link": "",
-    "ImagenPath": "assets/photos/cdd_3Q_2026.png"
+    "ImagenPath": "assets/photos/cdd_3Q_2026.webp?v=db990f5a14a8"
   },
   {
     "ID": "EVT-002",
@@ -25,7 +25,7 @@
     "Publicar": true,
     "Imagen": "🍩",
     "Link": "",
-    "ImagenPath": "assets/photos/concurso_venta_dona_julio.jpeg"
+    "ImagenPath": "assets/photos/concurso_venta_dona_julio.webp?v=ea63c0425656"
   },
   {
     "ID": "EVT-004",
@@ -431,7 +431,7 @@
     "Publicar": true,
     "Imagen": "💳",
     "Link": "",
-    "ImagenPath": "assets/photos/pinpad-atb-cambios.png"
+    "ImagenPath": "assets/photos/pinpad-atb-cambios.webp?v=7ce68e5d4b7f"
   },
   {
     "ID": "EVT-034",

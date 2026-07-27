@@ -12,7 +12,7 @@
       "Publicar": true,
       "Imagen": "📖",
       "Link": "",
-      "ImagenPath": "assets/photos/cdd_3Q_2026.png"
+      "ImagenPath": "assets/photos/cdd_3Q_2026.webp?v=db990f5a14a8"
     },
     {
       "ID": "EVT-002",
@@ -26,7 +26,7 @@
       "Publicar": true,
       "Imagen": "🍩",
       "Link": "",
-      "ImagenPath": "assets/photos/concurso_venta_dona_julio.jpeg"
+      "ImagenPath": "assets/photos/concurso_venta_dona_julio.webp?v=ea63c0425656"
     },
     {
       "ID": "EVT-004",
@@ -432,7 +432,7 @@
       "Publicar": true,
       "Imagen": "💳",
       "Link": "",
-      "ImagenPath": "assets/photos/pinpad-atb-cambios.png"
+      "ImagenPath": "assets/photos/pinpad-atb-cambios.webp?v=7ce68e5d4b7f"
     },
     {
       "ID": "EVT-034",
@@ -572,7 +572,7 @@
       "Icono": "☕",
       "Color": "Marrón",
       "Visible": true,
-      "Recurso": "assets/photos/verificacion-cafe-espresso.png",
+      "Recurso": "assets/photos/verificacion-cafe-espresso.webp?v=61e3213ae9ac",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Valida las verificaciones de Espresso y Calidad del Café, registra resultados y comentarios en cada turno."
     },
@@ -600,7 +600,7 @@
       "Icono": "🚶",
       "Color": "Verde",
       "Visible": true,
-      "Recurso": "assets/photos/store-walk.png",
+      "Recurso": "assets/photos/store-walk.webp?v=3400f53c1019",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Realiza el recorrido diario de los 4 Estándares, identifica oportunidades y documenta acciones en el Daily Record Boo…"
     },
@@ -614,7 +614,7 @@
       "Icono": "🌅",
       "Color": "Azul",
       "Visible": true,
-      "Recurso": "assets/photos/Rutina_apertura.jpeg",
+      "Recurso": "assets/photos/Rutina_apertura.jpeg?v=510a6564c19a",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Antes de las 09:00 a.m. envía al equipo de Excelencia únicamente incidencias o desviaciones detectadas."
     },
@@ -628,7 +628,7 @@
       "Icono": "🔟",
       "Color": "Naranja",
       "Visible": true,
-      "Recurso": "assets/photos/10-pasos-turno.png",
+      "Recurso": "assets/photos/10-pasos-turno.webp?v=8d2da38bd7f1",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Revisa y ejecuta los 10 Pasos para un Turno Exitoso antes de iniciar la operación."
     },
@@ -656,7 +656,7 @@
       "Icono": "🥛",
       "Color": "Celeste",
       "Visible": true,
-      "Recurso": "assets/photos/cortado_leche.jpeg",
+      "Recurso": "assets/photos/cortado_leche.webp?v=28e75c1dc55f",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Verifica que las estaciones CBS y Espresso cuenten con tijeras asignadas y que el corte de bolsas sea el correcto par…"
     }
@@ -822,10 +822,10 @@
       "Color": "Naranja",
       "Enfoque": "Seguridad alimentaria, caducidades, refrigeración y preparación de alimentos.",
       "ImagenesPath": [
-        "assets/premium/duty-roster/lunes_food.png"
+        "assets/premium/duty-roster/lunes_food.png?v=c0ece6d8dfa9"
       ],
       "Premium": true,
-      "Link": "assets/premium/duty-roster/lunes_food.png"
+      "Link": "assets/premium/duty-roster/lunes_food.png?v=c0ece6d8dfa9"
     },
     {
       "Orden": 2,
@@ -835,11 +835,11 @@
       "Color": "Rojo / Verde",
       "Enfoque": "Cumplimiento, seguridad alimentaria, limpieza y experiencia del cliente.",
       "ImagenesPath": [
-        "assets/premium/duty-roster/martes_pic.png",
-        "assets/premium/duty-roster/martes_lobby.png"
+        "assets/premium/duty-roster/martes_pic.webp?v=e9151bbad743",
+        "assets/premium/duty-roster/martes_lobby.png?v=470aef546064"
       ],
       "Premium": true,
-      "Link": "assets/premium/duty-roster/martes_pic.png"
+      "Link": "assets/premium/duty-roster/martes_pic.webp?v=e9151bbad743"
     },
     {
       "Orden": 3,
@@ -849,10 +849,10 @@
       "Color": "Azul",
       "Enfoque": "Orden, limpieza profunda y seguridad alimentaria BOH.",
       "ImagenesPath": [
-        "assets/premium/duty-roster/miercoles_boh.png"
+        "assets/premium/duty-roster/miercoles_boh.webp?v=9fe18616b6e9"
       ],
       "Premium": true,
-      "Link": "assets/premium/duty-roster/miercoles_boh.png"
+      "Link": "assets/premium/duty-roster/miercoles_boh.webp?v=9fe18616b6e9"
     },
     {
       "Orden": 4,
@@ -862,11 +862,11 @@
       "Color": "Café / Verde",
       "Enfoque": "Calidad de bebidas, ejecución de barra y experiencia del cliente.",
       "ImagenesPath": [
-        "assets/premium/duty-roster/jueves_espresso.png",
-        "assets/premium/duty-roster/jueves_lobby.png"
+        "assets/premium/duty-roster/jueves_espresso.png?v=2f0780756188",
+        "assets/premium/duty-roster/jueves_lobby.png?v=46a12a539650"
       ],
       "Premium": true,
-      "Link": "assets/premium/duty-roster/jueves_espresso.png"
+      "Link": "assets/premium/duty-roster/jueves_espresso.png?v=2f0780756188"
     },
     {
       "Orden": 5,
@@ -876,10 +876,10 @@
       "Color": "Naranja",
       "Enfoque": "Seguimiento a seguridad alimentaria y condiciones Food.",
       "ImagenesPath": [
-        "assets/premium/duty-roster/viernes_cafe_filtrado.png"
+        "assets/premium/duty-roster/viernes_cafe_filtrado.png?v=82772032c6fa"
       ],
       "Premium": true,
-      "Link": "assets/premium/duty-roster/viernes_cafe_filtrado.png"
+      "Link": "assets/premium/duty-roster/viernes_cafe_filtrado.png?v=82772032c6fa"
     },
     {
       "Orden": 6,
@@ -889,10 +889,10 @@
       "Color": "Azul",
       "Enfoque": "Equipos críticos, limpieza profunda y preparación operativa.",
       "ImagenesPath": [
-        "assets/premium/duty-roster/sabado_cbs.png"
+        "assets/premium/duty-roster/sabado_cbs.png?v=72dc17ed98c1"
       ],
       "Premium": true,
-      "Link": "assets/premium/duty-roster/sabado_cbs.png"
+      "Link": "assets/premium/duty-roster/sabado_cbs.png?v=72dc17ed98c1"
     },
     {
       "Orden": 7,
@@ -902,11 +902,11 @@
       "Color": "Verde",
       "Enfoque": "Experiencia del cliente y apariencia general de la tienda.",
       "ImagenesPath": [
-        "assets/premium/duty-roster/domingo_lobby.png",
-        "assets/premium/duty-roster/domingo_drive_thru.png"
+        "assets/premium/duty-roster/domingo_lobby.png?v=1fd8ed0d1a57",
+        "assets/premium/duty-roster/domingo_drive_thru.png?v=8aeb63083143"
       ],
       "Premium": true,
-      "Link": "assets/premium/duty-roster/domingo_lobby.png"
+      "Link": "assets/premium/duty-roster/domingo_lobby.png?v=1fd8ed0d1a57"
     }
   ],
   "dutyDetail": [
@@ -1876,7 +1876,7 @@
       "Regla WFM": "📅 WFM | Planeación Inteligente\n\nLa programación de horarios se realiza con 15 días de anticipación respecto a la semana de operación.\n\n━━━━━━━━━━━━━━━━━━━━\n\n📆 Hoy\n{DIA_ACTUAL}, {FECHA_ACTUAL}\n\n🎯 Semana en Planeación\nSemana {SEMANA}\n\n📅 {FECHA_INICIO} al {FECHA_FIN}\n\n━━━━━━━━━━━━━━━━━━━━\n\n✅ Actividad de hoy\n\n{ICONO} {ACTIVIDAD}\n\n{DESCRIPCION}\n\n━━━━━━━━━━━━━━━━━━━━\n\n⏭️ Siguiente paso\n\n{ICONO_SIGUIENTE} {ACTIVIDAD_SIGUIENTE}\n\n━━━━━━━━━━━━━━━━━━━━\n\n💡 La información se actualiza automáticamente con base en la fecha actual, mostrando siempre la semana que se encuentra en planeación."
     }
   ],
-  "cmsFuente": "Distrito_Go_CMS_v2.xlsx",
+  "cmsFuente": "Distrito_Go_CMS_v2_actualizado.xlsx",
   "informativo": [
     {
       "ID": 1,
@@ -1888,9 +1888,65 @@
       "Icono": "☕",
       "Color": "Marrón",
       "Visible": true,
-      "Recurso": "assets/photos/maquila_actualizado.png",
+      "Recurso": "assets/photos/maquila_actualizado.webp?v=12d143b2e9cd",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Valida tus ingresos de maquila con el costo más actual."
+    },
+    {
+      "ID": 2,
+      "Actividad": "Alineación Dress Code Portafolio",
+      "Descripción": "Consulta la alineación vigente de Dress Code para mantener una imagen consistente y profesional en todo el portafolio.",
+      "Frecuencia": "Vigente",
+      "Prioridad": 2,
+      "Categoría": "Informativo",
+      "Icono": "👔",
+      "Color": "Verde",
+      "Visible": true,
+      "Recurso": "assets/photos/dresscode26.jpeg?v=23ebe8e0d939",
+      "TipoRecurso": "imagen",
+      "DescripcionBreve": "Consulta la alineación vigente de Dress Code para mantener una imagen consistente y profesional en todo el portafolio."
+    },
+    {
+      "ID": 3,
+      "Actividad": "Partners atentos a esta información de registro",
+      "Descripción": "Partners, revisemos esta información para asegurar un registro correcto y oportuno de entradas y salidas.",
+      "Frecuencia": "Vigente",
+      "Prioridad": 3,
+      "Categoría": "Informativo",
+      "Icono": "⏱️",
+      "Color": "Verde",
+      "Visible": true,
+      "Recurso": "assets/photos/clockin_out.jpg?v=ae93c0ed48b2",
+      "TipoRecurso": "imagen",
+      "DescripcionBreve": "Partners, revisemos esta información para asegurar un registro correcto y oportuno de entradas y salidas."
+    },
+    {
+      "ID": 4,
+      "Actividad": "Coffee Master 2026",
+      "Descripción": "¡Felicidades a nuestros Partners Coffee Master 2026! Reconocemos su pasión por el café, dedicación y compromiso con seguir compartiendo conocimiento en cada tienda del portafolio.",
+      "Frecuencia": "Anual",
+      "Prioridad": 1,
+      "Categoría": "Reconocimiento",
+      "Icono": "☕",
+      "Color": "Verde",
+      "Visible": true,
+      "Recurso": "assets/photos/coffemaster26.jpeg?v=04918871ad02",
+      "TipoRecurso": "imagen",
+      "DescripcionBreve": "¡Felicidades a nuestros Partners Coffee Master 2026! Reconocemos su pasión por el café, dedicación y compromiso con s…"
+    },
+    {
+      "ID": 5,
+      "Actividad": "Resumen de Comunicado Semana Actual",
+      "Descripción": "Consulta los puntos clave y prioridades del comunicado correspondiente a la semana actual.",
+      "Frecuencia": "Semanal",
+      "Prioridad": 1,
+      "Categoría": "Actualizaciones de la semana",
+      "Icono": "📣",
+      "Color": "Verde",
+      "Visible": true,
+      "Recurso": "assets/photos/resumen_comunicado_semana_actual.png?v=3d4638a892e4",
+      "TipoRecurso": "imagen",
+      "DescripcionBreve": "Consulta los puntos clave y prioridades del comunicado correspondiente a la semana actual."
     }
   ],
   "celebraciones": [

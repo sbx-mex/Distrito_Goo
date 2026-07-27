@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "pipeline": "tools/cms_pipeline.py",
+  "pipeline": ".github/workflows/actualizar-cms.yml",
   "source": "Distrito_Go_CMS_v2_actualizado.xlsx",
   "generatedAt": "2026-07-26",
-  "mode": "static-build",
+  "mode": "github-actions-static-build",
   "runtimeBackendRequired": false
 }

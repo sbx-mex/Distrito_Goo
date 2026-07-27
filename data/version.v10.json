@@ -1,17 +1,20 @@
 {
-  "version": "21.0.0",
+  "version": "22.0.0",
   "releaseDate": "2026-07-26",
   "changes": [
     "Maquila actualizada con mensaje único y recurso vigente.",
     "CMS depurado y pestaña Links restaurada con 46 herramientas.",
     "Recursos duplicados y obsoletos retirados con evidencia.",
     "Caché PWA sincronizada con los archivos activos.",
-    "Funciones, navegación, celebraciones y Duty Roster conservados."
+    "Funciones, navegación, celebraciones y Duty Roster conservados.",
+    "CMS automático con validación, rutas de imagen versionadas y publicación desde GitHub Actions.",
+    "Imágenes pesadas con variante WebP y carga inicial reducida.",
+    "Navegación agrupada con acceso prioritario a las actualizaciones de la semana."
   ],
-  "notes": "La PWA conserva su arquitectura estática y las funciones existentes. La auditoría retiró únicamente recursos sin dependencias activas.",
+  "notes": "La PWA conserva su arquitectura estática y las funciones existentes. El contenido visual se administra desde el CMS sin editar index.html.",
   "fecha": "2026-07-26",
-  "descripcion": "Auditoría integral, limpieza segura y actualización de Maquila.",
+  "descripcion": "CMS automático, carga progresiva, WebP y navegación agrupada.",
   "updatedAt": "2026-07-26",
-  "runtimeFix": "v21.0.0",
+  "runtimeFix": "v22.0.0",
   "name": "Juntémonos Más"
 }

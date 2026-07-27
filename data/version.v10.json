@@ -1,5 +1,5 @@
 {
-  "version": "29.0.0",
+  "version": "31.0.0",
   "releaseDate": "2026-07-27",
   "changes": [
     "Maquila actualizada con mensaje único y recurso vigente.",
@@ -22,12 +22,17 @@
     "Guardados inicia sin selecciones predeterminadas y explica cómo personalizarlo.",
     "La búsqueda general y los destinos reales conservan todo el contenido del CMS.",
     "El visor de imágenes utiliza toda la pantalla disponible y adapta cada recurso sin recortarlo ni deformarlo.",
-    "Los formatos internos de JPG/JPEG y sus derivados WebP fueron auditados para conservar nombres, rutas y contenido."
+    "Los formatos internos de JPG/JPEG y sus derivados WebP fueron auditados para conservar nombres, rutas y contenido.",
+    "Menú Inicio, Explorar y Guardados horizontal y centrado en todos los tamaños.",
+    "Acciones visibles únicamente cuando existe un destino real.",
+    "Catálogo semanal de lunes a domingo con fecha y una actividad por posición.",
+    "Explorar oculta herramientas hasta que el usuario selecciona un filtro.",
+    "Juntémonos Más integrado en Inicio desde el JSON de identidad."
   ],
   "notes": "La PWA conserva su arquitectura estática y las funciones existentes. El contenido visual se administra desde el CMS sin editar index.html.",
   "fecha": "2026-07-27",
-  "descripcion": "Catálogos limpios con visor inmersivo de imágenes, ajustado a computadora, tableta y teléfono.",
+  "descripcion": "Experiencia operativa compacta con navegación horizontal, semana por fecha, filtros explícitos y Juntémonos Más dinámico.",
   "updatedAt": "2026-07-27",
-  "runtimeFix": "v29.0.0",
+  "runtimeFix": "v31.0.0",
   "name": "Juntémonos Más"
 }

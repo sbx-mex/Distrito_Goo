@@ -40,18 +40,19 @@ async function boot(){
 }
 
 function bindCategoryDisclosure(){
-  const button = byId('toggle-categories');
-  const grid = byId('category-hubs');
-  if(!button || !grid) return;
-  grid.hidden = true;
-  button.setAttribute('aria-expanded', 'false');
-  button.textContent = 'Ver categorías';
-  button.addEventListener('click', () => {
-    const open = grid.hidden;
-    grid.hidden = !open;
-    button.setAttribute('aria-expanded', String(open));
-    button.textContent = open ? 'Ocultar categorías' : 'Ver categorías';
-    if(open) requestAnimationFrame(() => grid.querySelector('button')?.focus({preventScroll:true}));
+  const clear = byId('clear-tool-filter');
+  if(!clear) return;
+  clear.hidden = !state.categoria;
+  clear.addEventListener('click', () => {
+    state.categoria = '';
+    localStorage.removeItem('dgx_tool_category');
+    document.querySelectorAll('.category-card').forEach(item => {
+      item.classList.remove('is-active');
+      item.setAttribute('aria-pressed', 'false');
+    });
+    clear.hidden = true;
+    renderTools(true);
+    byId('categories-title')?.focus?.({preventScroll:true});
   });
 }
 
@@ -226,9 +227,8 @@ function openContentDestination(item, trigger){
   if(!item) return;
   const link = safeDetailLink(item.link);
   const image = item.imageOriginal || item.fullImage || '';
-  if(link){
-    const opened = window.open(link, '_blank', 'noopener');
-    if(opened) opened.opener = null;
+  if(item.section && showDetailSection(item.section)){
+    toast('Sección abierta');
     return;
   }
   if(image && IMAGE_LINK_PATTERN.test(image)){
@@ -236,8 +236,9 @@ function openContentDestination(item, trigger){
     openImageViewer(item.title, image);
     return;
   }
-  if(item.section && showDetailSection(item.section)){
-    toast('Sección abierta');
+  if(link){
+    const opened = window.open(link, '_blank', 'noopener');
+    if(opened) opened.opener = null;
   }
 }
 
@@ -254,12 +255,12 @@ function openContentDetail(item, trigger){
     <img class="visual-detail-media" src="${escapeHeroText(detailImage)}" alt="${escapeHeroText(item.title)}" width="1200" height="800" decoding="async">
   </picture>` : '';
   const date = item.dateLabel ? `<p class="visual-detail-date">${escapeHeroText(item.dateLabel)}</p>` : '';
-  const action = link
-    ? `<a href="${escapeHeroText(link)}" target="_blank" rel="noopener">Abrir recurso</a>`
+  const action = item.section && byId(item.section)
+    ? `<button type="button" data-nav-target="${escapeHeroText(item.section)}">Ir a la sección</button>`
     : detailImage
       ? `<button type="button" data-image-viewer="${escapeHeroText(detailImage)}" data-image-title="${escapeHeroText(item.title)}">Ver imagen completa</button>`
-      : item.section && byId(item.section)
-        ? `<button type="button" data-nav-target="${escapeHeroText(item.section)}">Ir a la sección</button>`
+      : link
+        ? `<a href="${escapeHeroText(link)}" target="_blank" rel="noopener">Abrir recurso</a>`
         : '';
   const saved = isContentSaved(item.id);
   const secondaryMeta = item.category && item.category !== item.label

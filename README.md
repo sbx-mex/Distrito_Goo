@@ -1,4 +1,4 @@
-# Distrito Goo — versión 27 · experiencia personalizada
+# Distrito Goo — versión 31 · experiencia operativa compacta
 
 Distrito Goo continúa siendo una PWA 100% estática para GitHub Pages. Python se utiliza únicamente durante auditoría y compilación para validar el CMS y generar JSON; no forma parte del runtime ni requiere servidor.
 
@@ -37,17 +37,20 @@ python tools/audit_static.py
 
 Publicar el contenido de la raíz de `main` mediante **Deploy from a branch**. Conservar `.nojekyll`, las rutas relativas `./` y todos los archivos incluidos en `APP_SHELL`.
 
-Después de publicar una nueva versión, abrir la PWA una vez con conexión para instalar la caché `distrito-go-v27.0.0-experiencia-personalizada`.
+Después de publicar una nueva versión, abrir la PWA una vez con conexión para instalar la caché `distrito-go-v31.0.0-semana-explorar-juntemonos`.
 
 ## Inicio y navegación
 
-- Existe un único menú con `Inicio`, `Explorar` y `Guardados`; en computadora se presenta como barra lateral compacta y en móvil como barra inferior.
-- Inicio presenta `Rutina diaria` como catálogo horizontal y muestra una sola `Actividad semanal de hoy`, además de los accesos contextuales `Hoy`, `Apertura`, `Personas` y `Semana`.
+- Existe un único menú horizontal y centrado con `Inicio`, `Explorar` y `Guardados` en computadora, PWA, tableta y móvil.
+- Inicio presenta `Rutina diaria` como catálogo horizontal y una semana de lunes a domingo con fecha real, un día seleccionado y una actividad por posición.
+- `JUNTÉMONOS MÁS` se renderiza desde `data/identity.json` con saludo, fecha, ruta y mensaje dinámicos.
 - `Personas` muestra recursos generales; los nombres individuales permanecen disponibles exclusivamente en la búsqueda global.
 - `Peak` no aparece como acceso principal. Su contenido real permanece dentro de `Operación`, especialmente en Duty Roster, ritmo, cobertura y despliegue.
 - La búsqueda global vive dentro de `Explorar Distrito Goo`, crea un índice local una sola vez y muestra los resultados inmediatamente debajo del campo.
 - La búsqueda normaliza mayúsculas y acentos, prioriza títulos, evita duplicados y conserva el foco al cerrar el visor.
-- Las categorías permanecen contraídas hasta seleccionar `Ver categorías`.
+- Explorar mantiene ocultas las herramientas hasta seleccionar una categoría o `Todas`; el filtro se puede limpiar sin afectar Guardados.
+- Las actividades sin destino real permanecen informativas y no muestran una acción simulada.
+- Los checks aparecen únicamente cuando el CMS declara explícitamente que una actividad es verificable.
 - `Guardados` conserva identificadores estables del CMS en el dispositivo y sincroniza el corazón entre tarjetas, catálogo, búsqueda, detalle y herramientas.
 - La información completa se abre en el visor interno; las tarjetas no duplican la descripción extensa.
 - Maquila, comunicados e infografías utilizan portadas HTML/CSS; el original se abre completo en el visor interno.

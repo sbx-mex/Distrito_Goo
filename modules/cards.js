@@ -34,12 +34,24 @@ export function getFilteredTools(){
 
 export function renderTools(reset = false){
   if(reset) state.visibleCount = 16;
+  const toolsSection = document.querySelector('.tools-section');
+  const initial = document.getElementById('tool-filter-empty');
+  const hasFilter = Boolean(state.categoria);
+  if(toolsSection) toolsSection.hidden = !hasFilter;
+  if(initial) initial.hidden = hasFilter;
+  const clear = document.getElementById('clear-tool-filter');
+  if(clear) clear.hidden = !hasFilter;
+  if(!hasFilter){
+    setTextIfPresent('result-count', '');
+    setHtmlIfPresent('tools-grid', '');
+    document.getElementById('lazy-sentinel')?.classList.add('hidden');
+    return;
+  }
   const all = getFilteredTools();
   const visible = all.slice(0, state.visibleCount);
-  const toolsSection = document.querySelector('.tools-section');
   toolsSection?.classList.remove('is-initially-hidden');
   setTextIfPresent('result-count', `${all.length} herramienta${all.length === 1 ? '' : 's'} disponible${all.length === 1 ? '' : 's'}`);
-  setHtmlIfPresent('tools-grid', visible.map(t => toolCard(t, false)).join('') || emptyState('No encontré herramientas'));
+  setHtmlIfPresent('tools-grid', visible.map(t => toolCard(t, false)).join('') || emptyState('No hay herramientas disponibles en esta categoría.'));
   bindToolCards('#tools-grid');
   document.getElementById('lazy-sentinel')?.classList.toggle('hidden', visible.length >= all.length);
 }

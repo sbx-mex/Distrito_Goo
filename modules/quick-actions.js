@@ -49,9 +49,13 @@ export function renderChips(){
 }
 
 export function renderCategories(){
-  const withCounts = state.categorias
+  const available = state.categorias
     .map(c => ({...c, contador: state.herramientas.filter(t => t.categoriaId === c.id).length}))
     .filter(c => c.contador > 0);
+  const withCounts = [
+    {id:'all', nombre:'Todas', icono:'⌁', descripcion:'Consulta el catálogo completo.', contador:state.herramientas.length},
+    ...available
+  ];
   const categoryHubs = document.getElementById('category-hubs');
   if(!categoryHubs) return;
   categoryHubs.innerHTML = withCounts.map(categoryHub).join('');
@@ -61,11 +65,14 @@ export function renderCategories(){
     card.addEventListener('click', () => {
     revealWorkspace(false);
     state.categoria = card.dataset.category;
+    localStorage.setItem('dgx_tool_category', state.categoria);
     $$('.category-card').forEach(item => {
       const active = item.dataset.category === state.categoria;
       item.classList.toggle('is-active', active);
       item.setAttribute('aria-pressed', String(active));
     });
+    const clear = document.getElementById('clear-tool-filter');
+    if(clear) clear.hidden = false;
     renderChips(); renderTools(true);
     document.querySelector('.tools-section').scrollIntoView({behavior:'smooth', block:'start'});
   });

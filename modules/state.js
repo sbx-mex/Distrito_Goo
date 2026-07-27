@@ -20,7 +20,7 @@ export const state = {
   version: null,
   operacional: { eventos: [], actividadesDiarias: [], actividadesSemanales: [], dutyRoster: [], dutyDetail: [], checklistApertura: [], altasCurso: { bt: [], ss: [], tbw: [] }, wfm: [], informativo: [], celebraciones: [], wfmRegla: "" },
   query: '',
-  categoria: 'all',
+  categoria: localStorage.getItem('dgx_tool_category') || '',
   visibleCount: 16,
   toolMode: 'all',
   toolSort: localStorage.getItem('dgx_tool_sort') || 'cms',

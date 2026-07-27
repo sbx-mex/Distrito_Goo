@@ -4,6 +4,8 @@ import { getJSON, setJSON } from './storage.js';
 import { toast } from './toast.js';
 
 const SAVED_KEY = 'dgx_saved_content';
+const COMPLETED_KEY = 'dgx_completed_activities';
+const WEEK_DAYS = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
 const ICONS = {
   today:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 10h18v15H7zM11 6v7m10-7v7M7 15h18"/><path d="m12 20 2 2 5-5"/></svg>',
   opening:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 25h20M9 25V13l7-6 7 6v12"/><path d="M13 25v-7h6v7"/></svg>',
@@ -18,6 +20,10 @@ function safeId(prefix, value){
 function asBoolean(value, fallback = true){
   if(value === '' || value == null) return fallback;
   return value === true || ['si','sí','true','1','yes'].includes(normalize(value));
+}
+function isTrackableRow(item){
+  return ['Verificable','Seguimiento','Permite Check','Check','Completable']
+    .some(field => asBoolean(item?.[field], false));
 }
 function originalFor(item){
   return item.OriginalRecurso || item.ImagenOriginal || item.imageOriginal || item.Recurso || item.ImagenPath || '';
@@ -66,12 +72,14 @@ function categoryForInfo(item){
 function contentFromInfo(item){
   const resource = resourceFor(item);
   const original = originalFor(item);
+  const imageResource = isImage(resource);
+  const linkResource = item.TipoRecurso === 'link' ? resource : '';
   return {
     id:`info-${item.ID}`, source:'Informativo', category:categoryForInfo(item),
     title:item.Actividad, description:item['Descripción'] || '', short:item.DescripcionBreve || item['Descripción'] || '',
     label:labelFor(item, normalize(item.Frecuencia) === 'semanal' ? 'Importante' : 'Actualizado'),
-    image:item.MiniaturaRecurso || (isImage(resource) ? resource : ''), fullImage:isImage(resource) ? resource : '', imageOriginal:isImage(original) ? original : resource,
-    link:item.TipoRecurso === 'link' ? resource : '', section:'informativo',
+    image:item.MiniaturaRecurso || (imageResource ? resource : ''), fullImage:imageResource ? resource : '', imageOriginal:isImage(original) ? original : resource,
+    link:linkResource, section:imageResource || linkResource ? '' : 'informativo',
     access:item['Acceso Rápido'] || '',
     priority:Number(item.Prioridad || 99), order:Number(item.Orden || item.Prioridad || 99),
     showHome:asBoolean(item['Mostrar Inicio'], normalize(item.Frecuencia) === 'semanal'),
@@ -90,28 +98,32 @@ function contentFromDaily(item){
     title:item.Actividad, description:item['Descripción'] || '', short:item.DescripcionBreve || item['Descripción'] || '',
     label:item.Prioridad === 1 ? 'Importante' : 'Actualizado', image:lightweightImage, fullImage:isImage(resource) ? resource : '',
     imageOriginal:isImage(original) ? original : resource, link:item.TipoRecurso === 'link' ? resource : '',
-    section:'dia-a-dia', access:item['Acceso Rápido'] || 'Hoy',
+    section:resource ? '' : 'dia-a-dia', access:item['Acceso Rápido'] || 'Hoy',
     priority:Number(item.Prioridad || 99), order:Number(item.Orden || item.ID || item.Prioridad || 99), showExplore:true,
-    validFrom:item['Vigencia Inicio'] || '', validTo:item['Vigencia Fin'] || ''
+    validFrom:item['Vigencia Inicio'] || '', validTo:item['Vigencia Fin'] || '',
+    trackable:isTrackableRow(item)
   };
 }
 function contentFromEvent(item){
+  const image = item.ImagenPath || '';
+  const link = item.Link || '';
   return {
     id:`event-${item.ID}`, source:'Evento', category:'Eventos', title:item.Actividad,
     description:item['Contexto / Recordatorio'] || '', short:item['Contexto / Recordatorio'] || '',
-    label:'Actualizado', image:item.MiniaturaPath || item.ImagenPath || '', fullImage:item.ImagenPath || '', imageOriginal:item.ImagenOriginal || item.ImagenPath || '',
-    link:item.Link || '', section:'eventos-cms', access:'',
+    label:'Actualizado', image:item.MiniaturaPath || image, fullImage:image, imageOriginal:item.ImagenOriginal || image,
+    link, section:image || link ? '' : 'eventos-cms', access:'',
     dateStart:item['Fecha Inicio'] || '', dateEnd:item['Fecha Fin'] || '',
     priority:20, order:Number(dateValue(item['Fecha Inicio'])?.getTime() || 0),
     showExplore:isCurrentEvent(item)
   };
 }
 function contentFromTool(tool){
+  const link = tool.url || tool.webUrl || '';
   return {
     id:`tool-${tool.id}`, source:'Herramienta', category:'Herramientas', title:tool.nombre,
     description:tool.notas || '', short:tool.notas || '', label:'Herramienta', image:tool.imagen || '', fullImage:tool.imagen || '',
-    imageOriginal:tool.imagen || '', link:tool.url || tool.webUrl || '', toolId:tool.id,
-    section:'tool-workspace', priority:50, order:Number(tool.orden || 99), showExplore:true,
+    imageOriginal:tool.imagen || '', link, toolId:tool.id,
+    section:link ? '' : 'tool-workspace', priority:50, order:Number(tool.orden || 99), showExplore:true,
     keywords:[tool.categoria, tool.grupo, tool.alias, tool.etiquetas, tool.funcion, ...(tool.keywords || [])].filter(Boolean)
   };
 }
@@ -123,10 +135,12 @@ function contentFromWeekly(item){
     description:item['Descripción'] || '', short:item['Descripción'] || '', label:'Semana',
     image:item.MiniaturaRecurso || (isImage(resource) ? resource : ''), fullImage:isImage(resource) ? resource : '',
     imageOriginal:isImage(original) ? original : resource, link:isImage(resource) ? '' : (item.Link || resource || ''),
-    section:'dia-a-dia', access:'Semana', dateLabel:[item['Día'], item['Hora / Corte']].filter(Boolean).join(' · '),
+    section:'', access:'Semana', dayName:item['Día'] || '', timeLabel:item['Hora / Corte'] || '',
+    dateLabel:[item['Día'], item['Hora / Corte']].filter(Boolean).join(' · '),
     priority:30, order:Number(item.ID || 99), showExplore:false, searchOnly:true,
     validFrom:item['Vigencia Inicio'] || '', validTo:item['Vigencia Fin'] || '',
-    keywords:[item['Día'], item['Hora / Corte'], item.Categoría].filter(Boolean)
+    keywords:[item['Día'], item['Hora / Corte'], item.Categoría].filter(Boolean),
+    trackable:isTrackableRow(item)
   };
 }
 function contentFromPerson(item, program){
@@ -204,10 +218,12 @@ function standardCoverMarkup(item){
 function cardMarkup(item){
   const standardCover = shouldUseStandardCover(item);
   const hasImage = !standardCover && Boolean(item.image && isImage(item.image));
+  const actionable = hasDestination(item);
+  const content = standardCover ? standardCoverMarkup(item) : (hasImage ? `${imageMarkup(item, 'explore-card-media')}<span class="explore-card-body"><span class="content-badge">${escapeHtml(item.label)}</span><h4>${escapeHtml(item.title)}</h4></span>` : standardCoverMarkup(item));
   return `<article class="explore-card ${hasImage ? 'has-image' : ''}" data-content-card="${escapeHtml(item.id)}">
-    <button class="explore-card-main" type="button" data-open-content="${escapeHtml(item.id)}" aria-label="Abrir ${escapeHtml(item.title)}">
-      ${standardCover ? standardCoverMarkup(item) : (hasImage ? `${imageMarkup(item, 'explore-card-media')}<span class="explore-card-body"><span class="content-badge">${escapeHtml(item.label)}</span><h4>${escapeHtml(item.title)}</h4></span>` : standardCoverMarkup(item))}
-    </button>
+    ${actionable
+      ? `<button class="explore-card-main" type="button" data-open-content="${escapeHtml(item.id)}" aria-label="Abrir ${escapeHtml(item.title)}">${content}</button>`
+      : `<div class="explore-card-main is-static" aria-label="${escapeHtml(item.title)}">${content}</div>`}
     ${savedButtonMarkup(item, 'save-content')}
   </article>`;
 }
@@ -358,7 +374,8 @@ function coverSceneKey(item){
   return 'default';
 }
 function hasDestination(item){
-  return Boolean(safeContentLink(item.link) || (item.fullImage && isImage(item.fullImage)) || item.section);
+  const section = item.section && document.getElementById(item.section);
+  return Boolean(section || (item.fullImage && isImage(item.fullImage)) || safeContentLink(item.link) || item.action);
 }
 function safeContentLink(value){
   return /^https?:\/\//i.test(String(value || '').trim()) ? String(value).trim() : '';
@@ -377,6 +394,11 @@ function catalogCoverCardMarkup(item, kind){
   const meta = weekly ? (item.label || 'Semana') : (item.label || 'Hoy');
   const date = weekly && item.dateLabel ? `<span class="catalog-cover-date">${escapeHtml(item.dateLabel)}</span>` : '';
   const destination = hasDestination(item);
+  const completed = getJSON(COMPLETED_KEY, []).includes(item.id);
+  const tracking = item.trackable ? `<label class="catalog-check" data-catalog-check-wrap>
+    <input type="checkbox" data-complete-content="${escapeHtml(item.id)}" ${completed ? 'checked' : ''}/>
+    <span>${completed ? 'Completada' : 'Marcar al completar'}</span>
+  </label>` : '';
   const content = `${catalogCoverVisual(item, kind)}
     <span class="catalog-cover-copy">
       <span class="catalog-cover-badge">${escapeHtml(meta)}</span>
@@ -384,12 +406,13 @@ function catalogCoverCardMarkup(item, kind){
       <strong>${escapeHtml(item.title)}</strong>
       <span class="catalog-cover-rule" aria-hidden="true"></span>
       <span class="catalog-cover-description">${escapeHtml(compactText(item.short || item.description, 120))}</span>
-      ${destination ? `<b>${action} →</b>` : ''}
+      ${destination ? `<b>${action} →</b>` : '<em class="catalog-info-state">Informativa</em>'}
     </span>`;
   return `<article class="catalog-cover-card ${weekly ? 'is-weekly' : 'is-daily'}" data-catalog-cover="${escapeHtml(item.id)}">
     ${destination
       ? `<button class="catalog-cover-main" type="button" data-open-cover="${escapeHtml(item.id)}" aria-label="${action}: ${escapeHtml(item.title)}">${content}</button>`
       : `<div class="catalog-cover-main is-static" aria-label="${escapeHtml(item.title)}">${content}</div>`}
+    ${tracking}
     ${savedButtonMarkup(item, 'catalog-cover-save')}
   </article>`;
 }
@@ -408,20 +431,85 @@ function renderDailyCatalog(items){
     </div>
   </div>`;
 }
+let selectedWeekDay = todayName();
+function weekDate(index){
+  const now = new Date();
+  const mondayOffset = (now.getDay() + 6) % 7;
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate() - mondayOffset + index);
+}
+function weekDayPickerMarkup(){
+  const today = normalize(todayName());
+  return `<div class="week-day-picker" role="group" aria-label="Días de la semana">
+    ${WEEK_DAYS.map((day, index) => {
+      const date = weekDate(index);
+      const active = normalize(day) === normalize(selectedWeekDay);
+      const current = normalize(day) === today;
+      const relation = index < ((new Date().getDay() + 6) % 7) ? 'is-past' : index > ((new Date().getDay() + 6) % 7) ? 'is-future' : 'is-today';
+      const shortDay = day.slice(0,3).toLocaleUpperCase('es-MX');
+      const shortDate = date.toLocaleDateString('es-MX', {day:'2-digit', month:'short'}).replace('.', '').toLocaleUpperCase('es-MX');
+      return `<button class="week-day ${active ? 'is-selected' : ''} ${relation}" type="button" data-week-day="${escapeHtml(day)}" aria-pressed="${active}" ${current ? 'aria-current="date"' : ''}><strong>${shortDay}</strong><span>${shortDate}</span></button>`;
+    }).join('')}
+  </div>`;
+}
 function renderWeeklyCatalog(items){
   if(!items.length) return '<div class="home-focus-empty"><strong>Sin actividad semanal vigente</strong><span>Consulta Explorar Distrito Go para revisar el contenido disponible.</span></div>';
+  const selectedIndex = Math.max(0, WEEK_DAYS.findIndex(day => normalize(day) === normalize(selectedWeekDay)));
+  const selectedDate = weekDate(selectedIndex);
+  const selectedDateLabel = selectedDate.toLocaleDateString('es-MX', {weekday:'long', day:'2-digit', month:'long'});
+  const dayItems = items
+    .filter(item => normalize(item.dayName) === normalize(selectedWeekDay))
+    .map(item => ({...item, dateLabel:[selectedDateLabel, item.timeLabel].filter(Boolean).join(' · ')}));
   return `<div class="weekly-catalog">
+    <div class="week-catalog-heading">
+      <div><span>Semana actual</span><strong>${escapeHtml(selectedDateLabel)}</strong></div>
+      <small>${dayItems.length} actividad${dayItems.length === 1 ? '' : 'es'}</small>
+    </div>
+    ${weekDayPickerMarkup()}
+    ${dayItems.length ? `
     <div class="home-catalog-toolbar">
-      <span id="weekly-catalog-status" aria-live="polite">1 de ${items.length}</span>
+      <span id="weekly-catalog-status" aria-live="polite">1 de ${dayItems.length}</span>
       <div class="home-catalog-controls" aria-label="Controles de Actividad semanal">
         <button type="button" data-catalog-scroll="prev" data-catalog-kind="weekly" aria-label="Actividad anterior">‹</button>
         <button type="button" data-catalog-scroll="next" data-catalog-kind="weekly" aria-label="Actividad siguiente">›</button>
       </div>
     </div>
-    <div id="weekly-catalog-track" class="home-catalog-track weekly-catalog-track" tabindex="0" aria-label="Catálogo de actividades semanales de hoy">
-      ${items.map(item => catalogCoverCardMarkup(item, 'weekly')).join('')}
-    </div>
+    <div id="weekly-catalog-track" class="home-catalog-track weekly-catalog-track" tabindex="0" aria-label="Actividades de ${escapeHtml(selectedWeekDay)}">
+      ${dayItems.map(item => catalogCoverCardMarkup(item, 'weekly')).join('')}
+    </div>` : '<div class="week-day-empty"><strong>Sin actividades publicadas</strong><span>Este día permanece visible porque forma parte del catálogo semanal.</span></div>'}
   </div>`;
+}
+function renderWeeklyArea(){
+  const weekly = (state.operacional.actividadesSemanales || [])
+    .map(contentFromWeekly)
+    .filter(isWithinValidity)
+    .sort((a,b) => a.order - b.order);
+  const weeklyTarget = document.getElementById('home-weekly-card');
+  if(weeklyTarget) weeklyTarget.innerHTML = renderWeeklyCatalog(weekly);
+  bindCatalog('weekly');
+  bindWeeklyDayPicker();
+}
+function selectWeekDay(day){
+  if(!WEEK_DAYS.some(item => normalize(item) === normalize(day))) return;
+  selectedWeekDay = day;
+  renderWeeklyArea();
+  requestAnimationFrame(() => document.querySelector(`[data-week-day="${CSS.escape(day)}"]`)?.focus({preventScroll:true}));
+}
+function bindWeeklyDayPicker(){
+  const picker = document.querySelector('.week-day-picker');
+  if(!picker) return;
+  let touchStart = null;
+  picker.addEventListener('touchstart', event => {
+    touchStart = event.changedTouches[0]?.clientX ?? null;
+  }, {passive:true});
+  picker.addEventListener('touchend', event => {
+    if(touchStart == null) return;
+    const delta = (event.changedTouches[0]?.clientX ?? touchStart) - touchStart;
+    touchStart = null;
+    if(Math.abs(delta) < 48) return;
+    const current = WEEK_DAYS.findIndex(day => normalize(day) === normalize(selectedWeekDay));
+    const next = Math.max(0, Math.min(WEEK_DAYS.length - 1, current + (delta < 0 ? 1 : -1)));
+    if(next !== current) selectWeekDay(WEEK_DAYS[next]);
+  }, {passive:true});
 }
 function updateCatalogControls(kind){
   const track = document.getElementById(`${kind}-catalog-track`);
@@ -472,18 +560,10 @@ function renderHomePriorities(){
     .map(contentFromDaily)
     .filter(isWithinValidity)
     .sort((a,b) => a.priority - b.priority || a.order - b.order);
-  const day = normalize(todayName());
-  const weekly = (state.operacional.actividadesSemanales || [])
-    .filter(item => normalize(item['Día']) === day)
-    .map(contentFromWeekly)
-    .filter(isWithinValidity)
-    .sort((a,b) => a.order - b.order);
   const dailyTarget = document.getElementById('home-daily-card');
-  const weeklyTarget = document.getElementById('home-weekly-card');
   if(dailyTarget) dailyTarget.innerHTML = renderDailyCatalog(daily);
-  if(weeklyTarget) weeklyTarget.innerHTML = renderWeeklyCatalog(weekly);
   bindCatalog('daily');
-  bindCatalog('weekly');
+  renderWeeklyArea();
 }
 function renderStories(){
   const stories = [
@@ -514,6 +594,17 @@ function bindExperience(){
       toggleSaved(save.dataset.saveContent);
       return;
     }
+    const completion = event.target.closest('[data-complete-content]');
+    if(completion){
+      event.stopPropagation();
+      const current = getJSON(COMPLETED_KEY, []).filter(id => typeof id === 'string');
+      const id = completion.dataset.completeContent;
+      setJSON(COMPLETED_KEY, completion.checked ? [...new Set([id, ...current])] : current.filter(item => item !== id));
+      const label = completion.closest('[data-catalog-check-wrap]')?.querySelector('span');
+      if(label) label.textContent = completion.checked ? 'Completada' : 'Marcar al completar';
+      window.dispatchEvent(new CustomEvent('dgx:completion-changed', {detail:{id, completed:completion.checked}}));
+      return;
+    }
     const catalogScroll = event.target.closest('[data-catalog-scroll]');
     if(catalogScroll){
       moveCatalog(catalogScroll.dataset.catalogKind, catalogScroll.dataset.catalogScroll === 'next' ? 1 : -1);
@@ -537,6 +628,11 @@ function bindExperience(){
       const contextual = document.getElementById('explorar');
       if(contextual) contextual.hidden = false;
       contextual?.scrollIntoView({behavior:'smooth', block:'start'});
+      return;
+    }
+    const weekDay = event.target.closest('[data-week-day]');
+    if(weekDay){
+      selectWeekDay(weekDay.dataset.weekDay);
     }
   });
   document.getElementById('close-saved-view')?.addEventListener('click', () => {

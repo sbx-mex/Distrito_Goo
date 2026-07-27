@@ -1,4 +1,4 @@
-const CACHE_NAME = 'distrito-go-v30.0.0-portadas-interactivas';
+const CACHE_NAME = 'distrito-go-v31.0.0-semana-explorar-juntemonos';
 const APP_SHELL = [
   './',
   './index.html',

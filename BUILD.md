@@ -1,4 +1,4 @@
-# Build y despliegue — experiencia personalizada v27
+# Build y despliegue — experiencia operativa v31
 
 ```bash
 python -m pip install -r requirements.txt
@@ -32,3 +32,9 @@ La vista Personas excluye del renderizado los registros individuales de Partners
 pero conserva esos nombres en el índice global. Rutina diaria utiliza un catálogo
 horizontal sin reproducción automática. Favoritos se guarda localmente mediante
 IDs estables y se sincroniza entre catálogo, búsqueda, detalle y Guardados.
+
+La navegación principal permanece horizontal y centrada desde 320 px. Semana
+presenta los siete días con su fecha real y una actividad por posición. Explorar
+no muestra herramientas hasta que el usuario selecciona un filtro. El bloque
+`JUNTÉMONOS MÁS` se alimenta de `data/identity.json`; no debe reemplazarse por
+texto fijo en HTML.

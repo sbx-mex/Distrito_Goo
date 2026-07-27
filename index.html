@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="./styles/app.css?v=22.0.0" />
   <link rel="stylesheet" href="./styles/experience.css?v=24.0.0" />
   <link rel="stylesheet" href="./styles/clean.css?v=25.0.0" />
-  <link rel="stylesheet" href="./styles/navigation-v26.css?v=30.0.0" />
+  <link rel="stylesheet" href="./styles/navigation-v26.css?v=31.0.0" />
 </head>
 <body class="v15-starbucks-contrast-experience v16-mobile-launcher-espresso-hub-optimization v16-2-visual-accessibility-refinement">
   <a class="skip-link" href="#main">Saltar al contenido</a>
@@ -38,6 +38,21 @@
       </div>
 
       <section id="home-view" class="home-view" aria-label="Inicio">
+        <section id="juntemonos-hero" class="juntemonos-hero" aria-labelledby="hero-title">
+          <div class="juntemonos-copy">
+            <span class="juntemonos-eyebrow">Distrito Goo · Conexión que impulsa</span>
+            <h3 id="hero-title"></h3>
+            <p id="hero-campaign" class="juntemonos-campaign">
+              <span id="hero-campaign-primary"></span>
+              <span id="hero-campaign-accent"></span>
+            </p>
+            <p id="hero-date" class="juntemonos-date"></p>
+            <p id="hero-hashtags" class="juntemonos-hashtags"></p>
+          </div>
+          <ol id="hero-journey" class="juntemonos-journey" aria-label="Ruta Juntémonos Más"></ol>
+          <p id="hero-district-message" class="juntemonos-message"></p>
+        </section>
+
         <div class="home-priority-grid">
           <section class="home-priority-block" aria-labelledby="daily-routine-title">
             <div class="home-block-heading">
@@ -54,8 +69,8 @@
             <div class="home-block-heading">
               <div>
                 <span class="visual-overline">Semana</span>
-                <h3 id="weekly-activity-title">Actividad semanal de hoy</h3>
-                <p>Revisa el foco correspondiente al día y avanza con la ejecución semanal.</p>
+                <h3 id="weekly-activity-title">Catálogo de la semana</h3>
+                <p>Selecciona un día y consulta sus actividades una por una.</p>
               </div>
             </div>
             <div id="home-weekly-card" class="home-focus-slot" aria-live="polite"></div>
@@ -111,9 +126,22 @@
             </section>
           </section>
 
-          <section class="tools-section" aria-labelledby="tools-title">
+          <section class="categories-section" aria-labelledby="categories-title">
             <div class="section-title">
-              <div><h3 id="tools-title">Herramientas disponibles</h3><p class="section-subtitle">Accede rápidamente a las herramientas que apoyan tu operación diaria.</p></div>
+              <div><h3 id="categories-title">Elige qué necesitas</h3><p class="section-subtitle">Selecciona un filtro para consultar las herramientas disponibles.</p></div>
+              <button id="clear-tool-filter" class="category-toggle" type="button" hidden>Limpiar filtro</button>
+            </div>
+            <div id="category-hubs" class="category-grid skeleton-grid" aria-label="Filtros de herramientas"></div>
+          </section>
+
+          <aside id="tool-filter-empty" class="tool-filter-empty" role="status">
+            <span aria-hidden="true">⌁</span>
+            <div><strong>Selecciona un filtro</strong><p>Las herramientas aparecerán aquí sin mezclar categorías.</p></div>
+          </aside>
+
+          <section class="tools-section" aria-labelledby="tools-title" hidden>
+            <div class="section-title">
+              <div><h3 id="tools-title">Herramientas disponibles</h3><p class="section-subtitle">Solo se muestran las herramientas del filtro seleccionado.</p></div>
               <div class="tools-title-actions"><span id="result-count"></span></div>
             </div>
             <div class="tool-controls" aria-label="Organización de herramientas">
@@ -132,14 +160,6 @@
             </div>
             <div id="tools-grid" class="tools-grid" aria-live="polite"></div>
             <div id="lazy-sentinel" class="lazy-sentinel" aria-hidden="true"></div>
-          </section>
-
-          <section class="categories-section" aria-labelledby="categories-title">
-            <div class="section-title">
-              <div><h3 id="categories-title">Explorar por categoría</h3><p class="section-subtitle">Organiza el contenido según lo que necesitas consultar.</p></div>
-              <button id="toggle-categories" class="category-toggle" type="button" aria-expanded="false" aria-controls="category-hubs">Ver categorías</button>
-            </div>
-            <div id="category-hubs" class="category-grid skeleton-grid" hidden></div>
           </section>
         </div>
       </section>
@@ -309,6 +329,6 @@
     </button>
   </nav>
 
-  <script type="module" src="./modules/app.js?v=26.0.0"></script>
+  <script type="module" src="./modules/app.js?v=31.0.0"></script>
 </body>
 </html>

@@ -2,7 +2,7 @@ import { state } from './state.js';
 import { $, $$ } from './utils.js';
 import { renderTools } from './cards.js';
 import { focusGeneralSearch } from './search.js';
-import { showVisualView } from './experience.js';
+import { showDetailSection, showVisualView } from './experience.js';
 
 const LAST_VIEW_KEY = 'dgx_last_view';
 
@@ -40,30 +40,36 @@ export function revealWorkspace(scroll = true){
 }
 
 export function nav(view, smooth = true){
-  if(view === 'more'){
-    window.dispatchEvent(new CustomEvent('dgx:open-navigation', {detail:{trigger:document.querySelector('[data-view="more"]')}}));
-    return;
-  }
+  const requestedView = view;
+  if(view === 'search') view = 'explore';
   sessionStorage.setItem(LAST_VIEW_KEY, view);
-  const primary = ['home','explore','search','saved'].includes(view) ? view : 'explore';
-  $$('.nav-item').forEach(b => b.classList.toggle('is-active', b.dataset.view === primary));
+  const primary = ['home','explore','saved'].includes(view) ? view : 'explore';
+  $$('.nav-item').forEach(button => {
+    const active = button.dataset.view === primary;
+    button.classList.toggle('is-active', active);
+    button.toggleAttribute('aria-current', active);
+    if(active) button.setAttribute('aria-current', 'page');
+  });
   if(view === 'home') showVisualView('home');
   if(view === 'explore') showVisualView('explore');
   if(view === 'saved') showVisualView('saved');
-  if(view === 'today') document.getElementById('dia-a-dia')?.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});
-  if(view === 'coffee') document.getElementById('coffee-master-2026')?.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});
-  if(view === 'events') document.getElementById('eventos-cms')?.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});
-  if(view === 'duty') document.getElementById('duty-roster')?.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});
-  if(view === 'weekly-summary') document.getElementById('actualizaciones-semana')?.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});
-  if(view === 'altas') document.getElementById('altas-curso')?.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});
-  if(view === 'celebrations') document.getElementById('aniversarios-cumpleanos')?.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});
-  if(view === 'informativo') document.getElementById('informativo')?.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});
-  if(view === 'search'){
+  const detailTargets = {
+    today:'dia-a-dia',
+    coffee:'coffee-master-2026',
+    events:'eventos-cms',
+    duty:'duty-roster',
+    'weekly-summary':'actualizaciones-semana',
+    altas:'altas-curso',
+    celebrations:'aniversarios-cumpleanos',
+    informativo:'informativo',
+  };
+  if(detailTargets[view]) showDetailSection(detailTargets[view], smooth);
+  if(requestedView === 'search'){
     revealWorkspace(false);
     focusGeneralSearch();
   }
   if(view === 'all') revealWorkspace();
-  if(!['home','explore','search','saved','today','coffee','events','duty','weekly-summary','altas','celebrations','informativo','all','more'].includes(view)){
-    document.getElementById(view)?.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});
+  if(!['home','explore','search','saved','today','coffee','events','duty','weekly-summary','altas','celebrations','informativo','all'].includes(view)){
+    showDetailSection(view, smooth);
   }
 }

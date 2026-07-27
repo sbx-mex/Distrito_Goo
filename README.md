@@ -1,4 +1,4 @@
-# Distrito Goo — versión 25 · búsqueda global ejecutiva
+# Distrito Goo — versión 26 · navegación única
 
 Distrito Goo continúa siendo una PWA 100% estática para GitHub Pages. Python se utiliza únicamente durante auditoría y compilación para validar el CMS y generar JSON; no forma parte del runtime ni requiere servidor.
 
@@ -37,15 +37,16 @@ python tools/audit_static.py
 
 Publicar el contenido de la raíz de `main` mediante **Deploy from a branch**. Conservar `.nojekyll`, las rutas relativas `./` y todos los archivos incluidos en `APP_SHELL`.
 
-Después de publicar una nueva versión, abrir la PWA una vez con conexión para instalar la caché `distrito-go-v25.0.0-busqueda-global`.
+Después de publicar una nueva versión, abrir la PWA una vez con conexión para instalar la caché `distrito-go-v26.0.0-navegacion-unica`.
 
-## Inicio visual y navegación
+## Inicio y navegación
 
-- El Inicio oficial muestra `Hoy`, `Apertura`, `Personas` y `Semana`; cada acceso filtra contenido vigente sin recargar la aplicación.
-- `Peak` dejó de ser un acceso superior. Su contenido real permanece dentro de `Operación`, especialmente en Duty Roster, ritmo, cobertura y despliegue.
-- `Buscar en Distrito Goo` crea un índice local una sola vez y muestra inmediatamente debajo del campo coincidencias de herramientas, eventos, personas, celebraciones, comunicados y contenido operativo.
+- Existe un único menú con `Inicio`, `Explorar` y `Guardados`; en computadora se presenta como barra lateral compacta y en móvil como barra inferior.
+- Inicio muestra una sola `Rutina diaria`, una sola `Actividad semanal de hoy` y los accesos contextuales `Hoy`, `Apertura`, `Personas` y `Semana`.
+- `Peak` no aparece como acceso principal. Su contenido real permanece dentro de `Operación`, especialmente en Duty Roster, ritmo, cobertura y despliegue.
+- La búsqueda global vive dentro de `Explorar Distrito Goo`, crea un índice local una sola vez y muestra los resultados inmediatamente debajo del campo.
 - La búsqueda normaliza mayúsculas y acentos, prioriza títulos, evita duplicados y conserva el foco al cerrar el visor.
-- La barra inferior ofrece `Inicio`, `Explorar`, `Buscar` y `Guardados`.
+- Las categorías permanecen contraídas hasta seleccionar `Ver categorías`.
 - `Guardados` conserva únicamente identificadores en el dispositivo mediante almacenamiento local.
 - La información completa se abre en el visor interno; las tarjetas no duplican la descripción extensa.
 - Maquila, comunicados e infografías utilizan portadas HTML/CSS; el original se abre completo en el visor interno.

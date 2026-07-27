@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Pruebas reproducibles para la búsqueda global v25 de Distrito Goo."""
+"""Pruebas reproducibles para la navegación única v26 de Distrito Goo."""
 from __future__ import annotations
 
 import argparse
@@ -21,7 +21,7 @@ def check(name: str, condition: bool, detail: str) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--report", type=Path, default=ROOT / "reports" / "v25-validation.json")
+    parser.add_argument("--report", type=Path, default=ROOT / "reports" / "v26-validation.json")
     args = parser.parse_args()
 
     html = (ROOT / "index.html").read_text(encoding="utf-8")
@@ -29,7 +29,9 @@ def main() -> int:
     operational = (ROOT / "modules" / "operational.js").read_text(encoding="utf-8")
     experience = (ROOT / "modules" / "experience.js").read_text(encoding="utf-8")
     search = (ROOT / "modules" / "search.js").read_text(encoding="utf-8")
+    navigation = (ROOT / "modules" / "navigation.js").read_text(encoding="utf-8")
     app = (ROOT / "modules" / "app.js").read_text(encoding="utf-8")
+    navigation_css = (ROOT / "styles" / "navigation-v26.css").read_text(encoding="utf-8")
     info = json.loads((ROOT / "data" / "informativo.v10.json").read_text(encoding="utf-8"))
 
     wb = load_workbook(ROOT / "Distrito_Go_CMS_v2_actualizado.xlsx", read_only=True, data_only=True)
@@ -62,17 +64,20 @@ def main() -> int:
         and "data-image-viewer=\"./assets/photos/resumen_comunicado_semana_actual.png\"" not in html,
         "Las rutas se reciben del JSON generado",
     )
-    check("Navegación primaria app", len(re.findall(r'class="nav-item', html)) == 4, "Inicio, Explorar, Buscar y Guardados")
-    check("Navegación agrupada", "navigation-groups" in (ROOT / "modules" / "app.js").read_text(encoding="utf-8"), "Menú Más agrupado")
+    nav_labels = re.findall(r'<button class="nav-item[^>]*>.*?<span>([^<]+)</span>', html, re.S)
+    check("Navegación primaria única", nav_labels == ["Inicio", "Explorar", "Guardados"], ", ".join(nav_labels))
+    check("Buscar integrado", 'data-view="search"' not in html and 'id="explore-view"' in html and 'id="general-search-input"' in html, "Buscar vive dentro de Explorar Distrito Goo")
+    check("Sin menús redundantes", "hero-shortcuts" not in html and "navigation-groups" not in app and 'id="command-center"' not in html, "Accesos rápidos y segundo menú retirados")
     check("Carga diferida PDF", "await import('./celebration-pdf.js')" in operational, "PDF se importa al solicitarlo")
     check("Secciones diferidas", "IntersectionObserver" in operational and "data-deferred-section" in html, "Duty y Partner bajo demanda")
-    check("Inicio visual", all(token in html for token in ('id="visual-home"', 'id="operational-stories"', 'id="visual-priority-card"', 'id="explore-grid"')), "Historias, prioridad y Explorar presentes")
+    check("Inicio operativo", all(token in html for token in ('id="home-view"', 'id="home-daily-card"', 'id="home-weekly-card"', 'id="operational-stories"')), "Rutina, actividad semanal y accesos contextuales")
     check("Cuatro accesos", all(label in experience for label in ("Hoy","Apertura","Personas","Semana")) and "{id:'peak'" not in experience, "Hoy, Apertura, Personas y Semana")
     check("Peak agrupado en Operación", "keywords:['peak','ritmo','cobertura','despliegue','turno']" in experience and "access:'Operación'" in experience, "Duty Roster conserva Peak como palabra clave operativa")
     check("Accesos con CMS", "matchesAccess" in experience and "Acceso Rápido" in experience, "Clasificación compatible con CMS")
-    check("Explorar filtrable", "data-explore-category" in experience and "CATEGORIES" in experience, "Filtros sin recarga")
+    check("Categorías contraídas", 'id="category-hubs" class="category-grid skeleton-grid" hidden' in html and 'id="toggle-categories"' in html, "Ver categorías y Ocultar categorías disponibles")
+    check("Detalle operativo conservado", "showDetailSection" in experience and "showDetailSection" in navigation, "Las secciones heredadas se abren bajo demanda")
     check("Guardados locales", "dgx_saved_content" in experience and "localStorage" not in experience, "Persistencia mediante abstracción local existente")
-    check("Buscador global", all(value in html for value in ("Buscar en Distrito Goo","global-search-results","global-search-status","clear-global-search")) and "createSearchIndex" in search, "Índice único y resultados contiguos")
+    check("Buscador global", all(value in html for value in ("Buscar en todo Distrito Goo","global-search-results","global-search-status","clear-global-search")) and "createSearchIndex" in search, "Índice único y resultados contiguos")
     check("Jerarquía de búsqueda", html.index('id="global-search-results"') < html.index('class="tools-section"') < html.index('class="categories-section"'), "Resultados, herramientas y categorías en ese orden")
     check("Búsqueda diferida", "const SEARCH_DELAY = 200" in search and "setTimeout(() => renderSearchResults" in search, "Espera de 200 ms")
     check("Búsqueda normalizada", "normalize(query)" in search and "scoreEntry" in search, "Mayúsculas y acentos normalizados")
@@ -119,8 +124,11 @@ def main() -> int:
     check("Miniaturas WebP", len(thumbnails) >= 8, f"{len(thumbnails)} miniaturas derivadas")
     check("Picture con respaldo", "<picture>" in experience and "imageOriginal" in experience, "WebP con original preservado")
     check("Carga diferida", 'loading="${eager ? \'eager\' : \'lazy\'}"' in experience and 'decoding="async"' in experience, "Lazy fuera del primer bloque")
-    check("Caché actualizado", "distrito-go-v25.0.0-busqueda-global" in sw and "./styles/clean.css" in shell_refs, "Versión v25")
+    check("Caché actualizado", "distrito-go-v26.0.0-navegacion-unica" in sw and "./styles/navigation-v26.css" in shell_refs, "Versión v26")
     check("Caché tolera versiones", "ignoreSearch:true" in sw, "CSS y JS versionados disponibles offline")
+    check("Menú responsive", "grid-template-columns:repeat(3" in navigation_css and "@media(min-width:901px)" in navigation_css and "@media(max-width:900px)" in navigation_css, "Tres destinos en lateral y barra inferior")
+    check("Áreas táctiles y foco", "min-height:44px" in navigation_css and ":focus-visible" in navigation_css, "Controles accesibles")
+    check("Sin desplazamiento horizontal del menú", "overflow:visible!important" in navigation_css, "Menú de tres destinos sin carrusel horizontal")
 
     cms_workflow = ROOT / ".github" / "workflows" / "actualizar-cms.yml"
     check("Workflow CMS", cms_workflow.is_file(), cms_workflow.as_posix())

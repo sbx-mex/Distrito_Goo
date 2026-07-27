@@ -4,7 +4,6 @@ import { getJSON, setJSON } from './storage.js';
 import { toast } from './toast.js';
 
 const SAVED_KEY = 'dgx_saved_content';
-const CATEGORIES = ['Todo', 'Semana', 'Operación', 'Personas', 'Eventos', 'Herramientas'];
 const ICONS = {
   today:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 10h18v15H7zM11 6v7m10-7v7M7 15h18"/><path d="m12 20 2 2 5-5"/></svg>',
   opening:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 25h20M9 25V13l7-6 7 6v12"/><path d="M13 25v-7h6v7"/></svg>',
@@ -89,7 +88,8 @@ function contentFromDaily(item){
     label:item.Prioridad === 1 ? 'Importante' : 'Actualizado', image:item.MiniaturaRecurso || (isImage(resource) ? resource : ''), fullImage:isImage(resource) ? resource : '',
     imageOriginal:isImage(original) ? original : resource, link:item.TipoRecurso === 'link' ? resource : '',
     section:'dia-a-dia', access:item['Acceso Rápido'] || 'Hoy',
-    priority:Number(item.Prioridad || 99), order:Number(item.Prioridad || 99), showExplore:true
+    priority:Number(item.Prioridad || 99), order:Number(item.Orden || item.ID || item.Prioridad || 99), showExplore:true,
+    validFrom:item['Vigencia Inicio'] || '', validTo:item['Vigencia Fin'] || ''
   };
 }
 function contentFromEvent(item){
@@ -113,11 +113,16 @@ function contentFromTool(tool){
   };
 }
 function contentFromWeekly(item){
+  const resource = resourceFor(item);
+  const original = originalFor(item);
   return {
     id:`weekly-${item.ID}`, source:'Actividad semanal', category:'Semana', title:item.Actividad,
     description:item['Descripción'] || '', short:item['Descripción'] || '', label:item['Día'] || 'Semana',
-    image:'', fullImage:'', imageOriginal:'', link:item.Link || '', section:'dia-a-dia', access:'Semana',
+    image:item.MiniaturaRecurso || (isImage(resource) ? resource : ''), fullImage:isImage(resource) ? resource : '',
+    imageOriginal:isImage(original) ? original : resource, link:isImage(resource) ? '' : (item.Link || resource || ''),
+    section:'dia-a-dia', access:'Semana', dateLabel:[item['Día'], item['Hora / Corte']].filter(Boolean).join(' · '),
     priority:30, order:Number(item.ID || 99), showExplore:false, searchOnly:true,
+    validFrom:item['Vigencia Inicio'] || '', validTo:item['Vigencia Fin'] || '',
     keywords:[item['Día'], item['Hora / Corte'], item.Categoría].filter(Boolean)
   };
 }
@@ -245,14 +250,10 @@ function matchesAccess(item, access){
   return true;
 }
 export function renderExplore(){
-  const catalog = getContentCatalog().filter(item => item.showExplore !== false && !item.searchOnly);
-  const visibleCategories = CATEGORIES.filter(category => category === 'Todo' || catalog.some(item => item.category === category));
-  const filters = document.getElementById('explore-filters');
-  if(filters) filters.innerHTML = visibleCategories.map(category => `<button class="explore-filter ${category === activeCategory ? 'is-active' : ''}" type="button" data-explore-category="${escapeHtml(category)}" aria-pressed="${category === activeCategory}">${escapeHtml(category)}</button>`).join('');
-  const categoryList = activeCategory === 'Todo' ? catalog : catalog.filter(item => item.category === activeCategory);
-  const list = activeAccess ? categoryList.filter(item => matchesAccess(item, activeAccess)) : categoryList;
+  const catalog = getContentCatalog().filter(item => !item.searchOnly || activeAccess === 'Semana' || activeAccess === 'Personas');
+  const list = activeAccess ? catalog.filter(item => matchesAccess(item, activeAccess)) : [];
   const title = document.getElementById('visual-explore-title');
-  if(title) title.textContent = activeAccess ? activeAccess : 'Explorar Distrito Go';
+  if(title) title.textContent = activeAccess || 'Hoy';
   const grid = document.getElementById('explore-grid');
   if(grid) grid.innerHTML = list.length
     ? list.slice(0,36).map(cardMarkup).join('')
@@ -266,21 +267,47 @@ export function renderSaved(){
   const grid = document.getElementById('saved-grid');
   if(grid) grid.innerHTML = items.length ? items.map(cardMarkup).join('') : '<div class="saved-empty"><strong>Aún no tienes guardados</strong><p>Toca el corazón de cualquier contenido para encontrarlo aquí.</p></div>';
 }
-function renderPriority(){
-  const info = (state.operacional.informativo || []).filter(item => item.Visible !== false).map(contentFromInfo).filter(isWithinValidity);
-  const priority = info.filter(item => item.showHome).sort((a,b)=>a.priority-b.priority || a.order-b.order)[0]
-    || info.filter(item => item.category === 'Semana').sort((a,b)=>a.priority-b.priority)[0]
-    || getContentCatalog()[0];
-  const target = document.getElementById('visual-priority-card');
-  const status = document.getElementById('visual-priority-status');
-  if(status) status.textContent = priority?.label || 'Actualizado';
-  if(!target || !priority) return;
-  const standard = shouldUseStandardCover(priority);
-  target.innerHTML = `<button class="priority-card ${standard ? 'priority-standard' : ''}" type="button" data-open-content="${escapeHtml(priority.id)}" aria-label="Abrir ${escapeHtml(priority.title)}">
-    ${standard
-      ? standardCoverMarkup(priority)
-      : `${imageMarkup(priority, 'priority-image', true)}<span class="priority-copy"><span class="content-badge">${escapeHtml(priority.label)}</span><h4>${escapeHtml(priority.title)}</h4><p>${escapeHtml(priority.short)}</p></span>`}
+function todayName(){
+  return new Intl.DateTimeFormat('es-MX', {weekday:'long'}).format(new Date());
+}
+function compactText(value, max = 105){
+  const text = String(value || '').replace(/\s+/g, ' ').trim();
+  return text.length > max ? `${text.slice(0, max - 1).trim()}…` : text;
+}
+function homeCover(item, kind){
+  if(item.image && isImage(item.image)) return `<span class="home-focus-media">${imageMarkup(item, 'home-focus-image', kind === 'daily')}</span>`;
+  const icon = kind === 'weekly' ? ICONS.week : ICONS.today;
+  return `<span class="home-focus-media"><span class="home-focus-cover">${icon}<strong>${escapeHtml(kind === 'weekly' ? item.dateLabel || 'Actividad de hoy' : 'Rutina operativa')}</strong></span></span>`;
+}
+function homeCard(item, kind){
+  if(!item) return `<div class="home-focus-empty"><strong>Sin actividad vigente</strong><span>Consulta Explorar Distrito Goo para revisar el contenido disponible.</span></div>`;
+  const action = kind === 'weekly' ? 'Ver actividad' : 'Ver rutina';
+  const meta = kind === 'weekly' ? (item.dateLabel || todayName()) : 'Hoy';
+  return `<button class="home-focus-card" type="button" data-open-content="${escapeHtml(item.id)}" aria-label="${action}: ${escapeHtml(item.title)}">
+    ${homeCover(item, kind)}
+    <span class="home-focus-copy">
+      <span class="home-focus-meta"><span>${escapeHtml(meta)}</span><b class="home-focus-action">${action} →</b></span>
+      <h4>${escapeHtml(item.title)}</h4>
+      <p>${escapeHtml(compactText(item.short || item.description))}</p>
+    </span>
   </button>`;
+}
+function renderHomePriorities(){
+  const daily = (state.operacional.actividadesDiarias || [])
+    .filter(item => item.Visible !== false)
+    .map(contentFromDaily)
+    .filter(isWithinValidity)
+    .sort((a,b) => a.priority - b.priority || a.order - b.order);
+  const day = normalize(todayName());
+  const weekly = (state.operacional.actividadesSemanales || [])
+    .filter(item => normalize(item['Día']) === day)
+    .map(contentFromWeekly)
+    .filter(isWithinValidity)
+    .sort((a,b) => a.order - b.order);
+  const dailyTarget = document.getElementById('home-daily-card');
+  const weeklyTarget = document.getElementById('home-weekly-card');
+  if(dailyTarget) dailyTarget.innerHTML = homeCard(daily[0], 'daily');
+  if(weeklyTarget) weeklyTarget.innerHTML = homeCard(weekly[0], 'weekly');
 }
 function renderStories(){
   const stories = [
@@ -321,31 +348,61 @@ function bindExperience(){
       activeCategory = 'Todo';
       renderStories();
       renderExplore();
-      document.getElementById('explorar')?.scrollIntoView({behavior:'smooth', block:'start'});
+      const contextual = document.getElementById('explorar');
+      if(contextual) contextual.hidden = false;
+      contextual?.scrollIntoView({behavior:'smooth', block:'start'});
     }
   });
-  document.getElementById('close-saved-view')?.addEventListener('click', () => showVisualView('home'));
+  document.getElementById('close-saved-view')?.addEventListener('click', () => {
+    document.querySelector('[data-view="home"]')?.click();
+  });
 }
 
 export function showVisualView(view){
+  const home = document.getElementById('home-view');
+  const exploreView = document.getElementById('explore-view');
   const saved = document.getElementById('guardados');
-  const explore = document.getElementById('explorar');
+  const contextual = document.getElementById('explorar');
+  document.body.dataset.appView = view;
+  document.querySelectorAll('.app-shell > .is-detail-target').forEach(section => section.classList.remove('is-detail-target'));
   if(view === 'saved'){
     renderSaved();
+    if(home) home.hidden = true;
+    if(exploreView) exploreView.hidden = true;
     if(saved) saved.hidden = false;
-    if(explore) explore.hidden = true;
+    if(contextual) contextual.hidden = true;
     saved?.scrollIntoView({behavior:'smooth',block:'start'});
     return;
   }
   if(saved) saved.hidden = true;
-  if(explore) explore.hidden = false;
-  if(view === 'explore') explore?.scrollIntoView({behavior:'smooth',block:'start'});
-  else window.scrollTo({top:0,behavior:'smooth'});
+  if(view === 'explore'){
+    if(home) home.hidden = true;
+    if(exploreView) exploreView.hidden = false;
+    if(contextual) contextual.hidden = true;
+    exploreView?.scrollIntoView({behavior:'smooth',block:'start'});
+    return;
+  }
+  activeAccess = '';
+  renderStories();
+  if(home) home.hidden = false;
+  if(exploreView) exploreView.hidden = true;
+  if(contextual) contextual.hidden = true;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+export function showDetailSection(id, smooth = true){
+  const target = document.getElementById(id);
+  if(!target) return false;
+  document.body.dataset.appView = 'detail';
+  document.querySelectorAll('.app-shell > .is-detail-target').forEach(section => section.classList.remove('is-detail-target'));
+  target.classList.add('is-detail-target');
+  target.scrollIntoView({behavior:smooth ? 'smooth' : 'auto', block:'start'});
+  return true;
 }
 
 export function initExperience(){
   renderStories();
-  renderPriority();
+  renderHomePriorities();
   renderExplore();
   renderSaved();
   bindExperience();

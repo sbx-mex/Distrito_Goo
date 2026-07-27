@@ -49,7 +49,9 @@ export function renderChips(){
 }
 
 export function renderCategories(){
-  const withCounts = state.categorias.map(c => ({...c, contador: state.herramientas.filter(t => t.categoriaId === c.id).length}));
+  const withCounts = state.categorias
+    .map(c => ({...c, contador: state.herramientas.filter(t => t.categoriaId === c.id).length}))
+    .filter(c => c.contador > 0);
   const categoryHubs = document.getElementById('category-hubs');
   if(!categoryHubs) return;
   categoryHubs.innerHTML = withCounts.map(categoryHub).join('');

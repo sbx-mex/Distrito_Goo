@@ -1,4 +1,4 @@
-# Build y despliegue — búsqueda global v25
+# Build y despliegue — navegación única v26
 
 ```bash
 python -m pip install -r requirements.txt
@@ -22,7 +22,8 @@ La versión limpia es la experiencia oficial. El workflow temporal
 `.github/workflows/limpieza-auditada.yml` debe retirarse porque la limpieza
 autorizada ya finalizó; conservar únicamente `actualizar-cms.yml`.
 
-La búsqueda global se genera en el navegador con los JSON ya cargados. No
-requiere una columna adicional ni cambios en el CMS. `Peak` se conserva como
-palabra clave operativa de Duty Roster, agrupada bajo `Operación`, y ya no se
-muestra como acceso principal.
+La búsqueda global se genera dentro de `Explorar Distrito Goo` con los JSON ya
+cargados. No requiere una columna adicional ni cambios en el CMS. `Peak` se
+conserva como palabra clave operativa de Duty Roster, agrupada bajo `Operación`,
+y ya no se muestra como acceso principal. El menú único contiene Inicio,
+Explorar y Guardados.

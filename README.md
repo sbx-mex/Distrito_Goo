@@ -1,4 +1,4 @@
-# Distrito Goo — versión 31 · experiencia operativa compacta
+# Distrito Goo — versión 38 · navegación estable
 
 Distrito Goo continúa siendo una PWA 100% estática para GitHub Pages. Python se utiliza únicamente durante auditoría y compilación para validar el CMS y generar JSON; no forma parte del runtime ni requiere servidor.
 
@@ -7,7 +7,8 @@ Distrito Goo continúa siendo una PWA 100% estática para GitHub Pages. Python s
 - `index.html`, `styles/` y `modules/`: interfaz existente.
 - `data/`: JSON estáticos consumidos por la aplicación.
 - `tools/validate_cms.py`, `tools/build_data.py` y `tools/audit_links.py`: validan el CMS, generan JSON y producen auditorías reproducibles.
-- `tools/audit_static.py`: valida JSON, rutas locales, IDs HTML y APP_SHELL.
+- `tools/audit_static.py`: valida JSON, rutas locales, IDs HTML, navegación y APP_SHELL.
+- `tools/cleanup_unused.py`: detecta recursos huérfanos con una política conservadora y solo los elimina con confirmación explícita.
 - `.github/workflows/actualizar-cms.yml`: valida y publica cada reemplazo del CMS o de una imagen fuente.
 - `sw.js`: caché offline compatible con rutas relativas de GitHub Pages.
 
@@ -37,18 +38,17 @@ python tools/audit_static.py
 
 Publicar el contenido de la raíz de `main` mediante **Deploy from a branch**. Conservar `.nojekyll`, las rutas relativas `./` y todos los archivos incluidos en `APP_SHELL`.
 
-Después de publicar una nueva versión, abrir la PWA una vez con conexión para instalar la caché `distrito-go-v31.0.0-semana-explorar-juntemonos`.
+Después de publicar una nueva versión, abrir la PWA una vez con conexión para instalar la caché `distrito-go-v38.0.0-navegacion-estable`.
 
 ## Inicio y navegación
 
-- Existe un único menú horizontal y centrado con `Inicio`, `Explorar` y `Guardados` en computadora, PWA, tableta y móvil.
+- Existe un único menú horizontal y centrado con `Inicio`, `Explorar` y `Guardados` en computadora, PWA, tableta y móvil. La opción redundante `Buscar` fue retirada.
 - Inicio presenta `Rutina diaria` como catálogo horizontal y una semana de lunes a domingo con fecha real, un día seleccionado y una actividad por posición.
 - `JUNTÉMONOS MÁS` se renderiza desde `data/identity.json` con saludo, fecha, ruta y mensaje dinámicos.
-- `Personas` muestra recursos generales; los nombres individuales permanecen disponibles exclusivamente en la búsqueda global.
+- `Personas` muestra recursos generales y las rutas vigentes de Desarrollo Partner.
 - `Peak` no aparece como acceso principal. Su contenido real permanece dentro de `Operación`, especialmente en Duty Roster, ritmo, cobertura y despliegue.
-- La búsqueda global vive dentro de `Explorar Distrito Goo`, crea un índice local una sola vez y muestra los resultados inmediatamente debajo del campo.
-- La búsqueda normaliza mayúsculas y acentos, prioriza títulos, evita duplicados y conserva el foco al cerrar el visor.
-- Explorar mantiene ocultas las herramientas hasta seleccionar una categoría o `Todas`; el filtro se puede limpiar sin afectar Guardados.
+- Explorar organiza las herramientas por categoría y mantiene el catálogo oculto hasta seleccionar un filtro; este se puede limpiar sin afectar Guardados.
+- Las acciones `Ir a la sección` se muestran únicamente cuando el destino existe y es navegable. Las secciones anidadas vuelven a Inicio antes de desplazarse al contenido.
 - Las actividades sin destino real permanecen informativas y no muestran una acción simulada.
 - Los checks aparecen únicamente cuando el CMS declara explícitamente que una actividad es verificable.
 - `Guardados` conserva identificadores estables del CMS en el dispositivo y sincroniza el corazón entre tarjetas, catálogo, búsqueda, detalle y herramientas.
@@ -80,6 +80,10 @@ El pipeline conserva el original, genera WebP y miniaturas únicamente para recu
 - `photos/`, `logo/`, `premium/`, las variantes antiguas de Duty Roster y los JSON heredados sin consumo fueron retirados.
 - La imagen `resumen_comunicado_semana_actual.png` continúa con estrategia `network-first`; el resto de imágenes mantiene `cache-first`.
 - Consulta `reports/AUDITORIA_INTEGRAL.md` y `ARCHIVOS_ELIMINADOS.txt`.
+
+## Limpieza segura
+
+El workflow `.github/workflows/limpieza-archivos-sin-uso.yml` se ejecuta manualmente. `AUDITAR` genera el reporte sin borrar; `BORRAR_CONFIRMADO` elimina únicamente assets, módulos o estilos fuera del grafo de uso y valida el proyecto antes de publicar el cambio. Nunca elimina el CMS, JSON de datos, herramientas Python, workflows ni documentación.
 
 ## Felicitaciones PDF
 

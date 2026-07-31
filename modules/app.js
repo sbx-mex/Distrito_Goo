@@ -2,8 +2,7 @@ import { state } from './state.js';
 import { loadData } from './data.js';
 import { $ } from './utils.js';
 import { toast } from './toast.js';
-import { bindSearch } from './search.js';
-import { bindNavigation, revealWorkspace } from './navigation.js';
+import { bindNavigation, isNavigableDestination, revealWorkspace } from './navigation.js';
 import { bindPWA, bindPullToRefresh } from './pwa.js';
 import { renderDashboard, renderQuickActions, renderChips, renderCategories } from './quick-actions.js';
 import { renderTools, loadMoreTools } from './cards.js';
@@ -29,7 +28,6 @@ async function boot(){
   bindCategoryDisclosure();
   renderTools(true);
   collapseFiltersByDefault();
-  bindSearch();
   bindToolControls();
   bindNavigation();
   bindPWA();
@@ -356,7 +354,7 @@ function openContentDetail(item, trigger){
     <img class="visual-detail-media" src="${escapeHeroText(detailImage)}" alt="${escapeHeroText(item.title)}" width="1200" height="800" decoding="async">
   </picture>` : '';
   const date = item.dateLabel ? `<p class="visual-detail-date">${escapeHeroText(item.dateLabel)}</p>` : '';
-  const action = item.section && byId(item.section)
+  const action = item.section && isNavigableDestination(item.section)
     ? `<button type="button" data-nav-target="${escapeHeroText(item.section)}">Ir a la sección</button>`
     : detailImage
       ? `<button type="button" data-image-viewer="${escapeHeroText(detailImage)}" data-image-title="${escapeHeroText(item.title)}">Ver imagen completa</button>`

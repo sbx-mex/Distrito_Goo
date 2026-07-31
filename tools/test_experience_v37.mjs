@@ -40,9 +40,9 @@ check('18. Retícula equivalente en escritorio', css.includes('grid-template-col
 check('19. Retícula responsive', css.includes('@media(max-width:580px)') && css.includes('grid-template-columns:repeat(2,minmax(0,1fr))'), 'dos columnas en móvil amplio');
 check('20. Generación dinámica desde CMS', pipeline.includes('"vistas":') && pipeline.includes('group_partners_by_store') && pipeline.includes('clean_partner_text'), 'Python CMS');
 check('21. Datos legados conservados', Array.isArray(partner.cursosAlta) && Array.isArray(partner.tbwPendientes), 'compatibilidad de búsqueda');
-check('22. PWA sincronizada', sw.includes('distrito-go-v37.0.0-desarrollo-compacto') && sw.includes('./data/desarrollo-partner.v1.json'), 'caché v37');
+check('22. PWA sincronizada', sw.includes('distrito-go-v38.0.0-navegacion-estable') && sw.includes('./data/desarrollo-partner.v1.json') && !sw.includes('./modules/search.js'), 'caché v38 sin búsqueda redundante');
 check('23. Workflow actualizado', workflow.includes('test_experience_v37.mjs') && workflow.includes('reports/v37-validation.json'), 'validación v37');
-check('24. Menú principal intacto', [...html.matchAll(/data-view="(home|explore|saved|search)"/g)].length === 4, 'Inicio, Explorar, Guardados y Buscar');
+check('24. Menú principal simplificado', [...html.matchAll(/data-view="(home|explore|saved)"/g)].length === 3 && !html.includes('data-view="search"') && !html.includes('global-search-panel'), 'Inicio, Explorar y Guardados');
 
 const report = {
   ok:checks.every(item => item.ok),

@@ -2,7 +2,6 @@ import { state } from './state.js';
 import { $, $$, escapeHtml } from './utils.js';
 import { categoryHub, chip } from './components.js';
 import { renderTools } from './cards.js';
-import { focusGeneralSearch } from './search.js';
 import { toast } from './toast.js';
 import { goToSection } from './operational.js';
 import { revealWorkspace } from './navigation.js';
@@ -80,15 +79,11 @@ export function renderCategories(){
 }
 
 export function runAction(action){
-  if(action === 'openSearch'){
-    revealWorkspace(false);
-    focusGeneralSearch();
-  }
   if(action === 'showToday') goToSection('dia-a-dia');
   if(action === 'showEvents') goToSection('eventos-cms');
   if(action === 'showAltas') goToSection('altas-curso');
   if(action === 'showDuty') goToSection('duty-roster');
   if(action === 'showTools') revealWorkspace();
   if(action === 'refreshData') location.reload();
-  if(!['openSearch','showToday','showEvents','showAltas','showDuty','refreshData','showTools'].includes(action)) toast('Acción preparada');
+  if(!['showToday','showEvents','showAltas','showDuty','refreshData','showTools'].includes(action)) toast('Acción preparada');
 }

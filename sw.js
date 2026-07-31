@@ -1,4 +1,4 @@
-const CACHE_NAME = 'distrito-go-v37.0.0-desarrollo-compacto';
+const CACHE_NAME = 'distrito-go-v38.0.0-navegacion-estable';
 const APP_SHELL = [
   './',
   './index.html',
@@ -27,7 +27,6 @@ const APP_SHELL = [
   './modules/native-apps.js',
   './modules/components.js',
   './modules/cards.js',
-  './modules/search.js',
   './modules/navigation.js',
   './modules/quick-actions.js',
   './modules/pwa.js',

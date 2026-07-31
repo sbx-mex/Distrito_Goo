@@ -1,4 +1,4 @@
-# Build y despliegue — experiencia operativa v31
+# Build y despliegue — navegación estable v38
 
 ```bash
 python -m pip install -r requirements.txt
@@ -18,20 +18,20 @@ Al reemplazar `Distrito_Go_CMS_v2_actualizado.xlsx` en la raíz, `.github/workfl
 
 `resumen_comunicado_semana_actual.png` conserva su nombre, original y estrategia `network-first`; el Inicio utiliza su miniatura WebP y el visor presenta el recurso completo. Las demás imágenes generadas incluyen una versión por contenido en los JSON para evitar caché obsoleta.
 
-La versión limpia es la experiencia oficial. El workflow temporal
-`.github/workflows/limpieza-auditada.yml` debe retirarse porque la limpieza
-autorizada ya finalizó; conservar únicamente `actualizar-cms.yml`.
+La limpieza segura se ejecuta manualmente con
+`.github/workflows/limpieza-archivos-sin-uso.yml`. Primero debe utilizarse el
+modo `AUDITAR`; el modo `BORRAR_CONFIRMADO` elimina únicamente archivos
+huérfanos comprobados y vuelve a validar la aplicación antes de publicar.
 
-La búsqueda global se genera dentro de `Explorar Distrito Goo` con los JSON ya
-cargados. No requiere una columna adicional ni cambios en el CMS. `Peak` se
-conserva como palabra clave operativa de Duty Roster, agrupada bajo `Operación`,
-y ya no se muestra como acceso principal. El menú único contiene Inicio,
-Explorar y Guardados.
+Explorar utiliza categorías y los JSON ya cargados; no requiere una columna
+adicional ni cambios en el CMS. `Peak` se conserva dentro del contenido
+operativo de Duty Roster y ya no se muestra como acceso principal. El menú
+único contiene Inicio, Explorar y Guardados.
 
-La vista Personas excluye del renderizado los registros individuales de Partners,
-pero conserva esos nombres en el índice global. Rutina diaria utiliza un catálogo
-horizontal sin reproducción automática. Favoritos se guarda localmente mediante
-IDs estables y se sincroniza entre catálogo, búsqueda, detalle y Guardados.
+La vista Personas excluye del catálogo los registros individuales de Partners.
+Rutina diaria utiliza un catálogo horizontal sin reproducción automática.
+Favoritos se guarda localmente mediante IDs estables y se sincroniza entre
+catálogo, detalle y Guardados.
 
 La navegación principal permanece horizontal y centrada desde 320 px. Semana
 presenta los siete días con su fecha real y una actividad por posición. Explorar

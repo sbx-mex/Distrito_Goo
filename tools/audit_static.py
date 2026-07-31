@@ -19,6 +19,17 @@ ids = re.findall(r'\bid=["\']([^"\']+)', html)
 for value in sorted({x for x in ids if ids.count(x) > 1}):
     ERRORS.append(f"ID HTML duplicado: {value}")
 
+nav_views = re.findall(r'<button\b[^>]*\bdata-view=["\']([^"\']+)', html)
+if nav_views != ["home", "explore", "saved"]:
+    ERRORS.append(f"Navegación principal inesperada: {nav_views!r}")
+if 'data-view="search"' in html or 'global-search-panel' in html:
+    ERRORS.append("La búsqueda redundante continúa presente en la interfaz")
+
+known_ids = set(ids)
+for target in re.findall(r'\bdata-nav-target=["\']([^"\']+)', html):
+    if target not in known_ids:
+        ERRORS.append(f"Acción de navegación sin destino HTML: {target}")
+
 # Sólo valida rutas estáticas literales. Las plantillas JS y las importaciones se
 # resuelven por archivo para evitar falsos positivos.
 def check_ref(ref: str, base: Path) -> None:
@@ -42,6 +53,11 @@ for path in sorted((ROOT / "modules").glob("*.js")):
     text = path.read_text(encoding="utf-8")
     for ref in re.findall(r'(?:from\s+|import\s*)["\']([^"\']+)["\']', text):
         check_ref(ref, path.parent)
+
+navigation = (ROOT / "modules" / "navigation.js").read_text(encoding="utf-8")
+application = (ROOT / "modules" / "app.js").read_text(encoding="utf-8")
+if "isNavigableDestination" not in navigation or "isNavigableDestination(item.section)" not in application:
+    ERRORS.append("Las acciones 'Ir a la sección' no validan su destino antes de mostrarse")
 
 shell_match = re.search(r"const APP_SHELL = \[(.*?)\];", (ROOT / "sw.js").read_text(encoding="utf-8"), re.S)
 if shell_match:

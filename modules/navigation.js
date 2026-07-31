@@ -1,7 +1,6 @@
 import { state } from './state.js';
 import { $, $$ } from './utils.js';
 import { renderTools } from './cards.js';
-import { focusGeneralSearch } from './search.js';
 import { showDetailSection, showVisualView } from './experience.js';
 
 const LAST_VIEW_KEY = 'dgx_last_view';
@@ -11,8 +10,13 @@ export function bindNavigation(){
   document.body.addEventListener('click', event => {
     const target = event.target.closest('[data-nav-target]');
     if(!target) return;
+    const destination = String(target.dataset.navTarget || '').trim();
+    if(!isNavigableDestination(destination)){
+      target.remove();
+      return;
+    }
     document.getElementById('quick-modal')?.close();
-    requestAnimationFrame(() => nav(target.dataset.navTarget));
+    requestAnimationFrame(() => nav(destination));
   });
   const savedView = sessionStorage.getItem(LAST_VIEW_KEY);
   if(savedView && savedView !== 'home') requestAnimationFrame(() => nav(savedView, false));
@@ -20,8 +24,6 @@ export function bindNavigation(){
   if(showAll) showAll.addEventListener('click', () => {
     revealWorkspace(false);
     state.categoria = 'all'; state.query = '';
-    const input = document.getElementById('general-search-input');
-    if(input) input.value = '';
     window.dispatchEvent(new CustomEvent('dgx:filtersChanged'));
     renderTools(true);
   });
@@ -40,10 +42,10 @@ export function revealWorkspace(scroll = true){
 }
 
 export function nav(view, smooth = true){
-  const requestedView = view;
-  if(view === 'search') view = 'explore';
+  view = String(view || '').trim();
+  if(!view) return false;
   sessionStorage.setItem(LAST_VIEW_KEY, view);
-  const primary = requestedView === 'search' ? 'search' : (['home','explore','saved'].includes(view) ? view : 'explore');
+  const primary = ['home','explore','saved'].includes(view) ? view : 'explore';
   $$('.nav-item').forEach(button => {
     const active = button.dataset.view === primary;
     button.classList.toggle('is-active', active);
@@ -74,13 +76,29 @@ export function nav(view, smooth = true){
   }else if(detailTargets[view]){
     showDetailSection(detailTargets[view], smooth);
   }
-  if(requestedView === 'search'){
-    document.body.dataset.appView = 'search';
-    revealWorkspace(false);
-    focusGeneralSearch();
-  }
   if(view === 'all') revealWorkspace();
-  if(!['home','explore','search','saved','today','coffee','events','duty','weekly-summary','altas','celebrations','informativo','all'].includes(view)){
-    showDetailSection(view, smooth);
+  if(!['home','explore','saved','today','coffee','events','duty','weekly-summary','altas','celebrations','informativo','all'].includes(view)){
+    return navigateToSection(view, smooth);
   }
+  return true;
+}
+
+function navigateToSection(id, smooth = true){
+  const target = document.getElementById(id);
+  if(!target) return false;
+  if(target.closest('#visual-home')){
+    showVisualView('home');
+    requestAnimationFrame(() => {
+      target.scrollIntoView({behavior:smooth ? 'smooth' : 'auto', block:'start'});
+      target.classList.add('is-destination-highlight');
+      window.setTimeout(() => target.classList.remove('is-destination-highlight'), 1800);
+    });
+    return true;
+  }
+  return showDetailSection(id, smooth);
+}
+
+export function isNavigableDestination(id){
+  const target = document.getElementById(String(id || '').trim());
+  return Boolean(target && target.closest('.app-shell'));
 }

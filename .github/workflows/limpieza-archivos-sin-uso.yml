@@ -1,0 +1,77 @@
+name: Limpiar archivos sin uso comprobado
+
+on:
+  workflow_dispatch:
+    inputs:
+      accion:
+        description: "Auditar o borrar los archivos huérfanos confirmados"
+        required: true
+        default: "AUDITAR"
+        type: choice
+        options:
+          - AUDITAR
+          - BORRAR_CONFIRMADO
+
+permissions:
+  contents: write
+
+concurrency:
+  group: limpieza-segura-distrito-goo
+  cancel-in-progress: false
+
+jobs:
+  limpieza:
+    if: github.repository == 'sbx-mx/Distrito_Goo'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Auditar archivos huérfanos
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ inputs.accion }}" = "BORRAR_CONFIRMADO" ]; then
+            python tools/cleanup_unused.py --apply --report reports/unused-files.json
+          else
+            python tools/cleanup_unused.py --report reports/unused-files.json
+          fi
+
+      - name: Validar proyecto después de la auditoría
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/audit_static.py
+          find modules -name '*.js' -print0 | xargs -0 -n1 node --check
+          node --check sw.js
+
+      - name: Publicar limpieza confirmada
+        if: inputs.accion == 'BORRAR_CONFIRMADO' && github.ref == 'refs/heads/main'
+        shell: bash
+        run: |
+          set -euo pipefail
+          deleted_count="$(python -c "import json; print(len(json.load(open('reports/unused-files.json', encoding='utf-8'))['deleted']))")"
+          if [ "$deleted_count" = "0" ]; then
+            rm -f reports/unused-files.json
+            echo "No se detectaron archivos seguros para eliminar." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          if git diff --quiet && [ -z "$(git ls-files --others --exclude-standard)" ]; then
+            echo "No se detectaron archivos seguros para eliminar." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Eliminar archivos sin uso comprobado"
+          git push
+          echo "Limpieza validada y publicada." >> "$GITHUB_STEP_SUMMARY"

@@ -12,9 +12,6 @@ let showAllResults = false;
 const RESULT_ICONS = {
   Herramienta: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16v12H4zM8 7V5h8v2M8 12h8m-8 4h5"/></svg>',
   Evento: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v14H4zM8 3v6m8-6v6M4 10h16"/></svg>',
-  Persona: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M5 21c0-5 3-8 7-8s7 3 7 8"/></svg>',
-  Cumpleaños: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h16v11H4zM3 10h18M8 10V6m8 4V6"/><path d="M8 6c-2 0-3-1-3-2s1-2 2-2c2 0 3 4 5 4m4 0c2 0 3-1 3-2s-1-2-2-2c-2 0-3 4-5 4"/></svg>',
-  Aniversario: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 9 9l-6 1 4 5-1 6 6-3 6 3-1-6 4-5-6-1z"/></svg>',
   Operación: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19h16M6 16l4-5 3 3 5-8"/><path d="M15 6h3v3"/></svg>',
   default: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>'
 };
@@ -39,7 +36,11 @@ function indexEntry(item){
 export function createSearchIndex(items = getContentCatalog()){
   const unique = new Map();
   items.forEach(item => {
-    if(item?.id && item?.title && !unique.has(item.id)) unique.set(item.id, indexEntry(item));
+    const partnerRecord = /^(?:person|celebration)-/.test(String(item?.id || ''))
+      || ['Cursos de Alta','TBW','Cumpleaños','Aniversario','Persona'].includes(item?.source);
+    const sectionAvailable = item?.section && (typeof document === 'undefined' || Boolean(document.getElementById(item.section)));
+    const actionable = Boolean(item?.toolId || sectionAvailable || item?.image || item?.fullImage || item?.imageOriginal || /^https?:\/\//i.test(item?.link || ''));
+    if(item?.id && item?.title && !partnerRecord && actionable && !unique.has(item.id)) unique.set(item.id, indexEntry(item));
   });
   return [...unique.values()];
 }
@@ -115,8 +116,6 @@ export function searchGlobalIndex(query, index = searchIndex){
 function resultType(item){
   if(item.source === 'Herramienta') return 'Herramienta';
   if(item.source === 'Evento') return 'Evento';
-  if(item.source === 'Cumpleaños' || item.source === 'Aniversario') return item.source;
-  if(item.source === 'Persona') return 'Persona';
   return item.category || item.source || 'Operación';
 }
 
@@ -153,7 +152,7 @@ function resetSearchView(){
   if(grid) grid.innerHTML = '';
   if(count) count.textContent = '';
   document.body.classList.remove('is-global-searching');
-  setStatus('Busca en todo Distrito Go', 'Escribe una palabra para encontrar rápidamente herramientas, eventos, personas y contenido operativo.');
+  setStatus('Busca información del CMS', 'Escribe una palabra para consultar solo resultados que tengan un destino disponible.');
 }
 
 function renderSearchResults(query){
@@ -211,7 +210,7 @@ export function bindSearch(){
       return;
     }
     document.body.classList.add('is-global-searching');
-    setStatus('Buscando en Distrito Go…', 'Consultando el índice disponible en este dispositivo.');
+    setStatus('Buscando en el CMS…', 'Consultando herramientas, actividades, eventos e informativos disponibles.');
     debounceTimer = window.setTimeout(() => renderSearchResults(query), SEARCH_DELAY);
   });
 

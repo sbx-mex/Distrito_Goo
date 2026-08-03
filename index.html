@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="./styles/variables.css?v=16.4.1" />
   <link rel="stylesheet" href="./styles/app.css?v=22.0.0" />
   <link rel="stylesheet" href="./styles/experience.css?v=24.0.0" />
-  <link rel="stylesheet" href="./styles/clean.css?v=25.0.0" />
+  <link rel="stylesheet" href="./styles/clean.css?v=39.0.0" />
   <link rel="stylesheet" href="./styles/navigation-v26.css?v=38.0.0" />
 </head>
 <body class="v15-starbucks-contrast-experience v16-mobile-launcher-espresso-hub-optimization v16-2-visual-accessibility-refinement">
@@ -124,6 +124,32 @@
 
         <section id="tool-workspace" class="workspace-section launchpad-section" aria-labelledby="categories-title">
         <div id="workspace-body" class="workspace-body">
+          <section class="global-search-panel" aria-labelledby="global-search-heading">
+            <div class="search-intro">
+              <span class="search-scope">Información del CMS</span>
+              <h3 id="global-search-heading">¿Qué necesitas consultar?</h3>
+              <p>Busca herramientas, actividades, eventos o informativos y abre directamente el contenido disponible.</p>
+            </div>
+            <label class="search-box executive-search-box" for="general-search-input">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+              <input id="general-search-input" type="search" inputmode="search" autocomplete="off" placeholder="Ej. inventario, horneo, delivery o WFM" aria-describedby="global-search-help global-search-status" />
+              <button id="clear-global-search" class="clear-search" type="button" aria-label="Limpiar búsqueda" hidden>×</button>
+            </label>
+            <small id="global-search-help" class="search-help">Los nombres de Partners no forman parte de esta búsqueda.</small>
+            <div id="global-search-status" class="search-status" role="status" aria-live="polite">
+              <strong>Busca información del CMS</strong>
+              <span>Escribe una palabra para consultar solo resultados que tengan un destino disponible.</span>
+            </div>
+            <section id="global-search-results" class="global-search-results" aria-labelledby="global-search-title" hidden>
+              <div class="search-results-heading">
+                <h4 id="global-search-title">Resultados</h4>
+                <span id="global-search-count"></span>
+              </div>
+              <div id="global-search-grid" class="global-search-grid"></div>
+              <button id="show-all-search-results" class="show-all-results" type="button" hidden>Mostrar todos</button>
+            </section>
+          </section>
+
           <section class="categories-section" aria-labelledby="categories-title">
             <div class="section-title">
               <div><h3 id="categories-title">Elige qué necesitas</h3><p class="section-subtitle">Selecciona un filtro para consultar las herramientas disponibles.</p></div>

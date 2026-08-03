@@ -1,4 +1,4 @@
-const CACHE_NAME = 'distrito-go-v38.0.0-navegacion-estable';
+const CACHE_NAME = 'distrito-go-v39.0.0-buscador-cms-inventarios';
 const APP_SHELL = [
   './',
   './index.html',
@@ -33,6 +33,7 @@ const APP_SHELL = [
   './modules/app.js',
   './modules/operational.js',
   './modules/experience.js',
+  './modules/search.js',
   './assets/icons/icon-192.png',
   './assets/icons/icon-512.png',
 ];

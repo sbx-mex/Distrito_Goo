@@ -22,8 +22,10 @@ for value in sorted({x for x in ids if ids.count(x) > 1}):
 nav_views = re.findall(r'<button\b[^>]*\bdata-view=["\']([^"\']+)', html)
 if nav_views != ["home", "explore", "saved"]:
     ERRORS.append(f"Navegación principal inesperada: {nav_views!r}")
-if 'data-view="search"' in html or 'global-search-panel' in html:
-    ERRORS.append("La búsqueda redundante continúa presente en la interfaz")
+if 'data-view="search"' in html:
+    ERRORS.append("La búsqueda no debe crear una opción redundante en la navegación principal")
+if 'global-search-panel' not in html or 'general-search-input' not in html:
+    ERRORS.append("Explorar no contiene el buscador contextual del CMS")
 
 known_ids = set(ids)
 for target in re.findall(r'\bdata-nav-target=["\']([^"\']+)', html):

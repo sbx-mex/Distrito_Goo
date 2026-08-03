@@ -110,7 +110,7 @@ function contentFromEvent(item){
     id:`event-${item.ID}`, source:'Evento', category:'Eventos', title:item.Actividad,
     description:item['Contexto / Recordatorio'] || '', short:item['Contexto / Recordatorio'] || '',
     label:'Actualizado', image:item.MiniaturaPath || image, fullImage:image, imageOriginal:item.ImagenOriginal || image,
-    link, section:image || link ? '' : 'eventos-cms', access:'',
+    link, section:image || link ? '' : 'eventos-cms', access:/inventario/i.test(item.Actividad || '') ? 'Semana' : '',
     dateStart:item['Fecha Inicio'] || '', dateEnd:item['Fecha Fin'] || '',
     priority:20, order:Number(dateValue(item['Fecha Inicio'])?.getTime() || 0),
     showExplore:isCurrentEvent(item)
@@ -544,13 +544,32 @@ function dutyMarkup(day){
   </section>`;
 }
 function renderWeeklyCatalog(items){
-  if(!items.length) return '<div class="home-focus-empty"><strong>Sin actividad semanal vigente</strong><span>Consulta Explorar Distrito Go para revisar el contenido disponible.</span></div>';
   const selectedIndex = Math.max(0, WEEK_DAYS.findIndex(day => normalize(day) === normalize(selectedWeekDay)));
   const selectedDate = weekDate(selectedIndex);
   const selectedDateLabel = selectedDate.toLocaleDateString('es-MX', {weekday:'long', day:'2-digit', month:'long'});
-  const dayItems = items
+  const recurringItems = items
     .filter(item => normalize(item.dayName) === normalize(selectedWeekDay))
     .map(item => ({...item, dateLabel:[selectedDateLabel, item.timeLabel].filter(Boolean).join(' · ')}));
+  const inventoryItems = (state.operacional.eventos || [])
+    .filter(item => item.Publicar !== false && /inventario (?:semanal|fin de mes)/i.test(item.Actividad || ''))
+    .filter(item => {
+      const start = dateValue(item['Fecha Inicio']);
+      const end = dateValue(item['Fecha Fin']) || start;
+      if(!start || !end) return false;
+      start.setHours(0,0,0,0);
+      end.setHours(23,59,59,999);
+      const target = new Date(selectedDate);
+      target.setHours(12,0,0,0);
+      return target >= start && target <= end;
+    })
+    .map(item => ({
+      ...contentFromEvent(item),
+      label:normalize(item.Actividad).includes('fin de mes') ? 'Inventario fin de mes' : 'Inventario semanal',
+      dateLabel:selectedDateLabel,
+      priority:10,
+    }));
+  const dayItems = [...inventoryItems, ...recurringItems]
+    .sort((a,b) => Number(a.priority || 99) - Number(b.priority || 99) || Number(a.order || 99) - Number(b.order || 99));
   return `<div class="weekly-catalog">
     <div class="week-catalog-heading">
       <div><span>Semana actual</span><strong>${escapeHtml(selectedDateLabel)}</strong></div>

@@ -130,11 +130,81 @@ function contentFromEvent(item){
   return {
     id:`event-${item.ID}`, source:'Evento', category:'Eventos', title:item.Actividad,
     description:item['Contexto / Recordatorio'] || '', short:item['Contexto / Recordatorio'] || '',
-    label:'Actualizado', image:item.MiniaturaPath || image, fullImage:image, imageOriginal:item.ImagenOriginal || image,
+    label:'Evento', image:item.MiniaturaPath || image, fullImage:image, imageOriginal:item.ImagenOriginal || image,
     link, section:'', access:/inventario/i.test(item.Actividad || '') ? 'Semana' : '',
     dateStart:item['Fecha Inicio'] || '', dateEnd:item['Fecha Fin'] || '',
     priority:20, order:Number(dateValue(item['Fecha Inicio'])?.getTime() || 0),
     showExplore:isCurrentEvent(item)
+  };
+}
+
+function eventPriority(item){
+  const title = normalize(item?.Actividad);
+  if(title.includes('eco') || title.includes('referente operativo')) return 1;
+  if(title.includes('corte de nomina') || title.includes('autoica')) return 5;
+  if(title.includes('inventario fin de mes')) return 8;
+  if(title.includes('inventario semanal')) return 10;
+  return 20;
+}
+
+function eventLabel(item){
+  const title = normalize(item?.Actividad);
+  if(title.includes('eco') || title.includes('referente operativo')) return 'Prioridad · Evento';
+  if(title.includes('inventario fin de mes')) return 'Inventario fin de mes';
+  if(title.includes('inventario semanal')) return 'Inventario semanal';
+  return 'Evento';
+}
+
+function eventsForDate(targetDate){
+  const target = new Date(targetDate);
+  target.setHours(12,0,0,0);
+  return (state.operacional.eventos || [])
+    .filter(item => item.Publicar !== false && matchesSelectedStore(item.Tienda))
+    .filter(item => {
+      const start = dateValue(item['Fecha Inicio']);
+      const end = dateValue(item['Fecha Fin']) || start;
+      if(!start || !end) return false;
+      start.setHours(0,0,0,0);
+      end.setHours(23,59,59,999);
+      return target >= start && target <= end;
+    })
+    .map(item => ({
+      ...contentFromEvent(item),
+      label:eventLabel(item),
+      priority:eventPriority(item),
+      trackable:isTrackableRow(item),
+    }));
+}
+
+function wfmPlanningSummary(reference = new Date()){
+  const leadMatch = String(state.operacional.wfmRegla || '').match(/(\d+)\s*d[ií]as?/i);
+  const leadDays = Math.max(1, Number(leadMatch?.[1]) || 15);
+  const planningDate = new Date(reference);
+  planningDate.setDate(planningDate.getDate() + leadDays);
+  const day = planningDate.getDay() || 7;
+  const weekStart = new Date(planningDate);
+  weekStart.setDate(planningDate.getDate() - day + 1);
+  const weekEnd = new Date(weekStart);
+  weekEnd.setDate(weekStart.getDate() + 6);
+  const utc = new Date(Date.UTC(planningDate.getFullYear(), planningDate.getMonth(), planningDate.getDate()));
+  const utcDay = utc.getUTCDay() || 7;
+  utc.setUTCDate(utc.getUTCDate() + 4 - utcDay);
+  const yearStart = new Date(Date.UTC(utc.getUTCFullYear(), 0, 1));
+  const week = Math.ceil((((utc - yearStart) / 86400000) + 1) / 7);
+  const range = `${weekStart.toLocaleDateString('es-MX',{day:'numeric',month:'long'})} al ${weekEnd.toLocaleDateString('es-MX',{day:'numeric',month:'long'})}`;
+  return {leadDays, week, range};
+}
+
+function dynamicWeeklyItem(item){
+  if(!normalize(item?.title).includes('wfm')) return item;
+  const planning = wfmPlanningSummary();
+  const planningText = `Planeación de la semana ${planning.week}, del ${planning.range}, con ${planning.leadDays} días de anticipación.`;
+  return {
+    ...item,
+    label:`WFM · Semana ${planning.week}`,
+    priority:3,
+    description:[item.description, planningText].filter(Boolean).join(' '),
+    short:[item.short, planningText].filter(Boolean).join(' '),
   };
 }
 function contentFromTool(tool){
@@ -571,26 +641,11 @@ function renderWeeklyCatalog(items){
   const selectedDateLabel = selectedDate.toLocaleDateString('es-MX', {weekday:'long', day:'2-digit', month:'long'});
   const recurringItems = items
     .filter(item => normalize(item.dayName) === normalize(selectedWeekDay))
+    .map(dynamicWeeklyItem)
     .map(item => ({...item, dateLabel:[selectedDateLabel, item.timeLabel].filter(Boolean).join(' · ')}));
-  const inventoryItems = (state.operacional.eventos || [])
-    .filter(item => item.Publicar !== false && matchesSelectedStore(item.Tienda) && /inventario (?:semanal|fin de mes)/i.test(item.Actividad || ''))
-    .filter(item => {
-      const start = dateValue(item['Fecha Inicio']);
-      const end = dateValue(item['Fecha Fin']) || start;
-      if(!start || !end) return false;
-      start.setHours(0,0,0,0);
-      end.setHours(23,59,59,999);
-      const target = new Date(selectedDate);
-      target.setHours(12,0,0,0);
-      return target >= start && target <= end;
-    })
-    .map(item => ({
-      ...contentFromEvent(item),
-      label:normalize(item.Actividad).includes('fin de mes') ? 'Inventario fin de mes' : 'Inventario semanal',
-      dateLabel:selectedDateLabel,
-      priority:10,
-    }));
-  const dayItems = [...inventoryItems, ...recurringItems]
+  const eventItems = eventsForDate(selectedDate)
+    .map(item => ({...item, dateLabel:selectedDateLabel}));
+  const dayItems = [...eventItems, ...recurringItems]
     .sort((a,b) => Number(a.priority || 99) - Number(b.priority || 99) || Number(a.order || 99) - Number(b.order || 99));
   const todayIndex = (new Date().getDay() + 6) % 7;
   const tomorrowIndex = todayIndex + 1;
@@ -599,15 +654,7 @@ function renderWeeklyCatalog(items){
     const date = weekDate(index);
     date.setHours(12,0,0,0);
     const recurring = items.filter(item => normalize(item.dayName) === normalize(WEEK_DAYS[index])).length;
-    const inventories = (state.operacional.eventos || []).filter(item => {
-      if(item.Publicar === false || !matchesSelectedStore(item.Tienda) || !/inventario (?:semanal|fin de mes)/i.test(item.Actividad || '')) return false;
-      const start = dateValue(item['Fecha Inicio']);
-      const end = dateValue(item['Fecha Fin']) || start;
-      if(!start || !end) return false;
-      start.setHours(0,0,0,0); end.setHours(23,59,59,999);
-      return date >= start && date <= end;
-    }).length;
-    return recurring + inventories;
+    return recurring + eventsForDate(date).length;
   };
   const restCount = WEEK_DAYS.slice(Math.min(7, tomorrowIndex + 1)).reduce((sum, _day, offset) => sum + countForDay(tomorrowIndex + 1 + offset), 0);
   return `<div class="weekly-catalog">

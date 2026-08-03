@@ -3,6 +3,7 @@ import fs from 'node:fs';
 const read = path => fs.readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
 const events = JSON.parse(read('data/eventos.v10.json'));
 const operational = read('modules/operational.js');
+const experience = read('modules/experience.js');
 const html = read('index.html');
 const sw = read('sw.js');
 const failures = [];
@@ -20,12 +21,22 @@ const monday = new Date(projected); monday.setDate(projected.getDate() - ((proje
 const sunday = new Date(monday); sunday.setDate(monday.getDate() + 6);
 check('WFM proyecta semana 34', operational.includes('planningWindow') && monday.toISOString().startsWith('2026-08-17') && sunday.toISOString().startsWith('2026-08-23'));
 check('WFM lee días del CMS', operational.includes('state.operacional.wfmRegla'));
+check('WFM semanal lee días del CMS', experience.includes('state.operacional.wfmRegla') && experience.includes('dynamicWeeklyItem'));
+check('WFM semanal muestra semana y rango dinámicos', experience.includes('WFM · Semana ${planning.week}') && experience.includes('planning.range'));
 check('Eventos abre en Hoy', operational.includes("let eventFilter = 'today'") && html.includes('data-event-filter="today"'));
 for (const title of ['AutoICA', 'Corte de Nómina']) {
   const item = events.find(row => row.Actividad === title && row['Fecha Inicio'].slice(0,10) <= '2026-08-03' && row['Fecha Fin'].slice(0,10) >= '2026-08-03');
   check(`${title} vigente el 3 de agosto`, Boolean(item));
 }
-check('Caché v43', sw.includes('v43.0.0-wfm-eventos-eco'));
+const onAugustThird = events.filter(row => row.Publicar !== false && row['Fecha Inicio'].slice(0,10) <= '2026-08-03' && row['Fecha Fin'].slice(0,10) >= '2026-08-03');
+check('Seis eventos vigentes el 3 de agosto', onAugustThird.length === 6, `${onAugustThird.length} encontrados`);
+for (const title of ['ECO 2026 | Referente operativo', 'AutoICA', 'Corte de Nómina', 'Best Talent - Cascada DM - SM', 'Upsize sin costo adicional', 'Concurso de Venta']) {
+  check(`${title} integrado al calendario`, onAugustThird.some(row => row.Actividad === title));
+}
+check('Calendario semanal incluye todos los eventos por rango', experience.includes('function eventsForDate(targetDate)') && !experience.includes("/inventario (?:semanal|fin de mes)/i.test(item.Actividad || '')"));
+check('Contadores usan la misma fuente de eventos', experience.includes('return recurring + eventsForDate(date).length'));
+check('Eventos sin destino permanecen informativos', experience.includes('const destination = hasDestination(item)'));
+check('Caché v44', sw.includes('v44.0.0-calendario-eventos-wfm'));
 
 if(failures.length){ console.error(failures.join('\n')); process.exit(1); }
-console.log('WFM y Eventos v43: validación aprobada.');
+console.log('Calendario de Eventos y WFM v44: validación aprobada.');

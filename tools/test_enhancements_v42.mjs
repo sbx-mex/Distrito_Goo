@@ -21,7 +21,7 @@ check('7. Vigencia visible', html.includes('id="cms-status"') && center.includes
 check('8. Temporales fuera del HTML', !html.includes('bearista-informativo') && !html.includes('contest-hero') && !html.includes('concurso_venta_dona_julio'), 'CMS como fuente');
 check('9. Recursos sin uso eliminados', !html.includes('bearistahugger') && cleanupWorkflow.includes('ELIMINAR_ARCHIVOS_HUERFANOS'), 'limpieza segura');
 check('10. Navegación real en CI', ['320','390','768','1440','playwright'].every(token => visualWorkflow.includes(token)), 'cuatro anchos y Chromium');
-check('11. PWA actualizada', sw.includes('v43.0.0-wfm-eventos-eco') && sw.includes('./modules/operations-center.js'), 'shell completo');
+check('11. PWA actualizada', sw.includes('v44.0.0-calendario-eventos-wfm') && sw.includes('./modules/operations-center.js'), 'shell completo');
 
 const failed = checks.filter(item => !item.ok);
 const report = {ok:!failed.length, generatedAt:new Date().toISOString(), summary:{passed:checks.length-failed.length, failed:failed.length, total:checks.length}, checks};

@@ -19,12 +19,18 @@ try{
   browser = await chromium.launch({headless:true});
   for(const viewport of viewports){
     const page = await browser.newPage({viewport});
+    await page.clock.setFixedTime(new Date('2026-08-03T12:00:00-06:00'));
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(baseURL, {waitUntil:'networkidle'});
     await page.waitForSelector('body.app-ready');
     check(`${viewport.name} carga`, errors.length === 0, errors.join(' | '));
     check(`${viewport.name} centro de mando`, await page.locator('#command-center-grid .command-summary-card').count() === 4, 'debe mostrar cuatro resúmenes');
+    const mondayAgenda = await page.locator('#home-weekly-card').innerText();
+    for(const expected of ['WFM - Pronóstico', 'ECO 2026', 'AutoICA', 'Corte de Nómina', 'Best Talent - Cascada DM - SM', 'Upsize sin costo adicional', 'Concurso de Venta']){
+      check(`${viewport.name} agenda incluye ${expected}`, mondayAgenda.includes(expected), 'evento vigente ausente del calendario del 3 de agosto');
+    }
+    check(`${viewport.name} WFM semana 34`, mondayAgenda.includes('WFM · Semana 34') && /17 de agosto al 23 de agosto/i.test(mondayAgenda), 'semana objetivo o rango dinámico incorrectos');
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     check(`${viewport.name} sin corte horizontal`, overflow <= 1, `desbordamiento ${overflow}px`);
     await page.locator('#header-search').click();

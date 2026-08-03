@@ -58,7 +58,10 @@ jobs:
         run: python tools/quality_gate.py --report reports/quality-gate.json
 
       - name: Ejecutar pruebas de experiencia
-        run: node tools/test_experience_v37.mjs --report reports/v37-validation.json
+        shell: bash
+        run: |
+          node tools/test_experience_v37.mjs --report reports/v42-compatibility.json
+          node tools/test_enhancements_v42.mjs --report reports/v42-enhancements.json
 
       - name: Publicar evidencia
         if: always()
@@ -67,7 +70,8 @@ jobs:
           name: calidad-distrito-goo-${{ github.run_number }}
           path: |
             reports/quality-gate.json
-            reports/v37-validation.json
+            reports/v42-compatibility.json
+            reports/v42-enhancements.json
           if-no-files-found: warn
           retention-days: 30
 

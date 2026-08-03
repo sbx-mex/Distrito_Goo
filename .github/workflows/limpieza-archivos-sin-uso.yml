@@ -82,7 +82,8 @@ jobs:
           python tools/quality_gate.py --report reports/quality-gate-after-cleanup.json
           find modules -name '*.js' -print0 | xargs -0 -n1 node --check
           node --check sw.js
-          node tools/test_experience_v37.mjs --report reports/v37-validation.json
+          node tools/test_experience_v37.mjs --report reports/v42-compatibility.json
+          node tools/test_enhancements_v42.mjs --report reports/v42-enhancements.json
 
       - name: Conservar evidencia
         if: always()
@@ -93,7 +94,8 @@ jobs:
             reports/unused-files.json
             reports/quality-gate-before-cleanup.json
             reports/quality-gate-after-cleanup.json
-            reports/v37-validation.json
+            reports/v42-compatibility.json
+            reports/v42-enhancements.json
           if-no-files-found: warn
           retention-days: 30
 

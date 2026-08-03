@@ -4,9 +4,43 @@ import { renderTools } from './cards.js';
 import { showDetailSection, showVisualView } from './experience.js';
 
 const LAST_VIEW_KEY = 'dgx_last_view';
+const PRIMARY_VIEWS = ['home','explore','saved'];
+
+function prefersReducedMotion(){
+  return Boolean(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches);
+}
+
+function scrollBehavior(smooth = true){
+  return smooth && !prefersReducedMotion() ? 'smooth' : 'auto';
+}
+
+function focusViewTarget(view){
+  const targets = {
+    home:document.getElementById('visual-home-title'),
+    explore:document.getElementById('explore-view-title'),
+    saved:document.getElementById('saved-title'),
+  };
+  const target = targets[view];
+  if(!target) return;
+  target.setAttribute('tabindex', '-1');
+  target.focus({preventScroll:true});
+  target.addEventListener('blur', () => target.removeAttribute('tabindex'), {once:true});
+}
 
 export function bindNavigation(){
   $$('.nav-item').forEach(btn => btn.addEventListener('click', () => nav(btn.dataset.view)));
+  const primaryNav = document.querySelector('.bottom-nav');
+  primaryNav?.addEventListener('keydown', event => {
+    if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+    const buttons = [...primaryNav.querySelectorAll('.nav-item')];
+    const current = Math.max(0, buttons.indexOf(document.activeElement));
+    const next = event.key === 'Home' ? 0
+      : event.key === 'End' ? buttons.length - 1
+      : (current + (event.key === 'ArrowRight' ? 1 : -1) + buttons.length) % buttons.length;
+    event.preventDefault();
+    buttons[next]?.focus();
+    buttons[next]?.click();
+  });
   document.body.addEventListener('click', event => {
     const target = event.target.closest('[data-nav-target]');
     if(!target) return;
@@ -45,7 +79,7 @@ export function nav(view, smooth = true){
   view = String(view || '').trim();
   if(!view) return false;
   sessionStorage.setItem(LAST_VIEW_KEY, view);
-  const primary = ['home','explore','saved'].includes(view) ? view : 'explore';
+  const primary = PRIMARY_VIEWS.includes(view) ? view : 'explore';
   $$('.nav-item').forEach(button => {
     const active = button.dataset.view === primary;
     button.classList.toggle('is-active', active);
@@ -55,6 +89,7 @@ export function nav(view, smooth = true){
   if(view === 'home') showVisualView('home');
   if(view === 'explore') showVisualView('explore');
   if(view === 'saved') showVisualView('saved');
+  if(PRIMARY_VIEWS.includes(view)) requestAnimationFrame(() => focusViewTarget(view));
   const detailTargets = {
     today:'dia-a-dia',
     coffee:'informativo',
@@ -69,7 +104,7 @@ export function nav(view, smooth = true){
     showVisualView('home');
     requestAnimationFrame(() => {
       const target = document.getElementById('informativo');
-      target?.scrollIntoView({behavior:smooth ? 'smooth' : 'auto', block:'start'});
+      target?.scrollIntoView({behavior:scrollBehavior(smooth), block:'start'});
       target?.classList.add('is-destination-highlight');
       window.setTimeout(() => target?.classList.remove('is-destination-highlight'), 1800);
     });
@@ -89,7 +124,7 @@ function navigateToSection(id, smooth = true){
   if(target.closest('#visual-home')){
     showVisualView('home');
     requestAnimationFrame(() => {
-      target.scrollIntoView({behavior:smooth ? 'smooth' : 'auto', block:'start'});
+      target.scrollIntoView({behavior:scrollBehavior(smooth), block:'start'});
       target.classList.add('is-destination-highlight');
       window.setTimeout(() => target.classList.remove('is-destination-highlight'), 1800);
     });

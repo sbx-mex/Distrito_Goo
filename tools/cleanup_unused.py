@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Detecta y elimina únicamente recursos estáticos huérfanos de forma conservadora."""
+"""Audita y elimina recursos huérfanos con alcance cerrado y confirmación explícita."""
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import zipfile
@@ -16,73 +17,59 @@ SAFE_ASSET_DIRS = (
     ROOT / "assets" / "premium",
 )
 ASSET_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp", ".avif", ".gif", ".svg"}
-TEXT_EXTENSIONS = {".html", ".css", ".js", ".json", ".md", ".py", ".yml", ".yaml", ".txt", ".webmanifest"}
+CODE_EXTENSIONS = {".html", ".css", ".js"}
+LIVE_DATA_EXTENSIONS = {".json", ".webmanifest"}
 REFERENCE_RE = re.compile(
     r"(?:src|href)=['\"]([^'\"]+)['\"]"
     r"|(?:from\s+|import\s*)['\"]([^'\"]+)['\"]"
     r"|import\s*\(\s*['\"]([^'\"]+)['\"]\s*\)"
 )
 SW_SHELL_RE = re.compile(r"const APP_SHELL = \[(.*?)\];", re.S)
+CONFIRMATION = "ELIMINAR_ARCHIVOS_HUERFANOS"
 
 
 def relative(path: Path) -> str:
     return path.relative_to(ROOT).as_posix()
 
 
-def read_text_sources() -> dict[Path, str]:
-    sources: dict[Path, str] = {}
-    for path in ROOT.rglob("*"):
-        if not path.is_file() or path.suffix.lower() not in TEXT_EXTENSIONS:
-            continue
-        if any(part in {".git", "node_modules"} for part in path.parts):
-            continue
-        if path.parent == ROOT / "reports" and path.name.startswith("unused-files"):
-            continue
-        sources[path] = path.read_text(encoding="utf-8", errors="ignore")
-    for workbook in ROOT.glob("*.xlsx"):
-        parts: list[str] = []
-        try:
-            with zipfile.ZipFile(workbook) as archive:
-                for name in archive.namelist():
-                    if name.endswith(".xml"):
-                        parts.append(archive.read(name).decode("utf-8", errors="ignore"))
-        except zipfile.BadZipFile:
-            continue
-        sources[workbook] = "\n".join(parts)
-    return sources
+def sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def read_text(path: Path) -> str:
+    return path.read_text(encoding="utf-8", errors="ignore")
 
 
 def resolve_reference(source: Path, raw: str) -> Path | None:
     value = raw.split("?", 1)[0].split("#", 1)[0].strip()
     if not value or value.startswith(("http://", "https://", "data:", "#")):
         return None
-    base = ROOT if source == ROOT / "index.html" or source == ROOT / "sw.js" else source.parent
+    base = ROOT if source in {ROOT / "index.html", ROOT / "sw.js"} else source.parent
     candidate = (base / value).resolve()
     return candidate if candidate == ROOT or ROOT in candidate.parents else None
 
 
-def reachable_code(sources: dict[Path, str]) -> set[Path]:
-    roots: set[Path] = set()
-    html = sources.get(ROOT / "index.html", "")
-    for groups in REFERENCE_RE.findall(html):
-        for raw in filter(None, groups):
-            resolved = resolve_reference(ROOT / "index.html", raw)
+def shell_paths() -> set[Path]:
+    sw_path = ROOT / "sw.js"
+    match = SW_SHELL_RE.search(read_text(sw_path)) if sw_path.is_file() else None
+    paths: set[Path] = set()
+    if match:
+        for raw in re.findall(r"['\"]([^'\"]+)['\"]", match.group(1)):
+            resolved = resolve_reference(sw_path, raw)
             if resolved:
-                roots.add(resolved)
-    sw = sources.get(ROOT / "sw.js", "")
-    shell = SW_SHELL_RE.search(sw)
-    if shell:
-        for raw in re.findall(r"['\"]([^'\"]+)['\"]", shell.group(1)):
-            resolved = resolve_reference(ROOT / "sw.js", raw)
-            if resolved:
-                roots.add(resolved)
+                paths.add(resolved)
+    return paths
 
-    reachable = set(roots)
-    pending = list(roots)
+
+def reachable_code() -> set[Path]:
+    index = ROOT / "index.html"
+    reachable: set[Path] = {index}
+    pending = [index]
     while pending:
         source = pending.pop()
-        text = sources.get(source, "")
-        for groups in REFERENCE_RE.findall(text):
+        if not source.is_file() or source.suffix.casefold() not in CODE_EXTENSIONS:
+            continue
+        for groups in REFERENCE_RE.findall(read_text(source)):
             for raw in filter(None, groups):
                 resolved = resolve_reference(source, raw)
                 if resolved and resolved not in reachable:
@@ -91,63 +78,95 @@ def reachable_code(sources: dict[Path, str]) -> set[Path]:
     return reachable
 
 
+def live_corpus(reachable: set[Path]) -> str:
+    sources = [path for path in reachable if path.is_file()]
+    sources += [ROOT / "sw.js", ROOT / "manifest.json"]
+    sources += sorted((ROOT / "data").glob("*.json"))
+    parts = [read_text(path) for path in sources if path.is_file()]
+    for workbook in ROOT.glob("*.xlsx"):
+        try:
+            with zipfile.ZipFile(workbook) as archive:
+                parts.extend(archive.read(name).decode("utf-8", errors="ignore") for name in archive.namelist() if name.endswith(".xml"))
+        except zipfile.BadZipFile:
+            continue
+    return "\n".join(parts)
+
+
 def asset_candidates() -> list[Path]:
-    files: list[Path] = []
-    for directory in SAFE_ASSET_DIRS:
-        if directory.exists():
-            files.extend(path for path in directory.rglob("*") if path.is_file() and path.suffix.lower() in ASSET_EXTENSIONS)
-    return sorted(set(files))
+    return sorted({
+        path
+        for directory in SAFE_ASSET_DIRS if directory.exists()
+        for path in directory.rglob("*")
+        if path.is_file() and path.suffix.casefold() in ASSET_EXTENSIONS
+    })
+
+
+def asset_family(path: Path) -> str:
+    name = re.sub(r"(?:\.thumb)?\.webp$", "", path.name, flags=re.I)
+    return re.sub(r"\.(?:png|jpe?g|avif|gif|svg)$", "", name, flags=re.I)
 
 
 def is_asset_referenced(path: Path, corpus: str) -> bool:
-    rel = relative(path)
-    if rel in corpus or path.name in corpus:
-        return True
-    name = path.name
-    family = re.sub(r"(?:\.thumb)?\.webp$", "", name, flags=re.I)
-    family = re.sub(r"\.(?:png|jpe?g|avif|gif|svg)$", "", family, flags=re.I)
-    return bool(family and family in corpus)
+    return relative(path) in corpus or path.name in corpus or bool(asset_family(path) and asset_family(path) in corpus)
 
 
-def build_report(apply: bool) -> dict[str, object]:
-    sources = read_text_sources()
-    reachable = reachable_code(sources)
-    corpus = "\n".join(sources.values())
-    candidates: list[dict[str, str]] = []
+def build_report(apply: bool, confirmation: str) -> dict[str, object]:
+    reachable = reachable_code()
+    protected = shell_paths()
+    corpus = live_corpus(reachable)
+    candidates: list[dict[str, object]] = []
 
     for path in asset_candidates():
         if not is_asset_referenced(path, corpus):
-            candidates.append({"path": relative(path), "reason": "recurso sin referencia en código, datos, documentación o CMS"})
+            candidates.append({
+                "path": relative(path),
+                "reason": "sin referencia en HTML, código alcanzable, datos, manifest, Service Worker o CMS",
+                "bytes": path.stat().st_size,
+                "sha256": sha256(path),
+            })
 
     for directory, extension in ((ROOT / "modules", ".js"), (ROOT / "styles", ".css")):
         for path in sorted(directory.glob(f"*{extension}")):
-            if path not in reachable:
-                candidates.append({"path": relative(path), "reason": "archivo de código fuera del grafo de entrada de index.html y APP_SHELL"})
+            if path not in reachable and path not in protected:
+                candidates.append({
+                    "path": relative(path),
+                    "reason": "fuera del grafo de importación y no precargado por la PWA",
+                    "bytes": path.stat().st_size,
+                    "sha256": sha256(path),
+                })
+
+    if apply and confirmation != CONFIRMATION:
+        raise SystemExit(f"Confirmación inválida. Usa --confirm {CONFIRMATION}")
 
     deleted: list[str] = []
     if apply:
         for item in candidates:
-            target = (ROOT / item["path"]).resolve()
-            if ROOT not in target.parents or not target.is_file():
-                continue
-            target.unlink()
-            deleted.append(item["path"])
+            target = (ROOT / str(item["path"])).resolve()
+            if ROOT in target.parents and target.is_file():
+                target.unlink()
+                deleted.append(str(item["path"]))
 
     return {
         "ok": True,
-        "mode": "apply" if apply else "report",
+        "mode": "apply" if apply else "audit",
+        "summary": {
+            "candidates": len(candidates),
+            "deleted": len(deleted),
+            "recoverableWithGit": True,
+        },
         "candidates": candidates,
         "deleted": deleted,
-        "protectedPolicy": "Solo assets estáticos y módulos/estilos fuera del grafo; data, CMS, workflows, tools y documentación nunca se borran.",
+        "protectedPolicy": "Nunca elimina data, CMS, workflows, tools, documentación, iconos PWA ni archivos fuera de las carpetas permitidas.",
     }
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--apply", action="store_true", help="Elimina los candidatos confirmados por la auditoría.")
+    parser.add_argument("--apply", action="store_true")
+    parser.add_argument("--confirm", default="")
     parser.add_argument("--report", type=Path, default=Path("reports/unused-files.json"))
     args = parser.parse_args()
-    report = build_report(args.apply)
+    report = build_report(args.apply, args.confirm)
     output = args.report if args.report.is_absolute() else ROOT / args.report
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

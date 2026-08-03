@@ -213,6 +213,20 @@ export function bindSearch(){
     setStatus('Buscando en el CMS…', 'Consultando herramientas, actividades, eventos e informativos disponibles.');
     debounceTimer = window.setTimeout(() => renderSearchResults(query), SEARCH_DELAY);
   });
+  input.addEventListener('keydown', event => {
+    if(event.key === 'Escape' && input.value){
+      event.preventDefault();
+      clearSearch(input);
+      return;
+    }
+    if(event.key === 'ArrowDown' && normalize(input.value)){
+      const firstResult = document.querySelector('#global-search-grid [data-open-search-result]');
+      if(firstResult){
+        event.preventDefault();
+        firstResult.focus();
+      }
+    }
+  });
 
   clear?.addEventListener('click', () => clearSearch(input));
   document.getElementById('show-all-search-results')?.addEventListener('click', () => {
@@ -226,6 +240,15 @@ export function bindSearch(){
     if(!item) return;
     if(item.toolId) openTool(item.toolId);
     else openContent(item, trigger);
+  });
+  document.getElementById('global-search-grid')?.addEventListener('keydown', event => {
+    if(!['ArrowDown','ArrowUp'].includes(event.key)) return;
+    const buttons = [...document.querySelectorAll('#global-search-grid [data-open-search-result]')];
+    const current = buttons.indexOf(document.activeElement);
+    if(current < 0) return;
+    event.preventDefault();
+    const next = Math.min(buttons.length - 1, Math.max(0, current + (event.key === 'ArrowDown' ? 1 : -1)));
+    buttons[next]?.focus();
   });
   window.addEventListener('dgx:saved-changed', () => {
     if(normalize(input.value)) renderSearchResults(input.value);

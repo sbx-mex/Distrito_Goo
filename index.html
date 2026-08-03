@@ -132,7 +132,7 @@
             </div>
             <label class="search-box executive-search-box" for="general-search-input">
               <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-              <input id="general-search-input" type="search" inputmode="search" autocomplete="off" placeholder="Ej. inventario, horneo, delivery o WFM" aria-describedby="global-search-help global-search-status" />
+              <input id="general-search-input" type="search" inputmode="search" autocomplete="off" placeholder="Ej. inventario, horneo, delivery o WFM" aria-describedby="global-search-help global-search-status" aria-controls="global-search-results" />
               <button id="clear-global-search" class="clear-search" type="button" aria-label="Limpiar búsqueda" hidden>×</button>
             </label>
             <small id="global-search-help" class="search-help">Los nombres de Partners no forman parte de esta búsqueda.</small>
@@ -307,7 +307,8 @@
   </div>
   <div id="toast-root" class="toast-root" aria-live="polite" aria-atomic="true"></div>
 
-  <nav class="bottom-nav sidebar-nav visual-bottom-nav" aria-label="Navegación principal">
+  <p id="primary-nav-help" class="sr-only">Usa las flechas izquierda y derecha para cambiar de sección.</p>
+  <nav class="bottom-nav sidebar-nav visual-bottom-nav" aria-label="Navegación principal" aria-describedby="primary-nav-help">
     <button class="nav-item is-active" data-view="home" type="button" aria-current="page">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 11 8-7 8 7v9h-6v-6h-4v6H4z"/></svg><span>Inicio</span>
     </button>
@@ -319,6 +320,6 @@
     </button>
   </nav>
 
-  <script type="module" src="./modules/app.js?v=38.0.0"></script>
+  <script type="module" src="./modules/app.js?v=40.0.0"></script>
 </body>
 </html>

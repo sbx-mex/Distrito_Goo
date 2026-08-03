@@ -223,7 +223,9 @@ export function renderInformativo(){
   }
   const cards = info.map(item => {
     const contentId = `info-${item.ID}`;
-    const destination = Boolean(item.Recurso);
+    const resource = String(item.Recurso || '').trim();
+    const destination = /^(?:https?:\/\/|\.\.?\/)/i.test(resource)
+      && (/^https?:\/\//i.test(resource) || /\.(?:avif|gif|jpe?g|png|webp)(?:[?#].*)?$/i.test(resource));
     const saved = isContentSaved(contentId);
     const label = item.Etiqueta || (Number(item.Prioridad) === 1 ? 'Prioridad' : '');
     return `<article class="permanent-info-card">
@@ -234,7 +236,7 @@ export function renderInformativo(){
         <p>${escapeHtml(briefText(item.DescripcionBreve || item['Descripción'] || '', 120))}</p>
         <div class="permanent-info-actions">
           ${destination ? `<button type="button" data-open-content="${escapeHtml(contentId)}">Abrir contenido</button>` : ''}
-          <button class="permanent-info-save ${saved ? 'is-saved' : ''}" type="button" data-save-content="${escapeHtml(contentId)}" aria-label="${escapeHtml(saved ? `Quitar ${item.Actividad} de Guardados` : `Guardar ${item.Actividad}`)}" aria-pressed="${saved}"><span aria-hidden="true">${saved ? '♥' : '♡'}</span><span class="save-content-label">${saved ? 'Guardado' : 'Guardar'}</span></button>
+          ${destination ? `<button class="permanent-info-save ${saved ? 'is-saved' : ''}" type="button" data-save-content="${escapeHtml(contentId)}" aria-label="${escapeHtml(saved ? `Quitar ${item.Actividad} de Guardados` : `Guardar ${item.Actividad}`)}" aria-pressed="${saved}"><span aria-hidden="true">${saved ? '♥' : '♡'}</span><span class="save-content-label">${saved ? 'Guardado' : 'Guardar'}</span></button>` : '<span class="catalog-info-state">Informativo</span>'}
         </div>
       </div>
     </article>`;

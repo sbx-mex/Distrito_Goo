@@ -78,7 +78,7 @@ function contentFromInfo(item){
     title:item.Actividad, description:item['Descripción'] || '', short:item.DescripcionBreve || item['Descripción'] || '',
     label:labelFor(item, normalize(item.Frecuencia) === 'semanal' ? 'Importante' : 'Actualizado'),
     image:item.MiniaturaRecurso || (imageResource ? resource : ''), fullImage:imageResource ? resource : '', imageOriginal:isImage(original) ? original : resource,
-    link:linkResource, section:imageResource || linkResource ? '' : 'informativo',
+    link:linkResource, section:'',
     access:item['Acceso Rápido'] || '',
     priority:Number(item.Prioridad || 99), order:Number(item.Orden || item.Prioridad || 99),
     showHome:asBoolean(item['Mostrar Inicio'], normalize(item.Frecuencia) === 'semanal'),
@@ -97,7 +97,7 @@ function contentFromDaily(item){
     title:item.Actividad, description:item['Descripción'] || '', short:item.DescripcionBreve || item['Descripción'] || '',
     label:item.Prioridad === 1 ? 'Importante' : 'Actualizado', image:lightweightImage, fullImage:isImage(resource) ? resource : '',
     imageOriginal:isImage(original) ? original : resource, link:item.TipoRecurso === 'link' ? resource : '',
-    section:resource ? '' : 'dia-a-dia', access:item['Acceso Rápido'] || 'Hoy',
+    section:'', access:item['Acceso Rápido'] || 'Hoy',
     priority:Number(item.Prioridad || 99), order:Number(item.Orden || item.ID || item.Prioridad || 99), showExplore:true,
     validFrom:item['Vigencia Inicio'] || '', validTo:item['Vigencia Fin'] || '',
     trackable:isTrackableRow(item)
@@ -110,7 +110,7 @@ function contentFromEvent(item){
     id:`event-${item.ID}`, source:'Evento', category:'Eventos', title:item.Actividad,
     description:item['Contexto / Recordatorio'] || '', short:item['Contexto / Recordatorio'] || '',
     label:'Actualizado', image:item.MiniaturaPath || image, fullImage:image, imageOriginal:item.ImagenOriginal || image,
-    link, section:image || link ? '' : 'eventos-cms', access:/inventario/i.test(item.Actividad || '') ? 'Semana' : '',
+    link, section:'', access:/inventario/i.test(item.Actividad || '') ? 'Semana' : '',
     dateStart:item['Fecha Inicio'] || '', dateEnd:item['Fecha Fin'] || '',
     priority:20, order:Number(dateValue(item['Fecha Inicio'])?.getTime() || 0),
     showExplore:isCurrentEvent(item)
@@ -122,7 +122,7 @@ function contentFromTool(tool){
     id:`tool-${tool.id}`, source:'Herramienta', category:'Herramientas', title:tool.nombre,
     description:tool.notas || '', short:tool.notas || '', label:'Herramienta', image:tool.imagen || '', fullImage:tool.imagen || '',
     imageOriginal:tool.imagen || '', link, toolId:tool.id,
-    section:link ? '' : 'tool-workspace', priority:50, order:Number(tool.orden || 99), showExplore:true,
+    section:'', priority:50, order:Number(tool.orden || 99), showExplore:true,
     keywords:[tool.categoria, tool.grupo, tool.alias, tool.etiquetas, tool.funcion, ...(tool.keywords || [])].filter(Boolean)
   };
 }
@@ -172,7 +172,6 @@ function sectionItems(){
   const duty = (state.operacional.dutyRoster || [])[0] || {};
   return [
     {id:'section-duty',source:'Operación',category:'Operación',title:'Duty Roster',description:'Consulta estaciones, enfoque, cobertura y detalle crítico del día.',short:'Enfoque, cobertura y estaciones del día.',label:'Hoy',access:'Operación',image:duty.MiniaturasPath?.[0] || duty.ImagenesPath?.[0] || '',fullImage:duty.ImagenesPath?.[0] || '',imageOriginal:duty.ImagenOriginal || duty.ImagenesPath?.[0] || '',section:'duty-roster',priority:5,order:5,showExplore:true,keywords:['peak','ritmo','cobertura','despliegue','turno']},
-    {id:'section-celebrations',source:'Personas',category:'Personas',title:'Celebraciones',description:'Consulta aniversarios y cumpleaños vigentes del distrito.',short:'Aniversarios y cumpleaños.',label:'Personas',access:'Personas',image:'',imageOriginal:'',section:'aniversarios-cumpleanos',priority:20,order:20,showExplore:true},
     {id:'section-partner',source:'Personas',category:'Personas',title:'Desarrollo Partner',description:'Consulta las rutas vigentes de formación y seguimiento.',short:'Cursos de Alta y TBW.',label:'Personas',access:'Personas',image:'',imageOriginal:'',section:'altas-curso',priority:21,order:21,showExplore:true}
   ];
 }
@@ -227,7 +226,7 @@ function cardMarkup(item){
     ${actionable
       ? `<button class="explore-card-main" type="button" data-open-content="${escapeHtml(item.id)}" aria-label="Abrir ${escapeHtml(item.title)}">${content}</button>`
       : `<div class="explore-card-main is-static" aria-label="${escapeHtml(item.title)}">${content}</div>`}
-    ${savedButtonMarkup(item, 'save-content')}
+    ${actionable ? savedButtonMarkup(item, 'save-content') : ''}
   </article>`;
 }
 function getSavedIds(){ return getJSON(SAVED_KEY, []).filter(id => typeof id === 'string'); }
@@ -270,7 +269,7 @@ function cleanDefaultSavedOnce(){
 
 export function findContent(id){ return getContentCatalog().find(item => item.id === id) || null; }
 export function openContent(item, trigger){
-  if(!item) return;
+  if(!item || !hasDestination(item)) return;
   if(item.source === 'Cursos de Alta' || item.source === 'TBW'){
     window.dispatchEvent(new CustomEvent('dgx:open-partner-route', {detail:{
       route:item.source === 'TBW' ? 'tbw' : 'courses',
@@ -283,7 +282,7 @@ export function openContent(item, trigger){
 }
 export function toggleSaved(id){
   const item = findContent(id);
-  if(!item) return;
+  if(!item || !hasDestination(item)) return;
   const current = getSavedIds();
   const exists = current.includes(id);
   saveIds(exists ? current.filter(item => item !== id) : [id, ...current]);
@@ -336,7 +335,7 @@ export function renderExplore(){
 export function renderSaved(){
   const ids = getSavedIds();
   const byId = new Map(getContentCatalog().map(item => [item.id, item]));
-  const items = ids.map(id => byId.get(id)).filter(Boolean);
+  const items = ids.map(id => byId.get(id)).filter(item => item && hasDestination(item));
   if(items.length !== ids.length) saveIds(items.map(item => item.id));
   const grid = document.getElementById('saved-grid');
   if(grid) grid.innerHTML = items.length ? items.map(cardMarkup).join('') : '<div class="saved-empty"><strong>Aún no tienes elementos guardados.</strong><p>Selecciona el corazón de una herramienta, rutina o actividad para personalizar este espacio.</p></div>';
@@ -385,9 +384,11 @@ function coverSceneKey(item){
   if(value.includes('wfm') || value.includes('horario') || value.includes('publicacion')) return 'planning';
   return 'default';
 }
-function hasDestination(item){
-  const section = item.section && document.getElementById(item.section);
-  return Boolean(section || (item.fullImage && isImage(item.fullImage)) || safeContentLink(item.link) || item.action);
+export function hasDestination(item){
+  if(!item) return false;
+  const section = item.section && (typeof document === 'undefined' || Boolean(document.getElementById(item.section)));
+  const image = [item.fullImage, item.imageOriginal].some(value => value && isImage(value));
+  return Boolean(section || image || safeContentLink(item.link) || item.action);
 }
 function safeContentLink(value){
   return /^https?:\/\//i.test(String(value || '').trim()) ? String(value).trim() : '';
@@ -425,7 +426,7 @@ function catalogCoverCardMarkup(item, kind){
       ? `<button class="catalog-cover-main" type="button" data-open-cover="${escapeHtml(item.id)}" aria-label="${action}: ${escapeHtml(item.title)}">${content}</button>`
       : `<div class="catalog-cover-main is-static" aria-label="${escapeHtml(item.title)}">${content}</div>`}
     ${tracking}
-    ${savedButtonMarkup(item, 'catalog-cover-save')}
+    ${destination ? savedButtonMarkup(item, 'catalog-cover-save') : ''}
   </article>`;
 }
 function renderDailyCatalog(items){

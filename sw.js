@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'distrito-go-';
-const CACHE_NAME = `${CACHE_PREFIX}v40.0.0-calidad-navegacion`;
+const CACHE_NAME = `${CACHE_PREFIX}v41.0.0-destinos-reales`;
 const APP_SHELL = [
   './',
   './index.html',

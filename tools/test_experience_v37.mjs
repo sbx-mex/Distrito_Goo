@@ -2,10 +2,12 @@ import fs from 'node:fs/promises';
 
 const root = new URL('../', import.meta.url);
 const read = path => fs.readFile(new URL(path, root), 'utf8');
-const [html, css, operationalJs, pipeline, workflow, sw, partner] = await Promise.all([
+const [html, css, operationalJs, experienceJs, searchJs, pipeline, workflow, sw, partner] = await Promise.all([
   read('index.html'),
   read('styles/navigation-v26.css'),
   read('modules/operational.js'),
+  read('modules/experience.js'),
+  read('modules/search.js'),
   read('tools/cms_pipeline.py'),
   read('.github/workflows/actualizar-cms.yml'),
   read('sw.js'),
@@ -40,9 +42,17 @@ check('18. Retícula equivalente en escritorio', css.includes('grid-template-col
 check('19. Retícula responsive', css.includes('@media(max-width:580px)') && css.includes('grid-template-columns:repeat(2,minmax(0,1fr))'), 'dos columnas en móvil amplio');
 check('20. Generación dinámica desde CMS', pipeline.includes('"vistas":') && pipeline.includes('group_partners_by_store') && pipeline.includes('clean_partner_text'), 'Python CMS');
 check('21. Datos legados conservados', Array.isArray(partner.cursosAlta) && Array.isArray(partner.tbwPendientes), 'compatibilidad de búsqueda');
-check('22. PWA sincronizada', sw.includes('distrito-go-') && sw.includes('v40.0.0-calidad-navegacion') && sw.includes('./data/desarrollo-partner.v1.json') && sw.includes('./modules/search.js'), 'caché v40 aislado con búsqueda contextual');
+check('22. PWA sincronizada', sw.includes('distrito-go-') && sw.includes('v41.0.0-destinos-reales') && sw.includes('./data/desarrollo-partner.v1.json') && sw.includes('./modules/search.js'), 'caché v41 aislado con destinos reales');
 check('23. Workflow actualizado', workflow.includes('test_experience_v37.mjs') && workflow.includes('reports/v37-validation.json'), 'validación v37');
 check('24. Menú principal simplificado', [...html.matchAll(/data-view="(home|explore|saved)"/g)].length === 3 && !html.includes('data-view="search"') && html.includes('global-search-panel'), 'Inicio, Explorar y Guardados; buscador dentro de Explorar');
+check('25. Celebraciones oculto en Explorar', !experienceJs.includes("id:'section-celebrations'"), 'sin tarjeta Celebraciones que abra una vista vacía');
+check('26. Destino único reutilizable', experienceJs.includes('export function hasDestination') && searchJs.includes('hasDestination(item)'), 'misma regla para catálogo y búsqueda');
+check('27. Contenido sin recurso informativo', experienceJs.includes("link, section:'', access:/inventario/") && experienceJs.includes("section:'', access:item['Acceso Rápido'] || 'Hoy'"), 'eventos y actividades sin sección heredada');
+check('28. Texto inicial redundante oculto', !html.includes('Busca información del CMS') && !html.includes('Escribe una palabra para consultar solo resultados'), 'buscador limpio');
+check('29. Subtítulo informativo oculto', !html.includes('Consulta los contenidos vigentes publicados desde el CMS.'), 'encabezado compacto');
+check('30. Herramientas antes que filtros', html.indexOf('class="tools-section"') < html.indexOf('class="categories-section"'), 'las herramientas filtradas aparecen arriba');
+check('31. Herramientas permanecen ocultas', /<section class="tools-section"[^>]*hidden>/.test(html), 'se revelan solo al elegir un filtro');
+check('32. Guardado solo con destino', experienceJs.includes("actionable ? savedButtonMarkup") && experienceJs.includes("destination ? savedButtonMarkup"), 'sin favoritos para tarjetas informativas');
 
 const report = {
   ok:checks.every(item => item.ok),

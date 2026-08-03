@@ -71,9 +71,16 @@ def inspect_project(cms: Path) -> dict[str, Any]:
     html = (ROOT / "index.html").read_text(encoding="utf-8")
     navigation = (ROOT / "modules" / "navigation.js").read_text(encoding="utf-8")
     search = (ROOT / "modules" / "search.js").read_text(encoding="utf-8")
+    experience = (ROOT / "modules" / "experience.js").read_text(encoding="utf-8")
     nav_views = re.findall(r'<button class="nav-item[^>]*data-view="([^"]+)"', html)
     gate.check("1 · Funcional", "Navegación principal estable", nav_views == ["home", "explore", "saved"], ", ".join(nav_views))
-    gate.check("1 · Funcional", "Resultados de búsqueda accionables", "partnerRecord" in search and "actionable" in search and "!partnerRecord && actionable" in search, "excluye Partners y tarjetas sin destino")
+    strict_destinations = (
+        "hasDestination" in search
+        and "export function hasDestination" in experience
+        and "section-celebrations" not in experience
+        and "!partnerRecord && actionable" in search
+    )
+    gate.check("1 · Funcional", "Resultados de búsqueda accionables", strict_destinations, "excluye Partners, Celebraciones y tarjetas sin destino real")
 
     accessibility_tokens = ('lang="es-MX"', 'class="skip-link"', '<main id="main"', 'aria-live="polite"', 'aria-label="Navegación principal"')
     gate.check("4 · Experiencia", "Estructura accesible", all(token in html for token in accessibility_tokens), "idioma, salto, main, estados y navegación")

@@ -1,4 +1,4 @@
-# Build y despliegue — navegación estable v38
+# Build y despliegue — destinos reales v41
 
 ```bash
 python -m pip install -r requirements.txt

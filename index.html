@@ -82,7 +82,6 @@
             <div>
               <span class="visual-overline">Siempre disponible</span>
               <h3 id="info-title">Informativo</h3>
-              <p>Consulta los contenidos vigentes publicados desde el CMS.</p>
             </div>
             <span id="info-count" class="info-count">0</span>
           </div>
@@ -136,10 +135,7 @@
               <button id="clear-global-search" class="clear-search" type="button" aria-label="Limpiar búsqueda" hidden>×</button>
             </label>
             <small id="global-search-help" class="search-help">Los nombres de Partners no forman parte de esta búsqueda.</small>
-            <div id="global-search-status" class="search-status" role="status" aria-live="polite">
-              <strong>Busca información del CMS</strong>
-              <span>Escribe una palabra para consultar solo resultados que tengan un destino disponible.</span>
-            </div>
+            <div id="global-search-status" class="search-status" role="status" aria-live="polite" hidden></div>
             <section id="global-search-results" class="global-search-results" aria-labelledby="global-search-title" hidden>
               <div class="search-results-heading">
                 <h4 id="global-search-title">Resultados</h4>
@@ -149,19 +145,6 @@
               <button id="show-all-search-results" class="show-all-results" type="button" hidden>Mostrar todos</button>
             </section>
           </section>
-
-          <section class="categories-section" aria-labelledby="categories-title">
-            <div class="section-title">
-              <div><h3 id="categories-title">Elige qué necesitas</h3><p class="section-subtitle">Selecciona un filtro para consultar las herramientas disponibles.</p></div>
-              <button id="clear-tool-filter" class="category-toggle" type="button" hidden>Limpiar filtro</button>
-            </div>
-            <div id="category-hubs" class="category-grid skeleton-grid" aria-label="Filtros de herramientas"></div>
-          </section>
-
-          <aside id="tool-filter-empty" class="tool-filter-empty" role="status">
-            <span aria-hidden="true">⌁</span>
-            <div><strong>Selecciona un filtro</strong><p>Las herramientas aparecerán aquí sin mezclar categorías.</p></div>
-          </aside>
 
           <section class="tools-section" aria-labelledby="tools-title" hidden>
             <div class="section-title">
@@ -185,6 +168,19 @@
             <div id="tools-grid" class="tools-grid" aria-live="polite"></div>
             <div id="lazy-sentinel" class="lazy-sentinel" aria-hidden="true"></div>
           </section>
+
+          <section class="categories-section" aria-labelledby="categories-title">
+            <div class="section-title">
+              <div><h3 id="categories-title">Elige qué necesitas</h3><p class="section-subtitle">Selecciona un filtro para consultar las herramientas disponibles.</p></div>
+              <button id="clear-tool-filter" class="category-toggle" type="button" hidden>Limpiar filtro</button>
+            </div>
+            <div id="category-hubs" class="category-grid skeleton-grid" aria-label="Filtros de herramientas"></div>
+          </section>
+
+          <aside id="tool-filter-empty" class="tool-filter-empty" role="status">
+            <span aria-hidden="true">⌁</span>
+            <div><strong>Selecciona un filtro</strong><p>Las herramientas aparecerán arriba sin mezclar categorías.</p></div>
+          </aside>
         </div>
       </section>
       </section>

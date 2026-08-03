@@ -1,6 +1,6 @@
 import { state } from './state.js';
 import { escapeHtml, normalize } from './utils.js';
-import { getContentCatalog, isContentSaved, openContent } from './experience.js';
+import { getContentCatalog, hasDestination, isContentSaved, openContent } from './experience.js';
 import { openTool, renderTools } from './cards.js';
 
 const INITIAL_LIMIT = 8;
@@ -38,8 +38,7 @@ export function createSearchIndex(items = getContentCatalog()){
   items.forEach(item => {
     const partnerRecord = /^(?:person|celebration)-/.test(String(item?.id || ''))
       || ['Cursos de Alta','TBW','Cumpleaños','Aniversario','Persona'].includes(item?.source);
-    const sectionAvailable = item?.section && (typeof document === 'undefined' || Boolean(document.getElementById(item.section)));
-    const actionable = Boolean(item?.toolId || sectionAvailable || item?.image || item?.fullImage || item?.imageOriginal || /^https?:\/\//i.test(item?.link || ''));
+    const actionable = hasDestination(item);
     if(item?.id && item?.title && !partnerRecord && actionable && !unique.has(item.id)) unique.set(item.id, indexEntry(item));
   });
   return [...unique.values()];
@@ -141,7 +140,10 @@ function resultCard(item){
 
 function setStatus(title, message){
   const status = document.getElementById('global-search-status');
-  if(status) status.innerHTML = `<strong>${escapeHtml(title)}</strong><span>${escapeHtml(message)}</span>`;
+  if(status){
+    status.hidden = false;
+    status.innerHTML = `<strong>${escapeHtml(title)}</strong><span>${escapeHtml(message)}</span>`;
+  }
 }
 
 function resetSearchView(){
@@ -152,7 +154,8 @@ function resetSearchView(){
   if(grid) grid.innerHTML = '';
   if(count) count.textContent = '';
   document.body.classList.remove('is-global-searching');
-  setStatus('Busca información del CMS', 'Escribe una palabra para consultar solo resultados que tengan un destino disponible.');
+  const status = document.getElementById('global-search-status');
+  if(status){ status.hidden = true; status.innerHTML = ''; }
 }
 
 function renderSearchResults(query){

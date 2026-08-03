@@ -25,7 +25,9 @@ export function categoryHub(c){
 }
 
 export function toolCard(tool, isFav, compact = false){
+  const actionable = Boolean(tool.url || (tool.tipo === 'app' && tool.package));
   const image = tool.imagen ? `<img class="tool-image" src="./${escapeHtml(tool.imagen)}" alt="${escapeHtml(tool.nombre)}" loading="lazy" />` : '';
-  const cta = tool.cta ? `<span class="tool-cta">${escapeHtml(tool.cta)} <span aria-hidden="true">↗</span></span>` : '';
-  return `<article class="tool-card ${tool.imagen ? 'has-image' : ''} ${compact ? 'is-compact' : ''}" tabindex="0" role="button" data-id="${escapeHtml(tool.id)}" aria-label="Abrir ${escapeHtml(tool.nombre)}">${image}<div class="tool-card-body"><div class="tool-top"><div class="tool-icon" aria-hidden="true">${tool.icono}</div><span class="tool-category">${escapeHtml(tool.categoria || '')}</span></div><h4>${escapeHtml(tool.nombre)}</h4><p>${escapeHtml(tool.notas)}</p>${cta}</div></article>`;
+  const cta = actionable && tool.cta ? `<span class="tool-cta">${escapeHtml(tool.cta)} <span aria-hidden="true">↗</span></span>` : '<span class="catalog-info-state">Informativo</span>';
+  const interaction = actionable ? ` tabindex="0" role="button" data-id="${escapeHtml(tool.id)}" aria-label="Abrir ${escapeHtml(tool.nombre)}"` : ' aria-label="Contenido informativo"';
+  return `<article class="tool-card ${tool.imagen ? 'has-image' : ''} ${compact ? 'is-compact' : ''} ${actionable ? '' : 'is-static'}"${interaction}>${image}<div class="tool-card-body"><div class="tool-top"><div class="tool-icon" aria-hidden="true">${tool.icono}</div><span class="tool-category">${escapeHtml(tool.categoria || '')}</span></div><h4>${escapeHtml(tool.nombre)}</h4><p>${escapeHtml(tool.notas)}</p>${cta}</div></article>`;
 }

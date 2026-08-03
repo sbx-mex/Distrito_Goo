@@ -1,4 +1,4 @@
-# Distrito Goo — versión 38 · navegación estable
+# Distrito Goo — versión 41 · destinos reales
 
 Distrito Goo continúa siendo una PWA 100% estática para GitHub Pages. Python se utiliza únicamente durante auditoría y compilación para validar el CMS y generar JSON; no forma parte del runtime ni requiere servidor.
 
@@ -38,7 +38,7 @@ python tools/audit_static.py
 
 Publicar el contenido de la raíz de `main` mediante **Deploy from a branch**. Conservar `.nojekyll`, las rutas relativas `./` y todos los archivos incluidos en `APP_SHELL`.
 
-Después de publicar una nueva versión, abrir la PWA una vez con conexión para instalar la caché `distrito-go-v38.0.0-navegacion-estable`.
+Después de publicar una nueva versión, abrir la PWA una vez con conexión para instalar la caché `distrito-go-v41.0.0-destinos-reales`.
 
 ## Inicio y navegación
 
@@ -47,8 +47,9 @@ Después de publicar una nueva versión, abrir la PWA una vez con conexión para
 - `JUNTÉMONOS MÁS` se renderiza desde `data/identity.json` con saludo, fecha, ruta y mensaje dinámicos.
 - `Personas` muestra recursos generales y las rutas vigentes de Desarrollo Partner.
 - `Peak` no aparece como acceso principal. Su contenido real permanece dentro de `Operación`, especialmente en Duty Roster, ritmo, cobertura y despliegue.
-- Explorar organiza las herramientas por categoría y mantiene el catálogo oculto hasta seleccionar un filtro; este se puede limpiar sin afectar Guardados.
-- Las acciones `Ir a la sección` se muestran únicamente cuando el destino existe y es navegable. Las secciones anidadas vuelven a Inicio antes de desplazarse al contenido.
+- Explorar mantiene las herramientas ocultas hasta seleccionar un filtro y, al hacerlo, las presenta arriba de las categorías para reducir desplazamientos.
+- Las acciones `Abrir` o `Ir a la sección` se muestran únicamente cuando existe una sección específica, imagen, enlace web o acción real. Los registros sin destino permanecen informativos y no pueden abrirse ni guardarse.
+- `Celebraciones` no se ofrece como tarjeta en Explorar; las celebraciones reales continúan visibles en Semana y en su apartado operativo.
 - Las actividades sin destino real permanecen informativas y no muestran una acción simulada.
 - Los checks aparecen únicamente cuando el CMS declara explícitamente que una actividad es verificable.
 - `Guardados` conserva identificadores estables del CMS en el dispositivo y sincroniza el corazón entre tarjetas, catálogo, búsqueda, detalle y herramientas.

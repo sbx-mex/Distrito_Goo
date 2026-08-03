@@ -18,6 +18,7 @@ on:
       - "tools/validate_assets.py"
       - "tools/test_experience_v37.mjs"
       - "tools/test_enhancements_v42.mjs"
+      - "tools/test_wfm_events_v43.mjs"
       - "tools/optimize_images.py"
       - ".github/workflows/actualizar-cms.yml"
   workflow_dispatch:
@@ -72,6 +73,7 @@ jobs:
           node --check sw.js
           node tools/test_experience_v37.mjs --report reports/v42-compatibility.json
           node tools/test_enhancements_v42.mjs --report reports/v42-enhancements.json
+          node tools/test_wfm_events_v43.mjs
           python tools/quality_gate.py --report reports/quality-gate.json
 
       - name: Comprobar alcance generado

@@ -62,6 +62,7 @@ jobs:
         run: |
           node tools/test_experience_v37.mjs --report reports/v42-compatibility.json
           node tools/test_enhancements_v42.mjs --report reports/v42-enhancements.json
+          node tools/test_wfm_events_v43.mjs
 
       - name: Publicar evidencia
         if: always()

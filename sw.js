@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'distrito-go-';
-const CACHE_NAME = `${CACHE_PREFIX}v44.0.0-calendario-eventos-wfm`;
+const CACHE_NAME = `${CACHE_PREFIX}v45.0.0-destinos-eventos`;
 const APP_SHELL = [
   './',
   './index.html',

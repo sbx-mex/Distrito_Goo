@@ -323,7 +323,13 @@ function handleImageViewerZoom(event){
 
 function safeDetailLink(value){
   const text = String(value || '').trim();
-  return /^https?:\/\//i.test(text) ? text : '';
+  if(!/^https?:\/\//i.test(text) || text.includes('...') || /[{}<>]/.test(text)) return '';
+  try{
+    const url = new URL(text);
+    return /^https?:$/.test(url.protocol) && url.hostname ? url.href : '';
+  }catch{
+    return '';
+  }
 }
 
 function openContentDestination(item, trigger){
@@ -334,14 +340,14 @@ function openContentDestination(item, trigger){
     toast('Sección abierta');
     return;
   }
-  if(image && IMAGE_LINK_PATTERN.test(image)){
-    lastImageViewerTrigger = trigger || null;
-    openImageViewer(item.title, image);
-    return;
-  }
   if(link){
     const opened = window.open(link, '_blank', 'noopener');
     if(opened) opened.opener = null;
+    return;
+  }
+  if(image && IMAGE_LINK_PATTERN.test(image)){
+    lastImageViewerTrigger = trigger || null;
+    openImageViewer(item.title, image);
   }
 }
 
@@ -360,10 +366,10 @@ function openContentDetail(item, trigger){
   const date = item.dateLabel ? `<p class="visual-detail-date">${escapeHeroText(item.dateLabel)}</p>` : '';
   const action = item.section && isNavigableDestination(item.section)
     ? `<button type="button" data-nav-target="${escapeHeroText(item.section)}">Ir a la sección</button>`
-    : detailImage
-      ? `<button type="button" data-image-viewer="${escapeHeroText(detailImage)}" data-image-title="${escapeHeroText(item.title)}">Ver imagen completa</button>`
-      : link
-        ? `<a href="${escapeHeroText(link)}" target="_blank" rel="noopener">Abrir recurso</a>`
+    : link
+      ? `<a href="${escapeHeroText(link)}" target="_blank" rel="noopener">Abrir acceso</a>`
+      : detailImage
+        ? `<button type="button" data-image-viewer="${escapeHeroText(detailImage)}" data-image-title="${escapeHeroText(item.title)}">Ver imagen completa</button>`
         : '';
   const saved = isContentSaved(item.id);
   const secondaryMeta = item.category && item.category !== item.label

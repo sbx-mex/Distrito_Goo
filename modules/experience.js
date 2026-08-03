@@ -369,6 +369,10 @@ export function openContent(item, trigger){
     }}));
     return;
   }
+  if(item.source === 'Evento'){
+    window.dispatchEvent(new CustomEvent('dgx:open-destination', {detail:{item, trigger}}));
+    return;
+  }
   window.dispatchEvent(new CustomEvent('dgx:open-detail', {detail:{item, trigger}}));
 }
 export function toggleSaved(id){
@@ -482,7 +486,14 @@ export function hasDestination(item){
   return Boolean(section || image || safeContentLink(item.link) || item.action);
 }
 function safeContentLink(value){
-  return /^https?:\/\//i.test(String(value || '').trim()) ? String(value).trim() : '';
+  const text = String(value || '').trim();
+  if(!/^https?:\/\//i.test(text) || text.includes('...') || /[{}<>]/.test(text)) return '';
+  try{
+    const url = new URL(text);
+    return /^https?:$/.test(url.protocol) && url.hostname ? url.href : '';
+  }catch{
+    return '';
+  }
 }
 function catalogCoverVisual(item, kind){
   const scene = coverSceneKey(item);

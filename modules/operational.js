@@ -98,18 +98,41 @@ function validityLabel(item){
   if(start) return `Desde ${start.toLocaleDateString('es-MX',{day:'2-digit',month:'short'})}`;
   return item?.Frecuencia || '';
 }
+function validEventLink(value){
+  const text = String(value || '').trim();
+  if(!/^https?:\/\//i.test(text) || text.includes('...') || /[{}<>]/.test(text)) return '';
+  try{
+    const url = new URL(text);
+    return /^https?:$/.test(url.protocol) && url.hostname ? url.href : '';
+  }catch{
+    return '';
+  }
+}
+function validEventImage(value){
+  const text = String(value || '').trim();
+  return /\.(?:avif|gif|jpe?g|png|webp)(?:[?#].*)?$/i.test(text) ? text : '';
+}
+function eventDestination(item){
+  const link = validEventLink(item?.Link);
+  if(link) return {kind:'link', link, image:''};
+  const image = validEventImage(item?.ImagenOriginal || item?.ImagenPath || item?.MiniaturaPath);
+  return image ? {kind:'image', link:'', image} : {kind:'informative', link:'', image:''};
+}
 function eventCard(e){
   const title = e.Actividad || 'Evento';
   const dateLine = `${fmtDDMM(e['Fecha Inicio'])}${e['Fecha Fin'] ? ' al ' + fmtDDMM(e['Fecha Fin']) : ''}`;
   const priority = /referente operativo/i.test(title);
   const media = e.MiniaturaPath || e.ImagenPath || '';
-  return `<article class="ops-card event-card ${priority ? 'is-priority' : ''}">
-    <button class="event-card-main" type="button" data-open-event-id="${escapeHtml(e.ID)}" aria-label="Abrir detalle de ${escapeHtml(title)}">
-      ${media ? `<img class="event-card-media" src="${escapeHtml(media)}" alt="" loading="lazy"/>` : ''}
+  const destination = eventDestination(e);
+  const actionLabel = destination.kind === 'link' ? 'Abrir acceso →' : destination.kind === 'image' ? 'Ver imagen →' : 'Informativo';
+  const content = `${media ? `<img class="event-card-media" src="${escapeHtml(media)}" alt="" loading="lazy"/>` : ''}
       <span class="event-card-top"><span class="event-date">${escapeHtml(dateLine)}</span><span class="event-type">${priority ? 'Prioridad' : 'Evento'}</span></span>
       <h4>${escapeHtml(title)}</h4>
-      <span class="event-open">Ver detalle →</span>
-    </button>
+      <span class="event-open">${actionLabel}</span>`;
+  return `<article class="ops-card event-card ${priority ? 'is-priority' : ''}">
+    ${destination.kind === 'informative'
+      ? `<div class="event-card-main is-static" aria-label="${escapeHtml(title)}">${content}</div>`
+      : `<button class="event-card-main" type="button" data-open-event-id="${escapeHtml(e.ID)}" aria-label="${escapeHtml(actionLabel.replace(' →',''))}: ${escapeHtml(title)}">${content}</button>`}
   </article>`;
 }
 function eventGroups(events){
@@ -500,8 +523,10 @@ function bindOperationalActions(){
     if(eventCardButton){
       const item = (state.operacional.eventos || []).find(entry => String(entry.ID) === eventCardButton.dataset.openEventId);
       if(!item) return;
+      const destination = eventDestination(item);
+      if(destination.kind === 'informative') return;
       const dateLine = `${fmtDDMM(item['Fecha Inicio'])}${item['Fecha Fin'] ? ' al ' + fmtDDMM(item['Fecha Fin']) : ''}`;
-      window.dispatchEvent(new CustomEvent('dgx:open-detail', {detail:{
+      window.dispatchEvent(new CustomEvent('dgx:open-destination', {detail:{
         trigger:eventCardButton,
         item:{
           id:`event-${item.ID}`,
@@ -512,8 +537,8 @@ function bindOperationalActions(){
           dateLabel:dateLine,
           fullImage:item.ImagenPath || '',
           imageOriginal:item.ImagenOriginal || item.ImagenPath || '',
-          link:item.Link || '',
-          section:'eventos-cms'
+          link:destination.link,
+          section:''
         }
       }}));
     }

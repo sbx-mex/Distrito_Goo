@@ -380,13 +380,16 @@ def build(root: Path, sheets: dict[str, list[dict[str, Any]]]) -> list[Path]:
             continue
         mixed = str(row.pop("Link/Imagen", "") or "").strip()
         link = mixed if re.match(r"^https?://", mixed, re.I) else ""
-        img_candidate = "" if link else mixed
+        image_field = str(row.get("Imagen", "") or "").strip()
+        image_in_icon_field = image_field if re.search(r"\.(?:avif|gif|jpe?g|png|webp)$", image_field, re.I) else ""
+        img_candidate = image_in_icon_field or ("" if link else mixed)
+        icon = "🚨" if image_in_icon_field else image_field
         events.append({
             "ID": row.get("ID", ""), "Actividad": row.get("Nombre Evento", ""),
             "Contexto / Recordatorio": row.get("Descripción", ""),
             "Fecha Inicio": row.get("Fecha Inicio", ""), "Fecha Fin": row.get("Fecha Fin", ""),
             "Región": row.get("Región", ""), "Distrito": row.get("Distrito", ""),
-            "Tienda": row.get("Tienda", ""), "Publicar": True, "Imagen": row.get("Imagen", ""),
+            "Tienda": row.get("Tienda", ""), "Publicar": True, "Imagen": icon,
             "Link": link, "ImagenPath": image_path(img_candidate, root) if img_candidate else "",
             "MiniaturaPath": thumbnail_image_path(img_candidate, root) if img_candidate else "",
             "ImagenOriginal": original_image_path(img_candidate, root) if img_candidate else ""

@@ -6,7 +6,7 @@ import { isContentSaved } from './experience.js';
 const today = new Date();
 const dayNames = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
 let periodFilter = 'week';
-let eventFilter = 'upcoming';
+let eventFilter = 'today';
 let actionsBound = false;
 let activePartnerRoute = 'courses';
 const deferredRendered = new Set();
@@ -47,7 +47,7 @@ function briefText(text='', max=82){
   const clean = String(text || '').replace(/https?:\/\/\S+/g,'').replace(/\s+/g,' ').trim();
   return clean.length > max ? clean.slice(0, max-1).trim() + '…' : clean;
 }
-function getWeekNumber(d){
+export function getWeekNumber(d){
   const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
   const dayNum = date.getUTCDay() || 7;
   date.setUTCDate(date.getUTCDate() + 4 - dayNum);
@@ -74,6 +74,14 @@ function renderResourceAction(item){
 function opsCard(title, text, icon='✅', extra='', item=null){
   return `<article class="ops-card"><div class="ops-icon">${icon}</div><div class="ops-content"><h4>${escapeHtml(title || 'Actividad')}</h4><p>${escapeHtml(briefText(text))}</p>${extra ? `<div class="inline-actions">${extra}</div>` : ''}</div></article>`;
 }
+export function planningWindow(reference, leadDays=15){
+  const planningDate = addDays(reference, leadDays);
+  return {planningDate, weekStart:startOfWeek(planningDate), weekEnd:endOfWeek(planningDate), week:getWeekNumber(planningDate)};
+}
+function planningLeadDays(){
+  const match = String(state.operacional.wfmRegla || '').match(/(\d+)\s*d[ií]as?/i);
+  return Math.max(1, Number(match?.[1]) || 15);
+}
 function isCurrentlyValid(item){
   const now = new Date();
   const start = parseDate(item?.['Vigencia Inicio']);
@@ -93,9 +101,12 @@ function validityLabel(item){
 function eventCard(e){
   const title = e.Actividad || 'Evento';
   const dateLine = `${fmtDDMM(e['Fecha Inicio'])}${e['Fecha Fin'] ? ' al ' + fmtDDMM(e['Fecha Fin']) : ''}`;
-  return `<article class="ops-card event-card">
+  const priority = /referente operativo/i.test(title);
+  const media = e.MiniaturaPath || e.ImagenPath || '';
+  return `<article class="ops-card event-card ${priority ? 'is-priority' : ''}">
     <button class="event-card-main" type="button" data-open-event-id="${escapeHtml(e.ID)}" aria-label="Abrir detalle de ${escapeHtml(title)}">
-      <span class="event-card-top"><span class="event-date">${escapeHtml(dateLine)}</span><span class="event-type">Evento</span></span>
+      ${media ? `<img class="event-card-media" src="${escapeHtml(media)}" alt="" loading="lazy"/>` : ''}
+      <span class="event-card-top"><span class="event-date">${escapeHtml(dateLine)}</span><span class="event-type">${priority ? 'Prioridad' : 'Evento'}</span></span>
       <h4>${escapeHtml(title)}</h4>
       <span class="event-open">Ver detalle →</span>
     </button>
@@ -179,31 +190,23 @@ export function renderToday(){
   setHtmlIfPresent('weekly-grid', weekly.length ? weekly.map(a => opsCard(a.Actividad, `${a['Descripción'] || ''}${a['Hora / Corte'] ? ' · ' + a['Hora / Corte'] : ''}`, a.Icono || '📌', a.Link ? `<a class="mini-link" href="${escapeHtml(a.Link)}" target="_blank" rel="noopener">Abrir link</a>` : '')).join('') : opsCard('Sin actividad semanal específica', 'Mantén foco en apertura, calidad y seguimiento.', '☕'));
 }
 function renderWFM(day, todayActivity){
-  const planningDate = addDays(today, 15);
-  const weekStart = startOfWeek(planningDate);
-  const weekEnd = endOfWeek(planningDate);
-  const currentWeekStart = startOfWeek(today);
-  const currentWeekEnd = endOfWeek(today);
+  const leadDays = planningLeadDays();
+  const {planningDate, weekStart, weekEnd, week} = planningWindow(today, leadDays);
   const next = nextWeeklyActivity(day);
-  const todayLabel = today.toLocaleDateString('es-MX', { weekday:'long', day:'2-digit', month:'long' });
-  const planningLabel = `${fmtDDMM(weekStart)} al ${fmtDDMM(weekEnd)}`;
-  const currentLabel = `${fmtDDMM(currentWeekStart)} al ${fmtDDMM(currentWeekEnd)}`;
+  const todayLabel = today.toLocaleDateString('es-MX', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+  const planningLabel = `${weekStart.toLocaleDateString('es-MX',{day:'numeric',month:'long'})} al ${weekEnd.toLocaleDateString('es-MX',{day:'numeric',month:'long'})}`;
   const actionTitle = `${todayActivity?.Icono || '✅'} ${escapeHtml(todayActivity?.Actividad || 'Revisión operativa')}`;
   const actionText = briefText(todayActivity?.['Descripción'] || 'Revisa prioridades del día y anticipa necesidades de la semana en planeación.', 150);
   setHtmlIfPresent('wfm-card', `
-    <div class="wfm-head"><span>📅 WFM</span><strong>${escapeHtml(todayActivity?.Actividad || 'Planeación')}</strong></div>
+    <div class="wfm-head"><div><span>📅 WFM</span><strong>Planeación Inteligente</strong></div><b class="wfm-lead">${leadDays} días de anticipación</b></div>
     <div class="wfm-timeline" aria-label="Planeación WFM">
-      <div class="wfm-step is-now"><small>Hoy</small><b>${escapeHtml(todayLabel)}</b><em>Semana actual ${getWeekNumber(today)}</em></div>
-      <div class="wfm-connector">+15 días</div>
-      <div class="wfm-step is-plan"><small>Semana en planeación</small><b>Semana ${getWeekNumber(planningDate)}</b><em>${planningLabel}</em></div>
-    </div>
-    <div class="wfm-grid">
-      <div><small>Actual</small><b>${currentLabel}</b></div>
-      <div><small>Objetivo</small><b>${planningLabel}</b></div>
-      <div><small>Hoy</small><b>${escapeHtml(day)}</b></div>
+      <div class="wfm-step is-now"><small>Hoy · Semana ${getWeekNumber(today)}</small><b>${escapeHtml(todayLabel)}</b></div>
+      <div class="wfm-connector">+${leadDays} días</div>
+      <div class="wfm-step is-plan"><small>Semana en planeación</small><b>Semana ${week}</b><em>${planningLabel}</em></div>
     </div>
     <div class="wfm-action"><small>Actividad de hoy</small><strong>${actionTitle}</strong><p>${escapeHtml(actionText)}</p></div>
-    ${next ? `<div class="wfm-next"><small>Siguiente paso</small><span>${next.Icono || '⏭️'} ${escapeHtml(next.Actividad)}</span></div>` : ''}`);
+    ${next ? `<div class="wfm-next"><small>Próxima actividad</small><span>${next.Icono || '⏭️'} ${escapeHtml(next.Actividad)}</span></div>` : ''}
+    <p class="wfm-auto">💡 Se actualiza automáticamente con la fecha actual y la pestaña WFM del CMS.</p>`);
 }
 
 export function renderInformativo(){
@@ -255,9 +258,9 @@ export function renderInformativo(){
 export function renderEvents(){
   const all = (state.operacional.eventos || []).filter(item => matchesSelectedStore(item.Tienda));
   const now = startOfDay(today);
-  const bounds = eventFilter === 'month'
-    ? periodBounds(today, 'month')
-    : periodBounds(today, 'week');
+  const bounds = eventFilter === 'today'
+    ? {start:now, end:endOfDay(today)}
+    : eventFilter === 'month' ? periodBounds(today, 'month') : periodBounds(today, 'week');
   const {start, end} = bounds;
   const filtered = all.filter(e => e.Publicar !== false && inRange(e,start,end))
     .filter(e => eventFilter !== 'upcoming' || (parseDate(e['Fecha Fin']) || parseDate(e['Fecha Inicio']) || now) >= now)
@@ -266,8 +269,12 @@ export function renderEvents(){
     ? all.filter(e => e.Publicar !== false && (parseDate(e['Fecha Fin']) || parseDate(e['Fecha Inicio']) || now) >= now)
         .sort((a,b)=>(parseDate(a['Fecha Inicio'])||0)-(parseDate(b['Fecha Inicio'])||0))
     : filtered;
-  const visible = upcoming.slice(0,18);
-  const label = eventFilter === 'upcoming' ? 'próximos' : eventFilter === 'week' ? 'esta semana' : 'este mes';
+  const ranked = [...upcoming].sort((a,b) => {
+    const priority = item => /referente operativo/i.test(String(item.Actividad || '')) ? 0 : inRange(item, now, endOfDay(today)) ? 1 : 2;
+    return priority(a) - priority(b) || (parseDate(a['Fecha Inicio'])||0) - (parseDate(b['Fecha Inicio'])||0);
+  });
+  const visible = ranked.slice(0,18);
+  const label = eventFilter === 'today' ? 'vigentes hoy' : eventFilter === 'upcoming' ? 'próximos' : eventFilter === 'week' ? 'esta semana' : 'este mes';
   setTextIfPresent('events-count', `${upcoming.length} ${label}`);
   setHtmlIfPresent('events-grid', eventGroups(visible) || opsCard('Sin eventos vigentes', 'No hay eventos publicados para este periodo.', '📅'));
   const celebrationBounds = periodBounds();

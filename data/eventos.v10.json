@@ -766,5 +766,21 @@
     "ImagenPath": "",
     "MiniaturaPath": "",
     "ImagenOriginal": ""
+  },
+  {
+    "ID": "EVT-049",
+    "Actividad": "ECO 2026 | Referente operativo",
+    "Contexto / Recordatorio": "Consulta el referente ECO 2026 y valida oportunamente los requerimientos aplicables. Acceso disponible en Slik Pro.",
+    "Fecha Inicio": "2026-08-01T12:00:00",
+    "Fecha Fin": "2026-08-23T12:00:00",
+    "Región": "Centro Norte",
+    "Distrito": "Enrique Cesar Flores",
+    "Tienda": "Todas",
+    "Publicar": true,
+    "Imagen": "🚨",
+    "Link": "https://app.slikpro.com/login/alsea",
+    "ImagenPath": "assets/photos/eco_2026.webp?v=39e9f3c8798a",
+    "MiniaturaPath": "assets/photos/eco_2026.thumb.webp?v=2fb3fa5c0785",
+    "ImagenOriginal": "assets/photos/eco_2026.jpeg?v=eee5a15b726f"
   }
 ]

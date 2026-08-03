@@ -4,13 +4,17 @@ on:
   workflow_dispatch:
     inputs:
       accion:
-        description: "Auditar o borrar los archivos huérfanos confirmados"
+        description: "Primero audita; borra únicamente con confirmación exacta"
         required: true
         default: "AUDITAR"
         type: choice
         options:
           - AUDITAR
           - BORRAR_CONFIRMADO
+      confirmacion:
+        description: "Para borrar escribe: ELIMINAR_ARCHIVOS_HUERFANOS"
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -23,7 +27,7 @@ jobs:
   limpieza:
     if: github.repository == 'sbx-mx/Distrito_Goo'
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
 
     steps:
       - name: Descargar repositorio
@@ -35,37 +39,71 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
 
-      - name: Auditar archivos huérfanos
+      - name: Instalar dependencias
+        run: python -m pip install --disable-pip-version-check -r requirements.txt
+
+      - name: Auditar sin borrar
+        run: python tools/cleanup_unused.py --report reports/unused-files.json
+
+      - name: Validar antes de la limpieza
+        run: python tools/quality_gate.py --report reports/quality-gate-before-cleanup.json
+
+      - name: Comprobar autorización de borrado
+        if: inputs.accion == 'BORRAR_CONFIRMADO'
         shell: bash
+        env:
+          CONFIRMACION: ${{ inputs.confirmacion }}
         run: |
           set -euo pipefail
-          if [ "${{ inputs.accion }}" = "BORRAR_CONFIRMADO" ]; then
-            python tools/cleanup_unused.py --apply --report reports/unused-files.json
-          else
-            python tools/cleanup_unused.py --report reports/unused-files.json
+          if [ "$CONFIRMACION" != "ELIMINAR_ARCHIVOS_HUERFANOS" ]; then
+            echo "Confirmación inválida. No se eliminó ningún archivo."
+            exit 1
+          fi
+          if [ "${{ github.ref }}" != "refs/heads/main" ]; then
+            echo "La eliminación solo está permitida desde main."
+            exit 1
           fi
 
-      - name: Validar proyecto después de la auditoría
+      - name: Eliminar candidatos confirmados
+        if: inputs.accion == 'BORRAR_CONFIRMADO'
+        run: >-
+          python tools/cleanup_unused.py --apply
+          --confirm ELIMINAR_ARCHIVOS_HUERFANOS
+          --report reports/unused-files.json
+
+      - name: Validar después de la limpieza
+        if: inputs.accion == 'BORRAR_CONFIRMADO'
         shell: bash
         run: |
           set -euo pipefail
-          python tools/audit_static.py
+          python tools/quality_gate.py --report reports/quality-gate-after-cleanup.json
           find modules -name '*.js' -print0 | xargs -0 -n1 node --check
           node --check sw.js
+          node tools/test_experience_v37.mjs --report reports/v37-validation.json
 
-      - name: Publicar limpieza confirmada
+      - name: Conservar evidencia
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: auditoria-limpieza-${{ github.run_number }}
+          path: |
+            reports/unused-files.json
+            reports/quality-gate-before-cleanup.json
+            reports/quality-gate-after-cleanup.json
+            reports/v37-validation.json
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Publicar limpieza validada
         if: inputs.accion == 'BORRAR_CONFIRMADO' && github.ref == 'refs/heads/main'
         shell: bash
         run: |
           set -euo pipefail
           deleted_count="$(python -c "import json; print(len(json.load(open('reports/unused-files.json', encoding='utf-8'))['deleted']))")"
           if [ "$deleted_count" = "0" ]; then
-            rm -f reports/unused-files.json
-            echo "No se detectaron archivos seguros para eliminar." >> "$GITHUB_STEP_SUMMARY"
-            exit 0
-          fi
-          if git diff --quiet && [ -z "$(git ls-files --others --exclude-standard)" ]; then
             echo "No se detectaron archivos seguros para eliminar." >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
@@ -74,4 +112,4 @@ jobs:
           git add -A
           git commit -m "Eliminar archivos sin uso comprobado"
           git push
-          echo "Limpieza validada y publicada." >> "$GITHUB_STEP_SUMMARY"
+          echo "Se eliminaron $deleted_count archivos; Git conserva el historial recuperable." >> "$GITHUB_STEP_SUMMARY"

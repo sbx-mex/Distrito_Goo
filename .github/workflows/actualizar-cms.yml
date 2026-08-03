@@ -70,6 +70,7 @@ jobs:
           find modules -name '*.js' -print0 | xargs -0 -n1 node --check
           node --check sw.js
           node tools/test_experience_v37.mjs --report reports/v37-validation.json
+          python tools/quality_gate.py --report reports/quality-gate.json
 
       - name: Comprobar alcance generado
         shell: bash

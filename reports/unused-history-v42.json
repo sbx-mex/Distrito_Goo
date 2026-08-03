@@ -1,0 +1,161 @@
+{
+  "ok": true,
+  "mode": "apply",
+  "summary": {
+    "candidates": 21,
+    "deleted": 21,
+    "recoverableWithGit": true
+  },
+  "candidates": [
+    {
+      "path": "tools/test_experience_v27.mjs",
+      "reason": "prueba histórica sustituida y no referenciada por ningún workflow",
+      "bytes": 3754,
+      "sha256": "814d9a8ac37be01686ab6689dc0c3d5b3a4439202c3943e633bad62211f7576f"
+    },
+    {
+      "path": "tools/test_experience_v28.mjs",
+      "reason": "prueba histórica sustituida y no referenciada por ningún workflow",
+      "bytes": 2702,
+      "sha256": "9e38ec2dcf6f78821101e2e6809f3d0a0e7810ac05483de262d994546583e17b"
+    },
+    {
+      "path": "tools/test_experience_v31.mjs",
+      "reason": "prueba histórica sustituida y no referenciada por ningún workflow",
+      "bytes": 8993,
+      "sha256": "c476600ab0a0c78c4a14e609167d9f0cdfe601a84c1905e956c8370032788188"
+    },
+    {
+      "path": "tools/test_experience_v32.mjs",
+      "reason": "prueba histórica sustituida y no referenciada por ningún workflow",
+      "bytes": 3968,
+      "sha256": "1fa848cf786e56be5a3299401ca7939d6be29b3fd7e4e9a0d9f786945d4354eb"
+    },
+    {
+      "path": "tools/test_experience_v33.mjs",
+      "reason": "prueba histórica sustituida y no referenciada por ningún workflow",
+      "bytes": 4765,
+      "sha256": "cfd586387c51db4acd165ad2bf82c6b79025508c5e8469f23429ebe28f7fc332"
+    },
+    {
+      "path": "tools/test_experience_v34.mjs",
+      "reason": "prueba histórica sustituida y no referenciada por ningún workflow",
+      "bytes": 3780,
+      "sha256": "c1ed4563e3d78d17837e6ddb51ffd688ba2651aed6db4a6d26edb8ea67220e2e"
+    },
+    {
+      "path": "tools/test_experience_v35.mjs",
+      "reason": "prueba histórica sustituida y no referenciada por ningún workflow",
+      "bytes": 5043,
+      "sha256": "c1feba5f4f8de010661236e4c8894ef267c62ba0fb0bc62a3cf53adfb05f97be"
+    },
+    {
+      "path": "tools/test_experience_v36.mjs",
+      "reason": "prueba histórica sustituida y no referenciada por ningún workflow",
+      "bytes": 7777,
+      "sha256": "3706b3833963e6a1e51a248f10a435e775554efa18d2cde2069a41dddda8430f"
+    },
+    {
+      "path": "reports/quality-gate-v41.json",
+      "reason": "evidencia histórica anterior a v42; la validación vigente la sustituye",
+      "bytes": 4768,
+      "sha256": "5b9824aa59a48f0c6433bcfaa1f434e1672927526c130d65b86fb80756d43d3a"
+    },
+    {
+      "path": "reports/v22-validation.json",
+      "reason": "evidencia histórica anterior a v42; la validación vigente la sustituye",
+      "bytes": 2471,
+      "sha256": "b7c669561feddeae2b95baef2653f1aba6dabe506f1b255756a06c0e5c717d8c"
+    },
+    {
+      "path": "reports/v23-validation.json",
+      "reason": "evidencia histórica anterior a v42; la validación vigente la sustituye",
+      "bytes": 4427,
+      "sha256": "76d52a9b7387fd1aa54fc112be07e931973a31e22e04aabdab40c144f51bb67c"
+    },
+    {
+      "path": "reports/v25-validation.json",
+      "reason": "evidencia histórica anterior a v42; la validación vigente la sustituye",
+      "bytes": 5419,
+      "sha256": "5ea32d2d0781f19c1e6ede2f370f8870e4f9168cbe5b1be018727022a1ddb4d5"
+    },
+    {
+      "path": "reports/v26-validation.json",
+      "reason": "evidencia histórica anterior a v42; la validación vigente la sustituye",
+      "bytes": 6135,
+      "sha256": "28e63175316b0185d7432734f4271313c231913195582ce3d48141e75d6e1809"
+    },
+    {
+      "path": "reports/v27-interaction-tests.json",
+      "reason": "evidencia histórica anterior a v42; la validación vigente la sustituye",
+      "bytes": 1167,
+      "sha256": "f4bc23a5da4b9f20eb2f35a4820487e175cc213ca45f94c1c491e1fbee963db8"
+    },
+    {
+      "path": "reports/v27-validation.json",
+      "reason": "evidencia histórica anterior a v42; la validación vigente la sustituye",
+      "bytes": 7416,
+      "sha256": "66c98d42a221d10d9ac41bc461c9c0f81848d04331be6737e9bb146ddc00cb57"
+    },
+    {
+      "path": "reports/v28-catalog-validation.json",
+      "reason": "evidencia histórica anterior a v42; la validación vigente la sustituye",
+      "bytes": 1485,
+      "sha256": "2519544c7ffc9195566458fb5b4fd7383c3812d9ec553d1141cef86f3d420fe5"
+    },
+    {
+      "path": "reports/v28-interaction-tests.json",
+      "reason": "evidencia histórica anterior a v42; la validación vigente la sustituye",
+      "bytes": 1167,
+      "sha256": "f4bc23a5da4b9f20eb2f35a4820487e175cc213ca45f94c1c491e1fbee963db8"
+    },
+    {
+      "path": "reports/v31-validation.json",
+      "reason": "evidencia histórica anterior a v42; la validación vigente la sustituye",
+      "bytes": 5255,
+      "sha256": "30a44124c1ec9fa1b59f3d173e17f2e644464efadd925d9a3a226e2a02f48790"
+    },
+    {
+      "path": "reports/v35-interaction-tests.json",
+      "reason": "evidencia histórica anterior a v42; la validación vigente la sustituye",
+      "bytes": 2428,
+      "sha256": "ebf7f2e69fa47bf95909dfebcb01d081865a32b65e709bfbfdf687e9323aad85"
+    },
+    {
+      "path": "reports/v36-validation.json",
+      "reason": "evidencia histórica anterior a v42; la validación vigente la sustituye",
+      "bytes": 3836,
+      "sha256": "351c608a7b73ef88ca7f4d040ff6d11a3da5fbcd7a403e006e7b51159a1cbe79"
+    },
+    {
+      "path": "reports/v41-navigation-validation.json",
+      "reason": "evidencia histórica anterior a v42; la validación vigente la sustituye",
+      "bytes": 4090,
+      "sha256": "13d8b2f7189fa2689c188075818fa4d30b368abd34291dc16b5e21a83231cfea"
+    }
+  ],
+  "deleted": [
+    "tools/test_experience_v27.mjs",
+    "tools/test_experience_v28.mjs",
+    "tools/test_experience_v31.mjs",
+    "tools/test_experience_v32.mjs",
+    "tools/test_experience_v33.mjs",
+    "tools/test_experience_v34.mjs",
+    "tools/test_experience_v35.mjs",
+    "tools/test_experience_v36.mjs",
+    "reports/quality-gate-v41.json",
+    "reports/v22-validation.json",
+    "reports/v23-validation.json",
+    "reports/v25-validation.json",
+    "reports/v26-validation.json",
+    "reports/v27-interaction-tests.json",
+    "reports/v27-validation.json",
+    "reports/v28-catalog-validation.json",
+    "reports/v28-interaction-tests.json",
+    "reports/v31-validation.json",
+    "reports/v35-interaction-tests.json",
+    "reports/v36-validation.json",
+    "reports/v41-navigation-validation.json"
+  ],
+  "protectedPolicy": "Nunca elimina data, CMS, workflows, documentación vigente, iconos PWA ni pruebas/reportes actuales; la limpieza histórica se limita a patrones versionados comprobables."
+}

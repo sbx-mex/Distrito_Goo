@@ -21,7 +21,7 @@ export function bindPWA(){
     waitingWorker.postMessage({type:'SKIP_WAITING'});
   });
   if('serviceWorker' in navigator){
-    navigator.serviceWorker.register('./sw.js?v=18.0.0', {updateViaCache:'none'}).then(reg => {
+    navigator.serviceWorker.register('./sw.js?v=42.0.0', {updateViaCache:'none'}).then(reg => {
       if(reg.waiting) showUpdate(reg);
       reg.update().catch(() => {});
       reg.addEventListener('updatefound', () => {

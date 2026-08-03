@@ -113,8 +113,11 @@ export function nav(view, smooth = true){
   }
   if(view === 'all') revealWorkspace();
   if(!['home','explore','saved','today','coffee','events','duty','weekly-summary','altas','celebrations','informativo','all'].includes(view)){
-    return navigateToSection(view, smooth);
+    const navigated = navigateToSection(view, smooth);
+    window.dispatchEvent(new CustomEvent('dgx:navigation-changed', {detail:{view}}));
+    return navigated;
   }
+  window.dispatchEvent(new CustomEvent('dgx:navigation-changed', {detail:{view}}));
   return true;
 }
 

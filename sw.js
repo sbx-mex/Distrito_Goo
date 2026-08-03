@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'distrito-go-';
-const CACHE_NAME = `${CACHE_PREFIX}v41.0.0-destinos-reales`;
+const CACHE_NAME = `${CACHE_PREFIX}v42.0.0-centro-operativo`;
 const APP_SHELL = [
   './',
   './index.html',
@@ -34,6 +34,7 @@ const APP_SHELL = [
   './modules/operational.js',
   './modules/experience.js',
   './modules/search.js',
+  './modules/operations-center.js',
   './assets/icons/icon-192.png',
   './assets/icons/icon-512.png',
 ];

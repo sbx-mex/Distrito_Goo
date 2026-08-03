@@ -1,4 +1,4 @@
-# Distrito Goo — versión 41 · destinos reales
+# Distrito Goo — versión 42 · centro operativo
 
 Distrito Goo continúa siendo una PWA 100% estática para GitHub Pages. Python se utiliza únicamente durante auditoría y compilación para validar el CMS y generar JSON; no forma parte del runtime ni requiere servidor.
 
@@ -10,7 +10,9 @@ Distrito Goo continúa siendo una PWA 100% estática para GitHub Pages. Python s
 - `tools/audit_static.py`: valida JSON, rutas locales, IDs HTML, navegación y APP_SHELL.
 - `tools/cleanup_unused.py`: detecta recursos huérfanos con una política conservadora y solo los elimina con confirmación explícita.
 - `.github/workflows/actualizar-cms.yml`: valida y publica cada reemplazo del CMS o de una imagen fuente.
+- `modules/operations-center.js`: centro de mando, perfil de tienda, vigencia y ruta contextual.
 - `sw.js`: caché offline compatible con rutas relativas de GitHub Pages.
+- `.github/workflows/pruebas-navegacion-real.yml`: navegación real con Chromium en 320, 390, 768 y 1440 px.
 
 ## Actualizar desde el CMS
 
@@ -38,12 +40,13 @@ python tools/audit_static.py
 
 Publicar el contenido de la raíz de `main` mediante **Deploy from a branch**. Conservar `.nojekyll`, las rutas relativas `./` y todos los archivos incluidos en `APP_SHELL`.
 
-Después de publicar una nueva versión, abrir la PWA una vez con conexión para instalar la caché `distrito-go-v41.0.0-destinos-reales`.
+Después de publicar una nueva versión, abrir la PWA una vez con conexión para instalar la caché `distrito-go-v42.0.0-centro-operativo`.
 
 ## Inicio y navegación
 
-- Existe un único menú horizontal y centrado con `Inicio`, `Explorar` y `Guardados` en computadora, PWA, tableta y móvil. La opción redundante `Buscar` fue retirada.
-- Inicio presenta `Rutina diaria` como catálogo horizontal y una semana de lunes a domingo con fecha real, un día seleccionado y una actividad por posición.
+- Existe un único menú horizontal y centrado con `Inicio`, `Explorar` y `Guardados`; la búsqueda global está siempre disponible desde el encabezado y abre el buscador único de Explorar.
+- Inicio incorpora un centro de mando con avance diario, inventario próximo, vencimientos, desarrollo y un perfil de tienda persistente.
+- La agenda presenta hoy, mañana y el resto de la semana, además de los siete días con fecha real y actividades gobernadas por el CMS.
 - `JUNTÉMONOS MÁS` se renderiza desde `data/identity.json` con saludo, fecha, ruta y mensaje dinámicos.
 - `Personas` muestra recursos generales y las rutas vigentes de Desarrollo Partner.
 - `Peak` no aparece como acceso principal. Su contenido real permanece dentro de `Operación`, especialmente en Duty Roster, ritmo, cobertura y despliegue.
@@ -51,7 +54,7 @@ Después de publicar una nueva versión, abrir la PWA una vez con conexión para
 - Las acciones `Abrir` o `Ir a la sección` se muestran únicamente cuando existe una sección específica, imagen, enlace web o acción real. Los registros sin destino permanecen informativos y no pueden abrirse ni guardarse.
 - `Celebraciones` no se ofrece como tarjeta en Explorar; las celebraciones reales continúan visibles en Semana y en su apartado operativo.
 - Las actividades sin destino real permanecen informativas y no muestran una acción simulada.
-- Los checks aparecen únicamente cuando el CMS declara explícitamente que una actividad es verificable.
+- Los checks se habilitan únicamente en rutinas diarias y actividades semanales operativas; su avance se reinicia por fecha y conserva 14 días locales.
 - `Guardados` conserva identificadores estables del CMS en el dispositivo y sincroniza el corazón entre tarjetas, catálogo, búsqueda, detalle y herramientas.
 - La información completa se abre en el visor interno; las tarjetas no duplican la descripción extensa.
 - Maquila, comunicados e infografías utilizan portadas HTML/CSS; el original se abre completo en el visor interno.

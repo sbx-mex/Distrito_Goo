@@ -30,6 +30,7 @@ export async function loadData(){
   state.dashboard = loaded.dashboard;
   state.favoritosBase = loaded.favoritos;
   state.version = loaded.version;
+  state.cmsBuild = loaded.cmsBuild;
   state.operacional = loaded.operacional;
   state.partnerDevelopment = loaded.partnerDevelopment;
   if(!Array.isArray(state.favorites)){

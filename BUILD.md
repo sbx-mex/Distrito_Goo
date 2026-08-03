@@ -1,4 +1,4 @@
-# Build y despliegue — destinos reales v41
+# Build y despliegue — centro operativo v42
 
 ```bash
 python -m pip install -r requirements.txt
@@ -10,6 +10,8 @@ python tools/audit_links.py Distrito_Go_CMS_v2_actualizado.xlsx --report reports
 python tools/audit_static.py
 find modules -name '*.js' -print0 | xargs -0 -n1 node --check
 node --check sw.js
+node tools/test_experience_v37.mjs --report reports/v42-compatibility.json
+node tools/test_enhancements_v42.mjs --report reports/v42-enhancements.json
 ```
 
 Publicar la raíz del repositorio desde `main` con **GitHub Pages · Deploy from a branch** y conservar `.nojekyll`. El service worker instala la nueva versión en espera y sólo se activa cuando el usuario selecciona **Actualizar**.
@@ -34,7 +36,11 @@ Favoritos se guarda localmente mediante IDs estables y se sincroniza entre
 catálogo, detalle y Guardados.
 
 La navegación principal permanece horizontal y centrada desde 320 px. Semana
-presenta los siete días con su fecha real y una actividad por posición. Explorar
+presenta agenda de hoy, mañana y resto de la semana, además de los siete días con su fecha real. Explorar
 no muestra herramientas hasta que el usuario selecciona un filtro. El bloque
 `JUNTÉMONOS MÁS` se alimenta de `data/identity.json`; no debe reemplazarse por
 texto fijo en HTML.
+
+El workflow `pruebas-navegacion-real.yml` instala Chromium y valida carga,
+búsqueda, navegación contextual, retorno a Inicio y ausencia de cortes
+horizontales en 320, 390, 768 y 1440 px.

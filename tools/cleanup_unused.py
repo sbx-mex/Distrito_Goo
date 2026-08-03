@@ -26,6 +26,8 @@ REFERENCE_RE = re.compile(
 )
 SW_SHELL_RE = re.compile(r"const APP_SHELL = \[(.*?)\];", re.S)
 CONFIRMATION = "ELIMINAR_ARCHIVOS_HUERFANOS"
+CURRENT_TESTS = {"test_experience_v37.mjs", "test_enhancements_v42.mjs", "test_navigation_e2e.mjs"}
+HISTORICAL_REPORT_RE = re.compile(r"^(?:quality-gate-v|v)(\d+)(?:[-.].*)?\.(?:json|md)$", re.I)
 
 
 def relative(path: Path) -> str:
@@ -135,6 +137,26 @@ def build_report(apply: bool, confirmation: str) -> dict[str, object]:
                     "sha256": sha256(path),
                 })
 
+    workflow_corpus = "\n".join(read_text(path) for path in (ROOT / ".github" / "workflows").glob("*.yml"))
+    for path in sorted((ROOT / "tools").glob("test_experience_v*.mjs")):
+        if path.name not in CURRENT_TESTS and path.name not in workflow_corpus:
+            candidates.append({
+                "path": relative(path),
+                "reason": "prueba histórica sustituida y no referenciada por ningún workflow",
+                "bytes": path.stat().st_size,
+                "sha256": sha256(path),
+            })
+
+    for path in sorted((ROOT / "reports").glob("*")):
+        match = HISTORICAL_REPORT_RE.match(path.name)
+        if path.is_file() and match and int(match.group(1)) < 42:
+            candidates.append({
+                "path": relative(path),
+                "reason": "evidencia histórica anterior a v42; la validación vigente la sustituye",
+                "bytes": path.stat().st_size,
+                "sha256": sha256(path),
+            })
+
     if apply and confirmation != CONFIRMATION:
         raise SystemExit(f"Confirmación inválida. Usa --confirm {CONFIRMATION}")
 
@@ -156,7 +178,7 @@ def build_report(apply: bool, confirmation: str) -> dict[str, object]:
         },
         "candidates": candidates,
         "deleted": deleted,
-        "protectedPolicy": "Nunca elimina data, CMS, workflows, tools, documentación, iconos PWA ni archivos fuera de las carpetas permitidas.",
+        "protectedPolicy": "Nunca elimina data, CMS, workflows, documentación vigente, iconos PWA ni pruebas/reportes actuales; la limpieza histórica se limita a patrones versionados comprobables.",
     }
 
 

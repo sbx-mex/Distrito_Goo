@@ -72,6 +72,7 @@ def inspect_project(cms: Path) -> dict[str, Any]:
     navigation = (ROOT / "modules" / "navigation.js").read_text(encoding="utf-8")
     search = (ROOT / "modules" / "search.js").read_text(encoding="utf-8")
     experience = (ROOT / "modules" / "experience.js").read_text(encoding="utf-8")
+    operations_center = (ROOT / "modules" / "operations-center.js").read_text(encoding="utf-8")
     nav_views = re.findall(r'<button class="nav-item[^>]*data-view="([^"]+)"', html)
     gate.check("1 · Funcional", "Navegación principal estable", nav_views == ["home", "explore", "saved"], ", ".join(nav_views))
     strict_destinations = (
@@ -87,6 +88,10 @@ def inspect_project(cms: Path) -> dict[str, Any]:
     gate.check("4 · Experiencia", "Navegación por teclado", all(token in navigation for token in ("ArrowLeft", "ArrowRight", "Home", "End")), "flechas, Inicio y Fin")
     gate.check("4 · Experiencia", "Foco y movimiento reducidos", "prefers-reduced-motion" in navigation and "focusViewTarget" in navigation, "foco al destino y desplazamiento adaptable")
     gate.check("4 · Experiencia", "Escape limpia el buscador", "event.key === 'Escape'" in search, "atajo reversible")
+    gate.check("4 · Experiencia", "Centro de mando operativo", 'id="command-center"' in html and "renderOperationalCenter" in operations_center, "prioridades, avance, inventario y vencimientos")
+    gate.check("4 · Experiencia", "Perfil por tienda", 'id="store-profile-select"' in html and "matchesSelectedStore" in operations_center, "preferencia local aplicada al CMS")
+    gate.check("4 · Experiencia", "Agenda y progreso diario", "agenda-overview" in experience and "completionDateKey" in experience, "hoy, mañana, resto y reinicio por fecha")
+    gate.check("4 · Experiencia", "Contenido temporal centralizado", "bearista-informativo" not in html and "contest-hero" not in html, "sin duplicados fuera del CMS")
 
     manifest = load_json(ROOT / "manifest.json")
     icons = manifest.get("icons", [])
@@ -107,8 +112,10 @@ def inspect_project(cms: Path) -> dict[str, Any]:
     gate.check("5 · Publicación", "Limpieza en modo auditoría", cleanup["ok"], f"{cleanup['summary']['candidates']} candidatos; 0 eliminados")
     workflow = (ROOT / ".github" / "workflows" / "control-calidad.yml").read_text(encoding="utf-8")
     cleanup_workflow = (ROOT / ".github" / "workflows" / "limpieza-archivos-sin-uso.yml").read_text(encoding="utf-8")
+    browser_workflow = (ROOT / ".github" / "workflows" / "pruebas-navegacion-real.yml").read_text(encoding="utf-8")
     gate.check("5 · Publicación", "Control previo a publicar", "tools/quality_gate.py" in workflow and "pull_request:" in workflow, "push, PR y ejecución manual")
     gate.check("5 · Publicación", "Borrado con confirmación explícita", "ELIMINAR_ARCHIVOS_HUERFANOS" in cleanup_workflow and "--confirm" in cleanup_workflow, "auditoría antes y validación después")
+    gate.check("5 · Publicación", "Navegación real en navegador", all(token in browser_workflow for token in ("playwright", "320", "390", "768", "1440")), "Chromium en cuatro anchos")
 
     critical_failed = [item for item in gate.checks if not item["ok"] and item["severity"] == "critical"]
     warnings = [item for item in gate.checks if not item["ok"] and item["severity"] == "warning"]

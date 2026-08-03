@@ -1,4 +1,4 @@
-import { state } from './state.js';
+import { matchesSelectedStore, state } from './state.js';
 import { $, $$, escapeHtml } from './utils.js';
 import { toast } from './toast.js';
 import { isContentSaved } from './experience.js';
@@ -108,7 +108,7 @@ function celebrationEvents(start, end){
   const output = [];
   for(const partner of state.operacional.celebraciones || []){
     const source = parseDate(partner.Fecha);
-    if(!source || partner.Publicar === false) continue;
+    if(!source || partner.Publicar === false || !matchesSelectedStore(partner.TIENDA)) continue;
     for(let year=start.getFullYear(); year<=end.getFullYear(); year++){
       const occurrence = new Date(year, source.getMonth(), source.getDate());
       if(occurrence < start || occurrence > end) continue;
@@ -253,7 +253,7 @@ export function renderInformativo(){
   </div>`;
 }
 export function renderEvents(){
-  const all = state.operacional.eventos || [];
+  const all = (state.operacional.eventos || []).filter(item => matchesSelectedStore(item.Tienda));
   const now = startOfDay(today);
   const bounds = eventFilter === 'month'
     ? periodBounds(today, 'month')
@@ -313,11 +313,12 @@ function partnerBoard(route, data, records){
     return `<div class="partner-development-empty"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="21" r="9"/><path d="M15 55c0-13 7-21 17-21s17 8 17 21M11 10h42"/></svg><p>${message}</p></div>`;
   }
   const savedView = route === 'tbw' ? data.vistas?.tbw : data.vistas?.alta;
-  const groups = Array.isArray(savedView?.grupos) && savedView.grupos.length
+  const useSavedSummary = !state.selectedStore;
+  const groups = useSavedSummary && Array.isArray(savedView?.grupos) && savedView.grupos.length
     ? savedView.grupos
     : partnerGroups(records, route);
-  const storeCount = savedView?.tiendas ?? groups.length;
-  const total = savedView?.total ?? records.length;
+  const storeCount = useSavedSummary ? (savedView?.tiendas ?? groups.length) : groups.length;
+  const total = useSavedSummary ? (savedView?.total ?? records.length) : records.length;
   const isTbw = route === 'tbw';
   const title = isTbw ? 'Partners pendientes de TBW' : 'Partners en Cursos de Alta';
   const context = isTbw
@@ -360,10 +361,12 @@ export function renderAltas(route = activePartnerRoute){
   const data = state.partnerDevelopment || {cursosAlta:[],tbwPendientes:[]};
   const courses = Array.isArray(data.cursosAlta) ? data.cursosAlta : [];
   const tbw = Array.isArray(data.tbwPendientes) ? data.tbwPendientes : [];
-  const records = activePartnerRoute === 'tbw' ? tbw : courses;
-  setTextIfPresent('altas-count', `${courses.length + tbw.length} registros`);
-  setTextIfPresent('courses-route-count', `${courses.length} Partner${courses.length === 1 ? '' : 's'}`);
-  setTextIfPresent('tbw-route-count', `${tbw.length} pendiente${tbw.length === 1 ? '' : 's'}`);
+  const scopedCourses = courses.filter(item => matchesSelectedStore(item.tienda));
+  const scopedTbw = tbw.filter(item => matchesSelectedStore(item.tienda));
+  const records = activePartnerRoute === 'tbw' ? scopedTbw : scopedCourses;
+  setTextIfPresent('altas-count', `${scopedCourses.length + scopedTbw.length} registros`);
+  setTextIfPresent('courses-route-count', `${scopedCourses.length} Partner${scopedCourses.length === 1 ? '' : 's'}`);
+  setTextIfPresent('tbw-route-count', `${scopedTbw.length} pendiente${scopedTbw.length === 1 ? '' : 's'}`);
   document.querySelectorAll('[data-partner-route]').forEach(button => {
     const selected = button.dataset.partnerRoute === activePartnerRoute;
     button.setAttribute('aria-selected', String(selected));

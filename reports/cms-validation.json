@@ -1,21 +1,34 @@
 {
   "ok": true,
   "cms": "Distrito_Go_CMS_v2_actualizado.xlsx",
-  "sheets": {
-    "Informativo": 5,
-    "WFM": 1,
-    "BT": 6,
-    "TBW": 14,
-    "SS": 1,
-    "Links": 46,
-    "Eventos": 27,
-    "Actividades_Semanales": 15,
-    "Actividades_Diaria": 7,
-    "Duty_Roster": 7,
-    "Duty_Detail": 57,
-    "Checklist_Apertura": 10,
-    "Identidad": 8,
-    "Aniversarios_Cumpleanos": 286
+  "summary": {
+    "critical": 0,
+    "warnings": 0
   },
-  "errors": []
+  "metrics": {
+    "sheets": {
+      "Informativo": 7,
+      "WFM": 1,
+      "BT": 6,
+      "TBW": 14,
+      "SS": 1,
+      "Links": 46,
+      "Eventos": 48,
+      "Actividades_Semanales": 15,
+      "Actividades_Diaria": 7,
+      "Duty_Roster": 7,
+      "Duty_Detail": 57,
+      "Checklist_Apertura": 10,
+      "Identidad": 8,
+      "Aniversarios_Cumpleanos": 286
+    },
+    "inventoryEvents": {
+      "weekly": 16,
+      "monthEnd": 5
+    },
+    "records": 513,
+    "informativeHomeItems": 1
+  },
+  "errors": [],
+  "warnings": []
 }

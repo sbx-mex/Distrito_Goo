@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="./styles/variables.css?v=16.4.1" />
   <link rel="stylesheet" href="./styles/app.css?v=22.0.0" />
   <link rel="stylesheet" href="./styles/experience.css?v=24.0.0" />
-  <link rel="stylesheet" href="./styles/clean.css?v=39.0.0" />
+  <link rel="stylesheet" href="./styles/clean.css?v=42.0.0" />
   <link rel="stylesheet" href="./styles/navigation-v26.css?v=38.0.0" />
 </head>
 <body class="v15-starbucks-contrast-experience v16-mobile-launcher-espresso-hub-optimization v16-2-visual-accessibility-refinement">
@@ -27,7 +27,18 @@
         <h1 id="app-title">Distrito Go</h1>
       </div>
     </div>
+    <div class="header-actions" aria-label="Acciones rápidas">
+      <button id="header-search" class="header-search" type="button" aria-label="Buscar en Distrito Go">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        <span>Buscar</span>
+      </button>
+    </div>
   </header>
+  <nav id="context-trail" class="context-trail" aria-label="Ruta de navegación" hidden>
+    <button type="button" data-context-home>Inicio</button>
+    <span aria-hidden="true">/</span>
+    <strong id="context-trail-current">Detalle</strong>
+  </nav>
 <main id="main" class="app-shell" tabindex="-1">
     <section id="visual-home" class="visual-home" aria-labelledby="visual-home-title">
       <div class="visual-home-heading">
@@ -38,6 +49,29 @@
       </div>
 
       <section id="home-view" class="home-view" aria-label="Inicio">
+        <section id="command-center" class="command-center" aria-labelledby="command-center-title">
+          <header class="command-center-head">
+            <div>
+              <span class="visual-overline">Centro de mando</span>
+              <h3 id="command-center-title">Tu operación de hoy</h3>
+              <p id="command-center-summary">Prioridades, vencimientos y avance en un solo lugar.</p>
+            </div>
+            <label class="store-profile" for="store-profile-select">
+              <span>Mi tienda</span>
+              <select id="store-profile-select" aria-describedby="store-profile-help">
+                <option value="">Todo el distrito</option>
+              </select>
+              <small id="store-profile-help">Se guarda únicamente en este dispositivo.</small>
+            </label>
+          </header>
+          <div class="system-status" aria-label="Estado de información">
+            <span id="cms-status"><i aria-hidden="true"></i> CMS</span>
+            <span id="sync-status">Sincronizando…</span>
+            <span id="version-status">Versión</span>
+          </div>
+          <div id="command-center-grid" class="command-center-grid" aria-live="polite"></div>
+        </section>
+
         <section id="juntemonos-hero" class="juntemonos-hero" aria-labelledby="hero-title">
           <div class="juntemonos-copy">
             <span class="juntemonos-eyebrow">Distrito Goo · Conexión que impulsa</span>
@@ -69,8 +103,8 @@
             <div class="home-block-heading">
               <div>
                 <span class="visual-overline">Semana</span>
-                <h3 id="weekly-activity-title">Catálogo de la semana</h3>
-                <p>Selecciona un día y consulta sus actividades una por una.</p>
+                <h3 id="weekly-activity-title">Agenda operativa</h3>
+                <p>Prioriza hoy, mañana y el resto de la semana con fechas reales del CMS.</p>
               </div>
             </div>
             <div id="home-weekly-card" class="home-focus-slot" aria-live="polite"></div>
@@ -207,44 +241,6 @@
     </section>
 
 
-    <section id="bearista-informativo" class="bearista-info hidden" aria-labelledby="bearista-title" data-active-start="2026-07-05" data-active-end="2026-07-06">
-      <div class="bearista-copy">
-        <span class="bearista-badge">Temporal · 5 y 6 de julio</span>
-        <h2 id="bearista-title">Desafío adicional ¿Y Si, 100%?</h2>
-        <p class="bearista-subtitle">Desplazamiento de inventario Bearista Hugger · 6 de julio</p>
-        <p class="bearista-text">Revisa la mecánica completa y promueve el desplazamiento del 100% del inventario.</p>
-        <div class="bearista-actions">
-          <button class="bearista-primary" type="button" data-bearista-modal="./assets/img/bearistahugger.jpeg">Ver imagen completa</button>
-          <a class="bearista-link" href="./assets/img/bearistahugger.jpeg" target="_blank" rel="noopener">Abrir en nueva pestaña</a>
-        </div>
-      </div>
-      <button class="bearista-preview" type="button" data-bearista-modal="./assets/img/bearistahugger.jpeg" aria-label="Ver imagen completa del desafío Bearista Hugger">
-        <img src="./assets/img/bearistahugger.jpeg" alt="Desafío adicional ¿Y Si, 100%? Bearista Hugger" loading="lazy" />
-      </button>
-      <button id="bearista-close" class="bearista-close" type="button" aria-label="Cerrar informativo Bearista Hugger">×</button>
-    </section>
-
-
-
-    <section id="concurso-venta" class="contest-hero contest-executive" aria-labelledby="contest-title">
-      <div class="contest-main">
-        <div class="contest-badge">🏆 Concurso activo</div>
-        <h2 id="contest-title">Concurso de Venta</h2>
-        <div class="contest-kpis" aria-label="Resumen concurso">
-          <div><span>Vigencia</span><strong>03 Jul al 10 Ago</strong></div>
-          <div><span>Avance</span><strong>Ranking diario</strong></div>
-          <div><span>Foco</span><strong>Dona G&G + General</strong></div>
-        </div>
-        <div class="contest-actions">
-          <a class="contest-primary" href="https://sbx-mx.github.io/concurso_venta/" target="_blank" rel="noopener">Ver ranking →</a>
-        </div>
-      </div>
-      <a class="contest-side" href="https://sbx-mx.github.io/concurso_venta/" target="_blank" rel="noopener" aria-label="Abrir Concurso de Venta">
-        <img src="./assets/photos/concurso_venta_dona_julio.jpeg" alt="Concurso Dona Grab and Go" loading="lazy" />
-        <div><strong>🍩 Concurso activo</strong><span>Consulta avance y ranking</span></div>
-      </a>
-    </section>
-
     <section class="period-toolbar celebrations-toolbar" aria-labelledby="period-title">
       <div><strong id="period-title">Celebraciones</strong><span id="period-label"></span></div>
       <div class="segmented-control" role="group" aria-label="Periodo de celebraciones">
@@ -316,6 +312,6 @@
     </button>
   </nav>
 
-  <script type="module" src="./modules/app.js?v=40.0.0"></script>
+  <script type="module" src="./modules/app.js?v=42.0.0"></script>
 </body>
 </html>

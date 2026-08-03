@@ -1,0 +1,11 @@
+{
+  "name": "distrito-go-quality",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:navigation": "node tools/test_navigation_e2e.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.61.1"
+  }
+}

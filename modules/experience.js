@@ -1,4 +1,4 @@
-import { state } from './state.js';
+import { matchesSelectedStore, state } from './state.js';
 import { escapeHtml, normalize } from './utils.js';
 import { getJSON, setJSON } from './storage.js';
 import { toast } from './toast.js';
@@ -21,8 +21,29 @@ function asBoolean(value, fallback = true){
   return value === true || ['si','sí','true','1','yes'].includes(normalize(value));
 }
 function isTrackableRow(item){
-  return ['Verificable','Seguimiento','Permite Check','Check','Completable']
+  const explicit = ['Verificable','Seguimiento','Permite Check','Check','Completable']
     .some(field => asBoolean(item?.[field], false));
+  const operational = normalize(item?.Frecuencia) === 'diario' || Boolean(item?.['Día'] && item?.Actividad);
+  return explicit || operational;
+}
+
+function completionDateKey(date = new Date()){
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+}
+
+export function getTodayCompletedIds(){
+  const stored = getJSON(COMPLETED_KEY, {});
+  if(Array.isArray(stored)) return stored.filter(id => typeof id === 'string');
+  return Array.isArray(stored?.[completionDateKey()]) ? stored[completionDateKey()].filter(id => typeof id === 'string') : [];
+}
+
+function setTodayCompletedIds(ids){
+  const stored = getJSON(COMPLETED_KEY, {});
+  const history = stored && !Array.isArray(stored) && typeof stored === 'object' ? stored : {};
+  const today = completionDateKey();
+  history[today] = [...new Set(ids.filter(id => typeof id === 'string'))];
+  const recent = Object.fromEntries(Object.entries(history).sort(([a],[b]) => b.localeCompare(a)).slice(0,14));
+  setJSON(COMPLETED_KEY, recent);
 }
 function originalFor(item){
   return item.OriginalRecurso || item.ImagenOriginal || item.imageOriginal || item.Recurso || item.ImagenPath || '';
@@ -407,7 +428,7 @@ function catalogCoverCardMarkup(item, kind){
   const meta = weekly ? (item.label || 'Semana') : (item.label || 'Hoy');
   const date = weekly && item.dateLabel ? `<span class="catalog-cover-date">${escapeHtml(item.dateLabel)}</span>` : '';
   const destination = hasDestination(item);
-  const completed = getJSON(COMPLETED_KEY, []).includes(item.id);
+  const completed = getTodayCompletedIds().includes(item.id);
   const tracking = item.trackable ? `<label class="catalog-check" data-catalog-check-wrap>
     <input type="checkbox" data-complete-content="${escapeHtml(item.id)}" ${completed ? 'checked' : ''}/>
     <span>${completed ? 'Completada' : 'Marcar al completar'}</span>
@@ -481,7 +502,7 @@ function celebrationOccurrence(item, year){
 function weeklyCelebrations(){
   const {start, end} = weekBounds();
   return (state.operacional.celebraciones || [])
-    .filter(item => item.Publicar !== false)
+    .filter(item => item.Publicar !== false && matchesSelectedStore(item.TIENDA))
     .flatMap(item => [...new Set([start.getFullYear(), end.getFullYear()])]
       .map(year => celebrationOccurrence(item, year))
       .filter(occurrence => occurrence && occurrence >= start && occurrence <= end)
@@ -552,7 +573,7 @@ function renderWeeklyCatalog(items){
     .filter(item => normalize(item.dayName) === normalize(selectedWeekDay))
     .map(item => ({...item, dateLabel:[selectedDateLabel, item.timeLabel].filter(Boolean).join(' · ')}));
   const inventoryItems = (state.operacional.eventos || [])
-    .filter(item => item.Publicar !== false && /inventario (?:semanal|fin de mes)/i.test(item.Actividad || ''))
+    .filter(item => item.Publicar !== false && matchesSelectedStore(item.Tienda) && /inventario (?:semanal|fin de mes)/i.test(item.Actividad || ''))
     .filter(item => {
       const start = dateValue(item['Fecha Inicio']);
       const end = dateValue(item['Fecha Fin']) || start;
@@ -571,10 +592,33 @@ function renderWeeklyCatalog(items){
     }));
   const dayItems = [...inventoryItems, ...recurringItems]
     .sort((a,b) => Number(a.priority || 99) - Number(b.priority || 99) || Number(a.order || 99) - Number(b.order || 99));
+  const todayIndex = (new Date().getDay() + 6) % 7;
+  const tomorrowIndex = todayIndex + 1;
+  const countForDay = index => {
+    if(index < 0 || index > 6) return 0;
+    const date = weekDate(index);
+    date.setHours(12,0,0,0);
+    const recurring = items.filter(item => normalize(item.dayName) === normalize(WEEK_DAYS[index])).length;
+    const inventories = (state.operacional.eventos || []).filter(item => {
+      if(item.Publicar === false || !matchesSelectedStore(item.Tienda) || !/inventario (?:semanal|fin de mes)/i.test(item.Actividad || '')) return false;
+      const start = dateValue(item['Fecha Inicio']);
+      const end = dateValue(item['Fecha Fin']) || start;
+      if(!start || !end) return false;
+      start.setHours(0,0,0,0); end.setHours(23,59,59,999);
+      return date >= start && date <= end;
+    }).length;
+    return recurring + inventories;
+  };
+  const restCount = WEEK_DAYS.slice(Math.min(7, tomorrowIndex + 1)).reduce((sum, _day, offset) => sum + countForDay(tomorrowIndex + 1 + offset), 0);
   return `<div class="weekly-catalog">
     <div class="week-catalog-heading">
       <div><span>Semana actual</span><strong>${escapeHtml(selectedDateLabel)}</strong></div>
       <small>${dayItems.length} actividad${dayItems.length === 1 ? '' : 'es'}</small>
+    </div>
+    <div class="agenda-overview" aria-label="Resumen de agenda">
+      <button type="button" data-agenda-day="${escapeHtml(WEEK_DAYS[todayIndex])}"><span>Hoy</span><strong>${countForDay(todayIndex)}</strong><small>${escapeHtml(WEEK_DAYS[todayIndex])}</small></button>
+      ${tomorrowIndex <= 6 ? `<button type="button" data-agenda-day="${escapeHtml(WEEK_DAYS[tomorrowIndex])}"><span>Mañana</span><strong>${countForDay(tomorrowIndex)}</strong><small>${escapeHtml(WEEK_DAYS[tomorrowIndex])}</small></button>` : '<div><span>Mañana</span><strong>—</strong><small>Próxima semana</small></div>'}
+      <div><span>Resto de la semana</span><strong>${restCount}</strong><small>actividades</small></div>
     </div>
     ${weekDayPickerMarkup()}
     ${dayItems.length ? `
@@ -670,7 +714,7 @@ function bindCatalog(kind){
   });
   requestAnimationFrame(() => updateCatalogControls(kind));
 }
-function renderHomePriorities(){
+export function renderHomePriorities(){
   const daily = (state.operacional.actividadesDiarias || [])
     .filter(item => item.Visible !== false)
     .map(contentFromDaily)
@@ -703,9 +747,9 @@ function bindExperience(){
     const completion = event.target.closest('[data-complete-content]');
     if(completion){
       event.stopPropagation();
-      const current = getJSON(COMPLETED_KEY, []).filter(id => typeof id === 'string');
+      const current = getTodayCompletedIds();
       const id = completion.dataset.completeContent;
-      setJSON(COMPLETED_KEY, completion.checked ? [...new Set([id, ...current])] : current.filter(item => item !== id));
+      setTodayCompletedIds(completion.checked ? [...new Set([id, ...current])] : current.filter(item => item !== id));
       const label = completion.closest('[data-catalog-check-wrap]')?.querySelector('span');
       if(label) label.textContent = completion.checked ? 'Completada' : 'Marcar al completar';
       window.dispatchEvent(new CustomEvent('dgx:completion-changed', {detail:{id, completed:completion.checked}}));
@@ -739,6 +783,11 @@ function bindExperience(){
     const weekDay = event.target.closest('[data-week-day]');
     if(weekDay){
       selectWeekDay(weekDay.dataset.weekDay);
+      return;
+    }
+    const agendaDay = event.target.closest('[data-agenda-day]');
+    if(agendaDay){
+      selectWeekDay(agendaDay.dataset.agendaDay);
     }
   });
   document.getElementById('close-saved-view')?.addEventListener('click', () => {
@@ -752,6 +801,7 @@ export function showVisualView(view){
   const saved = document.getElementById('guardados');
   const contextual = document.getElementById('explorar');
   document.body.dataset.appView = view;
+  delete document.body.dataset.detailTarget;
   document.querySelectorAll('.app-shell > .is-detail-target').forEach(section => section.classList.remove('is-detail-target'));
   if(view === 'saved'){
     renderSaved();
@@ -781,6 +831,7 @@ export function showDetailSection(id, smooth = true){
   const target = document.getElementById(id);
   if(!target) return false;
   document.body.dataset.appView = 'detail';
+  document.body.dataset.detailTarget = id;
   document.querySelectorAll('.app-shell > .is-detail-target').forEach(section => section.classList.remove('is-detail-target'));
   target.classList.add('is-detail-target');
   target.classList.remove('is-destination-highlight');

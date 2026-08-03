@@ -9,6 +9,7 @@ import { renderTools, loadMoreTools } from './cards.js';
 import { renderOperationalSections } from './operational.js';
 import { initExperience, isContentSaved, showDetailSection } from './experience.js';
 import { bindSearch } from './search.js';
+import { initOperationsCenter } from './operations-center.js';
 
 function byId(id){ return document.getElementById(id); }
 function setText(id, value){ const el = byId(id); if(el) el.textContent = value; }
@@ -26,6 +27,7 @@ async function boot(){
   renderOperationalSections();
   initExperience();
   bindSearch();
+  initOperationsCenter();
   renderCategories();
   bindCategoryDisclosure();
   renderTools(true);

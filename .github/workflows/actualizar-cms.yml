@@ -16,6 +16,7 @@ on:
       - "tools/build_data.py"
       - "tools/validate_cms.py"
       - "tools/validate_assets.py"
+      - "tools/validate_informative_visuals.py"
       - "tools/test_experience_v37.mjs"
       - "tools/test_enhancements_v42.mjs"
       - "tools/test_wfm_events_v43.mjs"
@@ -67,6 +68,7 @@ jobs:
         run: |
           set -euo pipefail
           python tools/validate_assets.py
+          python tools/validate_informative_visuals.py --report reports/informative-visuals.json
           python tools/audit_links.py Distrito_Go_CMS_v2_actualizado.xlsx --report reports/link-audit.json
           python tools/audit_static.py
           find modules -name '*.js' -print0 | xargs -0 -n1 node --check

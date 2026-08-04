@@ -1,26 +1,18 @@
-name: Automatizar CMS de Distrito Goo
+name: Actualizar CMS desde Excel
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
     paths:
       - "Distrito_Go_CMS_v2_actualizado.xlsx"
-      - "assets/photos/**/*.png"
-      - "assets/photos/**/*.jpg"
-      - "assets/photos/**/*.jpeg"
-      - "assets/premium/duty-roster/**/*.png"
-      - "assets/premium/duty-roster/**/*.jpg"
-      - "assets/premium/duty-roster/**/*.jpeg"
+      - "cms-contract.json"
+      - "assets/photos/**"
+      - "assets/premium/duty-roster/**"
       - "tools/cms_pipeline.py"
+      - "tools/cms_release.py"
       - "tools/build_data.py"
       - "tools/validate_cms.py"
-      - "tools/validate_assets.py"
-      - "tools/validate_informative_visuals.py"
-      - "tools/test_experience_v37.mjs"
-      - "tools/test_enhancements_v42.mjs"
-      - "tools/test_wfm_events_v43.mjs"
-      - "tools/optimize_images.py"
+      - "tools/validate_cms_sync.py"
       - ".github/workflows/actualizar-cms.yml"
   workflow_dispatch:
 
@@ -32,78 +24,69 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  actualizar:
-    name: Validar, optimizar y publicar
-    if: github.repository == 'sbx-mx/Distrito_Goo'
+  publicar:
+    name: Compilar, reconciliar y publicar
+    if: github.repository == 'sbx-mx/Distrito_Goo' && github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-
+    timeout-minutes: 25
     steps:
       - name: Descargar repositorio
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
       - name: Preparar Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: pip
           cache-dependency-path: requirements.txt
-
+      - name: Preparar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
       - name: Instalar dependencias
-        run: python -m pip install --disable-pip-version-check -r requirements.txt
-
-      - name: Convertir imágenes pesadas a WebP
-        run: python tools/optimize_images.py --project . --report reports/image-optimization.json
-
-      - name: Validar CMS
-        run: python tools/validate_cms.py Distrito_Go_CMS_v2_actualizado.xlsx --report reports/cms-validation.json
-
-      - name: Regenerar datos
-        run: python tools/build_data.py Distrito_Go_CMS_v2_actualizado.xlsx --project .
-
-      - name: Validar rutas, datos y aplicación
+        run: |
+          python -m pip install --disable-pip-version-check -r requirements.txt
+          npm ci
+      - name: Publicación transaccional
+        run: python tools/cms_release.py Distrito_Go_CMS_v2_actualizado.xlsx --project .
+      - name: Conservar evidencia
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cms-release-${{ github.run_number }}
+          path: reports/*.json
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Comprobar alcance
         shell: bash
         run: |
           set -euo pipefail
-          python tools/validate_assets.py
-          python tools/validate_informative_visuals.py --report reports/informative-visuals.json
-          python tools/audit_links.py Distrito_Go_CMS_v2_actualizado.xlsx --report reports/link-audit.json
-          python tools/audit_static.py
-          find modules -name '*.js' -print0 | xargs -0 -n1 node --check
-          node --check sw.js
-          node tools/test_experience_v37.mjs --report reports/v42-compatibility.json
-          node tools/test_enhancements_v42.mjs --report reports/v42-enhancements.json
-          node tools/test_wfm_events_v43.mjs
-          python tools/quality_gate.py --report reports/quality-gate.json
-
-      - name: Comprobar alcance generado
-        shell: bash
-        run: |
-          set -euo pipefail
-          unexpected="$(
-            git status --short |
-            awk '{print $2}' |
-            grep -Ev '^(data/|reports/|assets/photos/.*\.webp$|assets/premium/duty-roster/.*\.webp$)' || true
-          )"
+          unexpected="$(git status --short | awk '{print $2}' | grep -Ev '^(data/.*\.json|reports/.*\.json|assets/photos/.*\.webp|assets/premium/duty-roster/.*\.webp)$' || true)"
           if [ -n "$unexpected" ]; then
-            echo "FALLO: el pipeline intentó modificar rutas no autorizadas:"
+            echo "El generador intentó modificar rutas no autorizadas:"
             echo "$unexpected"
             exit 1
           fi
-
-      - name: Publicar datos regenerados
+      - name: Publicar datos aprobados
         shell: bash
         run: |
           set -euo pipefail
-          if git diff --quiet && [ -z "$(git ls-files --others --exclude-standard)" ]; then
-            echo "CMS válido; no hubo cambios por publicar." >> "$GITHUB_STEP_SUMMARY"
+          git add data/*.json assets/photos/*.webp assets/premium/duty-roster/*.webp
+          if git diff --cached --quiet; then
+            echo "CMS válido; no hubo cambios de datos." >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data reports assets/photos assets/premium/duty-roster
-          git commit -m "Regenerar datos y optimizar imágenes desde CMS"
+          git commit -m "Actualizar datos desde Excel CMS"
           git push
-          echo "Datos validados, optimizados y publicados en main." >> "$GITHUB_STEP_SUMMARY"
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          data=json.load(open('data/cms-build.v1.json', encoding='utf-8'))
+          print('## CMS publicado')
+          print(f"- Registros: {data['records']}")
+          print(f"- Pestañas: {len(data['sheets'])}")
+          print(f"- SHA Excel: `{data['sourceSha256'][:12]}`")
+          PY

@@ -10,9 +10,9 @@ on:
         required: true
         default: AUDITAR
         type: choice
-        options: [AUDITAR, RETIRAR_EXPIRADOS, ELIMINAR_HUERFANOS]
+        options: [AUDITAR, RETIRAR_EXPIRADOS]
       confirmacion:
-        description: "Escribe RETIRAR_CONTENIDO_EXPIRADO o ELIMINAR_ARCHIVOS_HUERFANOS"
+        description: "Escribe RETIRAR_CONTENIDO_EXPIRADO"
         required: false
         type: string
       dias_gracia:
@@ -54,10 +54,8 @@ jobs:
         run: |
           python -m pip install --disable-pip-version-check -r requirements.txt
           npm ci
-      - name: Auditar contenido y archivos
-        run: |
-          python tools/cleanup_expired.py Distrito_Go_CMS_v2_actualizado.xlsx --grace-days "$GRACE_DAYS" --report reports/expired-content.json
-          python tools/cleanup_unused.py --report reports/unused-files.json
+      - name: Auditar contenido expirado
+        run: python tools/cleanup_expired.py Distrito_Go_CMS_v2_actualizado.xlsx --grace-days "$GRACE_DAYS" --report reports/expired-content.json
       - name: Validar autorización
         if: env.ACCION != 'AUDITAR'
         shell: bash
@@ -65,13 +63,9 @@ jobs:
           set -euo pipefail
           test "$GITHUB_REF" = "refs/heads/main"
           if [ "$ACCION" = "RETIRAR_EXPIRADOS" ]; then test "$CONFIRMACION" = "RETIRAR_CONTENIDO_EXPIRADO"; fi
-          if [ "$ACCION" = "ELIMINAR_HUERFANOS" ]; then test "$CONFIRMACION" = "ELIMINAR_ARCHIVOS_HUERFANOS"; fi
       - name: Retirar contenido expirado confirmado
         if: env.ACCION == 'RETIRAR_EXPIRADOS'
         run: python tools/cleanup_expired.py Distrito_Go_CMS_v2_actualizado.xlsx --grace-days "$GRACE_DAYS" --apply --confirm RETIRAR_CONTENIDO_EXPIRADO --report reports/expired-content.json
-      - name: Eliminar archivos huérfanos confirmados
-        if: env.ACCION == 'ELIMINAR_HUERFANOS'
-        run: python tools/cleanup_unused.py --apply --confirm ELIMINAR_ARCHIVOS_HUERFANOS --report reports/unused-files.json
       - name: Validar después de cualquier cambio
         if: env.ACCION != 'AUDITAR'
         run: python tools/cms_release.py Distrito_Go_CMS_v2_actualizado.xlsx --project .

@@ -19,7 +19,7 @@ concurrency:
 jobs:
   validar:
     name: CMS, PWA, eventos, imágenes y navegación
-    if: github.repository == 'sbx-mx/Distrito_Goo'
+    if: github.repository == 'sbx-mx/Distrito_Goo' && github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:

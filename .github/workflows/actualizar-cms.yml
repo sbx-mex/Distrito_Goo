@@ -10,6 +10,7 @@ on:
       - "assets/premium/duty-roster/**"
       - "tools/cms_pipeline.py"
       - "tools/cms_release.py"
+      - "tools/cms_change_summary.py"
       - "tools/build_data.py"
       - "tools/validate_cms.py"
       - "tools/validate_cms_sync.py"
@@ -85,8 +86,12 @@ jobs:
           python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
           import json
           data=json.load(open('data/cms-build.v1.json', encoding='utf-8'))
+          changes=json.load(open('reports/cms-change-summary.json', encoding='utf-8'))
           print('## CMS publicado')
           print(f"- Registros: {data['records']}")
           print(f"- Pestañas: {len(data['sheets'])}")
           print(f"- SHA Excel: `{data['sourceSha256'][:12]}`")
+          print(f"- Altas: {changes['totals']['added']}")
+          print(f"- Modificaciones: {changes['totals']['modified']}")
+          print(f"- Retiros: {changes['totals']['removed']}")
           PY

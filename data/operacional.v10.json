@@ -2,22 +2,6 @@
   "eventos": [
     {
       "ID": "EVT-001",
-      "Actividad": "CDD Q3",
-      "Contexto / Recordatorio": "Realiza las conversaciones de desempeño del Q3.",
-      "Fecha Inicio": "2026-07-01T12:00:00",
-      "Fecha Fin": "2026-08-02T12:00:00",
-      "Región": "Centro Norte",
-      "Distrito": "Enrique Cesar Flores",
-      "Tienda": "Todas",
-      "Publicar": true,
-      "Imagen": "📖",
-      "Link": "",
-      "ImagenPath": "assets/photos/cdd_3Q_2026.webp?v=db990f5a14a8",
-      "MiniaturaPath": "assets/photos/cdd_3Q_2026.thumb.webp?v=0d6c1eca2037",
-      "ImagenOriginal": "assets/photos/cdd_3Q_2026.png?v=50d564c3a573"
-    },
-    {
-      "ID": "EVT-002",
       "Actividad": "Concurso de Venta",
       "Contexto / Recordatorio": "Enfoca a los dos Concurso Activos",
       "Fecha Inicio": "2026-07-01T12:00:00",
@@ -33,39 +17,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-003",
-      "Actividad": "Best Talent - Cascada RD y DM",
-      "Contexto / Recordatorio": "Sesiones de revisión y proyección de talento.",
-      "Fecha Inicio": "2026-07-13T12:00:00",
-      "Fecha Fin": "2026-07-31T12:00:00",
-      "Región": "Centro Norte",
-      "Distrito": "Enrique Cesar Flores",
-      "Tienda": "Todas",
-      "Publicar": true,
-      "Imagen": "👥",
-      "Link": "",
-      "ImagenPath": "",
-      "MiniaturaPath": "",
-      "ImagenOriginal": ""
-    },
-    {
-      "ID": "EVT-004",
-      "Actividad": "Mujeres que Inspiran - Club de Lectura",
-      "Contexto / Recordatorio": "Sesión de lectura, reflexión y desarrollo.",
-      "Fecha Inicio": "2026-07-28T12:00:00",
-      "Fecha Fin": "2026-07-28T12:00:00",
-      "Región": "Centro Norte",
-      "Distrito": "Enrique Cesar Flores",
-      "Tienda": "Todas",
-      "Publicar": true,
-      "Imagen": "📚",
-      "Link": "",
-      "ImagenPath": "",
-      "MiniaturaPath": "",
-      "ImagenOriginal": ""
-    },
-    {
-      "ID": "EVT-005",
+      "ID": "EVT-002",
       "Actividad": "AutoICA",
       "Contexto / Recordatorio": "Ejecuta AutoICA y da seguimiento a hallazgos.",
       "Fecha Inicio": "2026-08-01T12:00:00",
@@ -81,7 +33,23 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-006",
+      "ID": "EVT-003",
+      "Actividad": "ECO 2026 ",
+      "Contexto / Recordatorio": "Realiza la encuesta ECO",
+      "Fecha Inicio": "2026-08-01T12:00:00",
+      "Fecha Fin": "2026-08-23T12:00:00",
+      "Región": "Centro Norte",
+      "Distrito": "Enrique Cesar Flores",
+      "Tienda": "Todas",
+      "Publicar": true,
+      "Imagen": "🚨",
+      "Link": "https://app.slikpro.com/login/alsea",
+      "ImagenPath": "assets/photos/eco_2026.webp?v=eed9305b0257",
+      "MiniaturaPath": "assets/photos/eco_2026.thumb.webp?v=b39e2ebe142b",
+      "ImagenOriginal": "assets/photos/eco_2026.jpeg?v=eee5a15b726f"
+    },
+    {
+      "ID": "EVT-004",
       "Actividad": "Corte de Nómina",
       "Contexto / Recordatorio": "Valida incidencias del 16 al 31 de julio.",
       "Fecha Inicio": "2026-08-02T12:00:00",
@@ -97,39 +65,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-007",
-      "Actividad": "Best Talent - Cascada DM - SM",
-      "Contexto / Recordatorio": "Calibración y desarrollo de talento DM-SM.",
-      "Fecha Inicio": "2026-08-03T12:00:00",
-      "Fecha Fin": "2026-08-31T12:00:00",
-      "Región": "Centro Norte",
-      "Distrito": "Enrique Cesar Flores",
-      "Tienda": "Todas",
-      "Publicar": true,
-      "Imagen": "🌟",
-      "Link": "",
-      "ImagenPath": "",
-      "MiniaturaPath": "",
-      "ImagenOriginal": ""
-    },
-    {
-      "ID": "EVT-008",
-      "Actividad": "Upsize sin costo adicional",
-      "Contexto / Recordatorio": "Impulsa el incremento de ADTs.",
-      "Fecha Inicio": "2026-08-03T12:00:00",
-      "Fecha Fin": "2026-08-09T12:00:00",
-      "Región": "Centro Norte",
-      "Distrito": "Enrique Cesar Flores",
-      "Tienda": "Todas",
-      "Publicar": true,
-      "Imagen": "⬆️",
-      "Link": "",
-      "ImagenPath": "",
-      "MiniaturaPath": "",
-      "ImagenOriginal": ""
-    },
-    {
-      "ID": "EVT-009",
+      "ID": "EVT-005",
       "Actividad": "Inventario semanal",
       "Contexto / Recordatorio": "Realiza el inventario semanal conforme al calendario para tiendas que operan de lunes a domingo.",
       "Fecha Inicio": "2026-08-09T12:00:00",
@@ -145,7 +81,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-010",
+      "ID": "EVT-006",
       "Actividad": "Coffee Webinar",
       "Contexto / Recordatorio": "Webinar para Coffee Masters.",
       "Fecha Inicio": "2026-08-13T12:00:00",
@@ -161,7 +97,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-011",
+      "ID": "EVT-007",
       "Actividad": "Corte de Nómina",
       "Contexto / Recordatorio": "Valida incidencias del 1 al 15 de agosto.",
       "Fecha Inicio": "2026-08-16T12:00:00",
@@ -177,7 +113,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-012",
+      "ID": "EVT-008",
       "Actividad": "Inventario semanal",
       "Contexto / Recordatorio": "Realiza el inventario semanal conforme al calendario para tiendas que operan de lunes a domingo.",
       "Fecha Inicio": "2026-08-16T12:00:00",
@@ -193,7 +129,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-013",
+      "ID": "EVT-009",
       "Actividad": "Seminario de Café",
       "Contexto / Recordatorio": "Seminario para Coffee Masters.",
       "Fecha Inicio": "2026-08-17T12:00:00",
@@ -209,7 +145,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-014",
+      "ID": "EVT-010",
       "Actividad": "Inventario semanal",
       "Contexto / Recordatorio": "Realiza el inventario semanal conforme al calendario para tiendas que operan de lunes a domingo.",
       "Fecha Inicio": "2026-08-23T12:00:00",
@@ -225,7 +161,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-015",
+      "ID": "EVT-011",
       "Actividad": "Mujeres que Inspiran - Abriendo Camino",
       "Contexto / Recordatorio": "Sesión de desarrollo y liderazgo.",
       "Fecha Inicio": "2026-08-25T12:00:00",
@@ -241,7 +177,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-016",
+      "ID": "EVT-012",
       "Actividad": "Corte de Nómina",
       "Contexto / Recordatorio": "Valida incidencias del 16 al 31 de agosto.",
       "Fecha Inicio": "2026-08-31T12:00:00",
@@ -257,7 +193,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-017",
+      "ID": "EVT-013",
       "Actividad": "Inventario fin de mes",
       "Contexto / Recordatorio": "Realiza el inventario de fin de mes en el último día calendario del mes.",
       "Fecha Inicio": "2026-08-31T12:00:00",
@@ -273,7 +209,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-018",
+      "ID": "EVT-014",
       "Actividad": "AutoICA",
       "Contexto / Recordatorio": "Ejecuta AutoICA y da seguimiento a hallazgos.",
       "Fecha Inicio": "2026-09-01T12:00:00",
@@ -289,7 +225,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-019",
+      "ID": "EVT-015",
       "Actividad": "Inventario semanal",
       "Contexto / Recordatorio": "Realiza el inventario semanal conforme al calendario para tiendas que operan de lunes a domingo.",
       "Fecha Inicio": "2026-09-06T12:00:00",
@@ -305,7 +241,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-020",
+      "ID": "EVT-016",
       "Actividad": "Inventario semanal",
       "Contexto / Recordatorio": "Realiza el inventario semanal conforme al calendario para tiendas que operan de lunes a domingo.",
       "Fecha Inicio": "2026-09-13T12:00:00",
@@ -321,7 +257,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-021",
+      "ID": "EVT-017",
       "Actividad": "Corte de Nómina",
       "Contexto / Recordatorio": "Valida incidencias del 1 al 15 de septiembre.",
       "Fecha Inicio": "2026-09-16T12:00:00",
@@ -337,7 +273,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-022",
+      "ID": "EVT-018",
       "Actividad": "Inventario semanal",
       "Contexto / Recordatorio": "Realiza el inventario semanal conforme al calendario para tiendas que operan de lunes a domingo.",
       "Fecha Inicio": "2026-09-20T12:00:00",
@@ -353,7 +289,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-023",
+      "ID": "EVT-019",
       "Actividad": "Mujeres que Inspiran - Voces que Inspiran",
       "Contexto / Recordatorio": "Conversaciones con líderes inspiradores.",
       "Fecha Inicio": "2026-09-29T12:00:00",
@@ -369,7 +305,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-024",
+      "ID": "EVT-020",
       "Actividad": "Corte de Nómina",
       "Contexto / Recordatorio": "Valida incidencias del 16 al 30 de septiembre.",
       "Fecha Inicio": "2026-09-30T12:00:00",
@@ -385,7 +321,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-025",
+      "ID": "EVT-021",
       "Actividad": "Inventario fin de mes",
       "Contexto / Recordatorio": "Realiza el inventario de fin de mes en el último día calendario del mes.",
       "Fecha Inicio": "2026-09-30T12:00:00",
@@ -401,7 +337,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-026",
+      "ID": "EVT-022",
       "Actividad": "Inventario Pin Pad y TPV Q4",
       "Contexto / Recordatorio": "Actualiza el inventario de Pin Pad y TPV.",
       "Fecha Inicio": "2026-10-01T12:00:00",
@@ -417,7 +353,7 @@
       "ImagenOriginal": "assets/photos/pinpad-atb-cambios.png?v=6791390d2399"
     },
     {
-      "ID": "EVT-027",
+      "ID": "EVT-023",
       "Actividad": "AutoICA",
       "Contexto / Recordatorio": "Ejecuta AutoICA y da seguimiento a hallazgos.",
       "Fecha Inicio": "2026-10-01T12:00:00",
@@ -433,7 +369,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-028",
+      "ID": "EVT-024",
       "Actividad": "Inventario semanal",
       "Contexto / Recordatorio": "Realiza el inventario semanal conforme al calendario para tiendas que operan de lunes a domingo.",
       "Fecha Inicio": "2026-10-04T12:00:00",
@@ -449,7 +385,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-029",
+      "ID": "EVT-025",
       "Actividad": "Inventario semanal",
       "Contexto / Recordatorio": "Realiza el inventario semanal conforme al calendario para tiendas que operan de lunes a domingo.",
       "Fecha Inicio": "2026-10-11T12:00:00",
@@ -465,7 +401,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-030",
+      "ID": "EVT-026",
       "Actividad": "Corte de Nómina",
       "Contexto / Recordatorio": "Valida incidencias del 1 al 15 de octubre.",
       "Fecha Inicio": "2026-10-15T12:00:00",
@@ -481,7 +417,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-031",
+      "ID": "EVT-027",
       "Actividad": "Inventario semanal",
       "Contexto / Recordatorio": "Realiza el inventario semanal conforme al calendario para tiendas que operan de lunes a domingo.",
       "Fecha Inicio": "2026-10-18T12:00:00",
@@ -497,7 +433,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-032",
+      "ID": "EVT-028",
       "Actividad": "Inventario semanal",
       "Contexto / Recordatorio": "Realiza el inventario semanal conforme al calendario para tiendas que operan de lunes a domingo.",
       "Fecha Inicio": "2026-10-25T12:00:00",
@@ -513,7 +449,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-033",
+      "ID": "EVT-029",
       "Actividad": "Mujeres que Inspiran - Entre Páginas",
       "Contexto / Recordatorio": "Club de lectura y aprendizaje compartido.",
       "Fecha Inicio": "2026-10-27T12:00:00",
@@ -529,7 +465,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-034",
+      "ID": "EVT-030",
       "Actividad": "Inventario fin de mes",
       "Contexto / Recordatorio": "Realiza el inventario de fin de mes en el último día calendario del mes.",
       "Fecha Inicio": "2026-10-31T12:00:00",
@@ -545,7 +481,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-035",
+      "ID": "EVT-031",
       "Actividad": "AutoICA",
       "Contexto / Recordatorio": "Ejecuta AutoICA y da seguimiento a hallazgos.",
       "Fecha Inicio": "2026-11-01T12:00:00",
@@ -561,7 +497,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-036",
+      "ID": "EVT-032",
       "Actividad": "Corte de Nómina",
       "Contexto / Recordatorio": "Valida incidencias del 16 al 31 de octubre.",
       "Fecha Inicio": "2026-11-02T12:00:00",
@@ -577,7 +513,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-037",
+      "ID": "EVT-033",
       "Actividad": "Inventario semanal",
       "Contexto / Recordatorio": "Realiza el inventario semanal conforme al calendario para tiendas que operan de lunes a domingo.",
       "Fecha Inicio": "2026-11-08T12:00:00",
@@ -593,7 +529,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-038",
+      "ID": "EVT-034",
       "Actividad": "Inventario semanal",
       "Contexto / Recordatorio": "Realiza el inventario semanal conforme al calendario para tiendas que operan de lunes a domingo.",
       "Fecha Inicio": "2026-11-15T12:00:00",
@@ -609,7 +545,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-039",
+      "ID": "EVT-035",
       "Actividad": "Corte de Nómina",
       "Contexto / Recordatorio": "Valida incidencias del 1 al 15 de noviembre.",
       "Fecha Inicio": "2026-11-16T12:00:00",
@@ -625,7 +561,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-040",
+      "ID": "EVT-036",
       "Actividad": "Inventario semanal",
       "Contexto / Recordatorio": "Realiza el inventario semanal conforme al calendario para tiendas que operan de lunes a domingo.",
       "Fecha Inicio": "2026-11-22T12:00:00",
@@ -641,7 +577,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-041",
+      "ID": "EVT-037",
       "Actividad": "Corte de Nómina",
       "Contexto / Recordatorio": "Valida incidencias del 16 al 30 de noviembre.",
       "Fecha Inicio": "2026-11-30T12:00:00",
@@ -657,7 +593,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-042",
+      "ID": "EVT-038",
       "Actividad": "Inventario fin de mes",
       "Contexto / Recordatorio": "Realiza el inventario de fin de mes en el último día calendario del mes.",
       "Fecha Inicio": "2026-11-30T12:00:00",
@@ -673,7 +609,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-043",
+      "ID": "EVT-039",
       "Actividad": "AutoICA",
       "Contexto / Recordatorio": "Ejecuta AutoICA y da seguimiento a hallazgos.",
       "Fecha Inicio": "2026-12-01T12:00:00",
@@ -689,7 +625,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-044",
+      "ID": "EVT-040",
       "Actividad": "Inventario semanal",
       "Contexto / Recordatorio": "Realiza el inventario semanal conforme al calendario para tiendas que operan de lunes a domingo.",
       "Fecha Inicio": "2026-12-06T12:00:00",
@@ -705,7 +641,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-045",
+      "ID": "EVT-041",
       "Actividad": "Inventario semanal",
       "Contexto / Recordatorio": "Realiza el inventario semanal conforme al calendario para tiendas que operan de lunes a domingo.",
       "Fecha Inicio": "2026-12-13T12:00:00",
@@ -721,7 +657,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-046",
+      "ID": "EVT-042",
       "Actividad": "Corte de Nómina",
       "Contexto / Recordatorio": "Valida incidencias del 1 al 15 de diciembre.",
       "Fecha Inicio": "2026-12-15T12:00:00",
@@ -737,7 +673,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-047",
+      "ID": "EVT-043",
       "Actividad": "Inventario semanal",
       "Contexto / Recordatorio": "Realiza el inventario semanal conforme al calendario para tiendas que operan de lunes a domingo.",
       "Fecha Inicio": "2026-12-20T12:00:00",
@@ -753,7 +689,7 @@
       "ImagenOriginal": ""
     },
     {
-      "ID": "EVT-048",
+      "ID": "EVT-044",
       "Actividad": "Inventario fin de mes",
       "Contexto / Recordatorio": "Realiza el inventario de fin de mes en el último día calendario del mes.",
       "Fecha Inicio": "2026-12-31T12:00:00",
@@ -767,22 +703,6 @@
       "ImagenPath": "",
       "MiniaturaPath": "",
       "ImagenOriginal": ""
-    },
-    {
-      "ID": "EVT-049",
-      "Actividad": "ECO 2026 | Referente operativo",
-      "Contexto / Recordatorio": "Consulta el referente ECO 2026 y valida oportunamente los requerimientos aplicables. Acceso disponible en Slik Pro.",
-      "Fecha Inicio": "2026-08-01T12:00:00",
-      "Fecha Fin": "2026-08-23T12:00:00",
-      "Región": "Centro Norte",
-      "Distrito": "Enrique Cesar Flores",
-      "Tienda": "Todas",
-      "Publicar": true,
-      "Imagen": "🚨",
-      "Link": "https://app.slikpro.com/login/alsea",
-      "ImagenPath": "assets/photos/eco_2026.webp?v=39e9f3c8798a",
-      "MiniaturaPath": "assets/photos/eco_2026.thumb.webp?v=2fb3fa5c0785",
-      "ImagenOriginal": "assets/photos/eco_2026.jpeg?v=eee5a15b726f"
     }
   ],
   "actividadesDiarias": [
@@ -1794,119 +1714,37 @@
     }
   ],
   "altasCurso": {
-    "bt": [
+    "bt": [],
+    "ss": [
       {
-        "Mes": "Julio",
-        "SBX": "SBX106807",
-        "NO. EMPLEADO": "106807",
-        "NOMBRE COMPLETO": "ALONDRA ABIGAIL HERNANDEZ GARCIA",
-        "CECO": 38515,
-        "TIENDA": "PATIO ECATEPEC",
-        "REGION": "Centro Norte",
-        "DM": "Enrique Cesar Flores",
-        "HRBP": "Iván Macías Guido",
-        "RD": "Jorge Antonio Alcantar Aguiar",
-        "GB180": "Completo",
-        "ANTIGÜEDAD": 7.133333333333334,
-        "JORNADA": "32R",
-        "ESTATUS ALTA": "Alta julio"
-      },
-      {
-        "Mes": "Julio",
-        "SBX": "SBX095810",
-        "NO. EMPLEADO": "095810",
-        "NOMBRE COMPLETO": "SEBASTIAN  SOTO ZUÑIGA",
-        "CECO": 38862,
-        "TIENDA": "SAN MIGUEL IZCALLI",
-        "REGION": "Centro Norte",
-        "DM": "Enrique Cesar Flores",
-        "HRBP": "Iván Macías Guido",
-        "RD": "Jorge Antonio Alcantar Aguiar",
-        "GB180": "Completo",
-        "ANTIGÜEDAD": 28.16666666666667,
-        "JORNADA": "32R",
-        "ESTATUS ALTA": "Alta julio"
-      },
-      {
-        "Mes": "Julio",
-        "SBX": "SBX102053",
-        "NO. EMPLEADO": "102053",
-        "NOMBRE COMPLETO": "MELANYE ARELY SALAS MONCADA",
-        "CECO": 38333,
-        "TIENDA": "IZCALLI MEGA",
-        "REGION": "Centro Norte",
-        "DM": "Enrique Cesar Flores",
-        "HRBP": "Iván Macías Guido",
-        "RD": "Jorge Antonio Alcantar Aguiar",
-        "GB180": "Completo",
-        "ANTIGÜEDAD": 16.73333333333333,
-        "JORNADA": "32R",
-        "ESTATUS ALTA": "Alta julio"
-      },
-      {
-        "Mes": "Julio",
-        "SBX": "SBX106137",
-        "NO. EMPLEADO": "106137",
-        "NOMBRE COMPLETO": "ANGEL SAID MONTESINOS GARCIA",
+        "Mes": "Agosto",
+        "SBX": "SBX102187",
+        "NO. EMPLEADO": "102187",
+        "NOMBRE COMPLETO": "CHARLOTTE  CRUZ DELGADO",
         "CECO": 38604,
         "TIENDA": "COSMOPOL",
         "REGION": "Centro Norte",
         "DM": "Enrique Cesar Flores",
         "HRBP": "Iván Macías Guido",
         "RD": "Jorge Antonio Alcantar Aguiar",
-        "GB180": "Completo",
-        "ANTIGÜEDAD": 8.166666666666666,
-        "JORNADA": "40R",
-        "ESTATUS ALTA": "Alta julio"
+        "mes de solicitud": "Agosto",
+        "BT": "Finalizado",
+        "ESTATUS ALTA": "Alta agosto"
       },
       {
-        "Mes": "Julio",
-        "SBX": "SBX100034",
-        "NO. EMPLEADO": "100034",
-        "NOMBRE COMPLETO": "RAYMUNDO ALEJANDRO ROJAS GRANIEL",
-        "CECO": 38333,
-        "TIENDA": "IZCALLI MEGA",
+        "Mes": "Agosto",
+        "SBX": "SBX101262",
+        "NO. EMPLEADO": "101262",
+        "NOMBRE COMPLETO": "HUGO  CID RODRIGUEZ",
+        "CECO": 38339,
+        "TIENDA": "SAN MARCOS",
         "REGION": "Centro Norte",
         "DM": "Enrique Cesar Flores",
         "HRBP": "Iván Macías Guido",
         "RD": "Jorge Antonio Alcantar Aguiar",
-        "GB180": "Completo",
-        "ANTIGÜEDAD": 20.46666666666667,
-        "JORNADA": "32R",
-        "ESTATUS ALTA": "Alta julio"
-      },
-      {
-        "Mes": "Julio",
-        "SBX": "SBX096221",
-        "NO. EMPLEADO": "096221",
-        "NOMBRE COMPLETO": "MARIANA  PEREZ RAMIREZ",
-        "CECO": 38333,
-        "TIENDA": "IZCALLI MEGA",
-        "REGION": "Centro Norte",
-        "DM": "Enrique Cesar Flores",
-        "HRBP": "Iván Macías Guido",
-        "RD": "Jorge Antonio Alcantar Aguiar",
-        "GB180": "Completo",
-        "ANTIGÜEDAD": 27.06666666666667,
-        "JORNADA": "40R",
-        "ESTATUS ALTA": "Alta julio"
-      }
-    ],
-    "ss": [
-      {
-        "Mes": "Julio",
-        "SBX": "SBX099728",
-        "NO. EMPLEADO": "099728",
-        "NOMBRE COMPLETO": "ANDREA MICHELLE COLIN ROLON",
-        "CECO": 38333,
-        "TIENDA": "IZCALLI MEGA",
-        "REGION": "Centro Norte",
-        "DM": "Enrique Cesar Flores",
-        "HRBP": "Iván Macías Guido",
-        "RD": "Jorge Antonio Alcantar Aguiar",
-        "mes de solicitud": "Julio",
-        "BT": "Completo",
-        "ESTATUS ALTA": "Alta Julio"
+        "mes de solicitud": "Agosto",
+        "BT": "Finalizado",
+        "ESTATUS ALTA": "Alta agosto"
       }
     ],
     "tbw": [
@@ -2225,8 +2063,8 @@
       "Mostrar Inicio": false,
       "Mostrar Explorar": true,
       "Acceso Rápido": "Personas",
-      "Recurso": "assets/photos/dresscode26.webp?v=1a5b706a199a",
-      "MiniaturaRecurso": "assets/photos/dresscode26.thumb.webp?v=57c7337f9cea",
+      "Recurso": "assets/photos/dresscode26.webp?v=0aa534aa7d21",
+      "MiniaturaRecurso": "assets/photos/dresscode26.thumb.webp?v=9033bd007673",
       "OriginalRecurso": "assets/photos/dresscode26.jpeg?v=25aefaa41af1",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Consulta el Dress Code vigente."
@@ -2295,7 +2133,7 @@
       "Mostrar Explorar": true,
       "Acceso Rápido": "Semana",
       "Recurso": "assets/photos/resumen_comunicado_semana_actual.png?v=9fa0e774f3c1",
-      "MiniaturaRecurso": "assets/photos/resumen_comunicado_semana_actual.thumb.webp?v=3016ebb5c97f",
+      "MiniaturaRecurso": "assets/photos/resumen_comunicado_semana_actual.thumb.webp?v=3b2965f5be47",
       "OriginalRecurso": "assets/photos/resumen_comunicado_semana_actual.png?v=9fa0e774f3c1",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Consulta los puntos clave de esta semana."
@@ -2317,8 +2155,8 @@
       "Mostrar Inicio": false,
       "Mostrar Explorar": true,
       "Acceso Rápido": "Hoy",
-      "Recurso": "assets/photos/parametro_horneo.webp?v=8888859b2624",
-      "MiniaturaRecurso": "assets/photos/parametro_horneo.thumb.webp?v=c7a639c01370",
+      "Recurso": "assets/photos/parametro_horneo.webp?v=a87bc6403946",
+      "MiniaturaRecurso": "assets/photos/parametro_horneo.thumb.webp?v=50d77e450725",
       "OriginalRecurso": "assets/photos/parametro_horneo.jpeg?v=713934cf3872",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Consulta los parámetros vigentes de horneo para asegurar calidad y consistencia."
@@ -2340,8 +2178,8 @@
       "Mostrar Inicio": false,
       "Mostrar Explorar": true,
       "Acceso Rápido": "Hoy",
-      "Recurso": "assets/photos/cancelacion_ordenes_delivery.webp?v=b0db0c43778b",
-      "MiniaturaRecurso": "assets/photos/cancelacion_ordenes_delivery.thumb.webp?v=ede201a4017f",
+      "Recurso": "assets/photos/cancelacion_ordenes_delivery.webp?v=04e98e860316",
+      "MiniaturaRecurso": "assets/photos/cancelacion_ordenes_delivery.thumb.webp?v=185a8ab026a1",
       "OriginalRecurso": "assets/photos/cancelacion_ordenes_delivery.jpeg?v=ee9ea2f1dd4f",
       "TipoRecurso": "imagen",
       "DescripcionBreve": "Consulta el proceso correcto para cancelar órdenes de delivery."
@@ -3230,32 +3068,6 @@
       "REGION": "Centro Norte",
       "Publicar": true,
       "NUM_EMP": "086360",
-      "CECO": "01538894"
-    },
-    {
-      "ID": "CUM-110544",
-      "Tipo": "Cumpleaños",
-      "NOMBRE": "Bernardo Xavier Martinez Flores",
-      "Fecha": "2007-10-27",
-      "PUESTO": "Barista",
-      "TIENDA": "Galerias Perinorte",
-      "DM": "Enrique Cesar Flores",
-      "REGION": "Centro Norte",
-      "Publicar": true,
-      "NUM_EMP": "110544",
-      "CECO": "01538894"
-    },
-    {
-      "ID": "ANI-110544",
-      "Tipo": "Aniversario",
-      "NOMBRE": "Bernardo Xavier Martinez Flores",
-      "Fecha": "2026-06-26",
-      "PUESTO": "Barista",
-      "TIENDA": "Galerias Perinorte",
-      "DM": "Enrique Cesar Flores",
-      "REGION": "Centro Norte",
-      "Publicar": true,
-      "NUM_EMP": "110544",
       "CECO": "01538894"
     },
     {
@@ -4429,32 +4241,6 @@
       "CECO": "01538368"
     },
     {
-      "ID": "CUM-098115",
-      "Tipo": "Cumpleaños",
-      "NOMBRE": "Karen Areli Gonzalez Gonzalez",
-      "Fecha": "2003-02-23",
-      "PUESTO": "Barista",
-      "TIENDA": "Luna Park",
-      "DM": "Enrique Cesar Flores",
-      "REGION": "Centro Norte",
-      "Publicar": true,
-      "NUM_EMP": "098115",
-      "CECO": "01538368"
-    },
-    {
-      "ID": "ANI-098115",
-      "Tipo": "Aniversario",
-      "NOMBRE": "Karen Areli Gonzalez Gonzalez",
-      "Fecha": "2024-07-10",
-      "PUESTO": "Barista",
-      "TIENDA": "Luna Park",
-      "DM": "Enrique Cesar Flores",
-      "REGION": "Centro Norte",
-      "Publicar": true,
-      "NUM_EMP": "098115",
-      "CECO": "01538368"
-    },
-    {
       "ID": "CUM-089232",
       "Tipo": "Cumpleaños",
       "NOMBRE": "Macaria Valencia Gaspar",
@@ -4946,32 +4732,6 @@
       "REGION": "Centro Norte",
       "Publicar": true,
       "NUM_EMP": "107375",
-      "CECO": "01538456"
-    },
-    {
-      "ID": "CUM-090703",
-      "Tipo": "Cumpleaños",
-      "NOMBRE": "Andrea Gonzalez Gomez",
-      "Fecha": "2004-08-14",
-      "PUESTO": "Barista",
-      "TIENDA": "Plaza Las Flores",
-      "DM": "Enrique Cesar Flores",
-      "REGION": "Centro Norte",
-      "Publicar": true,
-      "NUM_EMP": "090703",
-      "CECO": "01538456"
-    },
-    {
-      "ID": "ANI-090703",
-      "Tipo": "Aniversario",
-      "NOMBRE": "Andrea Gonzalez Gomez",
-      "Fecha": "2023-05-09",
-      "PUESTO": "Barista",
-      "TIENDA": "Plaza Las Flores",
-      "DM": "Enrique Cesar Flores",
-      "REGION": "Centro Norte",
-      "Publicar": true,
-      "NUM_EMP": "090703",
       "CECO": "01538456"
     },
     {

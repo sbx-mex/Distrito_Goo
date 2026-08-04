@@ -1,4 +1,4 @@
-# Distrito Goo — versión 42 · centro operativo
+# Distrito Goo — versión 47 · CMS sostenible
 
 Distrito Goo continúa siendo una PWA 100% estática para GitHub Pages. Python se utiliza únicamente durante auditoría y compilación para validar el CMS y generar JSON; no forma parte del runtime ni requiere servidor.
 
@@ -9,7 +9,9 @@ Distrito Goo continúa siendo una PWA 100% estática para GitHub Pages. Python s
 - `tools/validate_cms.py`, `tools/build_data.py` y `tools/audit_links.py`: validan el CMS, generan JSON y producen auditorías reproducibles.
 - `tools/audit_static.py`: valida JSON, rutas locales, IDs HTML, navegación y APP_SHELL.
 - `tools/cleanup_unused.py`: detecta recursos huérfanos con una política conservadora y solo los elimina con confirmación explícita.
-- `.github/workflows/actualizar-cms.yml`: valida y publica cada reemplazo del CMS o de una imagen fuente.
+- `.github/workflows/actualizar-cms.yml`: compila cada reemplazo del CMS en aislamiento y publica únicamente si todo aprueba.
+- `cms-contract.json`: contrato editable de las 14 pestañas, sus claves y salidas.
+- `tools/validate_cms_sync.py`: reconciliación por SHA, registros y salidas; también prueba cambios de `# Evento` sin efectos colaterales.
 - `modules/operations-center.js`: centro de mando, perfil de tienda, vigencia y ruta contextual.
 - `sw.js`: caché offline compatible con rutas relativas de GitHub Pages.
 - `.github/workflows/pruebas-navegacion-real.yml`: navegación real con Chromium en 320, 390, 768 y 1440 px.
@@ -40,7 +42,7 @@ python tools/audit_static.py
 
 Publicar el contenido de la raíz de `main` mediante **Deploy from a branch**. Conservar `.nojekyll`, las rutas relativas `./` y todos los archivos incluidos en `APP_SHELL`.
 
-Después de publicar una nueva versión, abrir la PWA una vez con conexión para instalar la caché `distrito-go-v42.0.0-centro-operativo`.
+Después de publicar una nueva versión, abrir la PWA una vez con conexión para instalar la caché `distrito-go-v47.0.0-cms-sostenible`.
 
 ## Inicio y navegación
 
@@ -87,7 +89,13 @@ El pipeline conserva el original, genera WebP y miniaturas únicamente para recu
 
 ## Limpieza segura
 
-El workflow `.github/workflows/limpieza-archivos-sin-uso.yml` se ejecuta manualmente. `AUDITAR` genera el reporte sin borrar; `BORRAR_CONFIRMADO` elimina únicamente assets, módulos o estilos fuera del grafo de uso y valida el proyecto antes de publicar el cambio. Nunca elimina el CMS, JSON de datos, herramientas Python, workflows ni documentación.
+El workflow `.github/workflows/mantenimiento-seguro.yml` concentra la auditoría semanal y las dos fases manuales: `RETIRAR_EXPIRADOS` y `ELIMINAR_HUERFANOS`. Ninguna elimina contenido sin la frase exacta de confirmación; después de cambiar algo ejecuta la publicación transaccional completa.
+
+## Qué ocurre al editar el Excel
+
+Puedes cambiar una celda, una fecha, una descripción o `# Evento`. El pipeline lee columnas por encabezado, no por posición; calcula una huella de las 14 pestañas, compila en una copia temporal y comprueba que cada salida corresponda al Excel actual. Las pruebas no exigen cantidades, meses o IDs históricos. Si cualquier control falla, no se hace commit y GitHub Pages conserva la última versión aprobada.
+
+Workflows propios vigentes: `actualizar-cms.yml`, `control-calidad.yml`, `pruebas-navegacion-real.yml` y `mantenimiento-seguro.yml`.
 
 ## Felicitaciones PDF
 

@@ -1,8 +1,65 @@
 {
-  "schemaVersion": 1,
-  "pipeline": ".github/workflows/actualizar-cms.yml",
+  "schemaVersion": 2,
   "source": "Distrito_Go_CMS_v2_actualizado.xlsx",
-  "generatedAt": "2026-07-27",
-  "mode": "github-actions-static-build",
-  "runtimeBackendRequired": false
+  "sourceSha256": "7b54df3175ba950d1e8543a30f84d60a66169336a05fd1cc3f4cbbe4239c318f",
+  "generatedAt": "2026-08-04T04:26:51Z",
+  "records": 498,
+  "sheets": {
+    "Informativo": {
+      "records": 7,
+      "contentSha256": "8c2af7f305361f8c489a0b86abf5a5934555621d8bab391e0f4b3bb19fc85119"
+    },
+    "WFM": {
+      "records": 1,
+      "contentSha256": "4dddc576e79dc827005487815c91b7d174d1499ef40abf11f70dcb97b1a1a7b8"
+    },
+    "BT": {
+      "records": 0,
+      "contentSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "TBW": {
+      "records": 14,
+      "contentSha256": "5ee08b958daeaf331b60ccfe07560a1fd216d589e620dc8e7af5ae2bd3f27379"
+    },
+    "SS": {
+      "records": 2,
+      "contentSha256": "d0ab1d1a100969c55710757b235cee5060254f7e44b6f501db9eb2cebe79a877"
+    },
+    "Links": {
+      "records": 46,
+      "contentSha256": "6cc7d199796c0adbc17b1c9e9388856e50195bf86353e6cbcf1906a7f6960565"
+    },
+    "Eventos": {
+      "records": 44,
+      "contentSha256": "c868b17e8289b7c626feedf0b306ab8660bea5693297795ad7eea9e3662c013f"
+    },
+    "Actividades_Semanales": {
+      "records": 15,
+      "contentSha256": "728a692ef5cf4235243af4e45614765ece0a53173e97955057414fb7d00261bd"
+    },
+    "Actividades_Diaria": {
+      "records": 7,
+      "contentSha256": "4fd4e97c9640ff240f9f6e666f45f42ad616433295b864ff1245614ddfb42e51"
+    },
+    "Duty_Roster": {
+      "records": 7,
+      "contentSha256": "af5032248928eec08ce0fc665f89ef1b4d6b21932bb039def2ed1f69a2bc22df"
+    },
+    "Duty_Detail": {
+      "records": 57,
+      "contentSha256": "d1c28beefb6738ddcc66977c456d8478c914b34bbd697b3f91eb8c757dbd99c9"
+    },
+    "Checklist_Apertura": {
+      "records": 10,
+      "contentSha256": "611ea94ff09fdcb539b1bf217b718534e9f2d3e1edcde99fc516c50ee69f7b62"
+    },
+    "Identidad": {
+      "records": 8,
+      "contentSha256": "ab895f76dcd71a1cb8954816d5c0eac8a36c64ea2ed3421a1800477b2afa7460"
+    },
+    "Aniversarios_Cumpleanos": {
+      "records": 280,
+      "contentSha256": "dc6add8f5ef7548bf79c55a0f21b07fd35d853de332bc01125daf859e60fa198"
+    }
+  }
 }

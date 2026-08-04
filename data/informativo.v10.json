@@ -39,8 +39,8 @@
     "Mostrar Inicio": false,
     "Mostrar Explorar": true,
     "Acceso Rápido": "Personas",
-    "Recurso": "assets/photos/dresscode26.webp?v=1a5b706a199a",
-    "MiniaturaRecurso": "assets/photos/dresscode26.thumb.webp?v=57c7337f9cea",
+    "Recurso": "assets/photos/dresscode26.webp?v=0aa534aa7d21",
+    "MiniaturaRecurso": "assets/photos/dresscode26.thumb.webp?v=9033bd007673",
     "OriginalRecurso": "assets/photos/dresscode26.jpeg?v=25aefaa41af1",
     "TipoRecurso": "imagen",
     "DescripcionBreve": "Consulta el Dress Code vigente."
@@ -109,7 +109,7 @@
     "Mostrar Explorar": true,
     "Acceso Rápido": "Semana",
     "Recurso": "assets/photos/resumen_comunicado_semana_actual.png?v=9fa0e774f3c1",
-    "MiniaturaRecurso": "assets/photos/resumen_comunicado_semana_actual.thumb.webp?v=3016ebb5c97f",
+    "MiniaturaRecurso": "assets/photos/resumen_comunicado_semana_actual.thumb.webp?v=3b2965f5be47",
     "OriginalRecurso": "assets/photos/resumen_comunicado_semana_actual.png?v=9fa0e774f3c1",
     "TipoRecurso": "imagen",
     "DescripcionBreve": "Consulta los puntos clave de esta semana."
@@ -131,8 +131,8 @@
     "Mostrar Inicio": false,
     "Mostrar Explorar": true,
     "Acceso Rápido": "Hoy",
-    "Recurso": "assets/photos/parametro_horneo.webp?v=8888859b2624",
-    "MiniaturaRecurso": "assets/photos/parametro_horneo.thumb.webp?v=c7a639c01370",
+    "Recurso": "assets/photos/parametro_horneo.webp?v=a87bc6403946",
+    "MiniaturaRecurso": "assets/photos/parametro_horneo.thumb.webp?v=50d77e450725",
     "OriginalRecurso": "assets/photos/parametro_horneo.jpeg?v=713934cf3872",
     "TipoRecurso": "imagen",
     "DescripcionBreve": "Consulta los parámetros vigentes de horneo para asegurar calidad y consistencia."
@@ -154,8 +154,8 @@
     "Mostrar Inicio": false,
     "Mostrar Explorar": true,
     "Acceso Rápido": "Hoy",
-    "Recurso": "assets/photos/cancelacion_ordenes_delivery.webp?v=b0db0c43778b",
-    "MiniaturaRecurso": "assets/photos/cancelacion_ordenes_delivery.thumb.webp?v=ede201a4017f",
+    "Recurso": "assets/photos/cancelacion_ordenes_delivery.webp?v=04e98e860316",
+    "MiniaturaRecurso": "assets/photos/cancelacion_ordenes_delivery.thumb.webp?v=185a8ab026a1",
     "OriginalRecurso": "assets/photos/cancelacion_ordenes_delivery.jpeg?v=ee9ea2f1dd4f",
     "TipoRecurso": "imagen",
     "DescripcionBreve": "Consulta el proceso correcto para cancelar órdenes de delivery."

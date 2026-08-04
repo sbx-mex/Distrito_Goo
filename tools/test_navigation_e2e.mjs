@@ -1,4 +1,5 @@
 import { chromium } from 'playwright';
+import fs from 'node:fs';
 
 const baseURL = process.env.DISTRITO_GO_URL || 'http://127.0.0.1:4173';
 const viewports = [
@@ -9,6 +10,18 @@ const viewports = [
 ];
 const results = [];
 let browser;
+const referenceDate = '2026-08-03';
+const cmsEvents = JSON.parse(fs.readFileSync(new URL('../data/eventos.v10.json', import.meta.url), 'utf8'));
+const activeEventTitles = cmsEvents
+  .filter(item => item.Publicar !== false && item['Fecha Inicio'].slice(0,10) <= referenceDate && item['Fecha Fin'].slice(0,10) >= referenceDate)
+  .map(item => item.Actividad);
+const cmsInformatives = JSON.parse(fs.readFileSync(new URL('../data/informativo.v10.json', import.meta.url), 'utf8'));
+const visibleInformativeCount = cmsInformatives.filter(item => {
+  if(item.Visible === false) return false;
+  const start = String(item['Vigencia Inicio'] || '').slice(0,10);
+  const end = String(item['Vigencia Fin'] || '').slice(0,10);
+  return (!start || start <= referenceDate) && (!end || end >= referenceDate);
+}).length;
 
 function check(name, ok, detail=''){
   results.push({name, ok:Boolean(ok), detail});
@@ -27,12 +40,12 @@ try{
     check(`${viewport.name} carga`, errors.length === 0, errors.join(' | '));
     check(`${viewport.name} centro de mando`, await page.locator('#command-center-grid .command-summary-card').count() === 4, 'debe mostrar cuatro resúmenes');
     const informativeCards = page.locator('#informative-catalog-track .permanent-info-card');
-    check(`${viewport.name} informativos vigentes`, await informativeCards.count() === 7, 'debe mostrar los siete registros visuales del CMS');
+    check(`${viewport.name} informativos vigentes`, await informativeCards.count() === visibleInformativeCount, `${visibleInformativeCount} según CMS`);
     const informativeImage = informativeCards.first().locator('.permanent-info-media img');
     await informativeImage.waitFor({state:'visible'});
     check(`${viewport.name} imagen informativa visible`, await informativeImage.evaluate(image => image.complete && image.naturalWidth > 0 && image.getBoundingClientRect().height >= 150), 'la imagen previa no se cargó o quedó oculta');
     const mondayAgenda = await page.locator('#home-weekly-card').innerText();
-    for(const expected of ['WFM - Pronóstico', 'ECO 2026', 'AutoICA', 'Corte de Nómina', 'Best Talent - Cascada DM - SM', 'Upsize sin costo adicional', 'Concurso de Venta']){
+    for(const expected of activeEventTitles){
       check(`${viewport.name} agenda incluye ${expected}`, mondayAgenda.includes(expected), 'evento vigente ausente del calendario del 3 de agosto');
     }
     check(`${viewport.name} WFM semana 34`, mondayAgenda.includes('WFM · Semana 34') && /17 de agosto al 23 de agosto/i.test(mondayAgenda), 'semana objetivo o rango dinámico incorrectos');

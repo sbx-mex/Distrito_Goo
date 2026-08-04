@@ -10,7 +10,7 @@ import hashlib
 import json
 import re
 import unicodedata
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
@@ -324,7 +324,32 @@ def write_json(path: Path, value: Any) -> None:
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
-def build(root: Path, sheets: dict[str, list[dict[str, Any]]]) -> list[Path]:
+def canonical_hash(value: Any) -> str:
+    """Huella estable de datos normalizados, independiente del formato del XLSX."""
+    payload = json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
+def source_metadata(root: Path, sheets: dict[str, list[dict[str, Any]]], source_path: Path | None) -> dict[str, Any]:
+    raw = {name: [{k: v for k, v in row.items() if k != "__row__"} for row in rows] for name, rows in sheets.items()}
+    source_sha = hashlib.sha256(source_path.read_bytes()).hexdigest() if source_path and source_path.is_file() else canonical_hash(raw)
+    previous_path = root / "data" / "cms-build.v1.json"
+    previous = json.loads(previous_path.read_text(encoding="utf-8")) if previous_path.exists() else {}
+    generated_at = previous.get("generatedAt") if previous.get("sourceSha256") == source_sha else None
+    return {
+        "schemaVersion": 2,
+        "source": source_path.name if source_path else "Distrito_Go_CMS_v2_actualizado.xlsx",
+        "sourceSha256": source_sha,
+        "generatedAt": generated_at or datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
+        "records": sum(len(rows) for rows in sheets.values()),
+        "sheets": {
+            name: {"records": len(rows), "contentSha256": canonical_hash(raw[name])}
+            for name, rows in sheets.items()
+        },
+    }
+
+
+def build(root: Path, sheets: dict[str, list[dict[str, Any]]], source_path: Path | None = None) -> list[Path]:
     data = root / "data"
     changed: list[Path] = []
 
@@ -511,6 +536,7 @@ def build(root: Path, sheets: dict[str, list[dict[str, Any]]]) -> list[Path]:
         "altas-curso.v10.json": {"bt": bt, "ss": ss, "tbw": tbw}, "identity.json": identity,
         "desarrollo-partner.v1.json": partner_development,
         "operacional.v10.json": operational,
+        "cms-build.v1.json": source_metadata(root, sheets, source_path),
     }
     for name, value in outputs.items():
         emit(name, value)
@@ -530,7 +556,7 @@ def main() -> int:
         return 1
     print("CMS válido:", ", ".join(f"{k}={len(v)}" for k, v in sheets.items()))
     if not args.validate_only:
-        changed = build(args.project.resolve(), sheets)
+        changed = build(args.project.resolve(), sheets, args.cms.resolve())
         print(f"JSON actualizados: {len(changed)}")
         for path in changed:
             print(path.relative_to(args.project.resolve()).as_posix())

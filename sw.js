@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'distrito-go-';
-const CACHE_NAME = `${CACHE_PREFIX}v46.0.0-informativos-visuales`;
+const CACHE_NAME = `${CACHE_PREFIX}v47.0.0-cms-sostenible`;
 const APP_SHELL = [
   './',
   './index.html',

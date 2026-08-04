@@ -1,17 +1,32 @@
 [
   {
-    "Mes": "Julio",
-    "SBX": "SBX099728",
-    "NO. EMPLEADO": "099728",
-    "NOMBRE COMPLETO": "ANDREA MICHELLE COLIN ROLON",
-    "CECO": 38333,
-    "TIENDA": "IZCALLI MEGA",
+    "Mes": "Agosto",
+    "SBX": "SBX102187",
+    "NO. EMPLEADO": "102187",
+    "NOMBRE COMPLETO": "CHARLOTTE  CRUZ DELGADO",
+    "CECO": 38604,
+    "TIENDA": "COSMOPOL",
     "REGION": "Centro Norte",
     "DM": "Enrique Cesar Flores",
     "HRBP": "Iván Macías Guido",
     "RD": "Jorge Antonio Alcantar Aguiar",
-    "mes de solicitud": "Julio",
-    "BT": "Completo",
-    "ESTATUS ALTA": "Alta Julio"
+    "mes de solicitud": "Agosto",
+    "BT": "Finalizado",
+    "ESTATUS ALTA": "Alta agosto"
+  },
+  {
+    "Mes": "Agosto",
+    "SBX": "SBX101262",
+    "NO. EMPLEADO": "101262",
+    "NOMBRE COMPLETO": "HUGO  CID RODRIGUEZ",
+    "CECO": 38339,
+    "TIENDA": "SAN MARCOS",
+    "REGION": "Centro Norte",
+    "DM": "Enrique Cesar Flores",
+    "HRBP": "Iván Macías Guido",
+    "RD": "Jorge Antonio Alcantar Aguiar",
+    "mes de solicitud": "Agosto",
+    "BT": "Finalizado",
+    "ESTATUS ALTA": "Alta agosto"
   }
 ]

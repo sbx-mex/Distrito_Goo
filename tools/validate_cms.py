@@ -10,6 +10,8 @@ from datetime import date, datetime
 from pathlib import Path
 from typing import Any
 
+from openpyxl import load_workbook
+
 from cms_pipeline import validate_workbook
 
 TRUE_VALUES = {"true", "verdadero", "si", "sí", "1", "yes"}
@@ -61,16 +63,48 @@ def duplicate_values(rows: list[dict[str, Any]], column: str) -> list[str]:
     return sorted(duplicated, key=str.casefold)
 
 
+def formula_cells_without_cached_value(cms: Path) -> list[str]:
+    formulas = load_workbook(cms, read_only=True, data_only=False)
+    values = load_workbook(cms, read_only=True, data_only=True)
+    missing: list[str] = []
+    for sheet_name in formulas.sheetnames:
+        formula_sheet = formulas[sheet_name]
+        value_sheet = values[sheet_name]
+        for row in formula_sheet.iter_rows():
+            for cell in row:
+                if cell.data_type == "f" and value_sheet[cell.coordinate].value is None:
+                    missing.append(f"{sheet_name}!{cell.coordinate}")
+    formulas.close()
+    values.close()
+    return missing
+
+
 def audit_cms(cms: Path) -> dict[str, Any]:
     sheets, structural_errors = validate_workbook(cms)
     critical = list(structural_errors)
     warnings: list[str] = []
     metrics: dict[str, Any] = {"sheets": {name: len(rows) for name, rows in sheets.items()}}
 
-    for sheet_name, id_column in (("Informativo", "ID"), ("Eventos", "ID"), ("Actividades_Semanales", "ID"), ("Actividades_Diaria", "ID")):
-        duplicates = duplicate_values(sheets.get(sheet_name, []), id_column)
-        if duplicates:
-            critical.append(f"{sheet_name}: IDs duplicados: {', '.join(duplicates)}")
+    contract_path = cms.resolve().parent / "cms-contract.json"
+    contract = json.loads(contract_path.read_text(encoding="utf-8")) if contract_path.is_file() else {"sheets": {}}
+    for sheet_name, spec in contract.get("sheets", {}).items():
+        primary = spec.get("primaryKey")
+        if not primary:
+            continue
+        columns = [primary] if isinstance(primary, str) else list(primary)
+        seen: set[tuple[str, ...]] = set()
+        for row in sheets.get(sheet_name, []):
+            row_number = row.get("__row__", "?")
+            key = tuple(text(row.get(column)) for column in columns)
+            if not all(key):
+                critical.append(f"{sheet_name} fila {row_number}: clave obligatoria incompleta ({', '.join(columns)})")
+            elif key in seen:
+                critical.append(f"{sheet_name} fila {row_number}: clave duplicada {' / '.join(key)}")
+            seen.add(key)
+
+    uncached_formulas = formula_cells_without_cached_value(cms)
+    if uncached_formulas:
+        critical.append("Fórmulas sin resultado guardado: " + ", ".join(uncached_formulas[:20]))
 
     events = sheets.get("Eventos", [])
     inventory = {"weekly": 0, "monthEnd": 0}

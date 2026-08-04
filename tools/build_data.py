@@ -14,7 +14,7 @@ def main() -> int:
     if errors:
         print('\n'.join(f'ERROR: {item}' for item in errors))
         return 1
-    changed = build(args.project.resolve(), sheets)
+    changed = build(args.project.resolve(), sheets, args.cms.resolve())
     print(f'CMS compilado: {sum(map(len, sheets.values()))} registros; {len(changed)} JSON modificados')
     for path in changed:
         print(path.relative_to(args.project.resolve()).as_posix())

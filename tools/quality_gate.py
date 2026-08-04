@@ -54,14 +54,11 @@ def inspect_project(cms: Path) -> dict[str, Any]:
     cms_result = audit_cms(cms)
     gate.check("2 · CMS", "Estructura y calidad del CMS", cms_result["ok"], f"{cms_result['summary']['critical']} críticos; {cms_result['summary']['warnings']} advertencias")
 
-    operational = load_json(ROOT / "data" / "operacional.v10.json")
-    sheet_counts = cms_result["metrics"]["sheets"]
-    synchronized = (
-        len(operational.get("informativo", [])) == sheet_counts.get("Informativo")
-        and len(operational.get("eventos", [])) == sheet_counts.get("Eventos")
-        and len(operational.get("actividadesSemanales", [])) == sheet_counts.get("Actividades_Semanales")
-    )
-    gate.check("2 · CMS", "JSON sincronizados con Excel", synchronized, f"Informativo {len(operational.get('informativo', []))}/{sheet_counts.get('Informativo')}; Eventos {len(operational.get('eventos', []))}/{sheet_counts.get('Eventos')}")
+    sync_ok, sync_result = run_json(["python", "tools/validate_cms_sync.py", str(cms), "--project", str(ROOT)])
+    sync_checks = sync_result.get("checks", [])
+    gate.check("2 · CMS", "Las 14 pestañas están sincronizadas", sync_ok, f"{sum(item.get('ok', False) for item in sync_checks)}/{len(sync_checks)} reconciliaciones")
+    contract = load_json(ROOT / "cms-contract.json")
+    gate.check("2 · CMS", "Contrato formal del CMS", set(contract.get("sheets", {})) == set(cms_result["metrics"]["sheets"]), f"{len(contract.get('sheets', {}))} pestañas definidas")
 
     static_ok, static_result = run_json(["python", "tools/audit_static.py"])
     assets_ok, assets_result = run_json(["python", "tools/validate_assets.py"])
@@ -113,10 +110,10 @@ def inspect_project(cms: Path) -> dict[str, Any]:
     cleanup = cleanup_report(False, "")
     gate.check("5 · Publicación", "Limpieza en modo auditoría", cleanup["ok"], f"{cleanup['summary']['candidates']} candidatos; 0 eliminados")
     workflow = (ROOT / ".github" / "workflows" / "control-calidad.yml").read_text(encoding="utf-8")
-    cleanup_workflow = (ROOT / ".github" / "workflows" / "limpieza-archivos-sin-uso.yml").read_text(encoding="utf-8")
+    cleanup_workflow = (ROOT / ".github" / "workflows" / "mantenimiento-seguro.yml").read_text(encoding="utf-8")
     browser_workflow = (ROOT / ".github" / "workflows" / "pruebas-navegacion-real.yml").read_text(encoding="utf-8")
-    gate.check("5 · Publicación", "Control previo a publicar", "tools/quality_gate.py" in workflow and "pull_request:" in workflow, "push, PR y ejecución manual")
-    gate.check("5 · Publicación", "Borrado con confirmación explícita", "ELIMINAR_ARCHIVOS_HUERFANOS" in cleanup_workflow and "--confirm" in cleanup_workflow, "auditoría antes y validación después")
+    gate.check("5 · Publicación", "Control previo a publicar", "tools/cms_release.py" in workflow and "pull_request:" in workflow and "workflow_dispatch:" in workflow, "compilación aislada en push, PR y ejecución manual")
+    gate.check("5 · Publicación", "Mantenimiento en dos fases", all(token in cleanup_workflow for token in ("AUDITAR", "RETIRAR_EXPIRADOS", "ELIMINAR_HUERFANOS", "--confirm")), "auditoría, confirmación y validación posterior")
     gate.check("5 · Publicación", "Navegación real en navegador", all(token in browser_workflow for token in ("playwright", "320", "390", "768", "1440")), "Chromium en cuatro anchos")
 
     critical_failed = [item for item in gate.checks if not item["ok"] and item["severity"] == "critical"]

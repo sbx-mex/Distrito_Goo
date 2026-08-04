@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "source": "Distrito_Go_CMS_v2_actualizado.xlsx",
+  "rules": {
+    "headerRow": 1,
+    "blankRowsIgnored": true,
+    "columnsMatchedByName": true,
+    "columnOrderFlexible": true,
+    "dates": "Excel date or ISO yyyy-mm-dd",
+    "booleans": ["VERDADERO", "FALSO", "Sí", "No", true, false],
+    "formulas": "must contain a cached result saved by Excel"
+  },
+  "sheets": {
+    "Informativo": {"primaryKey": "ID", "output": "data/informativo.v10.json"},
+    "WFM": {"output": "data/wfm.json"},
+    "BT": {"primaryKey": "SBX", "output": "data/bt.json"},
+    "TBW": {"primaryKey": "SBX", "output": "data/tbw.json"},
+    "SS": {"primaryKey": "SBX", "output": "data/ss.json"},
+    "Links": {"primaryKey": "Nombre", "output": "data/links.json"},
+    "Eventos": {"primaryKey": "ID", "output": "data/eventos.v10.json", "publishedWhen": "Publicar"},
+    "Actividades_Semanales": {"primaryKey": "ID", "output": "data/actividades-semanales.v10.json"},
+    "Actividades_Diaria": {"primaryKey": "ID", "output": "data/actividades-diarias.v10.json"},
+    "Duty_Roster": {"primaryKey": "Orden", "output": "data/duty-roster.v10.json"},
+    "Duty_Detail": {"primaryKey": ["Día", "Estación", "Orden"], "output": "data/duty-detail.v10.json"},
+    "Checklist_Apertura": {"primaryKey": "Orden", "output": "data/checklist-apertura.v10.json"},
+    "Identidad": {"primaryKey": "Identificador", "output": "data/identity.json"},
+    "Aniversarios_Cumpleanos": {"primaryKey": "ID", "output": "data/operacional.v10.json#celebraciones", "publishedWhen": "Publicar"}
+  }
+}

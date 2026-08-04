@@ -28,6 +28,12 @@ SW_SHELL_RE = re.compile(r"const APP_SHELL = \[(.*?)\];", re.S)
 CONFIRMATION = "ELIMINAR_ARCHIVOS_HUERFANOS"
 CURRENT_TESTS = {"test_experience_v37.mjs", "test_enhancements_v42.mjs", "test_navigation_e2e.mjs"}
 HISTORICAL_REPORT_RE = re.compile(r"^(?:quality-gate-v|v)(\d+)(?:[-.].*)?\.(?:json|md)$", re.I)
+OBSOLETE_WORKFLOWS = {
+    "limpieza-archivos-sin-uso.yml",
+    "limpieza-contenido-expirado.yml",
+    "validar-informativos-visuales.yml",
+    "validar-navegacion-eventos.yml",
+}
 
 
 def relative(path: Path) -> str:
@@ -156,6 +162,23 @@ def build_report(apply: bool, confirmation: str) -> dict[str, object]:
                 "bytes": path.stat().st_size,
                 "sha256": sha256(path),
             })
+
+    for path in sorted((ROOT / ".github" / "workflows").glob("*.yml")):
+        if path.name in OBSOLETE_WORKFLOWS:
+            candidates.append({
+                "path": relative(path),
+                "reason": "workflow especializado consolidado en calidad integral o mantenimiento seguro",
+                "bytes": path.stat().st_size,
+                "sha256": sha256(path),
+            })
+
+    for path in sorted((ROOT / "tools").rglob("*.pyc")):
+        candidates.append({
+            "path": relative(path),
+            "reason": "caché compilada de Python; se regenera localmente y está excluida por .gitignore",
+            "bytes": path.stat().st_size,
+            "sha256": sha256(path),
+        })
 
     if apply and confirmation != CONFIRMATION:
         raise SystemExit(f"Confirmación inválida. Usa --confirm {CONFIRMATION}")

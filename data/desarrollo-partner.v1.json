@@ -3,12 +3,12 @@
   "vistas": {
     "alta": {
       "titulo": "Cursos de Alta",
-      "periodo": "Julio",
-      "total": 7,
-      "tiendas": 4,
+      "periodo": "Agosto",
+      "total": 2,
+      "tiendas": 2,
       "programas": {
-        "BT": 6,
-        "SS": 1
+        "BT": 0,
+        "SS": 2
       },
       "grupos": [
         {
@@ -16,57 +16,20 @@
           "total": 1,
           "partners": [
             {
-              "id": "SBX106137",
-              "nombre": "ANGEL SAID MONTESINOS GARCIA",
-              "programa": "BT"
-            }
-          ]
-        },
-        {
-          "tienda": "IZCALLI MEGA",
-          "total": 4,
-          "partners": [
-            {
-              "id": "SBX099728",
-              "nombre": "ANDREA MICHELLE COLIN ROLON",
+              "id": "SBX102187",
+              "nombre": "CHARLOTTE CRUZ DELGADO",
               "programa": "SS"
-            },
-            {
-              "id": "SBX096221",
-              "nombre": "MARIANA PEREZ RAMIREZ",
-              "programa": "BT"
-            },
-            {
-              "id": "SBX102053",
-              "nombre": "MELANYE ARELY SALAS MONCADA",
-              "programa": "BT"
-            },
-            {
-              "id": "SBX100034",
-              "nombre": "RAYMUNDO ALEJANDRO ROJAS GRANIEL",
-              "programa": "BT"
             }
           ]
         },
         {
-          "tienda": "PATIO ECATEPEC",
+          "tienda": "SAN MARCOS",
           "total": 1,
           "partners": [
             {
-              "id": "SBX106807",
-              "nombre": "ALONDRA ABIGAIL HERNANDEZ GARCIA",
-              "programa": "BT"
-            }
-          ]
-        },
-        {
-          "tienda": "SAN MIGUEL IZCALLI",
-          "total": 1,
-          "partners": [
-            {
-              "id": "SBX095810",
-              "nombre": "SEBASTIAN SOTO ZUÑIGA",
-              "programa": "BT"
+              "id": "SBX101262",
+              "nombre": "HUGO CID RODRIGUEZ",
+              "programa": "SS"
             }
           ]
         }
@@ -193,67 +156,22 @@
   },
   "cursosAlta": [
     {
-      "id": "SBX106137",
-      "nombre": "ANGEL SAID MONTESINOS GARCIA",
+      "id": "SBX102187",
+      "nombre": "CHARLOTTE CRUZ DELGADO",
       "tienda": "COSMOPOL",
-      "estatus": "Alta julio",
-      "programa": "BT",
-      "avance": "Completo",
-      "fecha": "Julio"
-    },
-    {
-      "id": "SBX099728",
-      "nombre": "ANDREA MICHELLE COLIN ROLON",
-      "tienda": "IZCALLI MEGA",
-      "estatus": "Alta Julio",
+      "estatus": "Alta agosto",
       "programa": "SS",
-      "avance": "Completo",
-      "fecha": "Julio"
+      "avance": "Finalizado",
+      "fecha": "Agosto"
     },
     {
-      "id": "SBX096221",
-      "nombre": "MARIANA PEREZ RAMIREZ",
-      "tienda": "IZCALLI MEGA",
-      "estatus": "Alta julio",
-      "programa": "BT",
-      "avance": "Completo",
-      "fecha": "Julio"
-    },
-    {
-      "id": "SBX102053",
-      "nombre": "MELANYE ARELY SALAS MONCADA",
-      "tienda": "IZCALLI MEGA",
-      "estatus": "Alta julio",
-      "programa": "BT",
-      "avance": "Completo",
-      "fecha": "Julio"
-    },
-    {
-      "id": "SBX100034",
-      "nombre": "RAYMUNDO ALEJANDRO ROJAS GRANIEL",
-      "tienda": "IZCALLI MEGA",
-      "estatus": "Alta julio",
-      "programa": "BT",
-      "avance": "Completo",
-      "fecha": "Julio"
-    },
-    {
-      "id": "SBX106807",
-      "nombre": "ALONDRA ABIGAIL HERNANDEZ GARCIA",
-      "tienda": "PATIO ECATEPEC",
-      "estatus": "Alta julio",
-      "programa": "BT",
-      "avance": "Completo",
-      "fecha": "Julio"
-    },
-    {
-      "id": "SBX095810",
-      "nombre": "SEBASTIAN SOTO ZUÑIGA",
-      "tienda": "SAN MIGUEL IZCALLI",
-      "estatus": "Alta julio",
-      "programa": "BT",
-      "avance": "Completo",
-      "fecha": "Julio"
+      "id": "SBX101262",
+      "nombre": "HUGO CID RODRIGUEZ",
+      "tienda": "SAN MARCOS",
+      "estatus": "Alta agosto",
+      "programa": "SS",
+      "avance": "Finalizado",
+      "fecha": "Agosto"
     }
   ],
   "tbwPendientes": [

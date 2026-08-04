@@ -18,7 +18,7 @@ check('Eventos de Explorar abren destino directo', experience.includes("if(item.
 check('URLs abreviadas se rechazan', app.includes("text.includes('...')") && experience.includes("text.includes('...')") && operational.includes("text.includes('...')"));
 check('Eventos sin destino son informativos', operational.includes("destination.kind === 'informative'") && operational.includes('event-card-main is-static'));
 check('Eventos con enlace no abren detalle', operational.includes("new CustomEvent('dgx:open-destination'") && !operational.includes("section:'eventos-cms'"));
-check('Caché actualizado', fs.readFileSync('sw.js', 'utf8').includes('v45.0.0-destinos-eventos'));
+check('Caché actualizado', fs.readFileSync('sw.js', 'utf8').includes('v46.0.0-informativos-visuales'));
 
 for(const item of checks) console.log(`${item.ok ? 'OK' : 'FALLO'} ${item.name}`);
 const failed = checks.filter(item => !item.ok);

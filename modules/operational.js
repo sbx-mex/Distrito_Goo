@@ -98,6 +98,28 @@ function validityLabel(item){
   if(start) return `Desde ${start.toLocaleDateString('es-MX',{day:'2-digit',month:'short'})}`;
   return item?.Frecuencia || '';
 }
+function isVisualResource(value=''){
+  return /\.(?:avif|gif|jpe?g|png|webp)(?:[?#].*)?$/i.test(String(value).trim());
+}
+function safeExternalResource(value=''){
+  const text = String(value || '').trim();
+  if(!/^https?:\/\//i.test(text) || text.includes('...') || /[{}<>]/.test(text)) return '';
+  try{
+    const url = new URL(text);
+    return /^https?:$/.test(url.protocol) && url.hostname ? url.href : '';
+  }catch{
+    return '';
+  }
+}
+function informativeVisual(item){
+  const optimized = String(item?.MiniaturaRecurso || item?.Recurso || '').trim();
+  const original = String(item?.OriginalRecurso || item?.Recurso || '').trim();
+  if(!isVisualResource(optimized) && !isVisualResource(original)) return '';
+  const image = isVisualResource(original) ? original : optimized;
+  const source = isVisualResource(optimized) ? optimized : image;
+  const picture = `<picture>${/\.webp(?:[?#].*)?$/i.test(source) ? `<source type="image/webp" srcset="${escapeHtml(source)}">` : ''}<img src="${escapeHtml(image)}" alt="Vista previa de ${escapeHtml(item?.Actividad || 'informativo')}" width="1200" height="675" loading="lazy" decoding="async"></picture>`;
+  return {picture, image};
+}
 function validEventLink(value){
   const text = String(value || '').trim();
   if(!/^https?:\/\//i.test(text) || text.includes('...') || /[{}<>]/.test(text)) return '';
@@ -250,18 +272,22 @@ export function renderInformativo(){
   const cards = info.map(item => {
     const contentId = `info-${item.ID}`;
     const resource = String(item.Recurso || '').trim();
-    const destination = /^(?:https?:\/\/|\.\.?\/)/i.test(resource)
-      && (/^https?:\/\//i.test(resource) || /\.(?:avif|gif|jpe?g|png|webp)(?:[?#].*)?$/i.test(resource));
+    const visual = informativeVisual(item);
+    const externalLink = item.TipoRecurso === 'link' ? safeExternalResource(resource) : '';
+    const destination = Boolean(visual || externalLink);
     const saved = isContentSaved(contentId);
     const label = item.Etiqueta || (Number(item.Prioridad) === 1 ? 'Prioridad' : '');
-    return `<article class="permanent-info-card">
-      <span class="permanent-info-icon" aria-hidden="true">${item.Icono || 'ℹ️'}</span>
+    const visualMarkup = visual
+      ? `<button class="permanent-info-media" type="button" data-open-content="${escapeHtml(contentId)}" aria-label="Ver ${escapeHtml(item.Actividad || 'informativo')}">${visual.picture}<span>Ver imagen completa</span></button>`
+      : `<span class="permanent-info-icon" aria-hidden="true">${item.Icono || 'ℹ️'}</span>`;
+    return `<article class="permanent-info-card ${visual ? 'has-visual' : 'is-text-only'}">
+      ${visualMarkup}
       <div class="permanent-info-copy">
         <div class="permanent-info-meta">${label ? `<small>${escapeHtml(label)}</small>` : ''}${item.Frecuencia ? `<span>${escapeHtml(item.Frecuencia)}</span>` : ''}${validityLabel(item) ? `<span>${escapeHtml(validityLabel(item))}</span>` : ''}</div>
         <strong>${escapeHtml(item.Actividad || 'Informativo')}</strong>
         <p>${escapeHtml(briefText(item.DescripcionBreve || item['Descripción'] || '', 120))}</p>
         <div class="permanent-info-actions">
-          ${destination ? `<button type="button" data-open-content="${escapeHtml(contentId)}">Abrir contenido</button>` : ''}
+          ${destination ? `<button type="button" data-open-content="${escapeHtml(contentId)}">${visual ? 'Ver imagen' : 'Abrir acceso'}</button>` : ''}
           ${destination ? `<button class="permanent-info-save ${saved ? 'is-saved' : ''}" type="button" data-save-content="${escapeHtml(contentId)}" aria-label="${escapeHtml(saved ? `Quitar ${item.Actividad} de Guardados` : `Guardar ${item.Actividad}`)}" aria-pressed="${saved}"><span aria-hidden="true">${saved ? '♥' : '♡'}</span><span class="save-content-label">${saved ? 'Guardado' : 'Guardar'}</span></button>` : '<span class="catalog-info-state">Informativo</span>'}
         </div>
       </div>

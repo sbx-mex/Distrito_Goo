@@ -309,8 +309,8 @@ function standardCoverMarkup(item){
   </span>`;
 }
 function cardMarkup(item){
-  const standardCover = shouldUseStandardCover(item);
-  const hasImage = !standardCover && Boolean(item.image && isImage(item.image));
+  const hasImage = Boolean(item.image && isImage(item.image));
+  const standardCover = !hasImage && shouldUseStandardCover(item);
   const actionable = hasDestination(item);
   const content = standardCover ? standardCoverMarkup(item) : (hasImage ? `${imageMarkup(item, 'explore-card-media')}<span class="explore-card-body"><span class="content-badge">${escapeHtml(item.label)}</span><h4>${escapeHtml(item.title)}</h4></span>` : standardCoverMarkup(item));
   return `<article class="explore-card ${hasImage ? 'has-image' : ''}" data-content-card="${escapeHtml(item.id)}">

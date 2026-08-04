@@ -36,7 +36,7 @@ for (const title of ['ECO 2026 | Referente operativo', 'AutoICA', 'Corte de Nóm
 check('Calendario semanal incluye todos los eventos por rango', experience.includes('function eventsForDate(targetDate)') && !experience.includes("/inventario (?:semanal|fin de mes)/i.test(item.Actividad || '')"));
 check('Contadores usan la misma fuente de eventos', experience.includes('return recurring + eventsForDate(date).length'));
 check('Eventos sin destino permanecen informativos', experience.includes('const destination = hasDestination(item)'));
-check('Caché v45', sw.includes('v45.0.0-destinos-eventos'));
+check('Caché v46', sw.includes('v46.0.0-informativos-visuales'));
 
 if(failures.length){ console.error(failures.join('\n')); process.exit(1); }
-console.log('Calendario de Eventos y WFM v45: validación aprobada.');
+console.log('Calendario de Eventos y WFM v46: validación aprobada.');

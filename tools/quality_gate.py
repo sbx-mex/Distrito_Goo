@@ -65,8 +65,10 @@ def inspect_project(cms: Path) -> dict[str, Any]:
 
     static_ok, static_result = run_json(["python", "tools/audit_static.py"])
     assets_ok, assets_result = run_json(["python", "tools/validate_assets.py"])
+    visuals_ok, visuals_result = run_json(["python", "tools/validate_informative_visuals.py", "--report", "reports/informative-visuals.json"])
     gate.check("1 · Funcional", "Rutas, IDs y destinos", static_ok, f"{len(static_result.get('errors', []))} errores")
     gate.check("1 · Funcional", "Recursos generados", assets_ok, f"{len(assets_result.get('errors', []))} rutas faltantes")
+    gate.check("4 · Experiencia", "Informativos conservan sus imágenes", visuals_ok, f"{visuals_result.get('summary', {}).get('visuals', 0)} visuales; {visuals_result.get('summary', {}).get('errors', 0)} errores")
 
     html = (ROOT / "index.html").read_text(encoding="utf-8")
     navigation = (ROOT / "modules" / "navigation.js").read_text(encoding="utf-8")

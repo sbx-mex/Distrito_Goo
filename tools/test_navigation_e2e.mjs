@@ -26,6 +26,11 @@ try{
     await page.waitForSelector('body.app-ready');
     check(`${viewport.name} carga`, errors.length === 0, errors.join(' | '));
     check(`${viewport.name} centro de mando`, await page.locator('#command-center-grid .command-summary-card').count() === 4, 'debe mostrar cuatro resúmenes');
+    const informativeCards = page.locator('#informative-catalog-track .permanent-info-card');
+    check(`${viewport.name} informativos vigentes`, await informativeCards.count() === 7, 'debe mostrar los siete registros visuales del CMS');
+    const informativeImage = informativeCards.first().locator('.permanent-info-media img');
+    await informativeImage.waitFor({state:'visible'});
+    check(`${viewport.name} imagen informativa visible`, await informativeImage.evaluate(image => image.complete && image.naturalWidth > 0 && image.getBoundingClientRect().height >= 150), 'la imagen previa no se cargó o quedó oculta');
     const mondayAgenda = await page.locator('#home-weekly-card').innerText();
     for(const expected of ['WFM - Pronóstico', 'ECO 2026', 'AutoICA', 'Corte de Nómina', 'Best Talent - Cascada DM - SM', 'Upsize sin costo adicional', 'Concurso de Venta']){
       check(`${viewport.name} agenda incluye ${expected}`, mondayAgenda.includes(expected), 'evento vigente ausente del calendario del 3 de agosto');
@@ -33,6 +38,10 @@ try{
     check(`${viewport.name} WFM semana 34`, mondayAgenda.includes('WFM · Semana 34') && /17 de agosto al 23 de agosto/i.test(mondayAgenda), 'semana objetivo o rango dinámico incorrectos');
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     check(`${viewport.name} sin corte horizontal`, overflow <= 1, `desbordamiento ${overflow}px`);
+    await informativeCards.first().locator('.permanent-info-media').click();
+    await page.waitForSelector('#quick-modal[open]');
+    check(`${viewport.name} imagen ampliable`, await page.locator('#quick-modal .visual-detail-media').count() === 1, 'la vista previa no abre el recurso completo');
+    await page.locator('#close-quick-modal').click();
     await page.locator('#header-search').click();
     await page.locator('#general-search-input').fill('inventario');
     await page.waitForSelector('#global-search-results:not([hidden])');

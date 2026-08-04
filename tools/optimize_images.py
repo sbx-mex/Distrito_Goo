@@ -47,13 +47,21 @@ def main() -> int:
     root = args.project.resolve()
     photos = root / "assets" / "photos"
     premium = root / "assets" / "premium" / "duty-roster"
+
+    def needs_optimization(path: Path) -> bool:
+        if not path.is_file() or path.suffix.casefold() not in SOURCE_SUFFIXES:
+            return False
+        target = path.with_suffix(".webp")
+        thumbnail = path.with_name(f"{path.stem}.thumb.webp")
+        return should_optimize(path, args.minimum_bytes) or not (target.is_file() and thumbnail.is_file())
+
     sources = [
         path for path in sorted(photos.glob("*"))
-        if path.is_file() and path.suffix.casefold() in SOURCE_SUFFIXES
+        if needs_optimization(path)
     ]
     sources.extend(
         path for path in sorted(premium.glob("*"))
-        if path.is_file() and path.suffix.casefold() in SOURCE_SUFFIXES
+        if needs_optimization(path)
     )
     records = []
     for source in sources:

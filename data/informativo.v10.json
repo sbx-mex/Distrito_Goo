@@ -159,5 +159,28 @@
     "OriginalRecurso": "assets/photos/cancelacion_ordenes_delivery.jpeg?v=ee9ea2f1dd4f",
     "TipoRecurso": "imagen",
     "DescripcionBreve": "Consulta el proceso correcto para cancelar órdenes de delivery."
+  },
+  {
+    "ID": 8,
+    "Actividad": "Fechas importantes en movimientos HCM",
+    "Descripción": "Consulta las fechas de captura y aprobación para transferencias y ascensos en HCM.",
+    "Frecuencia": "Mensual",
+    "Prioridad": 1,
+    "Categoría": "Personas",
+    "Icono": "📅",
+    "Color": "Azul",
+    "Visible": true,
+    "Etiqueta": "Importante",
+    "Vigencia Inicio": "",
+    "Vigencia Fin": "",
+    "Orden": 8,
+    "Mostrar Inicio": false,
+    "Mostrar Explorar": true,
+    "Acceso Rápido": "Personas",
+    "Recurso": "assets/photos/movimiento_hcm.webp?v=0844d05b2389",
+    "MiniaturaRecurso": "assets/photos/movimiento_hcm.thumb.webp?v=6baeae9b5875",
+    "OriginalRecurso": "assets/photos/movimiento_hcm.jpeg?v=35eabc52b378",
+    "TipoRecurso": "imagen",
+    "DescripcionBreve": "Consulta las fechas de captura y aprobación para transferencias y ascensos en HCM."
   }
 ]

@@ -1,1 +1,6 @@
-
+__pycache__/
+*.py[cod]
+node_modules/
+playwright-report/
+test-results/
+reports/*.tmp.json

@@ -38,7 +38,7 @@ def inspect() -> dict[str, object]:
 
     operational = (ROOT / "modules" / "operational.js").read_text(encoding="utf-8")
     experience = (ROOT / "modules" / "experience.js").read_text(encoding="utf-8")
-    css = (ROOT / "styles" / "navigation-v26.css").read_text(encoding="utf-8")
+    css = (ROOT / "styles" / "distrito-go.css").read_text(encoding="utf-8")
     code_checks = {
         "inicioRenderizaPicture": 'class="permanent-info-media"' in operational and "informativeVisual(item)" in operational,
         "imagenIndependienteDelDestino": "const destination = Boolean(visual || externalLink)" in operational,

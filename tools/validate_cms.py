@@ -18,6 +18,7 @@ TRUE_VALUES = {"true", "verdadero", "si", "sí", "1", "yes"}
 FALSE_VALUES = {"false", "falso", "no", "0"}
 BOOLEAN_VALUES = TRUE_VALUES | FALSE_VALUES
 LOCAL_IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp", ".avif", ".gif", ".svg"}
+EVENT_ACTIONS = {"enlace", "imagen", "informativo"}
 
 
 def text(value: Any) -> str:
@@ -48,6 +49,13 @@ def local_asset_exists(cms: Path, value: Any) -> bool:
     root = cms.resolve().parent
     candidates = [root / raw, root / "assets" / "photos" / name, root / "assets" / "img" / name]
     return any(path.is_file() for path in candidates)
+
+
+def complete_http_url(value: Any) -> bool:
+    raw = text(value)
+    if not re.match(r"^https?://", raw, re.I) or "..." in raw or re.search(r"[{}<>]", raw):
+        return False
+    return bool(re.match(r"^https?://[^/\s]+(?:/[^\s]*)?$", raw, re.I))
 
 
 def duplicate_values(rows: list[dict[str, Any]], column: str) -> list[str]:
@@ -115,6 +123,7 @@ def audit_cms(cms: Path) -> dict[str, Any]:
         start = as_date(row.get("Fecha Inicio"))
         end = as_date(row.get("Fecha Fin"))
         publish = text(row.get("Publicar")).casefold()
+        action = text(row.get("Tipo de acción")).casefold()
         if not name:
             critical.append(f"Eventos {event_id}: falta Nombre Evento")
         if not start or not end:
@@ -124,6 +133,8 @@ def audit_cms(cms: Path) -> dict[str, Any]:
             critical.append(f"Eventos {event_id}: Fecha Inicio es posterior a Fecha Fin")
         if publish not in BOOLEAN_VALUES:
             critical.append(f"Eventos {event_id}: Publicar debe ser VERDADERO/FALSO o Sí/No")
+        if action not in EVENT_ACTIONS:
+            critical.append(f"Eventos {event_id}: Tipo de acción debe ser Enlace, Imagen o Informativo")
         normalized = name.casefold()
         if normalized == "inventario semanal":
             inventory["weekly"] += 1
@@ -135,6 +146,15 @@ def audit_cms(cms: Path) -> dict[str, Any]:
             if start != end or start.day != last_day:
                 critical.append(f"Eventos {event_id}: Inventario fin de mes debe iniciar y terminar el último día calendario")
         resource = row.get("Link/Imagen")
+        image_resource = row.get("Imagen")
+        if resource and re.match(r"^https?://", text(resource), re.I) and not complete_http_url(resource):
+            critical.append(f"Eventos {event_id}: enlace incompleto o inválido {text(resource)}")
+        if action == "enlace" and not complete_http_url(resource):
+            critical.append(f"Eventos {event_id}: Tipo de acción Enlace requiere una URL HTTPS completa")
+        if action == "imagen" and not any(
+            Path(text(value)).suffix.casefold() in LOCAL_IMAGE_EXTENSIONS for value in (resource, image_resource) if text(value)
+        ):
+            critical.append(f"Eventos {event_id}: Tipo de acción Imagen requiere un archivo gráfico")
         if resource and not local_asset_exists(cms, resource):
             critical.append(f"Eventos {event_id}: no existe el recurso local {text(resource)}")
 

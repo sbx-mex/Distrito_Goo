@@ -135,10 +135,12 @@ function validEventImage(value){
   return /\.(?:avif|gif|jpe?g|png|webp)(?:[?#].*)?$/i.test(text) ? text : '';
 }
 function eventDestination(item){
+  const action = String(item?.TipoAccion || 'Informativo').trim().toLocaleLowerCase('es');
   const link = validEventLink(item?.Link);
-  if(link) return {kind:'link', link, image:''};
   const image = validEventImage(item?.ImagenOriginal || item?.ImagenPath || item?.MiniaturaPath);
-  return image ? {kind:'image', link:'', image} : {kind:'informative', link:'', image:''};
+  if(action === 'enlace' && link) return {kind:'link', link, image:''};
+  if(action === 'imagen' && image) return {kind:'image', link:'', image};
+  return {kind:'informative', link:'', image};
 }
 function eventCard(e){
   const title = e.Actividad || 'Evento';

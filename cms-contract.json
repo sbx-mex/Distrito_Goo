@@ -17,7 +17,14 @@
     "TBW": {"primaryKey": "SBX", "output": "data/tbw.json"},
     "SS": {"primaryKey": "SBX", "output": "data/ss.json"},
     "Links": {"primaryKey": "Nombre", "output": "data/links.json"},
-    "Eventos": {"primaryKey": "ID", "output": "data/eventos.v10.json", "publishedWhen": "Publicar"},
+    "Eventos": {
+      "primaryKey": "ID",
+      "output": "data/eventos.v10.json",
+      "publishedWhen": "Publicar",
+      "requiredColumns": ["Tipo de acción"],
+      "allowedValues": {"Tipo de acción": ["Enlace", "Imagen", "Informativo"]},
+      "navigationRule": "Enlace abre URL completa; Imagen abre recurso gráfico; Informativo conserva imagen visible sin navegación"
+    },
     "Actividades_Semanales": {"primaryKey": "ID", "output": "data/actividades-semanales.v10.json"},
     "Actividades_Diaria": {"primaryKey": "ID", "output": "data/actividades-diarias.v10.json"},
     "Duty_Roster": {"primaryKey": "Orden", "output": "data/duty-roster.v10.json"},

@@ -53,7 +53,7 @@ def main() -> int:
     ]
     sources.extend(
         path for path in sorted(premium.glob("*"))
-        if should_optimize(path, args.minimum_bytes)
+        if path.is_file() and path.suffix.casefold() in SOURCE_SUFFIXES
     )
     records = []
     for source in sources:
@@ -76,6 +76,12 @@ def main() -> int:
         )
     report = {
         "ok": True,
+        "policy": {
+            "card": "*.thumb.webp, máximo 720 px",
+            "navigation": "*.webp",
+            "fullView": "archivo original declarado por el CMS",
+            "cleanup": "variantes sin familia referenciada son candidatas del workflow Depurar proyecto",
+        },
         "minimumBytes": args.minimum_bytes,
         "previewOnly": sorted(PREVIEW_ONLY_NAMES),
         "images": records,

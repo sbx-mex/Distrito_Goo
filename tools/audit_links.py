@@ -9,6 +9,16 @@ from pathlib import Path
 from cms_pipeline import validate_workbook
 
 URL_RE = re.compile(r'^(?:https?://|intent://)', re.I)
+IMAGE_RE = re.compile(r'\.(?:avif|gif|jpe?g|png|svg|webp)$', re.I)
+
+def valid_destination(value: str) -> tuple[bool, str]:
+    if '...' in value or re.search(r'[{}<>]', value):
+        return False, 'destino abreviado o con marcadores'
+    if IMAGE_RE.search(value):
+        return True, 'recurso local'
+    if URL_RE.match(value):
+        return bool(re.match(r'^(?:https?://[^/\s]+(?:/[^\s]*)?|intent://\S+)$', value, re.I)), 'URL completa'
+    return False, 'no es URL completa ni recurso gráfico'
 
 def main() -> int:
     parser = argparse.ArgumentParser()
@@ -24,7 +34,8 @@ def main() -> int:
                     continue
                 text = str(value or '').strip()
                 if ('link' in key.casefold() or key in {'URL','WebURL','PlayStore'}) and text:
-                    links.append({'sheet': sheet, 'row': row['__row__'], 'field': key, 'value': text, 'validFormat': bool(URL_RE.match(text)) or not re.match(r'^[a-z]+:', text, re.I)})
+                    valid, classification = valid_destination(text)
+                    links.append({'sheet': sheet, 'row': row['__row__'], 'field': key, 'value': text, 'validFormat': valid, 'classification': classification})
     counts = Counter(item['value'] for item in links if item['value'])
     report = {
         'ok': not errors and all(item['validFormat'] for item in links),

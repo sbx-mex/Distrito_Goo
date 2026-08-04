@@ -10,7 +10,17 @@ const viewports = [
 ];
 const results = [];
 let browser;
-const referenceDate = '2026-08-03';
+const referenceDate = process.env.DISTRITO_GO_TEST_DATE || new Date().toISOString().slice(0,10);
+const reference = new Date(`${referenceDate}T12:00:00`);
+const planning = new Date(reference); planning.setDate(planning.getDate() + 15);
+const planningDay = planning.getDay() || 7;
+const planningStart = new Date(planning); planningStart.setDate(planning.getDate() - planningDay + 1);
+const planningEnd = new Date(planningStart); planningEnd.setDate(planningStart.getDate() + 6);
+const iso = new Date(Date.UTC(planning.getFullYear(), planning.getMonth(), planning.getDate()));
+const isoDay = iso.getUTCDay() || 7; iso.setUTCDate(iso.getUTCDate() + 4 - isoDay);
+const isoYearStart = new Date(Date.UTC(iso.getUTCFullYear(), 0, 1));
+const planningWeek = Math.ceil((((iso - isoYearStart) / 86400000) + 1) / 7);
+const planningRange = `${planningStart.toLocaleDateString('es-MX',{day:'numeric',month:'long'})} al ${planningEnd.toLocaleDateString('es-MX',{day:'numeric',month:'long'})}`;
 const cmsEvents = JSON.parse(fs.readFileSync(new URL('../data/eventos.v10.json', import.meta.url), 'utf8'));
 const activeEventTitles = cmsEvents
   .filter(item => item.Publicar !== false && item['Fecha Inicio'].slice(0,10) <= referenceDate && item['Fecha Fin'].slice(0,10) >= referenceDate)
@@ -32,7 +42,7 @@ try{
   browser = await chromium.launch({headless:true});
   for(const viewport of viewports){
     const page = await browser.newPage({viewport});
-    await page.clock.setFixedTime(new Date('2026-08-03T12:00:00-06:00'));
+    await page.clock.setFixedTime(new Date(`${referenceDate}T12:00:00-06:00`));
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(baseURL, {waitUntil:'networkidle'});
@@ -46,9 +56,9 @@ try{
     check(`${viewport.name} imagen informativa visible`, await informativeImage.evaluate(image => image.complete && image.naturalWidth > 0 && image.getBoundingClientRect().height >= 150), 'la imagen previa no se cargó o quedó oculta');
     const mondayAgenda = await page.locator('#home-weekly-card').innerText();
     for(const expected of activeEventTitles){
-      check(`${viewport.name} agenda incluye ${expected}`, mondayAgenda.includes(expected), 'evento vigente ausente del calendario del 3 de agosto');
+      check(`${viewport.name} agenda incluye ${expected}`, mondayAgenda.includes(expected), `evento vigente ausente del calendario del ${referenceDate}`);
     }
-    check(`${viewport.name} WFM semana 34`, mondayAgenda.includes('WFM · Semana 34') && /17 de agosto al 23 de agosto/i.test(mondayAgenda), 'semana objetivo o rango dinámico incorrectos');
+    check(`${viewport.name} WFM dinámica`, mondayAgenda.includes(`WFM · Semana ${planningWeek}`) && mondayAgenda.toLocaleLowerCase('es').includes(planningRange.toLocaleLowerCase('es')), `esperado Semana ${planningWeek} · ${planningRange}`);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     check(`${viewport.name} sin corte horizontal`, overflow <= 1, `desbordamiento ${overflow}px`);
     await informativeCards.first().locator('.permanent-info-media').click();

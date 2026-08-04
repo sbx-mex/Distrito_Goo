@@ -110,10 +110,13 @@ def inspect_project(cms: Path) -> dict[str, Any]:
     cleanup = cleanup_report(False, "")
     gate.check("5 · Publicación", "Limpieza en modo auditoría", cleanup["ok"], f"{cleanup['summary']['candidates']} candidatos; 0 eliminados")
     workflow = (ROOT / ".github" / "workflows" / "control-calidad.yml").read_text(encoding="utf-8")
-    cleanup_workflow = (ROOT / ".github" / "workflows" / "mantenimiento-seguro.yml").read_text(encoding="utf-8")
+    maintenance_workflow = (ROOT / ".github" / "workflows" / "mantenimiento-seguro.yml").read_text(encoding="utf-8")
+    cleanup_workflow = (ROOT / ".github" / "workflows" / "depurar-proyecto.yml").read_text(encoding="utf-8")
     browser_workflow = (ROOT / ".github" / "workflows" / "pruebas-navegacion-real.yml").read_text(encoding="utf-8")
     gate.check("5 · Publicación", "Control previo a publicar", "tools/cms_release.py" in workflow and "pull_request:" in workflow and "workflow_dispatch:" in workflow, "compilación aislada en push, PR y ejecución manual")
-    gate.check("5 · Publicación", "Mantenimiento en dos fases", all(token in cleanup_workflow for token in ("AUDITAR", "RETIRAR_EXPIRADOS", "ELIMINAR_HUERFANOS", "--confirm")), "auditoría, confirmación y validación posterior")
+    safe_maintenance = all(token in maintenance_workflow for token in ("AUDITAR", "RETIRAR_EXPIRADOS", "RETIRAR_CONTENIDO_EXPIRADO", "cms_release.py"))
+    safe_cleanup = all(token in cleanup_workflow for token in ("AUDITAR", "ELIMINAR", "ELIMINAR_ARCHIVOS_HUERFANOS", "cms_release.py", "git add -u"))
+    gate.check("5 · Publicación", "Mantenimiento en dos fases", safe_maintenance and safe_cleanup, "contenido vencido y archivos huérfanos separados, confirmados y validados")
     gate.check("5 · Publicación", "Navegación real en navegador", all(token in browser_workflow for token in ("playwright", "320", "390", "768", "1440")), "Chromium en cuatro anchos")
 
     critical_failed = [item for item in gate.checks if not item["ok"] and item["severity"] == "critical"]

@@ -131,7 +131,7 @@ function contentFromEvent(item){
     id:`event-${item.ID}`, source:'Evento', category:'Eventos', title:item.Actividad,
     description:item['Contexto / Recordatorio'] || '', short:item['Contexto / Recordatorio'] || '',
     label:'Evento', image:item.MiniaturaPath || image, fullImage:image, imageOriginal:item.ImagenOriginal || image,
-    link, section:'', access:/inventario/i.test(item.Actividad || '') ? 'Semana' : '',
+    link, eventActionType:item.TipoAccion || 'Informativo', section:'', access:/inventario/i.test(item.Actividad || '') ? 'Semana' : '',
     dateStart:item['Fecha Inicio'] || '', dateEnd:item['Fecha Fin'] || '',
     priority:20, order:Number(dateValue(item['Fecha Inicio'])?.getTime() || 0),
     showExplore:isCurrentEvent(item)
@@ -483,6 +483,10 @@ export function hasDestination(item){
   if(!item) return false;
   const section = item.section && (typeof document === 'undefined' || Boolean(document.getElementById(item.section)));
   const image = [item.fullImage, item.imageOriginal].some(value => value && isImage(value));
+  const eventAction = normalize(item.eventActionType || '');
+  if(eventAction === 'informativo') return Boolean(section);
+  if(eventAction === 'enlace') return Boolean(section || safeContentLink(item.link));
+  if(eventAction === 'imagen') return Boolean(section || image);
   return Boolean(section || image || safeContentLink(item.link) || item.action);
 }
 function safeContentLink(value){

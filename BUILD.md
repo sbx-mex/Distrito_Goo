@@ -1,4 +1,4 @@
-# Build y despliegue — CMS sostenible v47
+# Build y despliegue — CMS operativo sostenible v48
 
 ```bash
 python -m pip install -r requirements.txt
@@ -11,9 +11,10 @@ Al reemplazar `Distrito_Go_CMS_v2_actualizado.xlsx` en la raíz, `.github/workfl
 
 `resumen_comunicado_semana_actual.png` conserva su nombre, original y estrategia `network-first`; el Inicio utiliza su miniatura WebP y el visor presenta el recurso completo. Las demás imágenes generadas incluyen una versión por contenido en los JSON para evitar caché obsoleta.
 
-La limpieza segura se ejecuta con `.github/workflows/mantenimiento-seguro.yml`.
-Primero usa `AUDITAR`; las acciones de retiro requieren confirmación exacta y
-vuelven a ejecutar `cms_release.py` antes de publicar.
+La limpieza de contenido vencido se ejecuta con `.github/workflows/mantenimiento-seguro.yml`.
+La depuración de archivos sin uso se ejecuta por separado con
+`.github/workflows/depurar-proyecto.yml`: el calendario solo audita y la eliminación
+requiere confirmación exacta, validación completa y un commit formado exclusivamente por retiros.
 
 Explorar utiliza categorías y los JSON ya cargados; no requiere una columna
 adicional ni cambios en el CMS. `Peak` se conserva dentro del contenido

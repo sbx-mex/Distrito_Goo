@@ -11,6 +11,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "💰",
+      "TipoAccion": "Enlace",
       "Link": "https://sbx-mx.github.io/concurso_venta/",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -27,6 +28,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "🛡️",
+      "TipoAccion": "Enlace",
       "Link": "https://ica-stage.bw-globalsolutions.com/Login.php",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -43,6 +45,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "🚨",
+      "TipoAccion": "Enlace",
       "Link": "https://app.slikpro.com/login/alsea",
       "ImagenPath": "assets/photos/eco_2026.webp?v=eed9305b0257",
       "MiniaturaPath": "assets/photos/eco_2026.thumb.webp?v=b39e2ebe142b",
@@ -59,7 +62,8 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📅",
-      "Link": "https://ejlw.login.us2.oraclecloud.com/oam/server/obrareq.cgi?encquery%3DLK1T...",
+      "TipoAccion": "Informativo",
+      "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
       "ImagenOriginal": ""
@@ -75,6 +79,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📦",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -91,6 +96,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "🎥",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -107,7 +113,8 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📅",
-      "Link": "https://ejlw.login.us2.oraclecloud.com/oam/server/obrareq.cgi?encquery%3DLK1T...",
+      "TipoAccion": "Informativo",
+      "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
       "ImagenOriginal": ""
@@ -123,6 +130,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📦",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -139,6 +147,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "☕",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -155,6 +164,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📦",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -171,6 +181,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "🚀",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -187,7 +198,8 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📅",
-      "Link": "https://ejlw.login.us2.oraclecloud.com/oam/server/obrareq.cgi?encquery%3DLK1T...",
+      "TipoAccion": "Informativo",
+      "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
       "ImagenOriginal": ""
@@ -203,6 +215,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📋",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -219,6 +232,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "🛡️",
+      "TipoAccion": "Enlace",
       "Link": "https://ica-stage.bw-globalsolutions.com/Login.php",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -235,6 +249,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📦",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -251,6 +266,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📦",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -267,7 +283,8 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📅",
-      "Link": "https://ejlw.login.us2.oraclecloud.com/oam/server/obrareq.cgi?encquery%3DLK1T...",
+      "TipoAccion": "Informativo",
+      "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
       "ImagenOriginal": ""
@@ -283,6 +300,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📦",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -299,6 +317,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "🎤",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -315,7 +334,8 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📅",
-      "Link": "https://ejlw.login.us2.oraclecloud.com/oam/server/obrareq.cgi?encquery%3DLK1T...",
+      "TipoAccion": "Informativo",
+      "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
       "ImagenOriginal": ""
@@ -331,6 +351,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📋",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -347,6 +368,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "💳",
+      "TipoAccion": "Imagen",
       "Link": "",
       "ImagenPath": "assets/photos/pinpad-atb-cambios.webp?v=7ce68e5d4b7f",
       "MiniaturaPath": "assets/photos/pinpad-atb-cambios.thumb.webp?v=7a0202bd4915",
@@ -363,6 +385,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "🛡️",
+      "TipoAccion": "Enlace",
       "Link": "https://ica-stage.bw-globalsolutions.com/Login.php",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -379,6 +402,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📦",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -395,6 +419,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📦",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -411,7 +436,8 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📅",
-      "Link": "https://ejlw.login.us2.oraclecloud.com/oam/server/obrareq.cgi?encquery%3DLK1T...",
+      "TipoAccion": "Informativo",
+      "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
       "ImagenOriginal": ""
@@ -427,6 +453,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📦",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -443,6 +470,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📦",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -459,6 +487,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📖",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -475,6 +504,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📋",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -491,6 +521,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "🛡️",
+      "TipoAccion": "Enlace",
       "Link": "https://ica-stage.bw-globalsolutions.com/Login.php",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -507,7 +538,8 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📅",
-      "Link": "https://ejlw.login.us2.oraclecloud.com/oam/server/obrareq.cgi?encquery%3DLK1T...",
+      "TipoAccion": "Informativo",
+      "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
       "ImagenOriginal": ""
@@ -523,6 +555,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📦",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -539,6 +572,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📦",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -555,7 +589,8 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📅",
-      "Link": "https://ejlw.login.us2.oraclecloud.com/oam/server/obrareq.cgi?encquery%3DLK1T...",
+      "TipoAccion": "Informativo",
+      "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
       "ImagenOriginal": ""
@@ -571,6 +606,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📦",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -587,7 +623,8 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📅",
-      "Link": "https://ejlw.login.us2.oraclecloud.com/oam/server/obrareq.cgi?encquery%3DLK1T...",
+      "TipoAccion": "Informativo",
+      "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
       "ImagenOriginal": ""
@@ -603,6 +640,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📋",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -619,6 +657,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "🛡️",
+      "TipoAccion": "Enlace",
       "Link": "https://ica-stage.bw-globalsolutions.com/Login.php",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -635,6 +674,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📦",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -651,6 +691,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📦",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -667,7 +708,8 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📅",
-      "Link": "https://ejlw.login.us2.oraclecloud.com/oam/server/obrareq.cgi?encquery%3DLK1T...",
+      "TipoAccion": "Informativo",
+      "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
       "ImagenOriginal": ""
@@ -683,6 +725,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📦",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -699,6 +742,7 @@
       "Tienda": "Todas",
       "Publicar": true,
       "Imagen": "📋",
+      "TipoAccion": "Informativo",
       "Link": "",
       "ImagenPath": "",
       "MiniaturaPath": "",
@@ -988,17 +1032,17 @@
       "Enfoque": "Seguridad alimentaria, caducidades, refrigeración y preparación de alimentos.",
       "Acceso Rápido": "Peak",
       "ImagenesPath": [
-        "assets/premium/duty-roster/lunes_food.png?v=c0ece6d8dfa9"
+        "assets/premium/duty-roster/lunes_food.webp?v=26c41d93e1c8"
       ],
       "MiniaturasPath": [
-        "assets/premium/duty-roster/lunes_food.png?v=c0ece6d8dfa9"
+        "assets/premium/duty-roster/lunes_food.thumb.webp?v=0266522536ec"
       ],
       "ImagenesOriginales": [
         "assets/premium/duty-roster/lunes_food.png?v=c0ece6d8dfa9"
       ],
       "ImagenOriginal": "assets/premium/duty-roster/lunes_food.png?v=c0ece6d8dfa9",
       "Premium": true,
-      "Link": "assets/premium/duty-roster/lunes_food.png?v=c0ece6d8dfa9"
+      "Link": "assets/premium/duty-roster/lunes_food.webp?v=26c41d93e1c8"
     },
     {
       "Orden": 2,
@@ -1010,11 +1054,11 @@
       "Acceso Rápido": "Peak",
       "ImagenesPath": [
         "assets/premium/duty-roster/martes_pic.webp?v=e9151bbad743",
-        "assets/premium/duty-roster/martes_lobby.png?v=470aef546064"
+        "assets/premium/duty-roster/martes_lobby.webp?v=e60bb27eb400"
       ],
       "MiniaturasPath": [
         "assets/premium/duty-roster/martes_pic.thumb.webp?v=bda83d1a881f",
-        "assets/premium/duty-roster/martes_lobby.png?v=470aef546064"
+        "assets/premium/duty-roster/martes_lobby.thumb.webp?v=764a39c3f55c"
       ],
       "ImagenesOriginales": [
         "assets/premium/duty-roster/martes_pic.png?v=e34e819bb0be",
@@ -1054,12 +1098,12 @@
       "Enfoque": "Calidad de bebidas, ejecución de barra y experiencia del cliente.",
       "Acceso Rápido": "Peak",
       "ImagenesPath": [
-        "assets/premium/duty-roster/jueves_espresso.png?v=2f0780756188",
-        "assets/premium/duty-roster/jueves_lobby.png?v=46a12a539650"
+        "assets/premium/duty-roster/jueves_espresso.webp?v=d3391b7d4107",
+        "assets/premium/duty-roster/jueves_lobby.webp?v=17c70565cec0"
       ],
       "MiniaturasPath": [
-        "assets/premium/duty-roster/jueves_espresso.png?v=2f0780756188",
-        "assets/premium/duty-roster/jueves_lobby.png?v=46a12a539650"
+        "assets/premium/duty-roster/jueves_espresso.thumb.webp?v=63c3a37a7a72",
+        "assets/premium/duty-roster/jueves_lobby.thumb.webp?v=052b6bc26cd6"
       ],
       "ImagenesOriginales": [
         "assets/premium/duty-roster/jueves_espresso.png?v=2f0780756188",
@@ -1067,7 +1111,7 @@
       ],
       "ImagenOriginal": "assets/premium/duty-roster/jueves_espresso.png?v=2f0780756188",
       "Premium": true,
-      "Link": "assets/premium/duty-roster/jueves_espresso.png?v=2f0780756188"
+      "Link": "assets/premium/duty-roster/jueves_espresso.webp?v=d3391b7d4107"
     },
     {
       "Orden": 5,
@@ -1078,17 +1122,17 @@
       "Enfoque": "Seguimiento a seguridad alimentaria y condiciones Food.",
       "Acceso Rápido": "Peak",
       "ImagenesPath": [
-        "assets/premium/duty-roster/viernes_cafe_filtrado.png?v=82772032c6fa"
+        "assets/premium/duty-roster/viernes_cafe_filtrado.webp?v=1d7fea4ffde1"
       ],
       "MiniaturasPath": [
-        "assets/premium/duty-roster/viernes_cafe_filtrado.png?v=82772032c6fa"
+        "assets/premium/duty-roster/viernes_cafe_filtrado.thumb.webp?v=e825d2a49a6e"
       ],
       "ImagenesOriginales": [
         "assets/premium/duty-roster/viernes_cafe_filtrado.png?v=82772032c6fa"
       ],
       "ImagenOriginal": "assets/premium/duty-roster/viernes_cafe_filtrado.png?v=82772032c6fa",
       "Premium": true,
-      "Link": "assets/premium/duty-roster/viernes_cafe_filtrado.png?v=82772032c6fa"
+      "Link": "assets/premium/duty-roster/viernes_cafe_filtrado.webp?v=1d7fea4ffde1"
     },
     {
       "Orden": 6,
@@ -1099,17 +1143,17 @@
       "Enfoque": "Equipos críticos, limpieza profunda y preparación operativa.",
       "Acceso Rápido": "Peak",
       "ImagenesPath": [
-        "assets/premium/duty-roster/sabado_cbs.png?v=72dc17ed98c1"
+        "assets/premium/duty-roster/sabado_cbs.webp?v=47b1d533fe05"
       ],
       "MiniaturasPath": [
-        "assets/premium/duty-roster/sabado_cbs.png?v=72dc17ed98c1"
+        "assets/premium/duty-roster/sabado_cbs.thumb.webp?v=930f8e5cfacf"
       ],
       "ImagenesOriginales": [
         "assets/premium/duty-roster/sabado_cbs.png?v=72dc17ed98c1"
       ],
       "ImagenOriginal": "assets/premium/duty-roster/sabado_cbs.png?v=72dc17ed98c1",
       "Premium": true,
-      "Link": "assets/premium/duty-roster/sabado_cbs.png?v=72dc17ed98c1"
+      "Link": "assets/premium/duty-roster/sabado_cbs.webp?v=47b1d533fe05"
     },
     {
       "Orden": 7,
@@ -1120,12 +1164,12 @@
       "Enfoque": "Experiencia del cliente y apariencia general de la tienda.",
       "Acceso Rápido": "Peak",
       "ImagenesPath": [
-        "assets/premium/duty-roster/domingo_lobby.png?v=1fd8ed0d1a57",
-        "assets/premium/duty-roster/domingo_drive_thru.png?v=8aeb63083143"
+        "assets/premium/duty-roster/domingo_lobby.webp?v=180e1e2e4b8c",
+        "assets/premium/duty-roster/domingo_drive_thru.webp?v=0b8aeac8e67e"
       ],
       "MiniaturasPath": [
-        "assets/premium/duty-roster/domingo_lobby.png?v=1fd8ed0d1a57",
-        "assets/premium/duty-roster/domingo_drive_thru.png?v=8aeb63083143"
+        "assets/premium/duty-roster/domingo_lobby.thumb.webp?v=ffe307de0cca",
+        "assets/premium/duty-roster/domingo_drive_thru.thumb.webp?v=645e32b4f0a9"
       ],
       "ImagenesOriginales": [
         "assets/premium/duty-roster/domingo_lobby.png?v=1fd8ed0d1a57",
@@ -1133,7 +1177,7 @@
       ],
       "ImagenOriginal": "assets/premium/duty-roster/domingo_lobby.png?v=1fd8ed0d1a57",
       "Premium": true,
-      "Link": "assets/premium/duty-roster/domingo_lobby.png?v=1fd8ed0d1a57"
+      "Link": "assets/premium/duty-roster/domingo_lobby.webp?v=180e1e2e4b8c"
     }
   ],
   "dutyDetail": [

@@ -1,14 +1,10 @@
 const CACHE_PREFIX = 'distrito-go-';
-const CACHE_NAME = `${CACHE_PREFIX}v47.0.0-cms-sostenible`;
+const CACHE_NAME = `${CACHE_PREFIX}v48.0.0-operativo-sostenible`;
 const APP_SHELL = [
   './',
   './index.html',
   './manifest.json',
-  './styles/variables.css',
-  './styles/app.css',
-  './styles/experience.css',
-  './styles/clean.css',
-  './styles/navigation-v26.css',
+  './styles/distrito-go.css',
   './data/categorias.v10.json',
   './data/herramientas.v10.json',
   './data/favoritos.v10.json',

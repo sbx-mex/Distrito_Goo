@@ -24,7 +24,7 @@ REQUIRED_HEADERS = {
     "TBW": ["Corte", "SBX", "NOMBRE", "CeCo", "TIENDA", "PUESTO", "Región", "DM", "HRBP", "Fecha de ingreso", "Días de antigüedad", "To be Welcoming fundacional \nDía 36 al 60", "To be Welcoming Sesgo de edad\nDía 60 al 90", "To be Welcoming Discapacidad \nDía 60 al 90", "To be Welcoming Género\nDía 60 al 90", "To be Welcoming Sexualidad\ndía 90- 120", "Avance"],
     "SS": ["Mes", "SBX", "NO. EMPLEADO", "NOMBRE COMPLETO", "CECO", "TIENDA", "REGION", "DM", "HRBP", "RD", "mes de solicitud", "BT", "ESTATUS ALTA"],
     "Links": ["Categoria", "Grupo", "Icono", "Nombre", "Tipo", "URL", "WebURL", "Package", "PlayStore", "Notas", "Favorito", "Orden"],
-    "Eventos": ["ID", "Nombre Evento", "Descripción", "Fecha Inicio", "Fecha Fin", "Región", "Distrito", "Tienda", "Publicar", "Link/Imagen", "Imagen"],
+    "Eventos": ["ID", "Nombre Evento", "Descripción", "Fecha Inicio", "Fecha Fin", "Región", "Distrito", "Tienda", "Publicar", "Link/Imagen", "Imagen", "Tipo de acción"],
     "Actividades_Semanales": ["ID", "Actividad", "Descripción", "Día", "Hora / Corte", "Icono", "Color", "Link"],
     "Actividades_Diaria": ["ID", "Actividad", "Descripción", "Link / Imagen", "Frecuencia", "Prioridad", "Categoría", "Icono", "Color", "Visible"],
     "Duty_Roster": ["Orden", "Día", "Estaciones", "Imágenes", "Color", "Enfoque"],
@@ -167,6 +167,14 @@ def resource(value: Any, root: Path) -> tuple[str, str, str]:
     if re.match(r"^https?://", text, re.I):
         return text, "link", ""
     return image_path(text, root), "imagen", original_image_path(text, root)
+
+
+def valid_http_url(value: Any) -> str:
+    """Acepta solo destinos completos; rechaza abreviaciones y marcadores."""
+    text = str(value or "").strip()
+    if not re.match(r"^https?://", text, re.I) or "..." in text or re.search(r"[{}<>]", text):
+        return ""
+    return text
 
 
 def partner_key(row: dict[str, Any]) -> str:
@@ -404,17 +412,20 @@ def build(root: Path, sheets: dict[str, list[dict[str, Any]]], source_path: Path
         if not truthy(row.get("Publicar")):
             continue
         mixed = str(row.pop("Link/Imagen", "") or "").strip()
-        link = mixed if re.match(r"^https?://", mixed, re.I) else ""
+        action = str(row.pop("Tipo de acción", "") or "").strip().casefold()
+        action_name = {"enlace": "Enlace", "imagen": "Imagen", "informativo": "Informativo"}.get(action, "Informativo")
+        link = valid_http_url(mixed) if action_name == "Enlace" else ""
         image_field = str(row.get("Imagen", "") or "").strip()
         image_in_icon_field = image_field if re.search(r"\.(?:avif|gif|jpe?g|png|webp)$", image_field, re.I) else ""
-        img_candidate = image_in_icon_field or ("" if link else mixed)
+        mixed_image = mixed if re.search(r"\.(?:avif|gif|jpe?g|png|webp)$", mixed, re.I) else ""
+        img_candidate = image_in_icon_field or mixed_image
         icon = "🚨" if image_in_icon_field else image_field
         events.append({
             "ID": row.get("ID", ""), "Actividad": row.get("Nombre Evento", ""),
             "Contexto / Recordatorio": row.get("Descripción", ""),
             "Fecha Inicio": row.get("Fecha Inicio", ""), "Fecha Fin": row.get("Fecha Fin", ""),
             "Región": row.get("Región", ""), "Distrito": row.get("Distrito", ""),
-            "Tienda": row.get("Tienda", ""), "Publicar": True, "Imagen": icon,
+            "Tienda": row.get("Tienda", ""), "Publicar": True, "Imagen": icon, "TipoAccion": action_name,
             "Link": link, "ImagenPath": image_path(img_candidate, root) if img_candidate else "",
             "MiniaturaPath": thumbnail_image_path(img_candidate, root) if img_candidate else "",
             "ImagenOriginal": original_image_path(img_candidate, root) if img_candidate else ""

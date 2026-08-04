@@ -16,7 +16,8 @@ ROOT = Path(__file__).resolve().parents[1]
 REPORTS = {
     "cms-validation.json", "cms-sync.json", "event-navigation.json",
     "informative-visuals.json", "link-audit.json", "quality-gate.json",
-    "v42-compatibility.json", "v42-enhancements.json", "image-optimization.json",
+    "compatibility.json", "experience.json", "image-optimization.json",
+    "cms-change-summary.json",
 }
 
 
@@ -71,11 +72,15 @@ def main() -> int:
         for module in sorted((stage / "modules").glob("*.js")):
             run(stage, ["node", "--check", module.relative_to(stage).as_posix()])
         run(stage, ["node", "--check", "sw.js"])
-        run(stage, ["node", "tools/test_experience_v37.mjs", "--report", "reports/v42-compatibility.json"])
-        run(stage, ["node", "tools/test_enhancements_v42.mjs", "--report", "reports/v42-enhancements.json"])
-        run(stage, ["node", "tools/test_wfm_events_v43.mjs"])
-        run(stage, ["node", "tools/test_event_navigation_v45.mjs"])
+        run(stage, ["node", "tools/test_compatibility.mjs", "--report", "reports/compatibility.json"])
+        run(stage, ["node", "tools/test_experience.mjs", "--report", "reports/experience.json"])
+        run(stage, ["node", "tools/test_calendar_dynamic.mjs"])
+        run(stage, ["node", "tools/test_event_navigation.mjs"])
         run(stage, [py, "tools/quality_gate.py", "--cms", cms_name, "--report", "reports/quality-gate.json"])
+        run(stage, [
+            py, "tools/cms_change_summary.py", "--before", str(project / "data"),
+            "--after", "data", "--source", cms_name, "--report", "reports/cms-change-summary.json",
+        ])
 
         changed: list[str] = []
         for source in stage.rglob("*"):

@@ -26,8 +26,11 @@ REFERENCE_RE = re.compile(
 )
 SW_SHELL_RE = re.compile(r"const APP_SHELL = \[(.*?)\];", re.S)
 CONFIRMATION = "ELIMINAR_ARCHIVOS_HUERFANOS"
-CURRENT_TESTS = {"test_experience_v37.mjs", "test_enhancements_v42.mjs", "test_navigation_e2e.mjs"}
-HISTORICAL_REPORT_RE = re.compile(r"^(?:quality-gate-v|v)(\d+)(?:[-.].*)?\.(?:json|md)$", re.I)
+CURRENT_TESTS = {
+    "test_compatibility.mjs", "test_experience.mjs", "test_calendar_dynamic.mjs",
+    "test_event_navigation.mjs", "test_navigation_e2e.mjs",
+}
+VERSIONED_TEST_RE = re.compile(r"^test_.+_v\d+\.mjs$", re.I)
 OBSOLETE_WORKFLOWS = {
     "limpieza-archivos-sin-uso.yml",
     "limpieza-contenido-expirado.yml",
@@ -109,6 +112,30 @@ def asset_candidates() -> list[Path]:
     })
 
 
+def reachable_tools() -> set[Path]:
+    tools_dir = ROOT / "tools"
+    candidates = sorted(path for path in tools_dir.iterdir() if path.is_file() and path.suffix in {".py", ".mjs"})
+    external_sources = [ROOT / "package.json", ROOT / "README.md", ROOT / "BUILD.md"]
+    external_sources += sorted((ROOT / ".github" / "workflows").glob("*.yml"))
+    external = "\n".join(read_text(path) for path in external_sources if path.is_file())
+    reachable = {path for path in candidates if path.name in external}
+    pending = list(reachable)
+    by_module = {path.stem: path for path in candidates if path.suffix == ".py"}
+    by_name = {path.name: path for path in candidates}
+    while pending:
+        source = pending.pop()
+        content = read_text(source)
+        discovered = {path for name, path in by_name.items() if name in content}
+        for module in re.findall(r"^(?:from|import)\s+([a-zA-Z_][\w.]*)", content, re.M):
+            target = by_module.get(module.split(".", 1)[0])
+            if target:
+                discovered.add(target)
+        for target in discovered - reachable:
+            reachable.add(target)
+            pending.append(target)
+    return reachable
+
+
 def asset_family(path: Path) -> str:
     name = re.sub(r"(?:\.thumb)?\.webp$", "", path.name, flags=re.I)
     return re.sub(r"\.(?:png|jpe?g|avif|gif|svg)$", "", name, flags=re.I)
@@ -144,8 +171,10 @@ def build_report(apply: bool, confirmation: str) -> dict[str, object]:
                 })
 
     workflow_corpus = "\n".join(read_text(path) for path in (ROOT / ".github" / "workflows").glob("*.yml"))
-    for path in sorted((ROOT / "tools").glob("test_experience_v*.mjs")):
-        if path.name not in CURRENT_TESTS and path.name not in workflow_corpus:
+    workflow_corpus += read_text(ROOT / "tools" / "cms_release.py")
+    workflow_corpus += read_text(ROOT / "package.json")
+    for path in sorted((ROOT / "tools").glob("test_*.mjs")):
+        if VERSIONED_TEST_RE.match(path.name) and path.name not in CURRENT_TESTS and path.name not in workflow_corpus:
             candidates.append({
                 "path": relative(path),
                 "reason": "prueba histórica sustituida y no referenciada por ningún workflow",
@@ -153,12 +182,21 @@ def build_report(apply: bool, confirmation: str) -> dict[str, object]:
                 "sha256": sha256(path),
             })
 
-    for path in sorted((ROOT / "reports").glob("*")):
-        match = HISTORICAL_REPORT_RE.match(path.name)
-        if path.is_file() and match and int(match.group(1)) < 42:
+    reachable_tool_paths = reachable_tools()
+    for path in sorted((ROOT / "tools").iterdir()):
+        if path.is_file() and path.suffix in {".py", ".mjs"} and path not in reachable_tool_paths:
             candidates.append({
                 "path": relative(path),
-                "reason": "evidencia histórica anterior a v42; la validación vigente la sustituye",
+                "reason": "herramienta fuera del grafo de workflows, documentación, scripts y dependencias internas",
+                "bytes": path.stat().st_size,
+                "sha256": sha256(path),
+            })
+
+    for path in sorted((ROOT / "reports").glob("*")):
+        if path.is_file():
+            candidates.append({
+                "path": relative(path),
+                "reason": "evidencia de ejecución; se conserva como artefacto temporal de Actions, no dentro del sitio",
                 "bytes": path.stat().st_size,
                 "sha256": sha256(path),
             })
@@ -179,6 +217,9 @@ def build_report(apply: bool, confirmation: str) -> dict[str, object]:
             "bytes": path.stat().st_size,
             "sha256": sha256(path),
         })
+
+    candidates = list({str(item["path"]): item for item in candidates}.values())
+    candidates.sort(key=lambda item: str(item["path"]))
 
     if apply and confirmation != CONFIRMATION:
         raise SystemExit(f"Confirmación inválida. Usa --confirm {CONFIRMATION}")
@@ -201,7 +242,7 @@ def build_report(apply: bool, confirmation: str) -> dict[str, object]:
         },
         "candidates": candidates,
         "deleted": deleted,
-        "protectedPolicy": "Nunca elimina data, CMS, workflows, documentación vigente, iconos PWA ni pruebas/reportes actuales; la limpieza histórica se limita a patrones versionados comprobables.",
+        "protectedPolicy": "Nunca elimina data, CMS, documentación vigente, iconos PWA ni pruebas actuales. Solo retira recursos sin referencia, pruebas versionadas sustituidas, reportes de CI y cachés regenerables.",
     }
 
 

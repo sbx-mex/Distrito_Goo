@@ -207,9 +207,9 @@ export function bindSearch(){
     state.query = query;
     showAllResults = false;
     clear?.toggleAttribute('hidden', !query);
-    renderTools(true);
     if(!normalize(query)){
       resetSearchView();
+      renderTools(true);
       return;
     }
     document.body.classList.add('is-global-searching');
@@ -266,5 +266,5 @@ export function searchTools(query){
 export function focusGeneralSearch(){
   const input = document.getElementById('general-search-input');
   input?.scrollIntoView({behavior:'smooth', block:'center'});
-  window.setTimeout(() => input?.focus(), 250);
+  requestAnimationFrame(() => input?.focus({preventScroll:true}));
 }

@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'distrito-go-';
-const CACHE_NAME = `${CACHE_PREFIX}v49.0.0-interfaz-limpia`;
+const CACHE_NAME = `${CACHE_PREFIX}v50.0.0-rendimiento-intuitivo`;
 const APP_SHELL = [
   './',
   './index.html',
@@ -71,6 +71,16 @@ async function cacheFirst(request) {
   return response;
 }
 
+async function staleWhileRevalidate(request) {
+  const cache = await caches.open(CACHE_NAME);
+  const cached = await cache.match(request, {ignoreSearch:true});
+  const update = fetch(request).then(async response => {
+    if(response?.ok) await cache.put(request, response.clone());
+    return response;
+  }).catch(() => undefined);
+  return cached || (await update) || Response.error();
+}
+
 self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method !== 'GET') return;
@@ -88,8 +98,9 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  const isRuntimeFile = /\.(?:html|css|js|json)$/i.test(url.pathname);
-  event.respondWith(isRuntimeFile ? networkFirst(request) : cacheFirst(request));
+  const isStaticRuntime = /\.(?:css|js)$/i.test(url.pathname);
+  const isFreshData = /\.(?:html|json)$/i.test(url.pathname);
+  event.respondWith(isStaticRuntime ? staleWhileRevalidate(request) : isFreshData ? networkFirst(request) : cacheFirst(request));
 });
 
 self.addEventListener('message', event => {

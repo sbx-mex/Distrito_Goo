@@ -16,11 +16,11 @@ check('3. Ruta contextual', html.includes('id="context-trail"') && center.includ
 check('4. Buscador siempre disponible', html.includes('id="header-search"') && center.includes('focusGeneralSearch') && search.includes('createSearchIndex'), 'acceso desde encabezado');
 check('5. Perfil por tienda', html.includes('id="store-profile-select"') && state.includes('selectedStore') && operational.includes('matchesSelectedStore'), 'persistente y aplicado');
 check('6. Estado diario', experience.includes('completionDateKey') && experience.includes('slice(0,14)') && center.includes('Avance diario'), 'reinicio por fecha');
-check('7. Vigencia visible', html.includes('id="cms-status"') && center.includes('cmsBuild?.generatedAt') && center.includes('navigator.onLine'), 'CMS, conexión y versión');
+check('7. Estado técnico no invade la interfaz', !html.includes('id="cms-status"') && !html.includes('id="sync-status"') && !html.includes('id="version-status"') && center.includes('navigator.onLine'), 'solo comunica el modo sin conexión cuando aplica');
 check('8. Temporales fuera del HTML', !html.includes('bearista-informativo') && !html.includes('contest-hero') && !html.includes('concurso_venta_dona_julio'), 'CMS como fuente');
 check('9. Recursos sin uso eliminados', !html.includes('bearistahugger') && workflow.includes('cleanup_unused.py'), 'limpieza segura');
 check('10. Navegación real en CI', ['playwright','test:navigation'].every(token => workflow.includes(token)), 'Chromium y navegación real');
-check('11. PWA actualizada', sw.includes('v49.0.0-interfaz-limpia') && sw.includes('./styles/distrito-go.css') && sw.includes('./modules/operations-center.js'), 'shell completo');
+check('11. PWA actualizada', sw.includes('v50.0.0-rendimiento-intuitivo') && sw.includes('staleWhileRevalidate') && sw.includes('./styles/distrito-go.css') && sw.includes('./modules/operations-center.js'), 'shell rápido y datos vigentes');
 check('12. Encabezado redundante oculto', !html.includes('Distrito Go · Hoy') && !html.includes('Lo importante de hoy') && !html.includes('command-center-summary'), 'inicio directo al centro de mando');
 check('13. Informativo sin etiquetas repetidas', !operational.includes('permanent-info-meta') && !operational.includes('validityLabel'), 'sin Importante / Semanal duplicado');
 

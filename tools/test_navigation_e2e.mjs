@@ -52,7 +52,10 @@ try{
     const informativeCards = page.locator('#informative-catalog-track .permanent-info-card');
     check(`${viewport.name} informativos vigentes`, await informativeCards.count() === visibleInformativeCount, `${visibleInformativeCount} según CMS`);
     const informativeImage = informativeCards.first().locator('.permanent-info-media img');
+    await informativeCards.first().scrollIntoViewIfNeeded();
     await informativeImage.waitFor({state:'visible'});
+    await informativeImage.evaluate(image => image.decode?.().catch(() => undefined));
+    await page.waitForFunction(image => image?.complete && image.naturalWidth > 0, await informativeImage.elementHandle());
     check(`${viewport.name} imagen informativa visible`, await informativeImage.evaluate(image => image.complete && image.naturalWidth > 0 && image.getBoundingClientRect().height >= 150), 'la imagen previa no se cargó o quedó oculta');
     const mondayAgenda = await page.locator('#home-weekly-card').innerText();
     for(const expected of activeEventTitles){

@@ -18,6 +18,7 @@ REPORTS = {
     "informative-visuals.json", "link-audit.json", "quality-gate.json",
     "compatibility.json", "experience.json", "image-optimization.json",
     "cms-change-summary.json",
+    "performance-audit.json",
 }
 
 
@@ -76,6 +77,7 @@ def main() -> int:
         run(stage, ["node", "tools/test_experience.mjs", "--report", "reports/experience.json"])
         run(stage, ["node", "tools/test_calendar_dynamic.mjs"])
         run(stage, ["node", "tools/test_event_navigation.mjs"])
+        run(stage, [py, "tools/performance_audit.py", "--report", "reports/performance-audit.json"])
         run(stage, [py, "tools/quality_gate.py", "--cms", cms_name, "--report", "reports/quality-gate.json"])
         run(stage, [
             py, "tools/cms_change_summary.py", "--before", str(project / "data"),

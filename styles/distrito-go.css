@@ -4443,3 +4443,44 @@ body[data-app-view="search"] .global-search-panel{
 .permanent-info-copy>p{
   margin:0 0 5px;
 }
+
+/* v50 · rendimiento y navegación directa */
+.command-center{
+  gap:14px;
+}
+
+.command-center-head{
+  margin-bottom:0;
+}
+
+.command-center[data-offline]::after{
+  content:"Modo sin conexión";
+  width:max-content;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#fff4df;
+  color:#7a4a00;
+  font-size:.72rem;
+  font-weight:850;
+}
+
+@media(max-width:680px){
+  .command-summary-card{
+    min-height:118px;
+    padding:12px;
+  }
+}
+
+@media(max-width:390px){
+  .command-center-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .command-summary-card{
+    min-height:112px;
+  }
+
+  .command-summary-card>small{
+    display:none;
+  }
+}

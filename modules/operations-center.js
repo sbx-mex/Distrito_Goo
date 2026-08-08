@@ -106,13 +106,9 @@ export function renderOperationalCenter(){
 
 function updateSystemStatus(){
   const online = navigator.onLine;
-  const cms = document.getElementById('cms-status');
-  const sync = document.getElementById('sync-status');
-  const version = document.getElementById('version-status');
-  if(cms) cms.innerHTML = `<i aria-hidden="true"></i> CMS ${escapeHtml(state.cmsBuild?.generatedAt || 'vigente')}`;
-  if(sync) sync.textContent = online ? 'En línea · datos sincronizados' : 'Sin conexión · usando datos guardados';
-  if(version) version.textContent = state.config?.version || 'Distrito Go';
-  document.getElementById('command-center')?.classList.toggle('is-offline', !online);
+  const center = document.getElementById('command-center');
+  center?.classList.toggle('is-offline', !online);
+  center?.toggleAttribute('data-offline', !online);
 }
 
 function updateContextTrail(){
@@ -154,7 +150,7 @@ export function initOperationsCenter(){
   });
   document.getElementById('header-search')?.addEventListener('click', () => {
     nav('explore');
-    window.setTimeout(focusGeneralSearch, 180);
+    requestAnimationFrame(focusGeneralSearch);
   });
   document.querySelector('[data-context-home]')?.addEventListener('click', () => nav('home'));
   window.addEventListener('dgx:completion-changed', renderOperationalCenter);

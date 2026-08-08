@@ -40,7 +40,8 @@ def inspect() -> dict[str, object]:
     experience = (ROOT / "modules" / "experience.js").read_text(encoding="utf-8")
     css = (ROOT / "styles" / "distrito-go.css").read_text(encoding="utf-8")
     code_checks = {
-        "inicioRenderizaPicture": 'class="permanent-info-media"' in operational and "informativeVisual(item)" in operational,
+        "inicioRenderizaPicture": 'class="permanent-info-media"' in operational and "informativeVisual(item, index === 0)" in operational,
+        "primeraMiniaturaPrioritaria": "fetchpriority=\"${eager ? 'high' : 'low'}\"" in operational,
         "imagenIndependienteDelDestino": "const destination = Boolean(visual || externalLink)" in operational,
         "explorarPriorizaImagenCMS": "const standardCover = !hasImage && shouldUseStandardCover(item)" in experience,
         "responsiveVisual": ".permanent-info-media" in css and "object-fit:cover" in css,

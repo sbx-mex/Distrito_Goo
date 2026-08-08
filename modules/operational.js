@@ -103,13 +103,13 @@ function safeExternalResource(value=''){
     return '';
   }
 }
-function informativeVisual(item){
+function informativeVisual(item, eager = false){
   const optimized = String(item?.MiniaturaRecurso || item?.Recurso || '').trim();
   const original = String(item?.OriginalRecurso || item?.Recurso || '').trim();
   if(!isVisualResource(optimized) && !isVisualResource(original)) return '';
   const image = isVisualResource(original) ? original : optimized;
   const source = isVisualResource(optimized) ? optimized : image;
-  const picture = `<picture>${/\.webp(?:[?#].*)?$/i.test(source) ? `<source type="image/webp" srcset="${escapeHtml(source)}">` : ''}<img src="${escapeHtml(image)}" alt="Vista previa de ${escapeHtml(item?.Actividad || 'informativo')}" width="1200" height="675" loading="lazy" decoding="async"></picture>`;
+  const picture = `<picture>${/\.webp(?:[?#].*)?$/i.test(source) ? `<source type="image/webp" srcset="${escapeHtml(source)}">` : ''}<img src="${escapeHtml(image)}" alt="Vista previa de ${escapeHtml(item?.Actividad || 'informativo')}" width="1200" height="675" loading="${eager ? 'eager' : 'lazy'}" fetchpriority="${eager ? 'high' : 'low'}" decoding="async"></picture>`;
   return {picture, image};
 }
 function validEventLink(value){
@@ -263,10 +263,10 @@ export function renderInformativo(){
     grid.innerHTML = '';
     return;
   }
-  const cards = info.map(item => {
+  const cards = info.map((item, index) => {
     const contentId = `info-${item.ID}`;
     const resource = String(item.Recurso || '').trim();
-    const visual = informativeVisual(item);
+    const visual = informativeVisual(item, index === 0);
     const externalLink = item.TipoRecurso === 'link' ? safeExternalResource(resource) : '';
     const destination = Boolean(visual || externalLink);
     const saved = isContentSaved(contentId);

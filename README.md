@@ -1,4 +1,4 @@
-# Distrito Goo — versión 48 · operativo sostenible
+# Distrito Go — interfaz limpia y operación sostenible
 
 Distrito Goo continúa siendo una PWA 100% estática para GitHub Pages. Python se utiliza únicamente durante auditoría y compilación para validar el CMS y generar JSON; no forma parte del runtime ni requiere servidor.
 
@@ -9,12 +9,12 @@ Distrito Goo continúa siendo una PWA 100% estática para GitHub Pages. Python s
 - `tools/validate_cms.py`, `tools/build_data.py` y `tools/audit_links.py`: validan el CMS, generan JSON y producen auditorías reproducibles.
 - `tools/audit_static.py`: valida JSON, rutas locales, IDs HTML, navegación y APP_SHELL.
 - `tools/cleanup_unused.py`: detecta recursos huérfanos con una política conservadora y solo los elimina con confirmación explícita.
-- `.github/workflows/actualizar-cms.yml`: compila cada reemplazo del CMS en aislamiento y publica únicamente si todo aprueba.
+- `.github/workflows/distrito-go.yml`: único workflow; compila el CMS, limpia huérfanos comprobados, revalida y prueba la navegación real.
 - `cms-contract.json`: contrato editable de las 14 pestañas, sus claves y salidas.
 - `tools/validate_cms_sync.py`: reconciliación por SHA, registros y salidas; también prueba cambios de `# Evento` sin efectos colaterales.
 - `modules/operations-center.js`: centro de mando, perfil de tienda, vigencia y ruta contextual.
 - `sw.js`: caché offline compatible con rutas relativas de GitHub Pages.
-- `.github/workflows/pruebas-navegacion-real.yml`: navegación real con Chromium en 320, 390, 768 y 1440 px.
+- `tools/quality_gate.py`: puerta Python única para CMS, PWA, accesibilidad, interfaz, navegación y mantenimiento.
 
 ## Actualizar desde el CMS
 
@@ -42,13 +42,13 @@ python tools/audit_static.py
 
 Publicar el contenido de la raíz de `main` mediante **Deploy from a branch**. Conservar `.nojekyll`, las rutas relativas `./` y todos los archivos incluidos en `APP_SHELL`.
 
-Después de publicar una nueva versión, abrir la PWA una vez con conexión para instalar la caché `distrito-go-v48.0.0-operativo-sostenible`.
+Después de publicar una nueva versión, abrir la PWA una vez con conexión para instalar la caché `distrito-go-v49.0.0-interfaz-limpia`.
 
 ## Inicio y navegación
 
 - Existe un único menú horizontal y centrado con `Inicio`, `Explorar` y `Guardados`; la búsqueda global está siempre disponible desde el encabezado y abre el buscador único de Explorar.
 - Inicio incorpora un centro de mando con avance diario, inventario próximo, vencimientos, desarrollo y un perfil de tienda persistente.
-- La agenda presenta hoy, mañana y el resto de la semana, además de los siete días con fecha real y actividades gobernadas por el CMS.
+- La agenda presenta directamente los siete días con fecha real y las actividades gobernadas por el CMS, sin resúmenes duplicados.
 - `JUNTÉMONOS MÁS` se renderiza desde `data/identity.json` con saludo, fecha, ruta y mensaje dinámicos.
 - `Personas` muestra recursos generales y las rutas vigentes de Desarrollo Partner.
 - `Peak` no aparece como acceso principal. Su contenido real permanece dentro de `Operación`, especialmente en Duty Roster, ritmo, cobertura y despliegue.
@@ -89,13 +89,13 @@ El pipeline conserva el original, genera WebP y miniaturas únicamente para recu
 
 ## Limpieza segura
 
-El workflow `.github/workflows/mantenimiento-seguro.yml` administra únicamente contenido vencido. `.github/workflows/depurar-proyecto.yml` audita archivos huérfanos cada semana y solo elimina con la confirmación `ELIMINAR_ARCHIVOS_HUERFANOS`; después valida la aplicación y bloquea cualquier commit que no contenga exclusivamente eliminaciones.
+El workflow `.github/workflows/distrito-go.yml` ejecuta `cleanup_unused.py` únicamente sobre archivos sin referencia comprobada. Después recompila el CMS y repite la puerta de calidad; si algo deja de funcionar, no publica cambios.
 
 ## Qué ocurre al editar el Excel
 
 Puedes cambiar una celda, una fecha, una descripción o `# Evento`. El pipeline lee columnas por encabezado, no por posición; calcula una huella de las 14 pestañas, compila en una copia temporal y comprueba que cada salida corresponda al Excel actual. Las pruebas no exigen cantidades, meses o IDs históricos. Si cualquier control falla, no se hace commit y GitHub Pages conserva la última versión aprobada.
 
-Workflows propios vigentes: `actualizar-cms.yml`, `control-calidad.yml`, `pruebas-navegacion-real.yml`, `mantenimiento-seguro.yml` y `depurar-proyecto.yml`.
+Workflow vigente: `distrito-go.yml`.
 
 ## Felicitaciones PDF
 

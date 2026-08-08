@@ -9,7 +9,7 @@ const [html, css, operationalJs, experienceJs, searchJs, pipeline, workflow, sw,
   read('modules/experience.js'),
   read('modules/search.js'),
   read('tools/cms_pipeline.py'),
-  read('.github/workflows/actualizar-cms.yml'),
+  read('.github/workflows/distrito-go.yml'),
   read('sw.js'),
   read('data/desarrollo-partner.v1.json').then(JSON.parse),
 ]);
@@ -43,8 +43,8 @@ check('18. Retícula equivalente en escritorio', css.includes('grid-template-col
 check('19. Retícula responsive', css.includes('@media(max-width:580px)') && css.includes('grid-template-columns:repeat(2,minmax(0,1fr))'), 'dos columnas en móvil amplio');
 check('20. Generación dinámica desde CMS', pipeline.includes('"vistas":') && pipeline.includes('group_partners_by_store') && pipeline.includes('clean_partner_text'), 'Python CMS');
 check('21. Datos legados conservados', Array.isArray(partner.cursosAlta) && Array.isArray(partner.tbwPendientes), 'compatibilidad de búsqueda');
-check('22. PWA sincronizada', sw.includes('distrito-go-') && sw.includes('v48.0.0-operativo-sostenible') && sw.includes('./styles/distrito-go.css') && sw.includes('./data/desarrollo-partner.v1.json') && sw.includes('./modules/search.js') && sw.includes('./modules/operations-center.js'), 'caché v48 y CSS consolidado');
-check('23. Workflow sostenible', workflow.includes('cms_release.py') && workflow.includes('validate_cms_sync.py'), 'publicación transaccional y sincronización completa');
+check('22. PWA sincronizada', sw.includes('distrito-go-') && sw.includes('v49.0.0-interfaz-limpia') && sw.includes('./styles/distrito-go.css') && sw.includes('./data/desarrollo-partner.v1.json') && sw.includes('./modules/search.js') && sw.includes('./modules/operations-center.js'), 'caché v49 y CSS consolidado');
+check('23. Workflow sostenible', workflow.includes('cms_release.py') && workflow.includes('cleanup_unused.py') && workflow.includes('test:navigation'), 'publicación, limpieza y navegación en un flujo');
 check('24. Menú principal simplificado', [...html.matchAll(/data-view="(home|explore|saved)"/g)].length === 3 && !html.includes('data-view="search"') && html.includes('global-search-panel'), 'Inicio, Explorar y Guardados; buscador dentro de Explorar');
 check('25. Celebraciones oculto en Explorar', !experienceJs.includes("id:'section-celebrations'"), 'sin tarjeta Celebraciones que abra una vista vacía');
 check('26. Destino único reutilizable', experienceJs.includes('export function hasDestination') && searchJs.includes('hasDestination(item)'), 'misma regla para catálogo y búsqueda');

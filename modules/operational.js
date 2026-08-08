@@ -90,14 +90,6 @@ function isCurrentlyValid(item){
   if(end) end.setHours(23,59,59,999);
   return (!start || now >= start) && (!end || now <= end);
 }
-function validityLabel(item){
-  const start = parseDate(item?.['Vigencia Inicio']);
-  const end = parseDate(item?.['Vigencia Fin']);
-  if(start && end) return `${start.toLocaleDateString('es-MX',{day:'2-digit',month:'short'})}–${end.toLocaleDateString('es-MX',{day:'2-digit',month:'short'})}`;
-  if(end) return `Hasta ${end.toLocaleDateString('es-MX',{day:'2-digit',month:'short'})}`;
-  if(start) return `Desde ${start.toLocaleDateString('es-MX',{day:'2-digit',month:'short'})}`;
-  return item?.Frecuencia || '';
-}
 function isVisualResource(value=''){
   return /\.(?:avif|gif|jpe?g|png|webp)(?:[?#].*)?$/i.test(String(value).trim());
 }
@@ -278,14 +270,12 @@ export function renderInformativo(){
     const externalLink = item.TipoRecurso === 'link' ? safeExternalResource(resource) : '';
     const destination = Boolean(visual || externalLink);
     const saved = isContentSaved(contentId);
-    const label = item.Etiqueta || (Number(item.Prioridad) === 1 ? 'Prioridad' : '');
     const visualMarkup = visual
       ? `<button class="permanent-info-media" type="button" data-open-content="${escapeHtml(contentId)}" aria-label="Ver ${escapeHtml(item.Actividad || 'informativo')}">${visual.picture}<span>Ver imagen completa</span></button>`
       : `<span class="permanent-info-icon" aria-hidden="true">${item.Icono || 'ℹ️'}</span>`;
     return `<article class="permanent-info-card ${visual ? 'has-visual' : 'is-text-only'}">
       ${visualMarkup}
       <div class="permanent-info-copy">
-        <div class="permanent-info-meta">${label ? `<small>${escapeHtml(label)}</small>` : ''}${item.Frecuencia ? `<span>${escapeHtml(item.Frecuencia)}</span>` : ''}${validityLabel(item) ? `<span>${escapeHtml(validityLabel(item))}</span>` : ''}</div>
         <strong>${escapeHtml(item.Actividad || 'Informativo')}</strong>
         <p>${escapeHtml(briefText(item.DescripcionBreve || item['Descripción'] || '', 120))}</p>
         <div class="permanent-info-actions">

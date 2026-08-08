@@ -89,7 +89,11 @@ def inspect_project(cms: Path) -> dict[str, Any]:
     gate.check("4 · Experiencia", "Escape limpia el buscador", "event.key === 'Escape'" in search, "atajo reversible")
     gate.check("4 · Experiencia", "Centro de mando operativo", 'id="command-center"' in html and "renderOperationalCenter" in operations_center, "prioridades, avance, inventario y vencimientos")
     gate.check("4 · Experiencia", "Perfil por tienda", 'id="store-profile-select"' in html and "matchesSelectedStore" in operations_center, "preferencia local aplicada al CMS")
-    gate.check("4 · Experiencia", "Agenda y progreso diario", "agenda-overview" in experience and "completionDateKey" in experience, "hoy, mañana, resto y reinicio por fecha")
+    clean_agenda = "week-day-picker" in experience and "agenda-overview" not in experience and "Resto de la semana" not in experience
+    gate.check("4 · Experiencia", "Agenda y progreso diario", clean_agenda and "completionDateKey" in experience, "selector semanal directo y reinicio por fecha")
+    clean_home = all(token not in html for token in ("Distrito Go · Hoy", "Lo importante de hoy", 'id="command-center-summary"'))
+    gate.check("4 · Experiencia", "Inicio sin encabezados redundantes", clean_home, "abre directamente en el centro de mando")
+    gate.check("4 · Experiencia", "Informativo sin etiquetas repetidas", "permanent-info-meta" not in (ROOT / "modules" / "operational.js").read_text(encoding="utf-8"), "sin Importante / Semanal duplicado")
     gate.check("4 · Experiencia", "Contenido temporal centralizado", "bearista-informativo" not in html and "contest-hero" not in html, "sin duplicados fuera del CMS")
 
     manifest = load_json(ROOT / "manifest.json")
@@ -109,15 +113,14 @@ def inspect_project(cms: Path) -> dict[str, Any]:
 
     cleanup = cleanup_report(False, "")
     gate.check("5 · Publicación", "Limpieza en modo auditoría", cleanup["ok"], f"{cleanup['summary']['candidates']} candidatos; 0 eliminados")
-    workflow = (ROOT / ".github" / "workflows" / "control-calidad.yml").read_text(encoding="utf-8")
-    maintenance_workflow = (ROOT / ".github" / "workflows" / "mantenimiento-seguro.yml").read_text(encoding="utf-8")
-    cleanup_workflow = (ROOT / ".github" / "workflows" / "depurar-proyecto.yml").read_text(encoding="utf-8")
-    browser_workflow = (ROOT / ".github" / "workflows" / "pruebas-navegacion-real.yml").read_text(encoding="utf-8")
-    gate.check("5 · Publicación", "Control previo a publicar", "tools/cms_release.py" in workflow and "pull_request:" in workflow and "workflow_dispatch:" in workflow, "compilación aislada en push, PR y ejecución manual")
-    safe_maintenance = all(token in maintenance_workflow for token in ("AUDITAR", "RETIRAR_EXPIRADOS", "RETIRAR_CONTENIDO_EXPIRADO", "cms_release.py"))
-    safe_cleanup = all(token in cleanup_workflow for token in ("AUDITAR", "ELIMINAR", "ELIMINAR_ARCHIVOS_HUERFANOS", "cms_release.py", "git add -u"))
-    gate.check("5 · Publicación", "Mantenimiento en dos fases", safe_maintenance and safe_cleanup, "contenido vencido y archivos huérfanos separados, confirmados y validados")
-    gate.check("5 · Publicación", "Navegación real en navegador", all(token in browser_workflow for token in ("playwright", "320", "390", "768", "1440")), "Chromium en cuatro anchos")
+    workflow_paths = sorted((ROOT / ".github" / "workflows").glob("*.y*ml"))
+    single_workflow = [path.name for path in workflow_paths] == ["distrito-go.yml"]
+    workflow = workflow_paths[0].read_text(encoding="utf-8") if single_workflow else ""
+    gate.check("5 · Publicación", "Un solo workflow", single_workflow, ", ".join(path.name for path in workflow_paths))
+    gate.check("5 · Publicación", "Control previo a publicar", all(token in workflow for token in ("tools/cms_release.py", "pull_request:", "workflow_dispatch:", "schedule:")), "CMS, PR, manual y mantenimiento semanal")
+    safe_maintenance = all(token in workflow for token in ("cleanup_unused.py", "ELIMINAR_ARCHIVOS_HUERFANOS", "cms_release.py"))
+    gate.check("5 · Publicación", "Mantenimiento seguro consolidado", safe_maintenance, "limpieza comprobada y revalidación transaccional")
+    gate.check("5 · Publicación", "Navegación real en navegador", all(token in workflow for token in ("playwright", "test:navigation")), "Chromium en cuatro anchos")
 
     critical_failed = [item for item in gate.checks if not item["ok"] and item["severity"] == "critical"]
     warnings = [item for item in gate.checks if not item["ok"] and item["severity"] == "warning"]

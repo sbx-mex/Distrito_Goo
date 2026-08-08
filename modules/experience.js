@@ -662,26 +662,7 @@ function renderWeeklyCatalog(items){
     .map(item => ({...item, dateLabel:selectedDateLabel}));
   const dayItems = [...eventItems, ...recurringItems]
     .sort((a,b) => Number(a.priority || 99) - Number(b.priority || 99) || Number(a.order || 99) - Number(b.order || 99));
-  const todayIndex = (new Date().getDay() + 6) % 7;
-  const tomorrowIndex = todayIndex + 1;
-  const countForDay = index => {
-    if(index < 0 || index > 6) return 0;
-    const date = weekDate(index);
-    date.setHours(12,0,0,0);
-    const recurring = items.filter(item => normalize(item.dayName) === normalize(WEEK_DAYS[index])).length;
-    return recurring + eventsForDate(date).length;
-  };
-  const restCount = WEEK_DAYS.slice(Math.min(7, tomorrowIndex + 1)).reduce((sum, _day, offset) => sum + countForDay(tomorrowIndex + 1 + offset), 0);
   return `<div class="weekly-catalog">
-    <div class="week-catalog-heading">
-      <div><span>Semana actual</span><strong>${escapeHtml(selectedDateLabel)}</strong></div>
-      <small>${dayItems.length} actividad${dayItems.length === 1 ? '' : 'es'}</small>
-    </div>
-    <div class="agenda-overview" aria-label="Resumen de agenda">
-      <button type="button" data-agenda-day="${escapeHtml(WEEK_DAYS[todayIndex])}"><span>Hoy</span><strong>${countForDay(todayIndex)}</strong><small>${escapeHtml(WEEK_DAYS[todayIndex])}</small></button>
-      ${tomorrowIndex <= 6 ? `<button type="button" data-agenda-day="${escapeHtml(WEEK_DAYS[tomorrowIndex])}"><span>Mañana</span><strong>${countForDay(tomorrowIndex)}</strong><small>${escapeHtml(WEEK_DAYS[tomorrowIndex])}</small></button>` : '<div><span>Mañana</span><strong>—</strong><small>Próxima semana</small></div>'}
-      <div><span>Resto de la semana</span><strong>${restCount}</strong><small>actividades</small></div>
-    </div>
     ${weekDayPickerMarkup()}
     ${dayItems.length ? `
     <div class="home-catalog-toolbar">

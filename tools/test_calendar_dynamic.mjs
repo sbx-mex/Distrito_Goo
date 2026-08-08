@@ -15,7 +15,7 @@ check('Planeación usa anticipación del CMS', operational.includes('planningLea
 check('Planeación calcula semana en ejecución', operational.includes('planningWindow(today, leadDays)') && operational.includes('getWeekNumber(planningDate)'));
 check('Calendario semanal usa rango de cada evento', experience.includes('function eventsForDate(targetDate)') && experience.includes("item['Fecha Inicio']") && experience.includes("item['Fecha Fin']"));
 check('WFM semanal calcula rango sin fecha fija', experience.includes('function wfmPlanningSummary(reference = new Date())') && !experience.includes('Semana 34'));
-check('Contadores comparten fuente de eventos', experience.includes('return recurring + eventsForDate(date).length'));
+check('Agenda semanal sin contadores redundantes', experience.includes('week-day-picker') && !experience.includes('return recurring + eventsForDate(date).length') && !experience.includes('agenda-overview'));
 
 if(failures.length){ console.error(failures.join('\n')); process.exit(1); }
 console.log(`Calendario dinámico aprobado con ${events.length} eventos del CMS.`);

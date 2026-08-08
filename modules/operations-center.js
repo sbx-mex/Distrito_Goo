@@ -102,8 +102,6 @@ export function renderOperationalCenter(){
     commandCard({tone:dueSoon ? 'danger' : 'success', kicker:'Vencimientos', value:String(dueSoon), title:`${active.length} eventos activos`, detail:dueSoon ? 'Revisa los próximos 3 días' : 'Sin vencimientos cercanos', target:'eventos-cms'}),
     commandCard({tone:'people', kicker:'Desarrollo', value:String(development.length), title:'Registros vigentes', detail:profile, target:'altas-curso'}),
   ].join('');
-  const summary = document.getElementById('command-center-summary');
-  if(summary) summary.textContent = `${profile} · ${activities.length} actividades operativas · ${events.length} eventos vigentes o próximos.`;
 }
 
 function updateSystemStatus(){

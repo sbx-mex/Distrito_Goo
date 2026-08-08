@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'distrito-go-';
-const CACHE_NAME = `${CACHE_PREFIX}v50.0.0-rendimiento-intuitivo`;
+const CACHE_NAME = `${CACHE_PREFIX}v50.1.0-calendario-wfm-estable`;
 const APP_SHELL = [
   './',
   './index.html',
@@ -29,6 +29,7 @@ const APP_SHELL = [
   './modules/app.js',
   './modules/operational.js',
   './modules/experience.js',
+  './modules/calendar.js',
   './modules/search.js',
   './modules/operations-center.js',
   './assets/icons/icon-192.png',

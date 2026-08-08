@@ -1,5 +1,6 @@
 import { chromium } from 'playwright';
 import fs from 'node:fs';
+import { getWfmPlanningSummary } from '../modules/calendar.js';
 
 const baseURL = process.env.DISTRITO_GO_URL || 'http://127.0.0.1:4173';
 const viewports = [
@@ -11,16 +12,6 @@ const viewports = [
 const results = [];
 let browser;
 const referenceDate = process.env.DISTRITO_GO_TEST_DATE || new Date().toISOString().slice(0,10);
-const reference = new Date(`${referenceDate}T12:00:00`);
-const planning = new Date(reference); planning.setDate(planning.getDate() + 15);
-const planningDay = planning.getDay() || 7;
-const planningStart = new Date(planning); planningStart.setDate(planning.getDate() - planningDay + 1);
-const planningEnd = new Date(planningStart); planningEnd.setDate(planningStart.getDate() + 6);
-const iso = new Date(Date.UTC(planning.getFullYear(), planning.getMonth(), planning.getDate()));
-const isoDay = iso.getUTCDay() || 7; iso.setUTCDate(iso.getUTCDate() + 4 - isoDay);
-const isoYearStart = new Date(Date.UTC(iso.getUTCFullYear(), 0, 1));
-const planningWeek = Math.ceil((((iso - isoYearStart) / 86400000) + 1) / 7);
-const planningRange = `${planningStart.toLocaleDateString('es-MX',{day:'numeric',month:'long'})} al ${planningEnd.toLocaleDateString('es-MX',{day:'numeric',month:'long'})}`;
 const normalizeText = value => String(value ?? '')
   .normalize('NFKC')
   .replace(/\s+/g, ' ')
@@ -31,6 +22,9 @@ const activeEvents = cmsEvents
   .filter(item => item.Publicar !== false && item['Fecha Inicio'].slice(0,10) <= referenceDate && item['Fecha Fin'].slice(0,10) >= referenceDate)
   .map(item => ({title:String(item.Actividad || '').trim(), key:normalizeText(item.Actividad)}));
 const cmsInformatives = JSON.parse(fs.readFileSync(new URL('../data/informativo.v10.json', import.meta.url), 'utf8'));
+const operational = JSON.parse(fs.readFileSync(new URL('../data/operacional.v10.json', import.meta.url), 'utf8'));
+const wfmLeadDays = Number(String(operational.wfmRegla || '').match(/(\d+)\s*d[ií]as?/i)?.[1]) || 15;
+const planning = getWfmPlanningSummary(referenceDate, wfmLeadDays);
 const visibleInformativeCount = cmsInformatives.filter(item => {
   if(item.Visible === false) return false;
   const start = String(item['Vigencia Inicio'] || '').slice(0,10);
@@ -67,7 +61,12 @@ try{
     for(const expected of activeEvents){
       check(`${viewport.name} agenda incluye ${expected.title}`, normalizedAgenda.includes(expected.key), `evento vigente ausente del calendario del ${referenceDate}`);
     }
-    check(`${viewport.name} WFM dinámica`, mondayAgenda.includes(`WFM · Semana ${planningWeek}`) && mondayAgenda.toLocaleLowerCase('es').includes(planningRange.toLocaleLowerCase('es')), `esperado Semana ${planningWeek} · ${planningRange}`);
+    const wfmCard = page.locator('#weekly-catalog-track .catalog-cover-card').filter({hasText:/WFM/i}).first();
+    await wfmCard.waitFor({state:'attached'});
+    const wfmText = normalizeText(await wfmCard.innerText());
+    const expectedWfm = normalizeText(`WFM · Semana ${planning.week}`);
+    const expectedRange = normalizeText(planning.range);
+    check(`${viewport.name} WFM dinámica`, wfmText.includes(expectedWfm) && wfmText.includes(expectedRange), `esperado ${expectedWfm} · ${expectedRange}; recibido ${wfmText.slice(0,220)}`);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     check(`${viewport.name} sin corte horizontal`, overflow <= 1, `desbordamiento ${overflow}px`);
     await informativeCards.first().locator('.permanent-info-media').click();

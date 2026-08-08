@@ -2,6 +2,7 @@ import { matchesSelectedStore, state } from './state.js';
 import { escapeHtml, normalize } from './utils.js';
 import { getJSON, setJSON } from './storage.js';
 import { toast } from './toast.js';
+import { getWfmPlanningSummary } from './calendar.js';
 
 const SAVED_KEY = 'dgx_saved_content';
 const COMPLETED_KEY = 'dgx_completed_activities';
@@ -179,20 +180,7 @@ function eventsForDate(targetDate){
 function wfmPlanningSummary(reference = new Date()){
   const leadMatch = String(state.operacional.wfmRegla || '').match(/(\d+)\s*d[ií]as?/i);
   const leadDays = Math.max(1, Number(leadMatch?.[1]) || 15);
-  const planningDate = new Date(reference);
-  planningDate.setDate(planningDate.getDate() + leadDays);
-  const day = planningDate.getDay() || 7;
-  const weekStart = new Date(planningDate);
-  weekStart.setDate(planningDate.getDate() - day + 1);
-  const weekEnd = new Date(weekStart);
-  weekEnd.setDate(weekStart.getDate() + 6);
-  const utc = new Date(Date.UTC(planningDate.getFullYear(), planningDate.getMonth(), planningDate.getDate()));
-  const utcDay = utc.getUTCDay() || 7;
-  utc.setUTCDate(utc.getUTCDate() + 4 - utcDay);
-  const yearStart = new Date(Date.UTC(utc.getUTCFullYear(), 0, 1));
-  const week = Math.ceil((((utc - yearStart) / 86400000) + 1) / 7);
-  const range = `${weekStart.toLocaleDateString('es-MX',{day:'numeric',month:'long'})} al ${weekEnd.toLocaleDateString('es-MX',{day:'numeric',month:'long'})}`;
-  return {leadDays, week, range};
+  return getWfmPlanningSummary(reference, leadDays);
 }
 
 function dynamicWeeklyItem(item){

@@ -200,12 +200,12 @@
     "Grupo": "Trabajo",
     "Icono": "🏢",
     "Nombre": "WOE App",
-    "Tipo": "app",
-    "URL": "intent://#Intent;package=com.alsea.appmanager;end",
-    "WebURL": "https://centro.operaciones.alsea.net/Login",
-    "Package": "com.alsea.appmanager",
-    "PlayStore": "https://play.google.com/store/apps/details?id=com.alsea.appmanager",
-    "Notas": "Accede a herramientas operativas.",
+    "Tipo": "web",
+    "URL": "https://woe2.alsea.es/woe/login",
+    "WebURL": "",
+    "Package": "",
+    "PlayStore": "",
+    "Notas": "Abre exclusivamente en equipo Back de tienda.",
     "Favorito": "Sí",
     "Orden": 15
   },
@@ -642,5 +642,19 @@
     "Notas": "Evalúa la tasa de éxito en Drive Thru.",
     "Favorito": "Sí",
     "Orden": 12.8
+  },
+  {
+    "Categoria": "Operación",
+    "Grupo": "Trabajo",
+    "Icono": "🗓️",
+    "Nombre": "UKG · Plataforma de Horarios",
+    "Tipo": "web",
+    "URL": "https://dcus21-prd17-ath01.prd.mykronos.com/authn/XUI/?realm=/sistemaintegral_prd_01#login&goto=https%3A%2F%2Fsistemaintegral.prd.mykronos.com%3A443%2F",
+    "WebURL": "",
+    "Package": "",
+    "PlayStore": "",
+    "Notas": "Consulta y gestiona los horarios del equipo.",
+    "Favorito": "Sí",
+    "Orden": 16
   }
 ]

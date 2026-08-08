@@ -21,10 +21,15 @@ const isoDay = iso.getUTCDay() || 7; iso.setUTCDate(iso.getUTCDate() + 4 - isoDa
 const isoYearStart = new Date(Date.UTC(iso.getUTCFullYear(), 0, 1));
 const planningWeek = Math.ceil((((iso - isoYearStart) / 86400000) + 1) / 7);
 const planningRange = `${planningStart.toLocaleDateString('es-MX',{day:'numeric',month:'long'})} al ${planningEnd.toLocaleDateString('es-MX',{day:'numeric',month:'long'})}`;
+const normalizeText = value => String(value ?? '')
+  .normalize('NFKC')
+  .replace(/\s+/g, ' ')
+  .trim()
+  .toLocaleLowerCase('es-MX');
 const cmsEvents = JSON.parse(fs.readFileSync(new URL('../data/eventos.v10.json', import.meta.url), 'utf8'));
-const activeEventTitles = cmsEvents
+const activeEvents = cmsEvents
   .filter(item => item.Publicar !== false && item['Fecha Inicio'].slice(0,10) <= referenceDate && item['Fecha Fin'].slice(0,10) >= referenceDate)
-  .map(item => item.Actividad);
+  .map(item => ({title:String(item.Actividad || '').trim(), key:normalizeText(item.Actividad)}));
 const cmsInformatives = JSON.parse(fs.readFileSync(new URL('../data/informativo.v10.json', import.meta.url), 'utf8'));
 const visibleInformativeCount = cmsInformatives.filter(item => {
   if(item.Visible === false) return false;
@@ -58,8 +63,9 @@ try{
     await page.waitForFunction(image => image?.complete && image.naturalWidth > 0, await informativeImage.elementHandle());
     check(`${viewport.name} imagen informativa visible`, await informativeImage.evaluate(image => image.complete && image.naturalWidth > 0 && image.getBoundingClientRect().height >= 150), 'la imagen previa no se cargó o quedó oculta');
     const mondayAgenda = await page.locator('#home-weekly-card').innerText();
-    for(const expected of activeEventTitles){
-      check(`${viewport.name} agenda incluye ${expected}`, mondayAgenda.includes(expected), `evento vigente ausente del calendario del ${referenceDate}`);
+    const normalizedAgenda = normalizeText(mondayAgenda);
+    for(const expected of activeEvents){
+      check(`${viewport.name} agenda incluye ${expected.title}`, normalizedAgenda.includes(expected.key), `evento vigente ausente del calendario del ${referenceDate}`);
     }
     check(`${viewport.name} WFM dinámica`, mondayAgenda.includes(`WFM · Semana ${planningWeek}`) && mondayAgenda.toLocaleLowerCase('es').includes(planningRange.toLocaleLowerCase('es')), `esperado Semana ${planningWeek} · ${planningRange}`);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);

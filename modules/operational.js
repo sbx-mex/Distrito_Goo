@@ -137,7 +137,7 @@ function eventDestination(item){
 function eventCard(e){
   const title = e.Actividad || 'Evento';
   const dateLine = `${fmtDDMM(e['Fecha Inicio'])}${e['Fecha Fin'] ? ' al ' + fmtDDMM(e['Fecha Fin']) : ''}`;
-  const priority = /referente operativo/i.test(title);
+  const priority = /referente operativo|unicorn/i.test(title);
   const media = e.MiniaturaPath || e.ImagenPath || '';
   const destination = eventDestination(e);
   const actionLabel = destination.kind === 'link' ? 'Abrir acceso →' : destination.kind === 'image' ? 'Ver imagen →' : 'Informativo';

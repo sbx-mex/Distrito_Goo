@@ -16,6 +16,12 @@ check('Explorar respeta TipoAccion', experience.includes('eventActionType:item.T
 check('Enlace abre pestaña segura', app.includes("window.open(link, '_blank', 'noopener')"));
 check('URLs abreviadas se rechazan en interfaz', app.includes("text.includes('...')") && experience.includes("text.includes('...')") && operational.includes("text.includes('...')"));
 
+const unicorn = events.filter(item => /unicorn/i.test(item.Actividad || ''));
+check('Calendario integra las tres piezas Unicorn', unicorn.length === 3, `${unicorn.length}/3 eventos`);
+check('Unicorn abre imágenes verificables', unicorn.every(item => item.TipoAccion === 'Imagen' && /\.(?:jpe?g|png)(?:[?#].*)?$/i.test(item.ImagenOriginal || '')));
+check('Unicorn cubre del 8 al 18 de agosto', unicorn.every(item => String(item['Fecha Inicio']).startsWith('2026-08-08') && String(item['Fecha Fin']).startsWith('2026-08-18')));
+check('Unicorn se presenta como prioridad verde', operational.includes('/referente operativo|unicorn/i') && experience.includes("title.includes('unicorn')"));
+
 for(const item of checks) console.log(`${item.ok ? 'OK' : 'FALLO'} ${item.name}${item.detail ? ` · ${item.detail}` : ''}`);
 const failed = checks.filter(item => !item.ok);
 console.log(`${checks.length - failed.length}/${checks.length} controles de navegación aprobados.`);

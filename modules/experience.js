@@ -140,7 +140,7 @@ function contentFromEvent(item){
 
 function eventPriority(item){
   const title = normalize(item?.Actividad);
-  if(title.includes('eco') || title.includes('referente operativo')) return 1;
+  if(title.includes('eco') || title.includes('referente operativo') || title.includes('unicorn')) return 1;
   if(title.includes('corte de nomina') || title.includes('autoica')) return 5;
   if(title.includes('inventario fin de mes')) return 8;
   if(title.includes('inventario semanal')) return 10;
@@ -149,7 +149,7 @@ function eventPriority(item){
 
 function eventLabel(item){
   const title = normalize(item?.Actividad);
-  if(title.includes('eco') || title.includes('referente operativo')) return 'Prioridad · Evento';
+  if(title.includes('eco') || title.includes('referente operativo') || title.includes('unicorn')) return 'Prioridad · Evento';
   if(title.includes('inventario fin de mes')) return 'Inventario fin de mes';
   if(title.includes('inventario semanal')) return 'Inventario semanal';
   return 'Evento';

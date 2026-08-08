@@ -32,11 +32,17 @@ CURRENT_TESTS = {
 }
 VERSIONED_TEST_RE = re.compile(r"^test_.+_v\d+\.mjs$", re.I)
 OBSOLETE_WORKFLOWS = {
+    "actualizar-cms.yml",
+    "control-calidad.yml",
+    "depurar-proyecto.yml",
+    "mantenimiento-seguro.yml",
+    "pruebas-navegacion-real.yml",
     "limpieza-archivos-sin-uso.yml",
     "limpieza-contenido-expirado.yml",
     "validar-informativos-visuales.yml",
     "validar-navegacion-eventos.yml",
 }
+OBSOLETE_TOOLS = {"cleanup_expired.py"}
 
 
 def relative(path: Path) -> str:
@@ -184,7 +190,14 @@ def build_report(apply: bool, confirmation: str) -> dict[str, object]:
 
     reachable_tool_paths = reachable_tools()
     for path in sorted((ROOT / "tools").iterdir()):
-        if path.is_file() and path.suffix in {".py", ".mjs"} and path not in reachable_tool_paths:
+        if path.is_file() and path.name in OBSOLETE_TOOLS:
+            candidates.append({
+                "path": relative(path),
+                "reason": "mantenimiento temporal sustituido por cleanup_unused.py",
+                "bytes": path.stat().st_size,
+                "sha256": sha256(path),
+            })
+        elif path.is_file() and path.suffix in {".py", ".mjs"} and path not in reachable_tool_paths:
             candidates.append({
                 "path": relative(path),
                 "reason": "herramienta fuera del grafo de workflows, documentación, scripts y dependencias internas",
@@ -205,7 +218,7 @@ def build_report(apply: bool, confirmation: str) -> dict[str, object]:
         if path.name in OBSOLETE_WORKFLOWS:
             candidates.append({
                 "path": relative(path),
-                "reason": "workflow especializado consolidado en calidad integral o mantenimiento seguro",
+                "reason": "workflow especializado consolidado en distrito-go.yml",
                 "bytes": path.stat().st_size,
                 "sha256": sha256(path),
             })

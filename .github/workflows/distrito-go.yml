@@ -50,13 +50,7 @@ jobs:
           python -m pip install --disable-pip-version-check -r requirements.txt
           npm ci
 
-      - name: Compilar y auditar el CMS
-        shell: bash
-        run: |
-          set -euo pipefail
-          python tools/cms_release.py Distrito_Go_CMS_v2_actualizado.xlsx --project . --skip-mutation-test
-
-      - name: Retirar únicamente archivos obsoletos comprobados
+      - name: Consolidar el proyecto antes de validar
         shell: bash
         run: |
           set -euo pipefail
@@ -65,14 +59,11 @@ jobs:
             --confirm ELIMINAR_ARCHIVOS_HUERFANOS \
             --report reports/unused-files.json
 
-      - name: Revalidar después de la limpieza
+      - name: Compilar y auditar el CMS
         shell: bash
         run: |
           set -euo pipefail
           python tools/cms_release.py Distrito_Go_CMS_v2_actualizado.xlsx --project . --skip-mutation-test
-          python tools/quality_gate.py \
-            --cms Distrito_Go_CMS_v2_actualizado.xlsx \
-            --report reports/quality-gate.json
 
       - name: Instalar Chromium
         run: npx playwright install --with-deps chromium

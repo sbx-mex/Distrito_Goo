@@ -1,301 +1,334 @@
 <!doctype html>
-<html lang="es-MX">
+<html lang="es">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#006241" />
-  <meta name="description" content="Distrito Go Starbucks Contrast Experience - Centro operativo diario para District Manager." />
-  <title>Distrito Go | Starbucks Contrast Experience</title>
-  <link rel="manifest" href="./manifest.json" />
-  <link rel="icon" type="image/png" sizes="192x192" href="./assets/icons/icon-192.png" />
-  <link rel="apple-touch-icon" href="./assets/icons/icon-180.png" />
-  <link rel="stylesheet" href="./styles/distrito-go.css?v=49.0.0" />
+  <meta name="description" content="Herramienta operativa para consultar MERCH, validar WOE y preparar etiquetas POS." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>CodeBrew 2.0 · Merch POS</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="catalog.css" />
+  <script src="data/products.js" defer></script>
+  <script src="data/woe.js" defer></script>
+  <script src="data/merch-catalog.js" defer></script>
+  <script src="data/woe-pdf-config.js" defer></script>
+  <script src="data/stock-config.js" defer></script>
+  <script src="data/ui-config.js" defer></script>
+  <script src="data/app-audit.js" defer></script>
+  <script src="app.js" defer></script>
+
+  <style>
+    .release-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: 18px;
+      padding: 9px 16px;
+      border: 1.5px solid rgba(255, 214, 88, .95);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .10);
+      color: #fff8d9;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: .01em;
+      box-shadow: 0 6px 18px rgba(0,0,0,.12);
+      white-space: nowrap;
+    }
+    .release-badge::before {
+      content: "★";
+      color: #ffd84d;
+      font-size: 15px;
+      line-height: 1;
+    }
+    @media (max-width: 760px) {
+      .hero {
+        align-items: flex-start;
+        height: auto;
+        min-height: 92px;
+        flex-wrap: wrap;
+      }
+      .release-badge {
+        margin-left: 72px;
+        margin-top: -8px;
+        font-size: 12px;
+        padding: 7px 12px;
+        max-width: calc(100vw - 96px);
+        white-space: normal;
+      }
+    }
+  </style>
 </head>
-<body class="v15-starbucks-contrast-experience v16-mobile-launcher-espresso-hub-optimization v16-2-visual-accessibility-refinement">
-  <a class="skip-link" href="#main">Saltar al contenido</a>
-  <div id="pull-indicator" class="pull-indicator" aria-hidden="true">↻ Actualizando...</div>
-
-  <header class="app-header" role="banner">
-    <div class="brand-lockup">
-      <img class="brand-mark brand-logo-img" src="./assets/icons/icon-192.png" alt="Distrito Go" />
-      <div>
-        <p class="eyebrow">Multiherramienta Operativa</p>
-        <h1 id="app-title">Distrito Go</h1>
-      </div>
+<body>
+  <a class="skip-link" href="#mainContent">Saltar al contenido</a>
+  <header class="hero">
+    <img src="assets/icon-192.png" alt="CodeBrew" class="logo">
+    <div>
+      <h1>CodeBrew <span>v2 OCR</span></h1>
+      <p>Buscador de códigos · Merch POS</p>
     </div>
-    <div class="header-actions" aria-label="Acciones rápidas">
-      <button id="header-search" class="header-search" type="button" aria-label="Buscar en Distrito Go">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-        <span>Buscar</span>
-      </button>
-    </div>
+    <div class="release-badge" aria-label="Versión actualizada">OCR móvil optimizado · v2</div>
+    <div id="connectionStatus" class="connection-status" role="status" aria-live="polite">En línea</div>
+    <div id="appHealth" class="app-health" aria-live="polite">Validando motor...</div>
   </header>
-  <nav id="context-trail" class="context-trail" aria-label="Ruta de navegación" hidden>
-    <button type="button" data-context-home>Inicio</button>
-    <span aria-hidden="true">/</span>
-    <strong id="context-trail-current">Detalle</strong>
+
+  <nav class="tabs" aria-label="Pestañas" role="tablist">
+    <button id="tabConsulta" class="tab active" data-tab="consulta" role="tab" aria-controls="consulta" aria-selected="true">Consulta</button>
+    <button id="tabWoe" class="tab" data-tab="woe" role="tab" aria-controls="woe" aria-selected="false">WOE</button>
+    <button id="tabEtiquetado" class="tab" data-tab="etiquetado" role="tab" aria-controls="etiquetado" aria-selected="false">Etiquetado</button>
   </nav>
-<main id="main" class="app-shell" tabindex="-1">
-    <section id="visual-home" class="visual-home" aria-label="Inicio de Distrito Go">
-      <section id="home-view" class="home-view" aria-label="Inicio">
-        <section id="command-center" class="command-center" aria-labelledby="command-center-title">
-          <header class="command-center-head">
-            <div>
-              <span class="visual-overline">Centro de mando</span>
-              <h3 id="command-center-title">Tu operación de hoy</h3>
-            </div>
-            <label class="store-profile" for="store-profile-select">
-              <span>Mi tienda</span>
-              <select id="store-profile-select" aria-describedby="store-profile-help">
-                <option value="">Todo el distrito</option>
-              </select>
-              <small id="store-profile-help">Se guarda únicamente en este dispositivo.</small>
-            </label>
-          </header>
-          <div id="command-center-grid" class="command-center-grid" aria-live="polite"></div>
-        </section>
 
-        <section id="juntemonos-hero" class="juntemonos-hero" aria-labelledby="hero-title">
-          <div class="juntemonos-copy">
-            <span class="juntemonos-eyebrow">Distrito Goo · Conexión que impulsa</span>
-            <h3 id="hero-title"></h3>
-            <p id="hero-campaign" class="juntemonos-campaign">
-              <span id="hero-campaign-primary"></span>
-              <span id="hero-campaign-accent"></span>
-            </p>
-            <p id="hero-date" class="juntemonos-date"></p>
-            <p id="hero-hashtags" class="juntemonos-hashtags"></p>
-          </div>
-          <ol id="hero-journey" class="juntemonos-journey" aria-label="Ruta Juntémonos Más"></ol>
-          <p id="hero-district-message" class="juntemonos-message"></p>
-        </section>
-
-        <div class="home-priority-grid">
-          <section class="home-priority-block" aria-labelledby="daily-routine-title">
-            <div class="home-block-heading">
-              <div>
-                <span class="visual-overline">Hoy</span>
-                <h3 id="daily-routine-title">Rutina diaria</h3>
-                <p>Consulta la actividad operativa correspondiente a hoy.</p>
-              </div>
-            </div>
-            <div id="home-daily-card" class="home-focus-slot" aria-live="polite"></div>
-          </section>
-
-          <section class="home-priority-block" aria-labelledby="weekly-activity-title">
-            <div class="home-block-heading">
-              <div>
-                <span class="visual-overline">Semana</span>
-                <h3 id="weekly-activity-title">Agenda operativa</h3>
-                <p>Prioriza hoy, mañana y el resto de la semana con fechas reales del CMS.</p>
-              </div>
-            </div>
-            <div id="home-weekly-card" class="home-focus-slot" aria-live="polite"></div>
-          </section>
+  <main id="mainContent">
+    <section id="consulta" class="tabpage active" role="tabpanel" aria-labelledby="tabConsulta" tabindex="0">
+      <section class="panel quick-guide">
+        <div class="guide-title">Guía rápida de consulta POS</div>
+        <div class="quick-steps">
+          <div><b>1</b><span><strong>Escanea cerca</strong><br>Enfoca el texto <em>SKU # 011...</em> de la etiqueta.</span></div>
+          <div><b>2</b><span><strong>Valida el item</strong><br>Confirma Nombre POS, precio y SKU POS.</span></div>
+          <div><b>3</b><span><strong>Marca en POS</strong><br>Mercancía → Botón POS → escanea el código generado.</span></div>
         </div>
-
-        <section id="informativo" class="permanent-info-section" aria-labelledby="info-title">
-          <div class="integrated-section-heading is-compact">
-            <div>
-              <span class="visual-overline">Siempre disponible</span>
-              <h3 id="info-title">Informativo</h3>
-            </div>
-            <span id="info-count" class="info-count">0</span>
-          </div>
-          <div id="info-grid" class="permanent-info-slot" aria-live="polite"></div>
-        </section>
-
-        <section id="altas-curso" class="partner-development-section" aria-labelledby="partner-development-title">
-          <div class="partner-development-heading">
-            <div>
-              <span class="visual-overline">Desarrollo</span>
-              <h3 id="partner-development-title">Desarrollo Partner</h3>
-              <p>Seguimiento vigente, simple y agrupado por tienda.</p>
-            </div>
-            <span id="altas-count" class="partner-development-count">0</span>
-          </div>
-          <div class="partner-development-options" role="tablist" aria-label="Rutas de Desarrollo Partner">
-            <button type="button" role="tab" data-partner-route="courses" aria-selected="true" aria-controls="partner-development-visual">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 9 9-5 9 5-9 5zM6 12v5c3 2 9 2 12 0v-5"/></svg>
-              <span><strong>Alta</strong><small id="courses-route-count">0 Partners</small></span>
-            </button>
-            <button type="button" role="tab" data-partner-route="tbw" aria-selected="false" aria-controls="partner-development-visual" tabindex="-1">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM9 8h6m-6 4h6m-6 4h4"/></svg>
-              <span><strong>TBW</strong><small id="tbw-route-count">0 pendientes</small></span>
-            </button>
-          </div>
-          <div id="partner-development-visual" class="partner-development-visual" role="tabpanel" aria-live="polite"></div>
-          <p id="partner-development-detail" class="partner-development-detail" role="status" aria-live="polite"></p>
-        </section>
+      </section>
+      <section class="panel price-warning">
+        <div class="warning-icon">!</div>
+        <div>
+          <h2>Consulta precio antes</h2>
+          <p><b>Si sólo vas a validar precio o información del artículo, primero toca en POS: <span>Consultar Precio</span>.</b></p>
+          <p>Después escanea el código generado. Si escaneas directo sin entrar a Consultar Precio, el POS puede marcar el artículo en la cuenta.</p>
+        </div>
+      </section>
+      <section class="panel search-panel">
+        <label for="manualSku">Buscar por SKU #, SKU POS, Código DIA o Nombre Inventario</label>
+        <div class="search-row">
+          <input id="manualSku" placeholder="Ej. 011178945, 58828 o WC26SSCC24Grad" autocomplete="off" />
+          <button id="manualBtn">Buscar</button>
+        </div>
+        <small>También funciona cuando el SKU INTL viene como <b>NA</b>: busca por <b>Nombre POS</b> o <b>Nombre Inventario</b>.</small>
+        <p id="latestItem" class="latest-item" aria-live="polite">Último artículo actualizado: información no disponible</p>
       </section>
 
-      <section id="explore-view" class="explore-view" aria-labelledby="explore-view-title" hidden>
-        <div class="visual-section-title explore-view-heading">
+      <section class="panel camera-panel">
+        <div class="camera-head"><h2>Escaneo por cámara</h2><span id="ocrStatus">Listo</span></div>
+        <div class="camera-stage">
+          <video id="video" playsinline muted></video>
+          <div class="sku-frame" aria-hidden="true"><span>Centra aquí el SKU #</span></div>
+        </div>
+        <canvas id="snapshot" hidden></canvas>
+        <div class="quality-meter" aria-label="Calidad de imagen para OCR">
+          <div><span>Calidad</span><b id="qualityValue">-</b></div>
+          <div><span>Enfoque</span><b id="focusValue">-</b></div>
+          <div><span>Resolución</span><b id="resolutionValue">-</b></div>
+          <div><span>Estado</span><b id="readyValue">Listo</b></div>
+        </div>
+        <label class="zoom-helper"><input id="smartZoom" type="checkbox" checked> Modo SKU pequeño / zoom inteligente</label>
+        <div class="camera-tools">
+          <label class="camera-selector" hidden>Cámara<select id="cameraSelect" aria-label="Seleccionar cámara"></select></label>
+          <label id="zoomControl" class="zoom-control" hidden>Zoom <input id="zoomRange" type="range"><output id="zoomValue">1.0×</output><button id="resetZoomBtn" class="zoom-reset" type="button">Restablecer</button></label>
+          <button id="torchBtn" class="ghost compact-control" type="button" hidden>Linterna</button>
+        </div>
+        <div class="actions">
+          <button id="startCamera">Abrir cámara</button>
+          <button id="scanBtn" disabled>Leer SKU #</button>
+          <button id="stopCamera" disabled>Detener</button>
+          <label class="file-action">Elegir foto<input id="photoInput" type="file" accept="image/*"></label>
+          <label class="file-action">Tomar foto<input id="takePhotoInput" type="file" accept="image/*" capture="environment"></label>
+        </div>
+        <img id="photoPreview" class="photo-preview" alt="Vista previa de la fotografía" hidden>
+        <p class="hint">Centra la etiqueta donde diga <b>SKU # 011...</b> dentro del marco. La app valida enfoque antes de leer.</p>
+      </section>
+
+      <section id="result" class="result empty">
+        <div class="empty-card">Escanea o escribe un SKU para ver Botón POS, precio y código para escanear en POS.</div>
+      </section>
+    </section>
+
+    <section id="woe" class="tabpage" role="tabpanel" aria-labelledby="tabWoe" tabindex="0">
+      <section class="panel woe-hero">
+        <div class="woe-hero-copy">
+          <span class="woe-kicker">Catálogo visual · Cruce operativo</span>
+          <h2>Encuentra, cuenta y valida.</h2>
+          <p>Busca un artículo MERCH por nombre, Código Día, SAP o SKU. Confirma cuántas piezas tienes y valida el cruce antes de exportar.</p>
+        </div>
+        <div class="woe-counter"><strong id="woeTotal">0</strong><span>artículos del catálogo</span></div>
+      </section>
+
+      <section class="panel woe-search-panel">
+        <div id="woeFlow" class="woe-mini-guide operational-flow" aria-label="Progreso del listado WOE">
+          <div data-step="search"><b>1</b><span>Busca por WOE, DIA, nombre o SKU MERCH.</span></div>
+          <div data-step="select"><b>2</b><span>Agrega cada artículo; la tabla se actualiza al instante.</span></div>
+          <div data-step="export"><b>3</b><span>Valida y genera tu PDF carta vertical.</span></div>
+        </div>
+        <p id="woeNextAction" class="next-action" aria-live="polite">Empieza con WOE, DIA, nombre o SKU.</p>
+        <label for="woeSearch">Buscar en el catálogo</label>
+        <div class="woe-search-row">
+          <div class="woe-search-box">
+            <input id="woeSearch" placeholder="Nombre del artículo, Código Día, SAP o SKU" autocomplete="off" aria-describedby="woeHelp" aria-controls="woeSuggestions" aria-expanded="false" />
+            <button id="woeSearchClear" class="search-clear" type="button" aria-label="Limpiar búsqueda" hidden>×</button>
+            <div id="woeSuggestions" class="woe-suggestions" role="listbox" hidden></div>
+          </div>
+          <button id="woeAdd" type="button">Agregar coincidencia</button>
+        </div>
+        <p id="woeHelp" class="hint">También puedes pegar varios códigos separados por coma o renglón. El cruce siempre parte de Código Día y muestra Código y Descripción SAP.</p>
+        <div class="catalog-toolbar">
+          <div id="catalogFilters" class="catalog-filters" role="group" aria-label="Filtrar catálogo"></div>
+          <span id="catalogSummary" class="catalog-summary" aria-live="polite"></span>
+        </div>
+        <div id="catalogGrid" class="catalog-grid" aria-label="Catálogo de artículos MERCH"></div>
+        <button id="catalogLoadMore" class="catalog-load-more ghost" type="button" hidden>Ver más artículos</button>
+        <p class="catalog-image-note">Las fotografías se restauran de forma uniforme y fiel a la fuente. Si el motor no contiene fotografía, se identifica como referencia aproximada.</p>
+        <div id="woeSelection" class="woe-selection" aria-live="polite"><span class="woe-empty-selection">Sin elementos seleccionados.</span></div>
+        <div class="woe-actions">
+          <span class="woe-selected-total"><b id="woeSelectedCount">0</b> seleccionados</span>
+          <span class="woe-pdf-note">PDF carta vertical · incluye piezas</span>
+          <button id="woeExport" type="button" disabled>Generar PDF</button>
+          <button id="woeClear" type="button" class="ghost">Limpiar listado</button>
+        </div>
+      </section>
+
+      <section id="woeStatus" class="woe-status" aria-live="polite">Escribe un dato para comenzar.</section>
+      <section id="woeResults" class="woe-results" aria-label="Resultados WOE"></section>
+
+      <dialog id="catalogVisualDialog" class="catalog-dialog" aria-labelledby="catalogVisualTitle">
+        <button id="catalogVisualClose" class="catalog-dialog-close" type="button" aria-label="Cerrar imagen">×</button>
+        <div id="catalogVisualImage" class="catalog-dialog-image" role="img"></div>
+        <div class="catalog-dialog-copy">
+          <span class="woe-kicker">Vista ampliada</span>
+          <h2 id="catalogVisualTitle">Artículo MERCH</h2>
+          <p id="catalogVisualDescription"></p>
+          <div id="catalogVisualCodes" class="catalog-dialog-codes"></div>
+          <small>Imagen recreada de la Lista de Precio; es una aproximación visual.</small>
+        </div>
+      </dialog>
+
+      <section id="stockPanel" class="panel stock-panel" aria-labelledby="stockTitle" aria-busy="false">
+        <div class="stock-head">
           <div>
-            <span class="visual-overline">Explorar</span>
-            <h2 id="explore-view-title">Explorar Distrito Go</h2>
-            <p>Consulta las herramientas disponibles por categoría.</p>
+            <span class="woe-kicker stock-kicker">Opcional · apoyo al conteo físico</span>
+            <h2 id="stockTitle">Stock on Hand</h2>
+            <p>Adjunta el reporte completo de Micros. La app leerá todas las páginas, conservará sólo cantidades diferentes de cero y cruzará cada nombre con el catálogo.</p>
           </div>
+          <span class="stock-private">Lectura local · el PDF no se envía</span>
         </div>
+        <div id="stockFlow" class="stock-flow operational-flow" aria-label="Progreso Stock on Hand">
+          <div data-step="attach"><b>1</b><span>Adjunta el PDF Stock on Hand más actual.</span></div>
+          <div data-step="review"><b>2</b><span>Confirma la lectura antes de exportar.</span></div>
+          <div data-step="export"><b>3</b><span>Descarga el PDF cruzado en carta vertical.</span></div>
+        </div>
+        <p id="stockNextAction" class="next-action" aria-live="polite">Adjunta el Stock on Hand más actual.</p>
+        <div class="stock-upload-row">
+          <button id="stockAttach" type="button" class="stock-file stock-attach">1 · Adjuntar y validar PDF</button>
+          <input id="stockPdfInput" class="visually-hidden" type="file" accept="application/pdf,.pdf">
+          <button id="stockExport" type="button" class="stock-export" disabled>2 · Exportar PDF cruzado</button>
+          <button id="stockClear" type="button" class="ghost" disabled>Reiniciar</button>
+        </div>
+        <p class="stock-disclaimer"><b>Importante:</b> Este reporte es un estimado. Realiza un doble check con tu conteo físico del libro y captura en la app al finalizar el servicio. El PDF sirve como referencia y apoyo.</p>
+        <div id="stockProgressWrap" class="stock-progress" hidden>
+          <label for="stockProgress">Lectura del reporte</label>
+          <progress id="stockProgress" max="100" value="0">0%</progress>
+          <output id="stockProgressText" for="stockProgress">Preparando…</output>
+        </div>
+        <div id="stockStatus" class="woe-status" aria-live="polite">Adjunta un PDF cuando necesites esta validación opcional.</div>
+        <div id="stockMeta" class="stock-meta" hidden></div>
+        <div id="stockResults" class="stock-results"></div>
+      </section>
 
-        <section id="tool-workspace" class="workspace-section launchpad-section" aria-labelledby="categories-title">
-        <div id="workspace-body" class="workspace-body">
-          <section class="global-search-panel" aria-labelledby="global-search-heading">
-            <div class="search-intro">
-              <span class="search-scope">Información del CMS</span>
-              <h3 id="global-search-heading">¿Qué necesitas consultar?</h3>
-              <p>Busca herramientas, actividades, eventos o informativos y abre directamente el contenido disponible.</p>
-            </div>
-            <label class="search-box executive-search-box" for="general-search-input">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-              <input id="general-search-input" type="search" inputmode="search" autocomplete="off" placeholder="Ej. inventario, horneo, delivery o WFM" aria-describedby="global-search-help global-search-status" aria-controls="global-search-results" />
-              <button id="clear-global-search" class="clear-search" type="button" aria-label="Limpiar búsqueda" hidden>×</button>
-            </label>
-            <small id="global-search-help" class="search-help">Los nombres de Partners no forman parte de esta búsqueda.</small>
-            <div id="global-search-status" class="search-status" role="status" aria-live="polite" hidden></div>
-            <section id="global-search-results" class="global-search-results" aria-labelledby="global-search-title" hidden>
-              <div class="search-results-heading">
-                <h4 id="global-search-title">Resultados</h4>
-                <span id="global-search-count"></span>
+      <dialog id="stockConfirmDialog" class="stock-dialog" aria-labelledby="stockConfirmTitle" aria-describedby="stockConfirmIntro">
+        <form method="dialog" class="stock-dialog-card">
+          <button id="stockConfirmClose" class="stock-dialog-close" value="cancel" aria-label="Cerrar confirmación">×</button>
+          <div class="stock-dialog-grid">
+            <figure class="stock-dialog-visual">
+              <img src="assets/stock_pdf_woe.jpeg" alt="Guía visual para capturar, revisar y comparar el Stock on Hand" loading="lazy" decoding="async">
+              <figcaption>Guía operativa · revisa antes de generar.</figcaption>
+            </figure>
+            <section class="stock-dialog-content">
+              <span class="woe-kicker stock-kicker">Confirmación segura</span>
+              <h2 id="stockConfirmTitle">Confirma y exporta.</h2>
+              <p id="stockConfirmIntro">Valida tienda, fecha y hora. Los artículos sin cruce se conservarán como aviso.</p>
+              <div id="stockConfirmSummary" class="stock-confirm-summary"></div>
+              <div class="stock-confirm-ready"><b>Listo para continuar</b><span>El PDF incluirá todos los artículos con cantidad diferente de cero, tengan o no cruce.</span></div>
+              <p id="stockConfirmBlock" class="stock-confirm-block" hidden></p>
+              <div class="stock-dialog-actions">
+                <button id="stockConfirmAccept" type="button" disabled>Confirmar y exportar PDF cruzado</button>
               </div>
-              <div id="global-search-grid" class="global-search-grid"></div>
-              <button id="show-all-search-results" class="show-all-results" type="button" hidden>Mostrar todos</button>
             </section>
-          </section>
+          </div>
+        </form>
+      </dialog>
+    </section>
 
-          <section class="tools-section" aria-labelledby="tools-title" hidden>
-            <div class="section-title">
-              <div><h3 id="tools-title">Herramientas disponibles</h3><p class="section-subtitle">Solo se muestran las herramientas del filtro seleccionado.</p></div>
-              <div class="tools-title-actions"><span id="result-count"></span></div>
-            </div>
-            <div class="tool-controls" aria-label="Organización de herramientas">
-              <div class="segmented-control tool-mode-control" role="group" aria-label="Vista de herramientas">
-                <button class="segment is-active" type="button" data-tool-mode="all">Todas</button>
-                <button class="segment" type="button" data-tool-mode="favorites">Favoritos</button>
-                <button class="segment" type="button" data-tool-mode="recent">Recientes</button>
-              </div>
-              <label class="sort-control">Orden
-                <select id="tool-sort" aria-label="Ordenar herramientas">
-                  <option value="cms">Definido en CMS</option>
-                  <option value="name">Nombre A-Z</option>
-                  <option value="used">Más utilizadas</option>
-                </select>
-              </label>
-            </div>
-            <div id="tools-grid" class="tools-grid" aria-live="polite"></div>
-            <div id="lazy-sentinel" class="lazy-sentinel" aria-hidden="true"></div>
-          </section>
+    <section id="etiquetado" class="tabpage" role="tabpanel" aria-labelledby="tabEtiquetado" tabindex="0">
+      <section class="panel label-panel">
+        <h2>Generador de etiquetas POS</h2>
+        <p class="label-intro"><b>Flujo recomendado:</b> abre cámara, lee SKU, valida producto, captura piezas y agrega. Repite por cada modelo; al final genera PDF listo para imprimir.</p>
+        <div class="guide">
+          <div><b>1</b><span>Escanea o busca el SKU del artículo.</span></div>
+          <div><b>2</b><span>Valida nombre, precio y Botón POS.</span></div>
+          <div><b>3</b><span>Coloca piezas, agrega y continúa con el siguiente modelo.</span></div>
+          <div><b>4</b><span>Genera PDF para imprimir etiquetas 2” x 1.5”.</span></div>
+        </div>
+        <div class="label-camera">
+          <div class="camera-head"><h3>Escaneo rápido para etiquetado</h3><span id="labelOcrStatus">Listo</span></div>
+          <div class="camera-stage small">
+            <video id="labelVideo" playsinline muted></video>
+            <div class="sku-frame" aria-hidden="true"><span>Centra aquí el SKU #</span></div>
+          </div>
+          <canvas id="labelSnapshot" hidden></canvas>
+          <div class="quality-meter compact" aria-label="Calidad de imagen para etiquetado">
+            <div><span>Calidad</span><b id="labelQualityValue">-</b></div>
+            <div><span>Enfoque</span><b id="labelFocusValue">-</b></div>
+            <div><span>Resolución</span><b id="labelResolutionValue">-</b></div>
+            <div><span>Estado</span><b id="labelReadyValue">Listo</b></div>
+          </div>
+          <label class="zoom-helper"><input id="labelSmartZoom" type="checkbox" checked> Modo SKU pequeño / zoom inteligente</label>
+          <div class="camera-tools">
+            <label class="camera-selector" hidden>Cámara<select id="labelCameraSelect" aria-label="Seleccionar cámara para etiquetado"></select></label>
+            <label id="labelZoomControl" class="zoom-control" hidden>Zoom <input id="labelZoomRange" type="range"><output id="labelZoomValue">1.0×</output><button id="labelResetZoomBtn" class="zoom-reset" type="button">Restablecer</button></label>
+            <button id="labelTorchBtn" class="ghost compact-control" type="button" hidden>Linterna</button>
+          </div>
+          <div class="actions">
+            <button id="labelStartCamera">Abrir cámara</button>
+            <button id="labelScanBtn" disabled>Leer SKU #</button>
+            <button id="labelStopCamera" disabled>Detener</button>
+            <label class="file-action">Elegir foto<input id="labelPhotoInput" type="file" accept="image/*"></label>
+            <label class="file-action">Tomar foto<input id="labelTakePhotoInput" type="file" accept="image/*" capture="environment"></label>
+          </div>
+          <img id="labelPhotoPreview" class="photo-preview" alt="Vista previa de la fotografía para etiquetado" hidden>
+          <p class="hint">Flujo lineal: centrar SKU → validar enfoque → leer → piezas → agregar etiquetas.</p>
+        </div>
+        <div class="label-grid">
+          <div>
+            <label for="labelSku">SKU / Nombre para etiqueta</label>
+            <input id="labelSku" placeholder="Ej. 011178945 o WC26Stan20IceF" autocomplete="off" />
+          </div>
+          <div>
+            <label for="labelQty">Piezas</label>
+            <input id="labelQty" inputmode="numeric" type="number" min="1" max="500" value="1" />
+          </div>
+          <div>
+            <label for="labelTier">Tier</label>
+            <select id="labelTier"><option value="C2">C2</option></select>
+          </div>
+          <div class="align-end"><button id="labelAddBtn">Agregar etiquetas</button></div>
+        </div>
+        <div id="labelPreview" class="label-preview empty-small">Escanea o escribe un SKU para preparar etiquetas.</div>
+      </section>
 
-          <section class="categories-section" aria-labelledby="categories-title">
-            <div class="section-title">
-              <div><h3 id="categories-title">Elige qué necesitas</h3><p class="section-subtitle">Selecciona un filtro para consultar las herramientas disponibles.</p></div>
-              <button id="clear-tool-filter" class="category-toggle" type="button" hidden>Limpiar filtro</button>
-            </div>
-            <div id="category-hubs" class="category-grid skeleton-grid" aria-label="Filtros de herramientas"></div>
-          </section>
-
-          <aside id="tool-filter-empty" class="tool-filter-empty" role="status">
-            <span aria-hidden="true">⌁</span>
-            <div><strong>Selecciona un filtro</strong><p>Las herramientas aparecerán arriba sin mezclar categorías.</p></div>
-          </aside>
+      <section class="panel cart-panel">
+        <div class="cart-head">
+          <h2>Plantilla de etiquetas</h2>
+          <div><b id="totalLabels">0</b> etiquetas</div>
+        </div>
+        <div id="labelCart" class="cart empty-small">Sin etiquetas agregadas.</div>
+        <div class="actions right">
+          <button id="clearLabels" class="ghost">Limpiar</button>
+          <button id="pdfLabels" disabled>Generar PDF</button>
         </div>
       </section>
-      </section>
-
-      <section id="guardados" class="saved-view" aria-labelledby="saved-title" hidden>
-        <div class="visual-section-title">
-          <div><span class="visual-overline">En este dispositivo</span><h3 id="saved-title">Guardados</h3></div>
-          <button id="close-saved-view" class="text-button" type="button">Volver</button>
-        </div>
-        <aside class="saved-guide" aria-label="Cómo usar Guardados">
-          <span class="saved-guide-icon" aria-hidden="true">♡</span>
-          <div><strong>Hazlo tuyo</strong><p>Toca el corazón de cualquier rutina, actividad o herramienta. Solo lo que tú elijas aparecerá aquí.</p></div>
-        </aside>
-        <div id="saved-grid" class="explore-grid"></div>
-      </section>
     </section>
-
-    <section id="dia-a-dia" class="ops-section priority-section" aria-labelledby="today-title">
-      <div id="wfm-card" class="wfm-card"></div>
-      <div class="ops-split">
-        <div><h4>Rutina diaria</h4><div id="daily-grid" class="ops-grid skeleton-grid"></div></div>
-        <div><h4>Actividad semanal de hoy</h4><div id="weekly-grid" class="ops-grid skeleton-grid"></div></div>
-      </div>
-    </section>
-
-
-    <section class="period-toolbar celebrations-toolbar" aria-labelledby="period-title">
-      <div><strong id="period-title">Celebraciones</strong><span id="period-label"></span></div>
-      <div class="segmented-control" role="group" aria-label="Periodo de celebraciones">
-        <button class="segment is-active" type="button" data-period-filter="week">Semana actual</button>
-        <button class="segment" type="button" data-period-filter="month">Mes actual</button>
-      </div>
-    </section>
-
-    <section id="eventos-cms" class="ops-section" aria-labelledby="events-title">
-      <div class="section-title">
-        <div><h3 id="events-title">Eventos</h3><p class="section-subtitle">Prioridades y actividades vigentes según la fecha actual.</p></div>
-        <span id="events-count">0 eventos</span>
-      </div>
-      <div class="segmented-control event-filter-control" role="group" aria-label="Filtrar eventos">
-        <button class="segment is-active" type="button" data-event-filter="today">Hoy</button>
-        <button class="segment" type="button" data-event-filter="upcoming">Próximos</button>
-        <button class="segment" type="button" data-event-filter="week">Esta semana</button>
-        <button class="segment" type="button" data-event-filter="month">Este mes</button>
-      </div>
-      <div id="events-grid" class="ops-grid events-grid skeleton-grid"></div>
-    </section>
-
-    <section id="aniversarios-cumpleanos" class="ops-section celebrations-section" aria-labelledby="celebrations-title">
-      <div class="section-title">
-        <div><h3 id="celebrations-title">🎂 Aniversarios y cumpleaños</h3><p class="section-subtitle">Selecciona un partner para descargar una felicitación PDF personalizada.</p></div>
-        <span id="celebrations-count">0 celebraciones</span>
-      </div>
-      <div id="celebrations-grid" class="ops-grid events-grid skeleton-grid"></div>
-      <p class="partner-hub-note">Consulta y administra la información completa en <a href="https://sbx-mx.github.io/Partner_Hub/" target="_blank" rel="noopener">Partner Hub</a>.</p>
-    </section>
-
-    <section id="duty-roster" class="ops-section deferred-section is-pending" data-deferred-section="duty-roster" aria-labelledby="duty-title">
-      <div class="section-title"><div><h3 id="duty-title">🧭 Duty Roster</h3><p class="section-subtitle">Imagen premium del día, estaciones y detalle crítico.</p></div></div>
-      <div class="duty-card"><div id="duty-focus"></div><div id="duty-gallery" class="duty-gallery"></div><ul id="duty-detail"></ul></div>
-    </section>
-
   </main>
-
-  <footer class="site-footer">
-    <strong>Diseñado por Enrique César Flores</strong>
-    <p>Distrito Go es una herramienta interna desarrollada para apoyar la operación, la toma de decisiones y la mejora continua. Su contenido es de uso exclusivo de los equipos autorizados y no debe reproducirse, distribuirse ni difundirse fuera del ámbito de trabajo.</p>
-    <span>#DistritoKike 🚀 · #GreenApronService · JUNTÉMONOS MÁS</span>
+  <footer class="app-footer">
+    <span>Diseñado: Jorge Alcantar Aguiar &amp; Enrique César Flores</span>
+    <a href="https://wa.me/message/ENKDSAHYHIGAN1" target="_blank" rel="noopener noreferrer">Comentarios y/o Sugerencias</a>
   </footer>
-
-  <dialog id="quick-modal" class="quick-modal" aria-label="Detalle">
-    <div class="quick-modal-head">
-      <button id="close-quick-modal" class="modal-back" type="button" aria-label="Cerrar visor">× <span>Cerrar</span></button>
-      <strong id="quick-modal-title">Detalle</strong>
-    </div>
-    <div id="quick-modal-body" class="quick-modal-body"></div>
-  </dialog>
-
-  <div id="connection-status" class="connection-status" role="status" aria-live="polite" hidden></div>
-  <div id="update-banner" class="update-banner" role="status" aria-live="polite" hidden>
-    <span>Nueva versión disponible</span>
-    <button id="apply-update" type="button">Actualizar</button>
-  </div>
-  <div id="toast-root" class="toast-root" aria-live="polite" aria-atomic="true"></div>
-
-  <p id="primary-nav-help" class="sr-only">Usa las flechas izquierda y derecha para cambiar de sección.</p>
-  <nav class="bottom-nav sidebar-nav visual-bottom-nav" aria-label="Navegación principal" aria-describedby="primary-nav-help">
-    <button class="nav-item is-active" data-view="home" type="button" aria-current="page">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 11 8-7 8 7v9h-6v-6h-4v6H4z"/></svg><span>Inicio</span>
-    </button>
-    <button class="nav-item" data-view="explore" type="button">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5M8 11h6m-3-3v6"/></svg><span>Explorar</span>
-    </button>
-    <button class="nav-item" data-view="saved" type="button">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v17l-6-4-6 4z"/></svg><span>Guardados</span>
-    </button>
-  </nav>
-
-  <script type="module" src="./modules/app.js?v=49.0.0"></script>
 </body>
 </html>

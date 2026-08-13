@@ -1,109 +1,66 @@
-const CACHE_PREFIX = 'distrito-go-';
-const CACHE_NAME = `${CACHE_PREFIX}v50.1.0-calendario-wfm-estable`;
+const CACHE_NAME = 'codebrew-merch-v25-faithful-restoration-2026-08-13';
 const APP_SHELL = [
   './',
   './index.html',
-  './manifest.json',
-  './styles/distrito-go.css',
-  './data/categorias.v10.json',
-  './data/herramientas.v10.json',
-  './data/favoritos.v10.json',
-  './data/dashboard.v10.json',
-  './data/config.v10.json',
-  './data/identity.json',
-  './data/version.v10.json',
-  './data/operacional.v10.json',
-  './data/desarrollo-partner.v1.json',
-  './data/cms-build.v1.json',
-  './modules/utils.js',
-  './modules/storage.js',
-  './modules/state.js',
-  './modules/data.js',
-  './modules/toast.js',
-  './modules/native-apps.js',
-  './modules/components.js',
-  './modules/cards.js',
-  './modules/navigation.js',
-  './modules/quick-actions.js',
-  './modules/pwa.js',
-  './modules/app.js',
-  './modules/operational.js',
-  './modules/experience.js',
-  './modules/calendar.js',
-  './modules/search.js',
-  './modules/operations-center.js',
-  './assets/icons/icon-192.png',
-  './assets/icons/icon-512.png',
+  './styles.css',
+  './catalog.css',
+  './app.js',
+  './manifest.webmanifest',
+  './data/products.js',
+  './data/woe.js',
+  './data/merch-catalog.js',
+  './data/woe-pdf-config.js',
+  './data/stock-config.js',
+  './data/ui-config.js',
+  './data/app-audit.js',
+  './assets/catalog/catalog-hero.webp',
+  './assets/icon-192.png',
+  './assets/icon-512.png'
 ];
 
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(APP_SHELL))
-      .then(() => undefined)
+      .then(() => self.skipWaiting())
   );
 });
 
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys()
-      .then(keys => Promise.all(keys.filter(key => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME).map(key => caches.delete(key))))
-      .then(() => self.clients.claim())
+    Promise.all([self.registration.navigationPreload?.enable?.(), caches.keys()
+      .then(keys => Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))))
+    ]).then(() => self.clients.claim())
   );
 });
 
-async function networkFirst(request, fallbackUrl) {
-  const cache = await caches.open(CACHE_NAME);
-  try {
-    const response = await fetch(request, { cache: 'no-store' });
-    if (response && response.ok) await cache.put(request, response.clone());
-    return response;
-  } catch (error) {
-    return (await cache.match(request, {ignoreSearch:true})) || (fallbackUrl ? await cache.match(fallbackUrl, {ignoreSearch:true}) : undefined) || Response.error();
-  }
-}
-
-async function cacheFirst(request) {
-  const cache = await caches.open(CACHE_NAME);
-  const cached = await cache.match(request, {ignoreSearch:true});
-  if (cached) return cached;
-  const response = await fetch(request);
-  if (response && response.ok) await cache.put(request, response.clone());
-  return response;
-}
-
-async function staleWhileRevalidate(request) {
-  const cache = await caches.open(CACHE_NAME);
-  const cached = await cache.match(request, {ignoreSearch:true});
-  const update = fetch(request).then(async response => {
-    if(response?.ok) await cache.put(request, response.clone());
-    return response;
-  }).catch(() => undefined);
-  return cached || (await update) || Response.error();
-}
-
-self.addEventListener('fetch', event => {
-  const request = event.request;
-  if (request.method !== 'GET') return;
-
-  const url = new URL(request.url);
-  if (url.origin !== self.location.origin) return;
-
-  if (request.mode === 'navigate') {
-    event.respondWith(networkFirst(request, './index.html'));
-    return;
-  }
-
-  if (url.pathname.endsWith('/assets/photos/resumen_comunicado_semana_actual.png')) {
-    event.respondWith(networkFirst(request));
-    return;
-  }
-
-  const isStaticRuntime = /\.(?:css|js)$/i.test(url.pathname);
-  const isFreshData = /\.(?:html|json)$/i.test(url.pathname);
-  event.respondWith(isStaticRuntime ? staleWhileRevalidate(request) : isFreshData ? networkFirst(request) : cacheFirst(request));
+self.addEventListener('message', event => {
+  if (event.data?.type === 'SKIP_WAITING') self.skipWaiting();
 });
 
-self.addEventListener('message', event => {
-  if(event.data?.type === 'SKIP_WAITING') self.skipWaiting();
+self.addEventListener('fetch', event => {
+  if (event.request.method !== 'GET') return;
+  const requestUrl = new URL(event.request.url);
+  if (requestUrl.origin !== self.location.origin) return;
+  if (event.request.mode === 'navigate') {
+    event.respondWith((async()=>{
+      try{
+        const response=await event.preloadResponse||await fetch(event.request);
+        if(response?.ok){const copy=response.clone();event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.put('./index.html',copy)));}
+        return response;
+      }catch(error){return caches.match('./index.html');}
+    })());
+    return;
+  }
+  const path = requestUrl.pathname;
+  const isGeneratedData = path.endsWith('/data/products.js') || path.endsWith('/data/woe.js') || path.endsWith('/data/merch-catalog.js') || path.endsWith('/data/woe-pdf-config.js') || path.endsWith('/data/stock-config.js') || path.endsWith('/data/ui-config.js') || path.endsWith('/data/app-audit.js');
+  event.respondWith(
+    (isGeneratedData ? Promise.race([fetch(event.request),new Promise((_,reject)=>setTimeout(()=>reject(new Error('timeout')),2500))]).catch(() => caches.match(event.request)) : caches.match(event.request).then(cached => cached || fetch(event.request))).then(response => {
+      if (response && response.ok) {
+        const copy = response.clone();
+        caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+      }
+      return response;
+    })
+  );
 });

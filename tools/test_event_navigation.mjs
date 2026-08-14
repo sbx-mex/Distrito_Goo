@@ -17,9 +17,12 @@ check('Enlace abre pestaña segura', app.includes("window.open(link, '_blank', '
 check('URLs abreviadas se rechazan en interfaz', app.includes("text.includes('...')") && experience.includes("text.includes('...')") && operational.includes("text.includes('...')"));
 
 const unicorn = events.filter(item => /unicorn/i.test(item.Actividad || ''));
-check('Calendario integra las tres piezas Unicorn', unicorn.length === 3, `${unicorn.length}/3 eventos`);
-check('Unicorn abre imágenes verificables', unicorn.every(item => item.TipoAccion === 'Imagen' && /\.(?:jpe?g|png)(?:[?#].*)?$/i.test(item.ImagenOriginal || '')));
-check('Unicorn cubre del 8 al 18 de agosto', unicorn.every(item => String(item['Fecha Inicio']).startsWith('2026-08-08') && String(item['Fecha Fin']).startsWith('2026-08-18')));
+const unicornMedia = unicorn.filter(item => item.TipoAccion === 'Imagen');
+const unicornCampaign = unicorn.find(item => item.TipoAccion === 'Enlace' && String(item.Link || '').includes('Manual_Recetario'));
+check('Calendario integra las tres piezas visuales Unicorn', unicornMedia.length === 3, `${unicornMedia.length}/3 recursos`);
+check('Unicorn abre imágenes verificables', unicornMedia.every(item => /\.(?:jpe?g|png)(?:[?#].*)?$/i.test(item.ImagenOriginal || '')));
+check('Recursos Unicorn cubren del 8 al 18 de agosto', unicornMedia.every(item => String(item['Fecha Inicio']).startsWith('2026-08-08') && String(item['Fecha Fin']).startsWith('2026-08-18')));
+check('Campaña Unicorn enlaza práctica y resultados', Boolean(unicornCampaign) && String(unicornCampaign['Fecha Inicio']).startsWith('2026-08-13') && String(unicornCampaign['Fecha Fin']).startsWith('2026-08-17'));
 check('Unicorn se presenta como prioridad verde', operational.includes('/referente operativo|unicorn/i') && experience.includes("title.includes('unicorn')"));
 
 for(const item of checks) console.log(`${item.ok ? 'OK' : 'FALLO'} ${item.name}${item.detail ? ` · ${item.detail}` : ''}`);

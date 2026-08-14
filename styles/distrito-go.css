@@ -892,6 +892,18 @@ body.is-modal-open,body:has(.quick-modal[open]){overflow:hidden;}
   .v16-2-visual-accessibility-refinement .hero-hashtags{display:block;width:100%;padding-inline:10px;}
 }
 
+.unicorn-campaign{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px;margin:0 0 18px;padding:18px 20px;border:1px solid #f0c9e4;border-radius:22px;background:linear-gradient(125deg,#fff7fc 0%,#f8ecff 56%,#e9f8f2 100%);box-shadow:0 16px 38px rgba(40,20,34,.08)}
+.unicorn-campaign[hidden]{display:none}
+.unicorn-campaign__mark{display:grid;place-items:center;width:48px;height:48px;border-radius:16px;background:#d8278f;color:#fff;font-size:1.4rem}
+.unicorn-campaign[data-tone="live"] .unicorn-campaign__mark{background:#00754a}
+.unicorn-campaign__copy{display:grid;gap:3px;min-width:0}
+.unicorn-campaign__copy span{color:#7c2765;font-size:.72rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.unicorn-campaign__copy strong{color:#123f34;font-size:clamp(1.05rem,2vw,1.35rem)}
+.unicorn-campaign__copy p{margin:0;color:#536961;font-size:.9rem}
+.unicorn-campaign>a{white-space:nowrap;padding:12px 16px;border-radius:999px;background:#00754a;color:#fff;font-weight:850;text-decoration:none}
+.unicorn-campaign>a:hover,.unicorn-campaign>a:focus-visible{background:#005f3c;transform:translateY(-1px)}
+@media(max-width:720px){.unicorn-campaign{grid-template-columns:auto 1fr;padding:15px}.unicorn-campaign>a{grid-column:1/-1;text-align:center}}
+
 
 /* Fase 3: Inicio consolidado sin apartado del District Coach */
 .v16-2-visual-accessibility-refinement .hero-card.hero-partner{

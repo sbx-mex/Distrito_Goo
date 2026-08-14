@@ -1295,7 +1295,7 @@
     "webUrl": "",
     "package": "",
     "playStore": "",
-    "notas": "Evalua Estandares Operativos",
+    "notas": "Evalua Estandares Operativos, Recetas , Practica y Mejora",
     "favorito": true,
     "orden": 47,
     "keywords": [
@@ -1303,9 +1303,12 @@
       "estandares",
       "evalua",
       "manual",
+      "mejora",
       "operacion",
       "operativos",
+      "practica",
       "recetario",
+      "recetas",
       "web"
     ],
     "estado": "activo"
@@ -1319,7 +1322,7 @@
     "icono": "💵",
     "nombre": "Esfuerzo Operativo",
     "tipo": "web",
-    "url": "https://sbx-mx.github.io/Manual_Recetario/",
+    "url": "https://sbx-mx.github.io/Esfuerzo_Operativo/",
     "webUrl": "",
     "package": "",
     "playStore": "",

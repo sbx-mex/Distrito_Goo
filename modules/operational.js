@@ -198,12 +198,41 @@ function tbwRow(p){
 }
 
 export function renderOperationalSections(){
+  renderUnicornCampaign();
   renderInformativo();
   renderAltas();
   renderToday();
   renderEvents();
   deferOperationalSections();
   bindOperationalActions();
+}
+export function unicornCampaignPhase(reference = new Date()){
+  const current = startOfDay(reference);
+  const preparation = new Date(2026, 7, 13);
+  const event = new Date(2026, 7, 15);
+  const finish = endOfDay(new Date(2026, 7, 17));
+  if(current < preparation || current > finish) return null;
+  if(current < event) return {
+    tone:'prepare', eyebrow:'13–14 de agosto · Preparación', title:'Preparemos la magia Unicorn',
+    message:'Practica la receta, valida insumos y alinea al equipo antes del evento.', action:'Entrar a practicar →'
+  };
+  return {
+    tone:'live', eyebrow:'15–17 de agosto · Evento activo', title:'Mide el avance. Reconoce. Celebra.',
+    message:'Registra el resultado diario, reconoce el progreso y comparte cada logro.', action:'Medir avance y resultados →'
+  };
+}
+export function renderUnicornCampaign(reference = today){
+  const host = document.getElementById('unicorn-campaign');
+  if(!host) return;
+  const phase = unicornCampaignPhase(reference);
+  const source = (state.data.eventos || []).find((event) => String(event.Link || '').includes('Manual_Recetario'));
+  const link = validEventLink(source?.Link);
+  if(!phase || !link){ host.hidden=true; host.replaceChildren(); return; }
+  host.hidden=false;
+  host.dataset.tone=phase.tone;
+  host.innerHTML=`<div class="unicorn-campaign__mark" aria-hidden="true">✦</div>
+    <div class="unicorn-campaign__copy"><span>${escapeHtml(phase.eyebrow)}</span><strong>${escapeHtml(phase.title)}</strong><p>${escapeHtml(phase.message)}</p></div>
+    <a href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(phase.action)}</a>`;
 }
 export function renderToday(){
   const day = dayNames[today.getDay()];

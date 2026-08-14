@@ -798,6 +798,23 @@
       "ImagenPath": "assets/photos/best_practice_unicorn.webp?v=a0cf48ecc0fb",
       "MiniaturaPath": "assets/photos/best_practice_unicorn.thumb.webp?v=9cd0869c6c22",
       "ImagenOriginal": "assets/photos/best_practice_unicorn.jpg?v=e86ad568f801"
+    },
+    {
+      "ID": "EVT-048",
+      "Actividad": "Unicorn Frappuccino · Preparación y resultados",
+      "Contexto / Recordatorio": "13 y 14: practica y prepara al equipo. 15, 16 y 17: registra avance, reconoce logros y celebra resultados.",
+      "Fecha Inicio": "2026-08-13",
+      "Fecha Fin": "2026-08-17",
+      "Región": "Centro Norte",
+      "Distrito": "Enrique Cesar Flores",
+      "Tienda": "Todas",
+      "Publicar": true,
+      "Imagen": "🦄",
+      "TipoAccion": "Enlace",
+      "Link": "https://sbx-mx.github.io/Manual_Recetario/",
+      "ImagenPath": "",
+      "MiniaturaPath": "",
+      "ImagenOriginal": ""
     }
   ],
   "actividadesDiarias": [

@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'distrito-go-';
-const CACHE_NAME = `${CACHE_PREFIX}v50.1.0-calendario-wfm-estable`;
+const CACHE_NAME = `${CACHE_PREFIX}v51-unicorn-operativo`;
 const APP_SHELL = [
   './',
   './index.html',
@@ -107,4 +107,3 @@ self.addEventListener('fetch', event => {
 self.addEventListener('message', event => {
   if(event.data?.type === 'SKIP_WAITING') self.skipWaiting();
 });
-

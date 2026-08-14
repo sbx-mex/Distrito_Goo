@@ -20,7 +20,7 @@ check('7. Estado técnico no invade la interfaz', !html.includes('id="cms-status
 check('8. Temporales fuera del HTML', !html.includes('bearista-informativo') && !html.includes('contest-hero') && !html.includes('concurso_venta_dona_julio'), 'CMS como fuente');
 check('9. Recursos sin uso eliminados', !html.includes('bearistahugger') && workflow.includes('cleanup_unused.py'), 'limpieza segura');
 check('10. Navegación real en CI', ['playwright','test:navigation'].every(token => workflow.includes(token)), 'Chromium y navegación real');
-check('11. PWA actualizada', sw.includes('v50.1.0-calendario-wfm-estable') && sw.includes('staleWhileRevalidate') && sw.includes('./styles/distrito-go.css') && sw.includes('./modules/operations-center.js') && sw.includes('./modules/calendar.js'), 'shell rápido, calendario WFM y datos vigentes');
+check('11. PWA actualizada', /CACHE_NAME\s*=\s*`\$\{CACHE_PREFIX\}v[\w.-]+`/.test(sw) && sw.includes('staleWhileRevalidate') && sw.includes('./styles/distrito-go.css') && sw.includes('./modules/operations-center.js') && sw.includes('./modules/calendar.js'), 'shell rápido, caché versionado y datos vigentes');
 check('12. Encabezado redundante oculto', !html.includes('Distrito Go · Hoy') && !html.includes('Lo importante de hoy') && !html.includes('command-center-summary'), 'inicio directo al centro de mando');
 check('13. Informativo sin etiquetas repetidas', !operational.includes('permanent-info-meta') && !operational.includes('validityLabel'), 'sin Importante / Semanal duplicado');
 

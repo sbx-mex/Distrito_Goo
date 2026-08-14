@@ -557,7 +557,7 @@
     "PlayStore": "",
     "Notas": "Audita transferencias entre tiendas.",
     "Favorito": "Sí",
-    "Orden": 12
+    "Orden": 40
   },
   {
     "Categoria": "Operación",
@@ -571,7 +571,7 @@
     "PlayStore": "",
     "Notas": "Consulta compras e indicadores.",
     "Favorito": "Sí",
-    "Orden": 40
+    "Orden": 41
   },
   {
     "Categoria": "Operación",
@@ -585,21 +585,7 @@
     "PlayStore": "",
     "Notas": "Accede a recursos de Espresso Hub.",
     "Favorito": "Sí",
-    "Orden": 4
-  },
-  {
-    "Categoria": "Operación",
-    "Grupo": "App",
-    "Icono": "↔️",
-    "Nombre": "Evidencia Antes / Después",
-    "Tipo": "web",
-    "URL": "https://sbx-mx.github.io/Estandar_Max-Min/",
-    "WebURL": "",
-    "Package": "",
-    "PlayStore": "",
-    "Notas": "Documenta mejoras antes y después.",
-    "Favorito": "Sí",
-    "Orden": 12.6
+    "Orden": 42
   },
   {
     "Categoria": "Operación",
@@ -613,7 +599,7 @@
     "PlayStore": "",
     "Notas": "Mide el ritmo de producción en tienda.",
     "Favorito": "Sí",
-    "Orden": 12.7
+    "Orden": 43
   },
   {
     "Categoria": "Operación",
@@ -627,7 +613,7 @@
     "PlayStore": "",
     "Notas": "Gestiona y consulta tus gastos.",
     "Favorito": "No",
-    "Orden": 41
+    "Orden": 44
   },
   {
     "Categoria": "Operación",
@@ -641,7 +627,7 @@
     "PlayStore": "",
     "Notas": "Evalúa la tasa de éxito en Drive Thru.",
     "Favorito": "Sí",
-    "Orden": 12.8
+    "Orden": 45
   },
   {
     "Categoria": "Operación",
@@ -655,6 +641,34 @@
     "PlayStore": "",
     "Notas": "Consulta y gestiona los horarios del equipo.",
     "Favorito": "Sí",
-    "Orden": 16
+    "Orden": 46
+  },
+  {
+    "Categoria": "Operación",
+    "Grupo": "App",
+    "Icono": "📒",
+    "Nombre": "Manual |Recetario",
+    "Tipo": "web",
+    "URL": "https://sbx-mx.github.io/Manual_Recetario/",
+    "WebURL": "",
+    "Package": "",
+    "PlayStore": "",
+    "Notas": "Evalua Estandares Operativos",
+    "Favorito": "Sí",
+    "Orden": 47
+  },
+  {
+    "Categoria": "Operación",
+    "Grupo": "App",
+    "Icono": "💵",
+    "Nombre": "Esfuerzo Operativo",
+    "Tipo": "web",
+    "URL": "https://sbx-mx.github.io/Manual_Recetario/",
+    "WebURL": "",
+    "Package": "",
+    "PlayStore": "",
+    "Notas": "Venta Sugestiva Donas + Cake Pop + Galleta  | Merch",
+    "Favorito": "No",
+    "Orden": 48
   }
 ]

@@ -461,5 +461,7 @@ updateConnectionState();
 
 boot().catch(error => {
   console.error('[Distrito Go] Falló el arranque de la aplicación:', error);
+  document.body.classList.add('app-error');
+  document.body.dataset.bootError = error?.message || 'Error de arranque';
   toast(error?.message || 'No se pudo cargar Distrito Go');
 });

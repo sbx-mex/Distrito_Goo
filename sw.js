@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'distrito-go-';
-const CACHE_NAME = `${CACHE_PREFIX}v51-unicorn-operativo`;
+const CACHE_NAME = `${CACHE_PREFIX}v51.1-arranque-estable`;
 const APP_SHELL = [
   './',
   './index.html',

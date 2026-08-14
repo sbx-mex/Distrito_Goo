@@ -225,7 +225,7 @@ export function renderUnicornCampaign(reference = today){
   const host = document.getElementById('unicorn-campaign');
   if(!host) return;
   const phase = unicornCampaignPhase(reference);
-  const source = (state.data.eventos || []).find((event) => String(event.Link || '').includes('Manual_Recetario'));
+  const source = (state.operacional.eventos || []).find((event) => String(event.Link || '').includes('Manual_Recetario'));
   const link = validEventLink(source?.Link);
   if(!phase || !link){ host.hidden=true; host.replaceChildren(); return; }
   host.hidden=false;

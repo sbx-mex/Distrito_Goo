@@ -45,7 +45,9 @@ try{
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(baseURL, {waitUntil:'networkidle'});
-    await page.waitForSelector('body.app-ready');
+    await page.waitForSelector('body.app-ready, body.app-error', {timeout:15000});
+    const bootError = await page.locator('body').getAttribute('data-boot-error');
+    check(`${viewport.name} arranque`, await page.locator('body.app-ready').count() === 1, bootError || errors.join(' | ') || 'la aplicación no terminó de iniciar');
     check(`${viewport.name} carga`, errors.length === 0, errors.join(' | '));
     check(`${viewport.name} centro de mando`, await page.locator('#command-center-grid .command-summary-card').count() === 4, 'debe mostrar cuatro resúmenes');
     const informativeCards = page.locator('#informative-catalog-track .permanent-info-card');

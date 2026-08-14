@@ -26,19 +26,19 @@ jobs:
 
     steps:
       - name: Descargar proyecto
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
       - name: Configurar Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
           cache-dependency-path: requirements.txt
 
       - name: Configurar Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: "22"
           cache: npm
@@ -50,7 +50,7 @@ jobs:
           python -m pip install --disable-pip-version-check -r requirements.txt
           npm ci
 
-      - name: Consolidar el proyecto antes de validar
+      - name: Auditar y limpiar obsoletos en el runner
         shell: bash
         run: |
           set -euo pipefail
@@ -59,7 +59,7 @@ jobs:
             --confirm ELIMINAR_ARCHIVOS_HUERFANOS \
             --report reports/unused-files.json
 
-      - name: Compilar y auditar el CMS
+      - name: Compilar, auditar y publicar el CMS transaccionalmente
         shell: bash
         run: |
           set -euo pipefail

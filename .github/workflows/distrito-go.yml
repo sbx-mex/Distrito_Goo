@@ -81,6 +81,8 @@ jobs:
           exit 1
 
       - name: Probar navegación real
+        env:
+          DISTRITO_GO_TEST_DATE: "2026-08-14"
         run: npm run test:navigation
 
       - name: Conservar auditoría

@@ -12,7 +12,7 @@
       "Publicar": true,
       "Imagen": "💰",
       "TipoAccion": "Enlace",
-      "Link": "https://sbx-mx.github.io/concurso_venta/",
+      "Link": "https://sbx-mex.github.io/concurso_venta/",
       "ImagenPath": "",
       "MiniaturaPath": "",
       "ImagenOriginal": ""
@@ -811,7 +811,7 @@
       "Publicar": true,
       "Imagen": "🦄",
       "TipoAccion": "Enlace",
-      "Link": "https://sbx-mx.github.io/Manual_Recetario/",
+      "Link": "https://sbx-mex.github.io/Manual_Recetario/",
       "ImagenPath": "",
       "MiniaturaPath": "",
       "ImagenOriginal": ""
@@ -846,7 +846,7 @@
       "Color": "Rojo",
       "Visible": true,
       "Acceso Rápido": "Hoy",
-      "Recurso": "https://sbx-mx.github.io/checklist-rsa-semaforo/",
+      "Recurso": "https://sbx-mex.github.io/checklist-rsa-semaforo/",
       "MiniaturaRecurso": "",
       "OriginalRecurso": "",
       "TipoRecurso": "link",

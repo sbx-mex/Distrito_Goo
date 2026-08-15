@@ -18,7 +18,7 @@ concurrency:
 jobs:
   calidad:
     name: CMS, interfaz, navegación y limpieza
-    if: github.repository == 'sbx-mx/Distrito_Goo' && github.actor != 'github-actions[bot]'
+    if: github.repository == 'sbx-mex/Distrito_Goo' && github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 35
     env:

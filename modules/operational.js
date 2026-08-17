@@ -206,26 +206,30 @@ export function renderOperationalSections(){
   deferOperationalSections();
   bindOperationalActions();
 }
-export function unicornCampaignPhase(reference = new Date()){
+export function unicornCampaignPhase(reference = new Date(), source = null){
   const current = startOfDay(reference);
-  const preparation = new Date(2026, 7, 13);
-  const event = new Date(2026, 7, 15);
-  const finish = endOfDay(new Date(2026, 7, 17));
-  if(current < preparation || current > finish) return null;
-  if(current < event) return {
-    tone:'prepare', eyebrow:'13–14 de agosto · Preparación', title:'Preparemos la magia Unicorn',
-    message:'Practica la receta, valida insumos y alinea al equipo antes del evento.', action:'Entrar a practicar →'
-  };
+  const start = parseDate(source?.['Fecha Inicio']);
+  const finishDate = parseDate(source?.['Fecha Fin']);
+  if(!start || !finishDate) return null;
+  const finish = endOfDay(finishDate);
+  if(current < startOfDay(start) || current > finish) return null;
+  const range = start.toLocaleDateString('es-MX', {day:'numeric', month:'short'});
+  const rangeEnd = finishDate.toLocaleDateString('es-MX', {day:'numeric', month:'short'});
   return {
-    tone:'live', eyebrow:'15–17 de agosto · Evento activo', title:'Mide el avance. Reconoce. Celebra.',
-    message:'Registra el resultado diario, reconoce el progreso y comparte cada logro.', action:'Medir avance y resultados →'
+    tone:'live',
+    eyebrow:`${range}–${rangeEnd} · Evento activo`,
+    title:String(source?.Actividad || 'Campaña operativa'),
+    message:String(source?.['Contexto / Recordatorio'] || 'Consulta la guía vigente y alinea al equipo.'),
+    action:'Abrir guía →'
   };
 }
 export function renderUnicornCampaign(reference = today){
   const host = document.getElementById('unicorn-campaign');
   if(!host) return;
-  const phase = unicornCampaignPhase(reference);
-  const source = (state.operacional.eventos || []).find((event) => String(event.Link || '').includes('Manual_Recetario'));
+  const source = (state.operacional.eventos || []).find((event) =>
+    event.TipoAccion === 'Enlace' && /unicorn/i.test(String(event.Actividad || ''))
+  );
+  const phase = unicornCampaignPhase(reference, source);
   const link = validEventLink(source?.Link);
   if(!phase || !link){ host.hidden=true; host.replaceChildren(); return; }
   host.hidden=false;

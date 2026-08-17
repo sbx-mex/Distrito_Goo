@@ -18,11 +18,12 @@ check('URLs abreviadas se rechazan en interfaz', app.includes("text.includes('..
 
 const unicorn = events.filter(item => /unicorn/i.test(item.Actividad || ''));
 const unicornMedia = unicorn.filter(item => item.TipoAccion === 'Imagen');
-const unicornCampaign = unicorn.find(item => item.TipoAccion === 'Enlace' && String(item.Link || '').includes('Manual_Recetario'));
-check('Calendario integra las tres piezas visuales Unicorn', unicornMedia.length === 3, `${unicornMedia.length}/3 recursos`);
+const unicornCampaign = unicorn.find(item => item.TipoAccion === 'Enlace');
+const validRange = item => Boolean(item?.['Fecha Inicio'] && item?.['Fecha Fin']) && String(item['Fecha Inicio']).slice(0,10) <= String(item['Fecha Fin']).slice(0,10);
+check('Calendario integra los recursos visuales Unicorn definidos en el CMS', unicornMedia.length > 0, `${unicornMedia.length} recursos`);
 check('Unicorn abre imágenes verificables', unicornMedia.every(item => /\.(?:jpe?g|png)(?:[?#].*)?$/i.test(item.ImagenOriginal || '')));
-check('Recursos Unicorn cubren del 8 al 18 de agosto', unicornMedia.every(item => String(item['Fecha Inicio']).startsWith('2026-08-08') && String(item['Fecha Fin']).startsWith('2026-08-18')));
-check('Campaña Unicorn enlaza práctica y resultados', Boolean(unicornCampaign) && String(unicornCampaign['Fecha Inicio']).startsWith('2026-08-13') && String(unicornCampaign['Fecha Fin']).startsWith('2026-08-17'));
+check('Recursos Unicorn conservan rangos válidos del CMS', unicornMedia.every(validRange));
+check('Campaña Unicorn usa el enlace y vigencia actuales del CMS', Boolean(unicornCampaign) && validRange(unicornCampaign) && /^https?:\/\/[^/\s]+/i.test(unicornCampaign.Link || '') && operational.includes('unicornCampaignPhase(reference, source)') && !operational.includes('Manual_Recetario'));
 check('Unicorn se presenta como prioridad verde', operational.includes('/referente operativo|unicorn/i') && experience.includes("title.includes('unicorn')"));
 
 for(const item of checks) console.log(`${item.ok ? 'OK' : 'FALLO'} ${item.name}${item.detail ? ` · ${item.detail}` : ''}`);

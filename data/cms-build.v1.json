@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "source": "Distrito_Go_CMS_v2_actualizado.xlsx",
-  "sourceSha256": "380c4218654e9f5f6ccd0e6ee480c4a302614b2aba25757f531560d5ba2f9e12",
-  "generatedAt": "2026-08-17T21:43:36Z",
+  "sourceSha256": "1c2147b47bdd6e409360f1e8006eb4538b290809d8ba7960c4a480f496316d99",
+  "generatedAt": "2026-08-17T22:37:47Z",
   "records": 505,
   "sheets": {
     "Informativo": {
@@ -27,7 +27,7 @@
     },
     "Links": {
       "records": 48,
-      "contentSha256": "d181ce11581c5eb61e31a17cf7a8c040682e62a26e2d7a86faeaca51a3fe62c4"
+      "contentSha256": "0e9535e1685ec42c4a48468389c78a1421e2e4ca73a129daa4ac2ccca78e0c9f"
     },
     "Eventos": {
       "records": 48,

@@ -94,7 +94,7 @@ function contentFromInfo(item){
   const resource = resourceFor(item);
   const original = originalFor(item);
   const imageResource = isImage(resource);
-  const linkResource = item.TipoRecurso === 'link' ? resource : '';
+  const linkResource = item.PDFRecurso || (item.TipoRecurso === 'link' ? resource : '');
   return {
     id:`info-${item.ID}`, source:'Informativo', category:categoryForInfo(item),
     title:item.Actividad, description:item['Descripción'] || '', short:item.DescripcionBreve || item['Descripción'] || '',
@@ -479,13 +479,16 @@ export function hasDestination(item){
 }
 function safeContentLink(value){
   const text = String(value || '').trim();
-  if(!/^https?:\/\//i.test(text) || text.includes('...') || /[{}<>]/.test(text)) return '';
-  try{
-    const url = new URL(text);
-    return /^https?:$/.test(url.protocol) && url.hostname ? url.href : '';
-  }catch{
-    return '';
+  if(!text || text.includes('...') || /[{}<>]/.test(text)) return '';
+  if(/^https?:\/\//i.test(text)){
+    try{
+      const url = new URL(text);
+      return /^https?:$/.test(url.protocol) && url.hostname ? url.href : '';
+    }catch{
+      return '';
+    }
   }
+  return /^(?:\.?\/?)*(?:assets|data)\/[^?#]+\.pdf(?:[?#].*)?$/i.test(text) ? text : '';
 }
 function catalogCoverVisual(item, kind){
   const scene = coverSceneKey(item);

@@ -323,13 +323,16 @@ function handleImageViewerZoom(event){
 
 function safeDetailLink(value){
   const text = String(value || '').trim();
-  if(!/^https?:\/\//i.test(text) || text.includes('...') || /[{}<>]/.test(text)) return '';
-  try{
-    const url = new URL(text);
-    return /^https?:$/.test(url.protocol) && url.hostname ? url.href : '';
-  }catch{
-    return '';
+  if(!text || text.includes('...') || /[{}<>]/.test(text)) return '';
+  if(/^https?:\/\//i.test(text)){
+    try{
+      const url = new URL(text);
+      return /^https?:$/.test(url.protocol) && url.hostname ? url.href : '';
+    }catch{
+      return '';
+    }
   }
+  return /^(?:\.?\/?)*(?:assets|data)\/[^?#]+\.pdf(?:[?#].*)?$/i.test(text) ? text : '';
 }
 
 function openContentDestination(item, trigger){
@@ -364,10 +367,11 @@ function openContentDetail(item, trigger){
     <img class="visual-detail-media" src="${escapeHeroText(detailImage)}" alt="${escapeHeroText(item.title)}" width="1200" height="800" decoding="async">
   </picture>` : '';
   const date = item.dateLabel ? `<p class="visual-detail-date">${escapeHeroText(item.dateLabel)}</p>` : '';
+  const linkLabel = /\.pdf(?:[?#].*)?$/i.test(link) ? 'Ver mas / descargar PDF' : 'Abrir acceso';
   const action = item.section && isNavigableDestination(item.section)
     ? `<button type="button" data-nav-target="${escapeHeroText(item.section)}">Ir a la sección</button>`
     : link
-      ? `<a href="${escapeHeroText(link)}" target="_blank" rel="noopener">Abrir acceso</a>`
+      ? `<a href="${escapeHeroText(link)}" target="_blank" rel="noopener" download>${linkLabel}</a>`
       : detailImage
         ? `<button type="button" data-image-viewer="${escapeHeroText(detailImage)}" data-image-title="${escapeHeroText(item.title)}">Ver imagen completa</button>`
         : '';

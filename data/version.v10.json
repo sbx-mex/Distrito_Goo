@@ -1,18 +1,16 @@
 {
-  "version": "48.0.0",
-  "releaseDate": "2026-08-03",
+  "version": "51.2.0",
+  "releaseDate": "2026-08-19",
   "changes": [
-    "Excel validado como motor de las 14 pestañas del CMS.",
-    "Tipo de acción explícito para Enlace, Imagen e Informativo.",
-    "Publicación transaccional con resumen de altas, cambios y retiros.",
-    "Pruebas dinámicas sin fechas, cantidades ni IDs históricos.",
-    "Estilos consolidados y política WebP para navegación móvil.",
-    "Depuración segura de recursos, pruebas, reportes y cachés sin uso."
+    "Se agrega Alineación Pagos Especiales al apartado Siempre disponible > Informativo.",
+    "Se integran dos infografías optimizadas para resumen y evaluación operativa.",
+    "Se habilita Ver más / descargar PDF para consultar el detalle completo.",
+    "Se actualiza caché PWA para disponibilidad de imágenes y PDF."
   ],
   "notes": "La PWA conserva su esencia operativa Starbucks y publica únicamente versiones reconciliadas con el Excel.",
-  "fecha": "2026-08-03",
-  "descripcion": "CMS sostenible, navegación coherente y mantenimiento sin reprocesos.",
-  "updatedAt": "2026-08-03",
-  "runtimeFix": "v48.0.0",
+  "fecha": "2026-08-19",
+  "descripcion": "Integración visual de Alineación Pagos Especiales en Informativo siempre disponible.",
+  "updatedAt": "2026-08-19",
+  "runtimeFix": "v51.2.0",
   "name": "Distrito Go"
 }

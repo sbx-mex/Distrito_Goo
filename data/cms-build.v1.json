@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
   "source": "Distrito_Go_CMS_v2_actualizado.xlsx",
-  "sourceSha256": "e496045cdeb794f8a83800d1b6efb3dce5ddd534a32d3d6670c7fd26055fb932",
-  "generatedAt": "2026-08-20T02:37:04Z",
+  "sourceSha256": "b18a7495392e6a936391bed7b24b2a27988923d1aca8e4ed0f23af11d785c66e",
+  "generatedAt": "2026-08-20T02:54:02Z",
   "records": 506,
   "sheets": {
     "Informativo": {
       "records": 9,
-      "contentSha256": "0208c632a6291500695f37bfe6348981e7c167b39f17955587e085602804dbf0"
+      "contentSha256": "95716bdae36f54c52f8d8323f87dd97f56eba0affb1243dc41edcc04165a3be9"
     },
     "WFM": {
       "records": 1,
@@ -19,11 +19,11 @@
     },
     "TBW": {
       "records": 14,
-      "contentSha256": "5ee08b958daeaf331b60ccfe07560a1fd216d589e620dc8e7af5ae2bd3f27379"
+      "contentSha256": "673f2549689d7cfe3e51853d12daf513f84bd89d6e9af155c506f0a1d6c507b6"
     },
     "SS": {
       "records": 2,
-      "contentSha256": "d0ab1d1a100969c55710757b235cee5060254f7e44b6f501db9eb2cebe79a877"
+      "contentSha256": "6ce9b2079752e6a7e9323148ae77509ce20bc05fad8554fecc42dda61b4c55f8"
     },
     "Links": {
       "records": 48,
@@ -31,7 +31,7 @@
     },
     "Eventos": {
       "records": 48,
-      "contentSha256": "bfd4573d714e1fbc8d3199d605fa0a2f0c33643e14d0f74be89a2e5307146b4c"
+      "contentSha256": "ca6cb4c9057ba21b05c1eb23a196bdda0ee24dfba3af6cf992045e866c98a2c0"
     },
     "Actividades_Semanales": {
       "records": 15,
@@ -39,7 +39,7 @@
     },
     "Actividades_Diaria": {
       "records": 7,
-      "contentSha256": "d9427691d274484ac581c6febbb7dfbdab5c4b4a03581802add39cdb8e6a9dcb"
+      "contentSha256": "80498b58596d75db2746a61a453320cae427f8b80c23520cfa21cda8c3120174"
     },
     "Duty_Roster": {
       "records": 7,
@@ -47,7 +47,7 @@
     },
     "Duty_Detail": {
       "records": 57,
-      "contentSha256": "d1c28beefb6738ddcc66977c456d8478c914b34bbd697b3f91eb8c757dbd99c9"
+      "contentSha256": "d881d9f76641a053ae9b508a36857ada3252a52e2af22aaba36036261171baf8"
     },
     "Checklist_Apertura": {
       "records": 10,
@@ -55,11 +55,11 @@
     },
     "Identidad": {
       "records": 8,
-      "contentSha256": "ab895f76dcd71a1cb8954816d5c0eac8a36c64ea2ed3421a1800477b2afa7460"
+      "contentSha256": "bf6cc9c1dab190e4c440a786951f597848b346fc82e3c0d4b4b09c5e2a39620b"
     },
     "Aniversarios_Cumpleanos": {
       "records": 280,
-      "contentSha256": "dc6add8f5ef7548bf79c55a0f21b07fd35d853de332bc01125daf859e60fa198"
+      "contentSha256": "b496e2fd20084ab087e200bdb3e204baddb7f89f8051e87385053db5baf627c5"
     }
   }
 }

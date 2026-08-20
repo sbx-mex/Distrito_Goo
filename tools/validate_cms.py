@@ -6,19 +6,89 @@ import argparse
 import calendar
 import json
 import re
+import zipfile
 from datetime import date, datetime
 from pathlib import Path
 from typing import Any
 
 from openpyxl import load_workbook
+from openpyxl.utils import get_column_letter
+from openpyxl.utils.cell import range_boundaries
 
-from cms_pipeline import validate_workbook
+from cms_pipeline import REQUIRED_HEADERS, validate_workbook
 
 TRUE_VALUES = {"true", "verdadero", "si", "sí", "1", "yes"}
 FALSE_VALUES = {"false", "falso", "no", "0"}
 BOOLEAN_VALUES = TRUE_VALUES | FALSE_VALUES
 LOCAL_IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp", ".avif", ".gif", ".svg"}
 EVENT_ACTIONS = {"enlace", "imagen", "informativo"}
+
+
+def workbook_layout_audit(cms: Path) -> tuple[list[str], dict[str, Any]]:
+    """Detecta el daño silencioso que Excel suele intentar reparar al abrir el CMS."""
+    workbook = load_workbook(cms, read_only=False, data_only=False)
+    errors: list[str] = []
+    metrics: dict[str, Any] = {"sheets": {}, "externalLinks": 0}
+    expected_sheets = list(REQUIRED_HEADERS)
+    if workbook.sheetnames != expected_sheets:
+        missing = [name for name in expected_sheets if name not in workbook.sheetnames]
+        extra = [name for name in workbook.sheetnames if name not in expected_sheets]
+        if missing:
+            errors.append("Faltan pestañas del CMS: " + ", ".join(missing))
+        if extra:
+            errors.append("Pestañas no autorizadas en el CMS: " + ", ".join(extra))
+        if not missing and not extra:
+            errors.append("El orden de las 14 pestañas del CMS fue alterado")
+
+    table_names: set[str] = set()
+    for sheet_name in expected_sheets:
+        if sheet_name not in workbook.sheetnames:
+            continue
+        sheet = workbook[sheet_name]
+        populated_rows = [
+            row_number
+            for row_number in range(1, sheet.max_row + 1)
+            if any(sheet.cell(row_number, column).value not in (None, "") for column in range(1, sheet.max_column + 1))
+        ]
+        last_populated = populated_rows[-1] if populated_rows else 0
+        data_rows = [row for row in populated_rows if row > 1]
+        gaps = [(left, right) for left, right in zip(data_rows, data_rows[1:]) if right - left > 1]
+        if gaps:
+            sample = ", ".join(f"{left + 1}:{right - 1}" for left, right in gaps[:3])
+            errors.append(f"{sheet_name}: contiene filas vacías dentro de la tabla ({sample}); compacta los registros")
+        if last_populated and sheet.max_row > max(last_populated + 10, last_populated * 3):
+            errors.append(f"{sheet_name}: rango usado inflado hasta fila {sheet.max_row}; último dato real en fila {last_populated}")
+
+        tables = list(sheet.tables.values())
+        if len(tables) != 1:
+            errors.append(f"{sheet_name}: debe contener exactamente una tabla estructurada; encontradas {len(tables)}")
+        expected_last = max(last_populated, 2)
+        expected_last_col = max(sheet.max_column, len(REQUIRED_HEADERS.get(sheet_name, [])))
+        expected_ref = f"A1:{get_column_letter(expected_last_col)}{expected_last}"
+        table_ref = ""
+        if tables:
+            table = tables[0]
+            table_ref = table.ref
+            if table.name in table_names:
+                errors.append(f"{sheet_name}: nombre de tabla duplicado {table.name}")
+            table_names.add(table.name)
+            min_col, min_row, max_col, max_row = range_boundaries(table.ref)
+            if (min_col, min_row, max_col, max_row) != (1, 1, expected_last_col, expected_last):
+                errors.append(f"{sheet_name}: la tabla cubre {table.ref}, debe cubrir {expected_ref}")
+        metrics["sheets"][sheet_name] = {
+            "lastPopulatedRow": last_populated,
+            "worksheetMaxRow": sheet.max_row,
+            "table": table_ref,
+            "contiguous": not gaps,
+        }
+    workbook.close()
+
+    with zipfile.ZipFile(cms) as archive:
+        external_links = [name for name in archive.namelist() if name.startswith("xl/externalLinks/")]
+    metrics["externalLinks"] = len(external_links)
+    if external_links:
+        errors.append(f"El CMS contiene {len(external_links)} vínculos externos; elimínalos para evitar reparaciones de Excel")
+    return errors, metrics
 
 
 def text(value: Any) -> str:
@@ -89,9 +159,10 @@ def formula_cells_without_cached_value(cms: Path) -> list[str]:
 
 def audit_cms(cms: Path) -> dict[str, Any]:
     sheets, structural_errors = validate_workbook(cms)
-    critical = list(structural_errors)
+    layout_errors, layout_metrics = workbook_layout_audit(cms)
+    critical = [*structural_errors, *layout_errors]
     warnings: list[str] = []
-    metrics: dict[str, Any] = {"sheets": {name: len(rows) for name, rows in sheets.items()}}
+    metrics: dict[str, Any] = {"sheets": {name: len(rows) for name, rows in sheets.items()}, "workbookLayout": layout_metrics}
 
     contract_path = cms.resolve().parent / "cms-contract.json"
     contract = json.loads(contract_path.read_text(encoding="utf-8")) if contract_path.is_file() else {"sheets": {}}

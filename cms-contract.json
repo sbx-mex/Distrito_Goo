@@ -16,7 +16,11 @@
       false
     ],
     "formulas": "must contain a cached result saved by Excel",
-    "headerMatching": "case/accent/spacing tolerant; order independent"
+    "headerMatching": "case/accent/spacing tolerant; order independent",
+    "rowsMustBeContiguous": true,
+    "oneExactTablePerSheet": true,
+    "externalLinksAllowed": false,
+    "exactSheetOrder": true
   },
   "sheets": {
     "Informativo": {

@@ -195,6 +195,13 @@ def audit_cms(cms: Path) -> dict[str, Any]:
         end = as_date(row.get("Fecha Fin"))
         publish = text(row.get("Publicar")).casefold()
         action = text(row.get("Tipo de acción")).casefold()
+        if publish not in BOOLEAN_VALUES:
+            critical.append(f"Eventos {event_id}: Publicar debe ser VERDADERO/FALSO o Sí/No")
+            continue
+        # Una fila no publicada es un borrador del CMS: se conserva en Excel,
+        # pero no debe bloquear el despliegue por nombre, vigencia o destino.
+        if publish in FALSE_VALUES:
+            continue
         if not name:
             critical.append(f"Eventos {event_id}: falta Nombre Evento")
         if not start or not end:
@@ -202,8 +209,6 @@ def audit_cms(cms: Path) -> dict[str, Any]:
             continue
         if start > end:
             critical.append(f"Eventos {event_id}: Fecha Inicio es posterior a Fecha Fin")
-        if publish not in BOOLEAN_VALUES:
-            critical.append(f"Eventos {event_id}: Publicar debe ser VERDADERO/FALSO o Sí/No")
         if action not in EVENT_ACTIONS:
             critical.append(f"Eventos {event_id}: Tipo de acción debe ser Enlace, Imagen o Informativo")
         normalized = name.casefold()

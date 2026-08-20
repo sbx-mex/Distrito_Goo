@@ -75,7 +75,9 @@
           "Informativo"
         ]
       },
-      "navigationRule": "Enlace abre URL completa; Imagen abre recurso gráfico; Informativo conserva imagen visible sin navegación"
+      "navigationRule": "Enlace abre URL completa; Imagen abre recurso gráfico; Informativo conserva imagen visible sin navegación",
+      "identityRule": "El nombre, ID y contenido los gobierna exclusivamente el CMS; ninguna campaña o nombre particular es obligatorio para publicar",
+      "draftRule": "Publicar=No excluye el evento de la compilación y de las validaciones de navegación sin eliminar su fila del CMS"
     },
     "Actividades_Semanales": {
       "primaryKey": "ID",

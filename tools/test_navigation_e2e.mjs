@@ -52,6 +52,9 @@ try{
     check(`${viewport.name} centro de mando`, await page.locator('#command-center-grid .command-summary-card').count() === 4, 'debe mostrar cuatro resúmenes');
     const informativeCards = page.locator('#informative-catalog-track .permanent-info-card');
     check(`${viewport.name} informativos vigentes`, await informativeCards.count() === visibleInformativeCount, `${visibleInformativeCount} según CMS`);
+    const paymentCard = informativeCards.filter({hasText:/Alineación Pagos Especiales/i}).first();
+    check(`${viewport.name} Pagos Especiales publicado`, await paymentCard.count() === 1, 'el contenido existe en el CMS pero no llegó al carrusel');
+    check(`${viewport.name} Pagos Especiales prioritario`, /Alineación Pagos Especiales/i.test(await informativeCards.first().innerText()), 'debe ocupar la primera posición por Orden 0');
     const informativeImage = informativeCards.first().locator('.permanent-info-media img');
     await informativeCards.first().scrollIntoViewIfNeeded();
     await informativeImage.waitFor({state:'visible'});
@@ -71,9 +74,10 @@ try{
     check(`${viewport.name} WFM dinámica`, wfmText.includes(expectedWfm) && wfmText.includes(expectedRange), `esperado ${expectedWfm} · ${expectedRange}; recibido ${wfmText.slice(0,220)}`);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     check(`${viewport.name} sin corte horizontal`, overflow <= 1, `desbordamiento ${overflow}px`);
-    await informativeCards.first().locator('.permanent-info-media').click();
+    await paymentCard.locator('.permanent-info-media').click();
     await page.waitForSelector('#quick-modal[open]');
     check(`${viewport.name} imagen ampliable`, await page.locator('#quick-modal .visual-detail-media').count() === 1, 'la vista previa no abre el recurso completo');
+    check(`${viewport.name} detalle de pago completo`, await page.locator('#quick-modal .payment-key-points').count() === 1 && await page.locator('#quick-modal .payment-secondary').count() === 1 && await page.locator('#quick-modal .payment-assessment input').count() === 5 && await page.locator('#quick-modal .visual-detail-download').count() === 1, 'faltan puntos, segundo visual, autoevaluación o PDF');
     await page.locator('#close-quick-modal').click();
     await page.locator('#header-search').click();
     await page.locator('#general-search-input').fill('inventario');

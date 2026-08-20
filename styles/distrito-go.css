@@ -4499,6 +4499,8 @@ body[data-app-view="search"] .global-search-panel{
 
 /* v52 · Alineación Pagos Especiales · informativo interactivo */
 .permanent-info-badge{display:inline-flex;align-items:center;width:max-content;padding:.28rem .55rem;border-radius:999px;background:#e5f1ec;color:#006241;font-size:.72rem;font-weight:800;letter-spacing:.02em;text-transform:uppercase}
+.permanent-info-card.is-payment-special{border-color:#d2a94f;background:linear-gradient(145deg,#fffdf7 0%,#fff 62%);box-shadow:0 14px 34px rgba(74,52,10,.10)}
+.permanent-info-card.is-payment-special .permanent-info-badge{background:#fff0c6;color:#6b4a00}
 .payment-special-detail{display:grid;gap:1rem}.payment-special-detail>.visual-detail-media,.payment-special-detail>picture{border-radius:18px;overflow:hidden}
 .payment-key-points{padding:1rem;border-radius:18px;background:#f4f7f5;border:1px solid #d9e5df}.payment-key-points ul{display:grid;gap:.55rem;margin:.7rem 0 0;padding-left:1.25rem}.payment-key-points li{line-height:1.45}
 .payment-secondary{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem;border-radius:18px;background:#12372a;color:#fff}.payment-secondary strong{display:block;font-size:1.1rem}.payment-secondary p{margin:.25rem 0 0;color:#dbe8e2}.payment-secondary button{flex:0 0 auto;border:0;border-radius:999px;padding:.75rem 1rem;background:#fff;color:#006241;font-weight:800;cursor:pointer}

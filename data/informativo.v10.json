@@ -269,13 +269,13 @@
     "Recurso Secundario": "alineacion-pagos-especiales-evaluacion.png",
     "Puntos Clave": "Solo quincena inmediata anterior|Registra en días, horas o monto según el DIP|Comentario con fechas, periodo y motivo|Valida evidencia y restricciones por puesto",
     "Checklist Evaluación": "¿Corresponde a la quincena inmediata anterior?|¿Elegiste el DIP correcto para el caso y puesto?|¿Usaste la unidad correcta: días, horas o monto?|¿El comentario incluye fecha/periodo y motivo?|¿Adjuntaste evidencia cuando aplica?",
-    "Recurso": "assets/photos/alineacion-pagos-especiales-resumen.webp?v=24d84b196bf3",
-    "MiniaturaRecurso": "assets/photos/alineacion-pagos-especiales-resumen.thumb.webp?v=baaf0fe196f9",
-    "OriginalRecurso": "assets/photos/alineacion-pagos-especiales-resumen.png?v=201ffb11c3cb",
+    "Recurso": "assets/photos/alineacion-pagos-especiales-resumen.webp?v=ce799f96c913",
+    "MiniaturaRecurso": "assets/photos/alineacion-pagos-especiales-resumen.thumb.webp?v=efa03401a35d",
+    "OriginalRecurso": "assets/photos/alineacion-pagos-especiales-resumen.png?v=2e0e66c7daf6",
     "TipoRecurso": "imagen",
     "DescripcionBreve": "Resumen visual para registrar DIPS correctamente: flujo, reglas, conceptos y validación previa antes de enviar a pago.",
     "LinkDetalle": "assets/docs/Alineacion Pagos Especiales 2026.pdf",
-    "RecursoSecundario": "assets/photos/alineacion-pagos-especiales-evaluacion.webp?v=dfba46622ebe",
-    "RecursoSecundarioOriginal": "assets/photos/alineacion-pagos-especiales-evaluacion.png?v=35b5ea584d01"
+    "RecursoSecundario": "assets/photos/alineacion-pagos-especiales-evaluacion.webp?v=567ec6b5a93c",
+    "RecursoSecundarioOriginal": "assets/photos/alineacion-pagos-especiales-evaluacion.png?v=360e1868a00f"
   }
 ]

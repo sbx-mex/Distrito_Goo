@@ -60,6 +60,17 @@ def inspect_project(cms: Path) -> dict[str, Any]:
     contract = load_json(ROOT / "cms-contract.json")
     gate.check("2 · CMS", "Contrato formal del CMS", set(contract.get("sheets", {})) == set(cms_result["metrics"]["sheets"]), f"{len(contract.get('sheets', {}))} pestañas definidas")
 
+    informative = load_json(ROOT / "data" / "informativo.v10.json")
+    operational_informative = load_json(ROOT / "data" / "operacional.v10.json").get("informativo", [])
+    payment = next((item for item in informative if re.search(r"pagos?\s+especiales", str(item.get("Actividad", "")), re.I)), None)
+    payment_in_app = payment and any(str(item.get("ID")) == str(payment.get("ID")) for item in operational_informative)
+    payment_assets = payment and all(
+        relative_reference_exists(str(payment.get(field, "")))
+        for field in ("Recurso", "RecursoSecundario", "LinkDetalle")
+    )
+    payment_complete = bool(payment and payment_in_app and payment_assets and payment.get("Checklist Evaluación") and payment.get("Puntos Clave"))
+    gate.check("2 · CMS", "Pagos Especiales publicado", payment_complete, "fuente, aplicación, 2 visuales, PDF, puntos y autoevaluación")
+
     static_ok, static_result = run_json(["python", "tools/audit_static.py"])
     assets_ok, assets_result = run_json(["python", "tools/validate_assets.py"])
     visuals_ok, visuals_result = run_json(["python", "tools/validate_informative_visuals.py", "--report", "reports/informative-visuals.json"])

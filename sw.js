@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'distrito-go-';
-const CACHE_NAME = `${CACHE_PREFIX}v52-pagos-especiales`;
+const CACHE_NAME = `${CACHE_PREFIX}v53-pagos-especiales-publicado`;
 const APP_SHELL = [
   './',
   './index.html',
@@ -20,7 +20,6 @@ const APP_SHELL = [
   './modules/storage.js',
   './modules/state.js',
   './modules/data.js',
-  './modules/pagos-especiales.js',
   './modules/toast.js',
   './modules/native-apps.js',
   './modules/components.js',
@@ -36,6 +35,8 @@ const APP_SHELL = [
   './modules/operations-center.js',
   './assets/icons/icon-192.png',
   './assets/icons/icon-512.png',
+  './assets/photos/alineacion-pagos-especiales-resumen.webp',
+  './assets/photos/alineacion-pagos-especiales-evaluacion.webp',
 ];
 
 self.addEventListener('install', event => {

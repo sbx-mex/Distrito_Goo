@@ -304,10 +304,11 @@ export function renderInformativo(){
     const destination = Boolean(visual || externalLink);
     const actionableDestination = destination || Boolean(item.LinkDetalle || item.RecursoSecundario || item['Checklist Evaluación']);
     const saved = isContentSaved(contentId);
+    const isPaymentSpecial = /pagos?\s+especiales/i.test(String(item.Actividad || ''));
     const visualMarkup = visual
       ? `<button class="permanent-info-media" type="button" data-open-content="${escapeHtml(contentId)}" aria-label="Ver ${escapeHtml(item.Actividad || 'informativo')}">${visual.picture}<span>Ver imagen completa</span></button>`
       : `<span class="permanent-info-icon" aria-hidden="true">${item.Icono || 'ℹ️'}</span>`;
-    return `<article class="permanent-info-card ${visual ? 'has-visual' : 'is-text-only'}">
+    return `<article class="permanent-info-card ${visual ? 'has-visual' : 'is-text-only'}${isPaymentSpecial ? ' is-payment-special' : ''}">
       ${visualMarkup}
       <div class="permanent-info-copy">
         ${item.Etiqueta ? `<span class="permanent-info-badge">${escapeHtml(item.Etiqueta)}</span>` : ''}

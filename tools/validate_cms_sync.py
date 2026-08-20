@@ -44,6 +44,7 @@ def compare_current(cms: Path, project: Path) -> dict[str, Any]:
         check(f"Pestaña {name}", entry.get("records") == len(rows) and entry.get("contentSha256") == expected_hash, f"{len(rows)} registros")
 
     operational = load(project / "data" / "operacional.v10.json")
+    published_informative = load(project / "data" / "informativo.v10.json")
     mappings = {
         "Informativo": ("data/informativo.v10.json", len(sheets["Informativo"])),
         "WFM": ("data/wfm.json", len(sheets["WFM"])),
@@ -61,6 +62,13 @@ def compare_current(cms: Path, project: Path) -> dict[str, Any]:
     for sheet, (relative, expected) in mappings.items():
         actual = len(load(project / relative))
         check(f"Salida {sheet}", actual == expected, f"{actual}/{expected}")
+
+    operational_informative = operational.get("informativo", [])
+    check(
+        "Informativo integrado en la aplicación",
+        operational_informative == published_informative,
+        f"{len(operational_informative)}/{len(published_informative)} registros; contenido idéntico",
+    )
 
     celebration_expected = sum(truthy(row.get("Publicar")) for row in sheets["Aniversarios_Cumpleanos"])
     check("Salida Aniversarios_Cumpleanos", len(operational.get("celebraciones", [])) == celebration_expected, f"{len(operational.get('celebraciones', []))}/{celebration_expected}")

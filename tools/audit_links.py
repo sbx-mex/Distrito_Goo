@@ -9,16 +9,25 @@ from pathlib import Path
 from cms_pipeline import validate_workbook
 
 URL_RE = re.compile(r'^(?:https?://|intent://)', re.I)
-IMAGE_RE = re.compile(r'\.(?:avif|gif|jpe?g|png|svg|webp)$', re.I)
+LOCAL_RESOURCE_RE = re.compile(r'\.(?:avif|gif|jpe?g|png|svg|webp|pdf|pptx)$', re.I)
 
-def valid_destination(value: str) -> tuple[bool, str]:
+def valid_destination(value: str, project: Path) -> tuple[bool, str]:
     if '...' in value or re.search(r'[{}<>]', value):
         return False, 'destino abreviado o con marcadores'
-    if IMAGE_RE.search(value):
-        return True, 'recurso local'
     if URL_RE.match(value):
         return bool(re.match(r'^(?:https?://[^/\s]+(?:/[^\s]*)?|intent://\S+)$', value, re.I)), 'URL completa'
-    return False, 'no es URL completa ni recurso gráfico'
+    clean = value.split('?', 1)[0].split('#', 1)[0].strip()
+    if LOCAL_RESOURCE_RE.search(clean):
+        relative = Path(clean)
+        if relative.is_absolute() or '..' in relative.parts:
+            return False, 'ruta local insegura'
+        candidates = [project / relative]
+        if len(relative.parts) == 1:
+            candidates.extend((project / 'assets' / folder / relative for folder in ('docs', 'photos')))
+        exists = any(candidate.resolve().is_file() for candidate in candidates)
+        kind = 'documento local' if relative.suffix.casefold() in {'.pdf', '.pptx'} else 'recurso gráfico local'
+        return exists, kind if exists else f'{kind} inexistente'
+    return False, 'no es URL completa ni recurso local permitido'
 
 def main() -> int:
     parser = argparse.ArgumentParser()
@@ -34,7 +43,7 @@ def main() -> int:
                     continue
                 text = str(value or '').strip()
                 if ('link' in key.casefold() or key in {'URL','WebURL','PlayStore'}) and text:
-                    valid, classification = valid_destination(text)
+                    valid, classification = valid_destination(text, args.cms.resolve().parent)
                     links.append({'sheet': sheet, 'row': row['__row__'], 'field': key, 'value': text, 'validFormat': valid, 'classification': classification})
     counts = Counter(item['value'] for item in links if item['value'])
     report = {

@@ -6,6 +6,7 @@ No se usa en el navegador ni requiere backend. Está pensado para ejecución loc
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import json
 import re
@@ -33,6 +34,18 @@ REQUIRED_HEADERS = {
     "Identidad": ["Identificador", "Sección", "Campo", "Valor", "Color", "Estilo", "Visible", "Notas"],
     "Aniversarios_Cumpleanos": ["ID", "Tipo", "Nombre Partner", "Fecha", "Puesto", "Tienda", "Distrito", "Región", "Publicar", "NUM_EMP", "CECO"],
 }
+
+OPTIONAL_HEADERS = {
+    "Informativo": ["Etiqueta", "Vigencia Inicio", "Vigencia Fin", "Orden", "Mostrar Inicio", "Mostrar Explorar", "Acceso Rápido", "CTA", "Link Detalle", "Recurso Secundario", "Puntos Clave", "Checklist Evaluación"],
+}
+
+def normalize_header(value: Any) -> str:
+    text = unicodedata.normalize("NFKD", str(value or "")).encode("ascii", "ignore").decode().casefold()
+    return re.sub(r"[^a-z0-9]+", "", text)
+
+def canonical_header_map(sheet_name: str) -> dict[str, str]:
+    names = [*REQUIRED_HEADERS.get(sheet_name, []), *OPTIONAL_HEADERS.get(sheet_name, [])]
+    return {normalize_header(name): name for name in names}
 
 CATEGORY_META = {
     "operacion": ("Operación", "⚙️", "#006241"),
@@ -70,19 +83,62 @@ def short(text: Any, limit: int = 118) -> str:
     return value if len(value) <= limit else value[: limit - 1].rstrip() + "…"
 
 
-def read_sheet(ws) -> list[dict[str, Any]]:
+def read_sheet(ws, sheet_name: str = "") -> list[dict[str, Any]]:
     rows = list(ws.iter_rows(values_only=True))
     if not rows:
         return []
-    headers = [str(v).strip() if v is not None else "" for v in rows[0]]
+    canonical = canonical_header_map(sheet_name)
+    headers = []
+    for value in rows[0]:
+        raw = str(value).strip() if value is not None else ""
+        headers.append(canonical.get(normalize_header(raw), raw))
     output = []
     for row_number, row in enumerate(rows[1:], start=2):
         if not any(v not in (None, "") for v in row):
             continue
-        record = {headers[i]: plain(row[i]) if i < len(row) else "" for i in range(len(headers))}
+        record = {headers[i]: plain(row[i]) if i < len(row) else "" for i in range(len(headers)) if headers[i]}
         record["__row__"] = row_number
         output.append(record)
     return output
+
+
+def apply_header_overlays(root: Path, sheets: dict[str, list[dict[str, Any]]]) -> dict[str, list[dict[str, Any]]]:
+    """Fusiona cms-overlays/<Pestaña>.csv por encabezados y llave primaria, sin depender del orden de columnas."""
+    overlay_dir = root / "cms-overlays"
+    if not overlay_dir.is_dir():
+        return sheets
+    primary_keys = {"Informativo": "ID", "Eventos": "ID", "Links": "Nombre", "Actividades_Semanales": "ID", "Actividades_Diaria": "ID"}
+    for sheet_name, base_rows in sheets.items():
+        path = overlay_dir / f"{sheet_name}.csv"
+        if not path.is_file():
+            continue
+        canonical = canonical_header_map(sheet_name)
+        with path.open("r", encoding="utf-8-sig", newline="") as handle:
+            reader = csv.DictReader(handle)
+            overlay_rows = []
+            for number, source in enumerate(reader, start=2):
+                record = {}
+                for header, value in source.items():
+                    raw = str(header or "").strip()
+                    name = canonical.get(normalize_header(raw), raw)
+                    if name:
+                        record[name] = plain(value)
+                if any(str(value or "").strip() for value in record.values()):
+                    record["__row__"] = number
+                    overlay_rows.append(record)
+        key = primary_keys.get(sheet_name)
+        if not key:
+            sheets[sheet_name].extend(overlay_rows)
+            continue
+        positions = {str(row.get(key, "")).strip().casefold(): idx for idx, row in enumerate(base_rows) if str(row.get(key, "")).strip()}
+        for record in overlay_rows:
+            marker = str(record.get(key, "")).strip().casefold()
+            if marker and marker in positions:
+                merged = {**base_rows[positions[marker]], **record}
+                base_rows[positions[marker]] = merged
+            else:
+                base_rows.append(record)
+    return sheets
 
 
 def validate_workbook(path: Path) -> tuple[dict[str, list[dict[str, Any]]], list[str]]:
@@ -95,11 +151,13 @@ def validate_workbook(path: Path) -> tuple[dict[str, list[dict[str, Any]]], list
             continue
         ws = wb[name]
         first = next(ws.iter_rows(min_row=1, max_row=1, values_only=True), ())
-        actual = [str(v).strip() if v is not None else "" for v in first]
-        missing = [h for h in required if h not in actual]
+        canonical = canonical_header_map(name)
+        actual = [canonical.get(normalize_header(v), str(v).strip() if v is not None else "") for v in first]
+        actual_keys = {normalize_header(v) for v in actual if v}
+        missing = [h for h in required if normalize_header(h) not in actual_keys]
         if missing:
             errors.append(f"{name}: faltan encabezados: {', '.join(missing)}")
-        sheets[name] = read_sheet(ws)
+        sheets[name] = read_sheet(ws, name)
     return sheets, errors
 
 
@@ -395,12 +453,27 @@ def build(root: Path, sheets: dict[str, list[dict[str, Any]]], source_path: Path
         rec, typ, original = resource(row.pop("Link /Imagen", ""), root)
         row["ID"] = int(row["ID"])
         row["Prioridad"] = int(row["Prioridad"])
+        if str(row.get("Orden", "")).strip():
+            try:
+                row["Orden"] = int(float(str(row["Orden"]).strip()))
+            except ValueError:
+                pass
         row["Visible"] = truthy(row["Visible"])
         for field in ("Mostrar Inicio", "Mostrar Explorar"):
             if field in row:
                 row[field] = truthy(row[field])
         thumbnail = thumbnail_image_path(original or rec, root) if typ == "imagen" else ""
-        row.update({"Recurso": rec, "MiniaturaRecurso": thumbnail, "OriginalRecurso": original, "TipoRecurso": typ, "DescripcionBreve": short(row.get("Descripción"))})
+        detail_raw = str(row.get("Link Detalle", "") or "").strip()
+        if re.match(r"^https?://", detail_raw, re.I):
+            detail_link = valid_http_url(detail_raw)
+        else:
+            detail_name = Path(detail_raw).name if detail_raw else ""
+            detail_path = root / "assets/docs" / detail_name if detail_name else None
+            detail_link = detail_path.relative_to(root).as_posix() if detail_path and detail_path.is_file() else ""
+        secondary_raw = str(row.get("Recurso Secundario", "") or "").strip()
+        secondary = image_path(secondary_raw, root) if secondary_raw else ""
+        secondary_original = original_image_path(secondary_raw, root) if secondary_raw else ""
+        row.update({"Recurso": rec, "MiniaturaRecurso": thumbnail, "OriginalRecurso": original, "TipoRecurso": typ, "DescripcionBreve": short(row.get("Descripción")), "LinkDetalle": detail_link, "RecursoSecundario": secondary, "RecursoSecundarioOriginal": secondary_original})
         info.append(row)
 
     weekly = raw["Actividades_Semanales"]
@@ -562,6 +635,7 @@ def main() -> int:
     parser.add_argument("--validate-only", action="store_true")
     args = parser.parse_args()
     sheets, errors = validate_workbook(args.cms)
+    sheets = apply_header_overlays(args.project.resolve(), sheets)
     if errors:
         print("\n".join(f"ERROR: {e}" for e in errors))
         return 1

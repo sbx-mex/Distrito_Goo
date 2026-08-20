@@ -171,6 +171,7 @@ function bindStaticEvents(){
   document.addEventListener('click', handleImageViewerClick);
   document.addEventListener('click', handleImageViewerZoom);
   document.addEventListener('click', handleDutyDialogClick);
+  document.addEventListener('change', handlePaymentAssessment);
   window.addEventListener('dgx:filtersChanged', () => { renderChips(); renderTools(true); });
   window.addEventListener('dgx:open-detail', event => openContentDetail(event.detail?.item, event.detail?.trigger));
   window.addEventListener('dgx:open-destination', event => openContentDestination(event.detail?.item, event.detail?.trigger));
@@ -192,6 +193,21 @@ const DUTY_STATION_SCENES = {
   'drive thru':'<svg viewBox="0 0 320 220" aria-hidden="true"><path d="M51 164h218M79 164l18-58h116l28 58M112 106l20-36h55l22 36"/><circle cx="111" cy="165" r="22"/><circle cx="221" cy="165" r="22"/><path class="duty-scene-accent" d="M134 70V43h64v27"/></svg>',
   default:'<svg viewBox="0 0 320 220" aria-hidden="true"><rect x="70" y="35" width="180" height="160" rx="22"/><path d="M70 78h180M105 23v30m110-30v30m-108 73 22 22 50-53"/><path class="duty-scene-accent" d="M197 126h26m-26 29h26"/></svg>'
 };
+
+
+function handlePaymentAssessment(event){
+  const input = event.target.closest('[data-payment-check]');
+  if(!input) return;
+  const box = input.closest('[data-payment-assessment]');
+  if(!box) return;
+  const checks = [...box.querySelectorAll('[data-payment-check]')];
+  const done = checks.filter(item => item.checked).length;
+  const status = box.querySelector('[data-payment-score]');
+  if(status){
+    status.textContent = done === checks.length ? `Listo para enviar · ${done}/${checks.length}` : `Validación ${done}/${checks.length}`;
+    status.classList.toggle('is-complete', done === checks.length);
+  }
+}
 
 function closeQuickModal(){
   const modal = byId('quick-modal');
@@ -323,16 +339,14 @@ function handleImageViewerZoom(event){
 
 function safeDetailLink(value){
   const text = String(value || '').trim();
-  if(!text || text.includes('...') || /[{}<>]/.test(text)) return '';
-  if(/^https?:\/\//i.test(text)){
-    try{
-      const url = new URL(text);
-      return /^https?:$/.test(url.protocol) && url.hostname ? url.href : '';
-    }catch{
-      return '';
-    }
+  if(/^assets\/docs\/[a-z0-9_ .()%-]+\.(?:pdf|pptx)$/i.test(text)) return text;
+  if(!/^https?:\/\//i.test(text) || text.includes('...') || /[{}<>]/.test(text)) return '';
+  try{
+    const url = new URL(text);
+    return /^https?:$/.test(url.protocol) && url.hostname ? url.href : '';
+  }catch{
+    return '';
   }
-  return /^(?:\.?\/?)*(?:assets|data)\/[^?#]+\.pdf(?:[?#].*)?$/i.test(text) ? text : '';
 }
 
 function openContentDestination(item, trigger){
@@ -360,36 +374,44 @@ function openContentDetail(item, trigger){
   if(!modal?.showModal) return;
   lastQuickModalTrigger = trigger || null;
   const link = safeDetailLink(item.link);
+  const detailLink = safeDetailLink(item.detailLink);
   const fullImage = item.fullImage || item.image || '';
   const detailImage = item.imageOriginal || fullImage;
+  const secondaryImage = item.secondaryImageOriginal || item.secondaryImage || '';
   const image = fullImage ? `<picture>
     ${String(fullImage).includes('.webp') ? `<source type="image/webp" srcset="${escapeHeroText(fullImage)}">` : ''}
     <img class="visual-detail-media" src="${escapeHeroText(detailImage)}" alt="${escapeHeroText(item.title)}" width="1200" height="800" decoding="async">
   </picture>` : '';
   const date = item.dateLabel ? `<p class="visual-detail-date">${escapeHeroText(item.dateLabel)}</p>` : '';
-  const linkLabel = /\.pdf(?:[?#].*)?$/i.test(link) ? 'Ver mas / descargar PDF' : 'Abrir acceso';
   const action = item.section && isNavigableDestination(item.section)
     ? `<button type="button" data-nav-target="${escapeHeroText(item.section)}">Ir a la sección</button>`
     : link
-      ? `<a href="${escapeHeroText(link)}" target="_blank" rel="noopener" download>${linkLabel}</a>`
+      ? `<a href="${escapeHeroText(link)}" target="_blank" rel="noopener">Abrir acceso</a>`
       : detailImage
         ? `<button type="button" data-image-viewer="${escapeHeroText(detailImage)}" data-image-title="${escapeHeroText(item.title)}">Ver imagen completa</button>`
         : '';
+  const detailAction = detailLink ? `<a class="visual-detail-download" href="${escapeHeroText(detailLink)}" target="_blank" rel="noopener" download>Ver más · descargar PDF completo ↓</a>` : '';
+  const secondary = secondaryImage ? `<section class="payment-secondary"><div><span class="visual-overline">Validación rápida</span><strong>¿Está lista la incidencia?</strong><p>Revisa el segundo visual antes de enviar a pago.</p></div><button type="button" data-image-viewer="${escapeHeroText(secondaryImage)}" data-image-title="Pagos Especiales · Validación rápida">Ver segunda infografía</button></section>` : '';
+  const points = Array.isArray(item.points) && item.points.length ? `<section class="payment-key-points"><span class="visual-overline">Puntos clave</span><ul>${item.points.map(point => `<li>${escapeHeroText(point)}</li>`).join('')}</ul></section>` : '';
+  const checklist = Array.isArray(item.checklist) && item.checklist.length ? `<section class="payment-assessment" data-payment-assessment><div class="payment-assessment-head"><div><span class="visual-overline">Autoevaluación operativa</span><strong>Antes de enviar</strong></div><span data-payment-score>Validación 0/${item.checklist.length}</span></div>${item.checklist.map((question,index) => `<label><input type="checkbox" data-payment-check><span>${index+1}</span><b>${escapeHeroText(question)}</b></label>`).join('')}</section>` : '';
   const saved = isContentSaved(item.id);
   const secondaryMeta = item.category && item.category !== item.label
     ? `<small>${escapeHeroText(item.category || item.source || '')}</small>`
     : '';
   setText('quick-modal-title', item.title || 'Detalle');
-  setHtml('quick-modal-body', `<article class="visual-detail">
+  setHtml('quick-modal-body', `<article class="visual-detail payment-special-detail">
     ${image}
     <div class="visual-detail-meta"><span class="content-badge">${escapeHeroText(item.label || 'Actualizado')}</span>${secondaryMeta}</div>
     ${date}
     <p>${escapeHeroText(item.description || item.short || '')}</p>
-    <div class="visual-detail-actions">${action}<button class="${saved ? 'is-saved' : ''}" type="button" data-save-content="${escapeHeroText(item.id)}" aria-label="${escapeHeroText(saved ? `Quitar ${item.title} de Guardados` : `Guardar ${item.title}`)}" aria-pressed="${saved}"><span aria-hidden="true">${saved ? '♥' : '♡'}</span> <span class="save-content-label">${saved ? 'Guardado' : 'Guardar'}</span></button></div>
+    ${points}
+    ${secondary}
+    ${checklist}
+    <div class="visual-detail-actions">${action}${detailAction}<button class="${saved ? 'is-saved' : ''}" type="button" data-save-content="${escapeHeroText(item.id)}" aria-label="${escapeHeroText(saved ? `Quitar ${item.title} de Guardados` : `Guardar ${item.title}`)}" aria-pressed="${saved}"><span aria-hidden="true">${saved ? '♥' : '♡'}</span> <span class="save-content-label">${saved ? 'Guardado' : 'Guardar'}</span></button></div>
   </article>`);
   document.body.classList.add('is-modal-open');
   modal.showModal();
-  requestAnimationFrame(() => modal.querySelector('a,button')?.focus());
+  requestAnimationFrame(() => modal.querySelector('a,button,input')?.focus());
 }
 
 function handleImageViewerClick(event){

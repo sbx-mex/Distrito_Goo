@@ -285,7 +285,7 @@ export function renderInformativo(){
   const info = (state.operacional.informativo || [])
     .filter(a => a.Visible !== false)
     .filter(isCurrentlyValid)
-    .sort((a,b)=>(a.Orden||a.Prioridad||99)-(b.Orden||b.Prioridad||99));
+    .sort((a,b)=>(Number.isFinite(Number(a.Orden)) ? Number(a.Orden) : Number(a.Prioridad || 99))-(Number.isFinite(Number(b.Orden)) ? Number(b.Orden) : Number(b.Prioridad || 99)));
   const count = document.getElementById('info-count');
   if(count) count.textContent = `${info.length} vigente${info.length === 1 ? '' : 's'}`;
   const grid = document.getElementById('info-grid');
@@ -302,6 +302,7 @@ export function renderInformativo(){
     const visual = informativeVisual(item, index === 0);
     const externalLink = item.TipoRecurso === 'link' ? safeExternalResource(resource) : '';
     const destination = Boolean(visual || externalLink);
+    const actionableDestination = destination || Boolean(item.LinkDetalle || item.RecursoSecundario || item['Checklist Evaluación']);
     const saved = isContentSaved(contentId);
     const visualMarkup = visual
       ? `<button class="permanent-info-media" type="button" data-open-content="${escapeHtml(contentId)}" aria-label="Ver ${escapeHtml(item.Actividad || 'informativo')}">${visual.picture}<span>Ver imagen completa</span></button>`
@@ -309,11 +310,12 @@ export function renderInformativo(){
     return `<article class="permanent-info-card ${visual ? 'has-visual' : 'is-text-only'}">
       ${visualMarkup}
       <div class="permanent-info-copy">
+        ${item.Etiqueta ? `<span class="permanent-info-badge">${escapeHtml(item.Etiqueta)}</span>` : ''}
         <strong>${escapeHtml(item.Actividad || 'Informativo')}</strong>
         <p>${escapeHtml(briefText(item.DescripcionBreve || item['Descripción'] || '', 120))}</p>
         <div class="permanent-info-actions">
-          ${destination ? `<button type="button" data-open-content="${escapeHtml(contentId)}">${visual ? 'Ver imagen' : 'Abrir acceso'}</button>` : ''}
-          ${destination ? `<button class="permanent-info-save ${saved ? 'is-saved' : ''}" type="button" data-save-content="${escapeHtml(contentId)}" aria-label="${escapeHtml(saved ? `Quitar ${item.Actividad} de Guardados` : `Guardar ${item.Actividad}`)}" aria-pressed="${saved}"><span aria-hidden="true">${saved ? '♥' : '♡'}</span><span class="save-content-label">${saved ? 'Guardado' : 'Guardar'}</span></button>` : '<span class="catalog-info-state">Informativo</span>'}
+          ${actionableDestination ? `<button type="button" data-open-content="${escapeHtml(contentId)}">${escapeHtml(item.CTA || (visual ? 'Ver imagen' : 'Abrir acceso'))}</button>` : ''}
+          ${actionableDestination ? `<button class="permanent-info-save ${saved ? 'is-saved' : ''}" type="button" data-save-content="${escapeHtml(contentId)}" aria-label="${escapeHtml(saved ? `Quitar ${item.Actividad} de Guardados` : `Guardar ${item.Actividad}`)}" aria-pressed="${saved}"><span aria-hidden="true">${saved ? '♥' : '♡'}</span><span class="save-content-label">${saved ? 'Guardado' : 'Guardar'}</span></button>` : '<span class="catalog-info-state">Informativo</span>'}
         </div>
       </div>
     </article>`;

@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "source": "Distrito_Go_CMS_v2_actualizado.xlsx",
   "rules": {
     "headerRow": 1,
@@ -7,30 +7,111 @@
     "columnsMatchedByName": true,
     "columnOrderFlexible": true,
     "dates": "Excel date or ISO yyyy-mm-dd",
-    "booleans": ["VERDADERO", "FALSO", "Sí", "No", true, false],
-    "formulas": "must contain a cached result saved by Excel"
+    "booleans": [
+      "VERDADERO",
+      "FALSO",
+      "Sí",
+      "No",
+      true,
+      false
+    ],
+    "formulas": "must contain a cached result saved by Excel",
+    "headerMatching": "case/accent/spacing tolerant; order independent"
   },
   "sheets": {
-    "Informativo": {"primaryKey": "ID", "output": "data/informativo.v10.json"},
-    "WFM": {"output": "data/wfm.json"},
-    "BT": {"primaryKey": "SBX", "output": "data/bt.json"},
-    "TBW": {"primaryKey": "SBX", "output": "data/tbw.json"},
-    "SS": {"primaryKey": "SBX", "output": "data/ss.json"},
-    "Links": {"primaryKey": "Nombre", "output": "data/links.json"},
+    "Informativo": {
+      "primaryKey": "ID",
+      "output": "data/informativo.v10.json",
+      "optionalColumns": [
+        "Etiqueta",
+        "Vigencia Inicio",
+        "Vigencia Fin",
+        "Orden",
+        "Mostrar Inicio",
+        "Mostrar Explorar",
+        "Acceso Rápido",
+        "CTA",
+        "Link Detalle",
+        "Recurso Secundario",
+        "Puntos Clave",
+        "Checklist Evaluación"
+      ],
+      "detailBehavior": "CTA opens visual summary; Link Detalle downloads full PDF; Recurso Secundario expands detail; Checklist Evaluación renders self-check."
+    },
+    "WFM": {
+      "output": "data/wfm.json"
+    },
+    "BT": {
+      "primaryKey": "SBX",
+      "output": "data/bt.json"
+    },
+    "TBW": {
+      "primaryKey": "SBX",
+      "output": "data/tbw.json"
+    },
+    "SS": {
+      "primaryKey": "SBX",
+      "output": "data/ss.json"
+    },
+    "Links": {
+      "primaryKey": "Nombre",
+      "output": "data/links.json"
+    },
     "Eventos": {
       "primaryKey": "ID",
       "output": "data/eventos.v10.json",
       "publishedWhen": "Publicar",
-      "requiredColumns": ["Tipo de acción"],
-      "allowedValues": {"Tipo de acción": ["Enlace", "Imagen", "Informativo"]},
+      "requiredColumns": [
+        "Tipo de acción"
+      ],
+      "allowedValues": {
+        "Tipo de acción": [
+          "Enlace",
+          "Imagen",
+          "Informativo"
+        ]
+      },
       "navigationRule": "Enlace abre URL completa; Imagen abre recurso gráfico; Informativo conserva imagen visible sin navegación"
     },
-    "Actividades_Semanales": {"primaryKey": "ID", "output": "data/actividades-semanales.v10.json"},
-    "Actividades_Diaria": {"primaryKey": "ID", "output": "data/actividades-diarias.v10.json"},
-    "Duty_Roster": {"primaryKey": "Orden", "output": "data/duty-roster.v10.json"},
-    "Duty_Detail": {"primaryKey": ["Día", "Estación", "Orden"], "output": "data/duty-detail.v10.json"},
-    "Checklist_Apertura": {"primaryKey": "Orden", "output": "data/checklist-apertura.v10.json"},
-    "Identidad": {"primaryKey": "Identificador", "output": "data/identity.json"},
-    "Aniversarios_Cumpleanos": {"primaryKey": "ID", "output": "data/operacional.v10.json#celebraciones", "publishedWhen": "Publicar"}
+    "Actividades_Semanales": {
+      "primaryKey": "ID",
+      "output": "data/actividades-semanales.v10.json"
+    },
+    "Actividades_Diaria": {
+      "primaryKey": "ID",
+      "output": "data/actividades-diarias.v10.json"
+    },
+    "Duty_Roster": {
+      "primaryKey": "Orden",
+      "output": "data/duty-roster.v10.json"
+    },
+    "Duty_Detail": {
+      "primaryKey": [
+        "Día",
+        "Estación",
+        "Orden"
+      ],
+      "output": "data/duty-detail.v10.json"
+    },
+    "Checklist_Apertura": {
+      "primaryKey": "Orden",
+      "output": "data/checklist-apertura.v10.json"
+    },
+    "Identidad": {
+      "primaryKey": "Identificador",
+      "output": "data/identity.json"
+    },
+    "Aniversarios_Cumpleanos": {
+      "primaryKey": "ID",
+      "output": "data/operacional.v10.json#celebraciones",
+      "publishedWhen": "Publicar"
+    }
+  },
+  "overlays": {
+    "folder": "cms-overlays",
+    "format": "CSV UTF-8",
+    "merge": "by sheet primary key; overlay wins",
+    "columnsMatchedByHeader": true,
+    "purpose": "Allows visible CMS additions without replacing the latest binary workbook."
   }
 }

@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'distrito-go-';
-const CACHE_NAME = `${CACHE_PREFIX}v51.2-pagos-especiales`;
+const CACHE_NAME = `${CACHE_PREFIX}v52-pagos-especiales`;
 const APP_SHELL = [
   './',
   './index.html',
@@ -13,18 +13,14 @@ const APP_SHELL = [
   './data/identity.json',
   './data/version.v10.json',
   './data/operacional.v10.json',
+  './data/informativo.v10.json',
   './data/desarrollo-partner.v1.json',
   './data/cms-build.v1.json',
-  './data/informativo.v10.json',
-  './assets/photos/alineacion-pagos-especiales-resumen.webp',
-  './assets/photos/alineacion-pagos-especiales-resumen.thumb.webp',
-  './assets/photos/alineacion-pagos-especiales-evaluacion.webp',
-  './assets/photos/alineacion-pagos-especiales-evaluacion.thumb.webp',
-  './assets/docs/Alineacion Pagos Especiales 2026.pdf',
   './modules/utils.js',
   './modules/storage.js',
   './modules/state.js',
   './modules/data.js',
+  './modules/pagos-especiales.js',
   './modules/toast.js',
   './modules/native-apps.js',
   './modules/components.js',

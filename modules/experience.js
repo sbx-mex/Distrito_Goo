@@ -94,15 +94,17 @@ function contentFromInfo(item){
   const resource = resourceFor(item);
   const original = originalFor(item);
   const imageResource = isImage(resource);
-  const linkResource = item.PDFRecurso || (item.TipoRecurso === 'link' ? resource : '');
+  const linkResource = item.TipoRecurso === 'link' ? resource : '';
   return {
     id:`info-${item.ID}`, source:'Informativo', category:categoryForInfo(item),
     title:item.Actividad, description:item['Descripción'] || '', short:item.DescripcionBreve || item['Descripción'] || '',
     label:labelFor(item, normalize(item.Frecuencia) === 'semanal' ? 'Importante' : 'Actualizado'),
     image:item.MiniaturaRecurso || (imageResource ? resource : ''), fullImage:imageResource ? resource : '', imageOriginal:isImage(original) ? original : resource,
-    link:linkResource, section:'',
+    link:linkResource, section:'', detailLink:item.LinkDetalle || '', secondaryImage:item.RecursoSecundario || '', secondaryImageOriginal:item.RecursoSecundarioOriginal || item.RecursoSecundario || '',
+    cta:item.CTA || '', points:String(item['Puntos Clave'] || '').split('|').map(value => value.trim()).filter(Boolean),
+    checklist:String(item['Checklist Evaluación'] || '').split('|').map(value => value.trim()).filter(Boolean),
     access:item['Acceso Rápido'] || '',
-    priority:Number(item.Prioridad || 99), order:Number(item.Orden || item.Prioridad || 99),
+    priority:Number(item.Prioridad || 99), order:Number(item.Orden ?? item.Prioridad ?? 99),
     showHome:asBoolean(item['Mostrar Inicio'], normalize(item.Frecuencia) === 'semanal'),
     showExplore:asBoolean(item['Mostrar Explorar'], true),
     validFrom:item['Vigencia Inicio'] || '', validTo:item['Vigencia Fin'] || ''
@@ -475,20 +477,17 @@ export function hasDestination(item){
   if(eventAction === 'informativo') return Boolean(section);
   if(eventAction === 'enlace') return Boolean(section || safeContentLink(item.link));
   if(eventAction === 'imagen') return Boolean(section || image);
-  return Boolean(section || image || safeContentLink(item.link) || item.action);
+  return Boolean(section || image || safeContentLink(item.link) || item.detailLink || item.secondaryImage || item.checklist?.length || item.action);
 }
 function safeContentLink(value){
   const text = String(value || '').trim();
-  if(!text || text.includes('...') || /[{}<>]/.test(text)) return '';
-  if(/^https?:\/\//i.test(text)){
-    try{
-      const url = new URL(text);
-      return /^https?:$/.test(url.protocol) && url.hostname ? url.href : '';
-    }catch{
-      return '';
-    }
+  if(!/^https?:\/\//i.test(text) || text.includes('...') || /[{}<>]/.test(text)) return '';
+  try{
+    const url = new URL(text);
+    return /^https?:$/.test(url.protocol) && url.hostname ? url.href : '';
+  }catch{
+    return '';
   }
-  return /^(?:\.?\/?)*(?:assets|data)\/[^?#]+\.pdf(?:[?#].*)?$/i.test(text) ? text : '';
 }
 function catalogCoverVisual(item, kind){
   const scene = coverSceneKey(item);

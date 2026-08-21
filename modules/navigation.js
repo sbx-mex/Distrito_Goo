@@ -4,7 +4,7 @@ import { renderTools } from './cards.js';
 import { showDetailSection, showVisualView } from './experience.js';
 
 const LAST_VIEW_KEY = 'dgx_last_view';
-const PRIMARY_VIEWS = ['home','explore','saved'];
+const PRIMARY_VIEWS = ['home','informativo','explore','saved'];
 
 function prefersReducedMotion(){
   return Boolean(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches);
@@ -17,6 +17,7 @@ function scrollBehavior(smooth = true){
 function focusViewTarget(view){
   const targets = {
     home:document.getElementById('visual-home-title'),
+    informativo:document.querySelector('#informativo h3'),
     explore:document.getElementById('explore-view-title'),
     saved:document.getElementById('saved-title'),
   };

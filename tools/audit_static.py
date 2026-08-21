@@ -20,7 +20,7 @@ for value in sorted({x for x in ids if ids.count(x) > 1}):
     ERRORS.append(f"ID HTML duplicado: {value}")
 
 nav_views = re.findall(r'<button\b[^>]*\bdata-view=["\']([^"\']+)', html)
-if nav_views != ["home", "explore", "saved"]:
+if nav_views != ["home", "informativo", "explore", "saved"]:
     ERRORS.append(f"Navegación principal inesperada: {nav_views!r}")
 if 'data-view="search"' in html:
     ERRORS.append("La búsqueda no debe crear una opción redundante en la navegación principal")

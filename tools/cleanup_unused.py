@@ -255,7 +255,7 @@ def build_report(apply: bool, confirmation: str) -> dict[str, object]:
         },
         "candidates": candidates,
         "deleted": deleted,
-        "protectedPolicy": "Nunca elimina data, CMS, documentación vigente, iconos PWA ni pruebas actuales. Solo retira recursos sin referencia, pruebas versionadas sustituidas, reportes de CI y cachés regenerables.",
+        "protectedPolicy": "Nunca elimina data, CMS, documentos referenciados, iconos PWA ni pruebas actuales. Solo retira recursos sin referencia, pruebas sustituidas, reportes de CI y cachés regenerables.",
     }
 
 

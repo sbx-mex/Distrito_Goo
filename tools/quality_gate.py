@@ -71,6 +71,11 @@ def inspect_project(cms: Path) -> dict[str, Any]:
     payment_complete = bool(payment and payment_in_app and payment_assets and payment.get("Checklist Evaluación") and payment.get("Puntos Clave"))
     gate.check("2 · CMS", "Pagos Especiales publicado", payment_complete, "fuente, aplicación, 2 visuales, PDF, puntos y autoevaluación")
 
+    independent_informative = load_json(ROOT / "data" / "informativo-recursos.v1.json")
+    toolkit = next((item for item in independent_informative if "cada taza cuenta" in str(item.get("Actividad", "")).casefold()), None)
+    toolkit_ok = bool(toolkit and relative_reference_exists(str(toolkit.get("LinkDetalle", ""))) and toolkit.get("TipoRecurso") == "pdf")
+    gate.check("2 · CMS", "Toolkit Cada Taza Cuenta descargable", toolkit_ok, "JSON independiente y PDF local")
+
     static_ok, static_result = run_json(["python", "tools/audit_static.py"])
     assets_ok, assets_result = run_json(["python", "tools/validate_assets.py"])
     visuals_ok, visuals_result = run_json(["python", "tools/validate_informative_visuals.py", "--report", "reports/informative-visuals.json"])
@@ -84,7 +89,7 @@ def inspect_project(cms: Path) -> dict[str, Any]:
     experience = (ROOT / "modules" / "experience.js").read_text(encoding="utf-8")
     operations_center = (ROOT / "modules" / "operations-center.js").read_text(encoding="utf-8")
     nav_views = re.findall(r'<button class="nav-item[^>]*data-view="([^"]+)"', html)
-    gate.check("1 · Funcional", "Navegación principal estable", nav_views == ["home", "explore", "saved"], ", ".join(nav_views))
+    gate.check("1 · Funcional", "Navegación principal estable", nav_views == ["home", "informativo", "explore", "saved"], ", ".join(nav_views))
     strict_destinations = (
         "hasDestination" in search
         and "export function hasDestination" in experience

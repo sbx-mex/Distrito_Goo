@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'distrito-go-';
-const CACHE_NAME = `${CACHE_PREFIX}v53-pagos-especiales-publicado`;
+const CACHE_NAME = `${CACHE_PREFIX}v54-informativo-descargable`;
 const APP_SHELL = [
   './',
   './index.html',
@@ -14,6 +14,7 @@ const APP_SHELL = [
   './data/version.v10.json',
   './data/operacional.v10.json',
   './data/informativo.v10.json',
+  './data/informativo-recursos.v1.json',
   './data/desarrollo-partner.v1.json',
   './data/cms-build.v1.json',
   './modules/utils.js',

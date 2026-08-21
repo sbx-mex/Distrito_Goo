@@ -11,6 +11,7 @@ export const DATA = {
   version: './data/version.v10.json',
   cmsBuild: './data/cms-build.v1.json',
   operacional: './data/operacional.v10.json',
+  informativeResources: './data/informativo-recursos.v1.json',
   partnerDevelopment: './data/desarrollo-partner.v1.json'
 };
 

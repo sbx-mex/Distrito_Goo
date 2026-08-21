@@ -390,7 +390,10 @@ function openContentDetail(item, trigger){
       : detailImage
         ? `<button type="button" data-image-viewer="${escapeHeroText(detailImage)}" data-image-title="${escapeHeroText(item.title)}">Ver imagen completa</button>`
         : '';
-  const detailAction = detailLink ? `<a class="visual-detail-download" href="${escapeHeroText(detailLink)}" target="_blank" rel="noopener" download>Ver más · descargar PDF completo ↓</a>` : '';
+  const localDownload = /^assets\/docs\//i.test(detailLink);
+  const detailAction = detailLink
+    ? `<a class="visual-detail-download" href="${escapeHeroText(detailLink)}" ${localDownload ? 'download' : 'target="_blank" rel="noopener"'}>${localDownload ? 'Descargar PDF ↓' : 'Abrir recurso ↗'}</a>`
+    : '';
   const secondary = secondaryImage ? `<section class="payment-secondary"><div><span class="visual-overline">Validación rápida</span><strong>¿Está lista la incidencia?</strong><p>Revisa el segundo visual antes de enviar a pago.</p></div><button type="button" data-image-viewer="${escapeHeroText(secondaryImage)}" data-image-title="Pagos Especiales · Validación rápida">Ver segunda infografía</button></section>` : '';
   const points = Array.isArray(item.points) && item.points.length ? `<section class="payment-key-points"><span class="visual-overline">Puntos clave</span><ul>${item.points.map(point => `<li>${escapeHeroText(point)}</li>`).join('')}</ul></section>` : '';
   const checklist = Array.isArray(item.checklist) && item.checklist.length ? `<section class="payment-assessment" data-payment-assessment><div class="payment-assessment-head"><div><span class="visual-overline">Autoevaluación operativa</span><strong>Antes de enviar</strong></div><span data-payment-score>Validación 0/${item.checklist.length}</span></div>${item.checklist.map((question,index) => `<label><input type="checkbox" data-payment-check><span>${index+1}</span><b>${escapeHeroText(question)}</b></label>`).join('')}</section>` : '';

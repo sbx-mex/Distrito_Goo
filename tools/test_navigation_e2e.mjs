@@ -22,10 +22,11 @@ const activeEvents = cmsEvents
   .filter(item => item.Publicar !== false && item['Fecha Inicio'].slice(0,10) <= referenceDate && item['Fecha Fin'].slice(0,10) >= referenceDate)
   .map(item => ({title:String(item.Actividad || '').trim(), key:normalizeText(item.Actividad)}));
 const cmsInformatives = JSON.parse(fs.readFileSync(new URL('../data/informativo.v10.json', import.meta.url), 'utf8'));
+const independentInformatives = JSON.parse(fs.readFileSync(new URL('../data/informativo-recursos.v1.json', import.meta.url), 'utf8'));
 const operational = JSON.parse(fs.readFileSync(new URL('../data/operacional.v10.json', import.meta.url), 'utf8'));
 const wfmLeadDays = Number(String(operational.wfmRegla || '').match(/(\d+)\s*d[ií]as?/i)?.[1]) || 15;
 const planning = getWfmPlanningSummary(referenceDate, wfmLeadDays);
-const visibleInformativeCount = cmsInformatives.filter(item => {
+const visibleInformativeCount = [...cmsInformatives, ...independentInformatives].filter(item => {
   if(item.Visible === false) return false;
   const start = String(item['Vigencia Inicio'] || '').slice(0,10);
   const end = String(item['Vigencia Fin'] || '').slice(0,10);
@@ -52,6 +53,9 @@ try{
     check(`${viewport.name} centro de mando`, await page.locator('#command-center-grid .command-summary-card').count() === 4, 'debe mostrar cuatro resúmenes');
     const informativeCards = page.locator('#informative-catalog-track .permanent-info-card');
     check(`${viewport.name} informativos vigentes`, await informativeCards.count() === visibleInformativeCount, `${visibleInformativeCount} según CMS`);
+    const informativeNav = page.locator('[data-view="informativo"]');
+    await informativeNav.click();
+    check(`${viewport.name} acceso directo a Informativo`, await informativeNav.getAttribute('aria-current') === 'page' && await page.locator('#informativo').isVisible(), 'la pestaña no conduce al catálogo');
     const paymentCard = informativeCards.filter({hasText:/Alineación Pagos Especiales/i}).first();
     check(`${viewport.name} Pagos Especiales publicado`, await paymentCard.count() === 1, 'el contenido existe en el CMS pero no llegó al carrusel');
     check(`${viewport.name} Pagos Especiales prioritario`, /Alineación Pagos Especiales/i.test(await informativeCards.first().innerText()), 'debe ocupar la primera posición por Orden 0');

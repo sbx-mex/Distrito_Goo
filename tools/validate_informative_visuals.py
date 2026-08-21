@@ -20,10 +20,16 @@ def local_path(value: object) -> Path | None:
 
 def inspect() -> dict[str, object]:
     records = json.loads((ROOT / "data" / "informativo.v10.json").read_text(encoding="utf-8"))
+    resources_path = ROOT / "data" / "informativo-recursos.v1.json"
+    if resources_path.is_file():
+        records.extend(json.loads(resources_path.read_text(encoding="utf-8")))
     visible = [item for item in records if item.get("Visible") is not False]
     errors: list[dict[str, str]] = []
     visual_count = 0
     for item in visible:
+        detail = local_path(item.get("LinkDetalle"))
+        if item.get("TipoRecurso") == "pdf" and (not detail or detail.suffix.casefold() != ".pdf" or not detail.is_file()):
+            errors.append({"id": str(item.get("ID", "")), "actividad": str(item.get("Actividad", "")), "error": "PDF local inexistente"})
         if item.get("TipoRecurso") != "imagen":
             continue
         visual_count += 1

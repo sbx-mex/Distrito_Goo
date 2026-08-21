@@ -31,7 +31,15 @@ export async function loadData(){
   state.favoritosBase = loaded.favoritos;
   state.version = loaded.version;
   state.cmsBuild = loaded.cmsBuild;
-  state.operacional = loaded.operacional;
+  const cmsInformative = Array.isArray(loaded.operacional?.informativo) ? loaded.operacional.informativo : [];
+  const independentResources = Array.isArray(loaded.informativeResources) ? loaded.informativeResources : [];
+  const informativeById = new Map(
+    [...cmsInformative, ...independentResources].map(item => [String(item.ID), item])
+  );
+  state.operacional = {
+    ...loaded.operacional,
+    informativo:[...informativeById.values()],
+  };
   state.partnerDevelopment = loaded.partnerDevelopment;
   if(!Array.isArray(state.favorites)){
     // Guardados inicia vacío: cada usuario decide qué conservar en su dispositivo.

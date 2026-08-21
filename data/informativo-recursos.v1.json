@@ -1,0 +1,25 @@
+[
+  {
+    "ID": "recurso-cada-taza-cuenta",
+    "Actividad": "Toolkit Cada Taza Cuenta",
+    "Descripción": "Material informativo para consultar y descargar. El archivo se mantiene independiente del Excel del CMS.",
+    "DescripcionBreve": "Consulta y descarga el Toolkit Cada Taza Cuenta.",
+    "Frecuencia": "Vigente",
+    "Prioridad": 1,
+    "Categoría": "Operación",
+    "Icono": "☕",
+    "Color": "Verde",
+    "Visible": true,
+    "Etiqueta": "Informativo",
+    "Vigencia Inicio": "2026-08-21",
+    "Vigencia Fin": "",
+    "Orden": 1,
+    "Mostrar Inicio": true,
+    "Mostrar Explorar": true,
+    "Acceso Rápido": "Operación",
+    "CTA": "Descargar PDF",
+    "LinkDetalle": "assets/docs/Toolkit_Cada_Taza_Cuenta.pdf",
+    "Recurso": "",
+    "TipoRecurso": "pdf"
+  }
+]

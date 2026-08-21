@@ -16,10 +16,10 @@
   {
     "Categoria": "Operación",
     "Grupo": "App",
-    "Icono": "🏗️",
-    "Nombre": "LayOut",
+    "Icono": "🏛️",
+    "Nombre": "LayOut 2.0",
     "Tipo": "web",
-    "URL": "https://sbx-mex.github.io/layout/",
+    "URL": "https://sbx-mex.github.io/Lay-Out_2.0/",
     "WebURL": "",
     "Package": "",
     "PlayStore": "",
@@ -670,5 +670,19 @@
     "Notas": "Venta Sugestiva Donas + Cake Pop + Galleta  | Merch",
     "Favorito": "No",
     "Orden": 48
+  },
+  {
+    "Categoria": "Operación",
+    "Grupo": "App",
+    "Icono": "🏗️",
+    "Nombre": "LayOut",
+    "Tipo": "web",
+    "URL": "https://sbx-mex.github.io/layout/",
+    "WebURL": "",
+    "Package": "",
+    "PlayStore": "",
+    "Notas": "Diseña y valida layouts operativos.",
+    "Favorito": "Sí",
+    "Orden": 49
   }
 ]

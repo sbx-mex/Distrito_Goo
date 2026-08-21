@@ -1,6 +1,6 @@
 [
   "pbt-web-2-0",
-  "layout",
+  "layout-2-0",
   "starbucks-hub",
   "foco-2026",
   "max-min",
@@ -22,5 +22,6 @@
   "calculadora-ritmo",
   "tasa-de-exito-dt",
   "ukg-plataforma-de-horarios",
-  "guia-operativa"
+  "guia-operativa",
+  "layout"
 ]

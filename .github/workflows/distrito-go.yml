@@ -65,6 +65,15 @@ jobs:
           set -euo pipefail
           python tools/cms_release.py Distrito_Go_CMS_v2_actualizado.xlsx --project . --skip-mutation-test
 
+      - name: Retirar contenido cuya vigencia terminó
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/prune_expired.py \
+            --apply \
+            --confirm DEPURAR_CONTENIDO_VENCIDO \
+            --report reports/expired-content.json
+
       - name: Instalar Chromium
         run: npx playwright install --with-deps chromium
 
@@ -94,12 +103,22 @@ jobs:
           if-no-files-found: warn
           retention-days: 30
 
+      - name: Retirar evidencias históricas del sitio
+        if: github.event_name != 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/cleanup_unused.py \
+            --apply \
+            --confirm ELIMINAR_ARCHIVOS_HUERFANOS \
+            --report "$RUNNER_TEMP/unused-final.json"
+
       - name: Guardar datos y limpieza aprobados
         if: github.event_name != 'pull_request'
         shell: bash
         run: |
           set -euo pipefail
-          git add -A -- data assets modules styles tools .github/workflows
+          git add -A -- data assets modules styles tools .github/workflows reports cms-overlays index.html sw.js
           if git diff --cached --quiet; then
             echo "Proyecto validado; no hay cambios por publicar." >> "$GITHUB_STEP_SUMMARY"
             exit 0
